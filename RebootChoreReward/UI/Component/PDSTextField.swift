@@ -74,7 +74,7 @@ class PDSTextField: UITextField, Themable {
         autocorrectionType = .no
         layer.borderColor = normalBorderColor
         layer.borderWidth = normalBorderWidth
-        layer.cornerRadius = 10 // Adjust for desired corner radius
+        layer.cornerRadius = theme.styling.cornerRadius
         
     }
 }

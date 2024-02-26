@@ -30,7 +30,7 @@ class AlertVC: UIViewController {
     private let alertView: UIView = {
         let view = UIView()
         view.backgroundColor = ThemeManager.shared.currentTheme.color.surfaceColor
-        view.layer.cornerRadius = 12
+        view.layer.cornerRadius = ThemeManager.shared.currentTheme.styling.cornerRadius
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -44,7 +44,15 @@ class AlertVC: UIViewController {
         return label
     }()
     
-    private let customButton: PDSPrimaryButton = {
+    private let titleLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Error", fontScale: .headline2, textColor: ThemeManager.shared.currentTheme.color.onSurface)
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let dismissButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Dismiss", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -62,8 +70,9 @@ class AlertVC: UIViewController {
         
         view.addSubview(backgroundView)
         view.addSubview(alertView)
+        view.addSubview(titleLabel)
         view.addSubview(messageLabel)
-        view.addSubview(customButton)
+        view.addSubview(dismissButton)
         
         // Apply constraints or frame-based layout
         NSLayoutConstraint.activate([
@@ -76,19 +85,22 @@ class AlertVC: UIViewController {
             alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
             alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            messageLabel.topAnchor.constraint(equalTo: alertView.topAnchor, constant: 20),
-            messageLabel.bottomAnchor.constraint(equalTo: customButton.topAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: alertView.topAnchor, constant: 20),
+            titleLabel.centerXAnchor.constraint(equalTo: alertView.centerXAnchor),
+            
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            messageLabel.bottomAnchor.constraint(equalTo: dismissButton.topAnchor, constant: -40),
             messageLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
             
-            customButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
-            customButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
-            customButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -20)
+            dismissButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
+            dismissButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
+            dismissButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -20)
         ])
     }
     
     private func setUpActions(){
-        customButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+        dismissButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
     }
     
     @objc func dismissAlert() {
