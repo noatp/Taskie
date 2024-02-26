@@ -9,14 +9,13 @@ import UIKit
 import SwiftUI
 
 class PDSSecondaryButton: UIButton, Themable {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         configureButton()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        configureButton()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func configureButton() {

@@ -10,7 +10,7 @@ import SwiftUI
 
 class ProfileVC: UIViewController {
     let signOutButton: PDSPrimaryButton = {
-        let button = PDSPrimaryButton(type: .system)
+        let button = PDSPrimaryButton()
         button.setTitle("Sign out", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
