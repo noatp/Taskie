@@ -13,10 +13,12 @@ class LogInVC: UIViewController {
         let textField = PDSTextField()
         textField.placeholder = "Email"
         textField.autocapitalizationType = .none
+        textField.keyboardType = .emailAddress
+        textField.autocorrectionType = .no
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    let passwordTextField: UITextField = {
+    let passwordTextField: PDSTextField = {
         let textField = PDSTextField()
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
@@ -30,8 +32,8 @@ class LogInVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    let navToSignUpVCButton: UIButton = {
-        let button = UIButton(type: .system)
+    let navToSignUpVCButton: PDSSecondaryButton = {
+        let button = PDSSecondaryButton()
         button.setTitle("Sign up", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -69,9 +71,10 @@ class LogInVC: UIViewController {
             logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            navToSignUpVCButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 30),
+            navToSignUpVCButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 20),
             navToSignUpVCButtonBottomConstraint,
-            navToSignUpVCButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            navToSignUpVCButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            navToSignUpVCButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -90,6 +93,30 @@ class LogInVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    func showCustomInputAlert(in viewController: UIViewController) {
+        // Create the alert controller
+        let alertController = UIAlertController(title: "Custom Input", message: "Enter your details", preferredStyle: .alert)
+        
+        // Add a text field to the alert
+        alertController.addTextField { textField in
+            textField.placeholder = "Your email"
+        }
+        
+        // Add actions (buttons)
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned alertController] action in
+            // Retrieve the first text field and its text
+            let email = alertController.textFields?.first?.text
+            // Handle the submission of the text
+        }
+        alertController.addAction(submitAction)
+        
+        // Add a Cancel action
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        // Present the alert controller
+        viewController.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func handleLogIn() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print ("Email or password is missing.")
@@ -104,6 +131,10 @@ class LogInVC: UIViewController {
     @objc func navigateToSignUp() {
         let signUpVC = SignUpVC()
         navigationController?.pushViewController(signUpVC, animated: true)
+//        let customAlertVC = AlertVC()
+//        customAlertVC.modalPresentationStyle = .overCurrentContext
+//        customAlertVC.modalTransitionStyle = .crossDissolve
+//        present(customAlertVC, animated: true, completion: nil)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {

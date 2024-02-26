@@ -8,15 +8,14 @@
 import UIKit
 import SwiftUI
 
-class PDSTextField: UITextField {
-    
+class PDSTextField: UITextField, Themable {
     // Define the colors for normal and highlighted states
-    let normalBorderColor = UIColor.gray.cgColor
-    let highlightedBorderColor = UIColor.systemBlue.cgColor
+    var normalBorderColor = UIColor.gray.cgColor
+    var highlightedBorderColor = UIColor.systemBlue.cgColor
     
     // Define the border width for normal and highlighted states
     let normalBorderWidth: CGFloat = 1.0
-    let highlightedBorderWidth: CGFloat = 2.0
+    let highlightedBorderWidth: CGFloat = 3.0
     
     var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
@@ -31,11 +30,11 @@ class PDSTextField: UITextField {
     }
     
     private func commonInit() {
+        ThemeManager.shared.register(self)
         // Initial border setup
         layer.borderColor = normalBorderColor
         layer.borderWidth = normalBorderWidth
-        layer.cornerRadius = 5 // Adjust for desired corner radius
-        borderStyle = .roundedRect
+        layer.cornerRadius = 10 // Adjust for desired corner radius
     }
     
     override func becomeFirstResponder() -> Bool {
@@ -70,6 +69,11 @@ class PDSTextField: UITextField {
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: textPadding)
+    }
+    
+    func applyTheme(_ theme: Theme) {
+        normalBorderColor = theme.darkenPrimaryColor.cgColor
+        highlightedBorderColor = theme.primaryColor.cgColor
     }
 }
 

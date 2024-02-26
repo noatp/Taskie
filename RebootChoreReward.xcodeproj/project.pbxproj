@@ -17,6 +17,10 @@
 		CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */; };
 		CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */; };
 		CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */; };
+		CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */; };
+		CA7E33022B8C651F00CA7B20 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33012B8C651F00CA7B20 /* AlertVC.swift */; };
+		CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */; };
+		CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -40,6 +44,10 @@
 		CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSPrimaryButton.swift; sourceTree = "<group>"; };
 		CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewWrapper.swift; sourceTree = "<group>"; };
 		CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTextField.swift; sourceTree = "<group>"; };
+		CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSSecondaryButton.swift; sourceTree = "<group>"; };
+		CA7E33012B8C651F00CA7B20 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
+		CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +90,7 @@
 		CA7C69B42B8456A5005B3CF2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CA7E33032B8CEF8200CA7B20 /* Theme */,
 				CA7C69C52B8C3E4D005B3CF2 /* Component */,
 				CAEAEB772B840DE40056A0F1 /* RootVC.swift */,
 				CA7C69B82B846236005B3CF2 /* SignUpVC.swift */,
@@ -106,6 +115,7 @@
 			children = (
 				CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */,
 				CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */,
+				CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -115,8 +125,18 @@
 			children = (
 				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
 				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
+				CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */,
+				CA7E33012B8C651F00CA7B20 /* AlertVC.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		CA7E33032B8CEF8200CA7B20 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		CAEAEB672B840DE40056A0F1 = {
@@ -268,15 +288,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */,
 				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
+				CA7E33022B8C651F00CA7B20 /* AlertVC.swift in Sources */,
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
+				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
 				CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
+				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
