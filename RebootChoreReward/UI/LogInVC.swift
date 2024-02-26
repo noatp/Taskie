@@ -93,48 +93,31 @@ class LogInVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func showCustomInputAlert(in viewController: UIViewController) {
-        // Create the alert controller
-        let alertController = UIAlertController(title: "Custom Input", message: "Enter your details", preferredStyle: .alert)
-        
-        // Add a text field to the alert
-        alertController.addTextField { textField in
-            textField.placeholder = "Your email"
-        }
-        
-        // Add actions (buttons)
-        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned alertController] action in
-            // Retrieve the first text field and its text
-            let email = alertController.textFields?.first?.text
-            // Handle the submission of the text
-        }
-        alertController.addAction(submitAction)
-        
-        // Add a Cancel action
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        // Present the alert controller
-        viewController.present(alertController, animated: true, completion: nil)
+    func showAlert(withMessage alertMessage: String) {
+        let alertVC = AlertVC(alertMessage: alertMessage)
+        alertVC.modalPresentationStyle = .overCurrentContext
+        alertVC.modalTransitionStyle = .crossDissolve
+        present(alertVC, animated: true, completion: nil)
     }
     
     @objc func handleLogIn() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print ("Email or password is missing.")
             return
         }
         
         Task {
-            await AuthService.shared.logIn(withEmail: email, password: password)
+            do {
+                try await AuthService.shared.logIn(withEmail: email, password: password)
+            } catch {
+                print("Error signing in: \(error.localizedDescription)")
+                showAlert(withMessage: "\(error.localizedDescription)")
+            }
         }
     }
     
     @objc func navigateToSignUp() {
         let signUpVC = SignUpVC()
         navigationController?.pushViewController(signUpVC, animated: true)
-//        let customAlertVC = AlertVC()
-//        customAlertVC.modalPresentationStyle = .overCurrentContext
-//        customAlertVC.modalTransitionStyle = .crossDissolve
-//        present(customAlertVC, animated: true, completion: nil)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {

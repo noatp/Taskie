@@ -9,8 +9,17 @@ import UIKit
 import SwiftUI
 
 class AlertVC: UIViewController {
-
-    // Initialization of the custom components
+    private let alertMessage: String
+    
+    init(alertMessage: String) {
+        self.alertMessage = alertMessage
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -31,6 +40,8 @@ class AlertVC: UIViewController {
         label.text = "This is a custom alert message."
         label.textColor = ThemeManager.shared.currentTheme.onSurface
         label.textAlignment = .center
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,6 +60,8 @@ class AlertVC: UIViewController {
     }
     
     private func setUpViews() {
+        messageLabel.text = alertMessage
+        
         view.addSubview(backgroundView)
         view.addSubview(alertView)
         view.addSubview(messageLabel)
@@ -88,7 +101,7 @@ class AlertVC: UIViewController {
 struct AlertVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            AlertVC()
+            AlertVC(alertMessage: "This is a custom alert message. This is a long text to test text wrapping.")
         }
     }
 }

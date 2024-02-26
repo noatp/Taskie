@@ -38,14 +38,10 @@ class AuthService {
         }
     }
     
-    func logIn(withEmail email: String, password: String) async {
-        do {
-            try await Auth.auth().signIn(withEmail: email, password: password)
-        }
-        catch {
-            print("Error signing in: \(error)")
-        }
+    func logIn(withEmail email: String, password: String) async throws {
+        try await Auth.auth().signIn(withEmail: email, password: password)
     }
+
     
     func signOut() {
         do {
