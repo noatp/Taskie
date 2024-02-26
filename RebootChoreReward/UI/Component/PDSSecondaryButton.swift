@@ -31,12 +31,17 @@ class PDSSecondaryButton: UIButton, Themable {
         }
     }
     
-    func applyTheme(_ theme: Theme) {
+    func applyTheme(_ theme: PDSTheme) {
         var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = theme.surfaceColor
-        config.baseForegroundColor = theme.onSurface
+        config.baseBackgroundColor = theme.color.surfaceColor
+        config.baseForegroundColor = theme.color.onSurface
         config.cornerStyle = .large
         config.title = self.title(for: .normal)
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = theme.typography.button
+            return outgoing
+        }
         config.imagePadding = 10
         config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
 
@@ -51,10 +56,10 @@ class PDSSecondaryButton: UIButton, Themable {
         layer.shadowRadius = 3
         layer.shadowOpacity = 0.4
         
-        layer.borderColor = theme.secondaryColor.cgColor
+        layer.borderColor = theme.color.secondaryColor.cgColor
         layer.borderWidth = 1.0
         
-        layer.cornerRadius = theme.cornerRadius
+        layer.cornerRadius = theme.styling.cornerRadius
         
         self.configuration = config
     }

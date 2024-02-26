@@ -29,7 +29,7 @@ class AlertVC: UIViewController {
     
     private let alertView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.shared.currentTheme.surfaceColor
+        view.backgroundColor = ThemeManager.shared.currentTheme.color.surfaceColor
         view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -38,7 +38,8 @@ class AlertVC: UIViewController {
     private let messageLabel: UILabel = {
         let label = UILabel()
         label.text = "This is a custom alert message."
-        label.textColor = ThemeManager.shared.currentTheme.onSurface
+        label.textColor = ThemeManager.shared.currentTheme.color.onSurface
+        label.font = UIFont(name: "Fredoka-Regular", size: 17)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping

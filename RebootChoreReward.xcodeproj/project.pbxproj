@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */; };
+		CA1683E02B8D24940086153A /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683DF2B8D24940086153A /* Typography.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -34,6 +36,8 @@
 		3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.release.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.release.xcconfig"; sourceTree = "<group>"; };
 		653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RebootChoreReward.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.debug.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.debug.xcconfig"; sourceTree = "<group>"; };
+		CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fredoka-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
+		CA1683DF2B8D24940086153A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -87,6 +91,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CA1683DC2B8D15740086153A /* Typography */ = {
+			isa = PBXGroup;
+			children = (
+				CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */,
+				CA1683DF2B8D24940086153A /* Typography.swift */,
+			);
+			path = Typography;
+			sourceTree = "<group>";
+		};
 		CA7C69B42B8456A5005B3CF2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +147,7 @@
 		CA7E33032B8CEF8200CA7B20 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				CA1683DC2B8D15740086153A /* Typography */,
 				CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */,
 			);
 			path = Theme;
@@ -233,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */,
 				CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */,
 				CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */,
 				CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */,
@@ -304,6 +319,7 @@
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
+				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

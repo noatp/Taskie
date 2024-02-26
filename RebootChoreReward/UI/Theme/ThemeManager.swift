@@ -8,10 +8,15 @@
 import UIKit
 
 protocol Themable {
-    func applyTheme(_ theme: Theme)
+    func applyTheme(_ theme: PDSTheme)
 }
 
-struct Theme {
+struct PDSStyling {
+    var cornerRadius: CGFloat
+    static let defaultStyling = PDSStyling(cornerRadius: 10)
+}
+
+struct PDSColor {
     var primaryColor: UIColor
     var darkenPrimaryColor: UIColor
     var secondaryColor: UIColor
@@ -26,11 +31,11 @@ struct Theme {
     var onError: UIColor
     var highlightColor: UIColor
     var dividerColor: UIColor
-    var cornerRadius: CGFloat
+
     // Add more theme attributes as needed
     
     // Define default and other themes
-    static let defaultTheme = Theme(
+    static let lightModeColors = PDSColor(
         primaryColor: .init(hex: "#87cefa"),
         darkenPrimaryColor: .init(hex: "#6CA5C8"),
         secondaryColor: .init(hex: "#4169E1"),
@@ -44,16 +49,23 @@ struct Theme {
         onSurface: .init(hex: "#000000"),
         onError: .init(hex: "#ffffff"),
         highlightColor: .init(hex: "#A0E8FF"),
-        dividerColor: .init(hex: "#e0e0e0"),
-        cornerRadius: 10
+        dividerColor: .init(hex: "#e0e0e0")
     )
+}
+
+struct PDSTheme {
+    var color: PDSColor
+    var typography: PDSTypography
+    var styling: PDSStyling
+    
+    static let defaultTheme = PDSTheme(color: .lightModeColors, typography: .defaultTypography, styling: .defaultStyling)
 }
 
 
 class ThemeManager {
     static let shared = ThemeManager()
 
-    private(set) var currentTheme: Theme = .defaultTheme {
+    private(set) var currentTheme: PDSTheme = .defaultTheme {
         didSet {
             // Notify all registered components about the theme change
             for component in themableComponents {
@@ -72,7 +84,7 @@ class ThemeManager {
     
     
     // Add methods to switch themes as needed
-    func switchToTheme(_ theme: Theme) {
+    func switchToTheme(_ theme: PDSTheme) {
         currentTheme = theme
     }
 }

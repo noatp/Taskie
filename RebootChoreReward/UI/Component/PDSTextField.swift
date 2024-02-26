@@ -71,9 +71,10 @@ class PDSTextField: UITextField, Themable {
         return bounds.inset(by: textPadding)
     }
     
-    func applyTheme(_ theme: Theme) {
-        normalBorderColor = theme.darkenPrimaryColor.cgColor
-        highlightedBorderColor = theme.primaryColor.cgColor
+    func applyTheme(_ theme: PDSTheme) {
+        normalBorderColor = theme.color.darkenPrimaryColor.cgColor
+        highlightedBorderColor = theme.color.primaryColor.cgColor
+        font = theme.typography.body
     }
 }
 

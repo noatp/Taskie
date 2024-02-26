@@ -30,28 +30,33 @@ class PDSPrimaryButton: UIButton, Themable {
             applyTheme(ThemeManager.shared.currentTheme)
         }
     }
-
-    func applyTheme(_ theme: Theme) {
+    
+    func applyTheme(_ theme: PDSTheme) {
         var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = theme.primaryColor
-        config.baseForegroundColor = theme.onPrimary
+        config.baseBackgroundColor = theme.color.primaryColor
+        config.baseForegroundColor = theme.color.onPrimary
         config.cornerStyle = .large
         config.title = self.title(for: .normal) // Default title, can be overridden
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = theme.typography.button
+            return outgoing
+        }
         config.imagePadding = 10 // Space between image and title if both are used
         config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-
+        
         // Customizing the button for the `.highlighted` state
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
-            return self.isHighlighted ? theme.darkenPrimaryColor : theme.primaryColor
+            return self.isHighlighted ? theme.color.darkenPrimaryColor : theme.color.primaryColor
         }
-
+        
         // Custom shadow properties can be added via layer because UIButton.Configuration does not directly support shadows
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 3
         layer.shadowOpacity = 0.4
         
-        layer.cornerRadius = theme.cornerRadius
+        layer.cornerRadius = theme.styling.cornerRadius
         
         self.configuration = config
     }
