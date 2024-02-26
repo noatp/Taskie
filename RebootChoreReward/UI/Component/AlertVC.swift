@@ -35,11 +35,8 @@ class AlertVC: UIViewController {
         return view
     }()
     
-    private let messageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "This is a custom alert message."
-        label.textColor = ThemeManager.shared.currentTheme.color.onSurface
-        label.font = UIFont(name: "Fredoka-Regular", size: 17)
+    private let messageLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body, textColor: ThemeManager.shared.currentTheme.color.onSurface)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
