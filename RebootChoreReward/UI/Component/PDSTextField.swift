@@ -9,32 +9,27 @@ import UIKit
 import SwiftUI
 
 class PDSTextField: UITextField, Themable {
-    // Define the colors for normal and highlighted states
     var normalBorderColor = UIColor.gray.cgColor
     var highlightedBorderColor = UIColor.systemBlue.cgColor
     
-    // Define the border width for normal and highlighted states
     let normalBorderWidth: CGFloat = 1.0
     let highlightedBorderWidth: CGFloat = 3.0
     
+    let placeholderText: String
     var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
+    init(withPlaceholder placeholderText: String) {
+        self.placeholderText = placeholderText
+        super.init(frame: .zero)
+        configureTextField()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
+        fatalError("init(coder:) has not been implemented")
     }
     
-    private func commonInit() {
+    private func configureTextField() {
         ThemeManager.shared.register(self)
-        // Initial border setup
-        layer.borderColor = normalBorderColor
-        layer.borderWidth = normalBorderWidth
-        layer.cornerRadius = 10 // Adjust for desired corner radius
     }
     
     override func becomeFirstResponder() -> Bool {
@@ -75,15 +70,19 @@ class PDSTextField: UITextField, Themable {
         normalBorderColor = theme.color.darkenPrimaryColor.cgColor
         highlightedBorderColor = theme.color.primaryColor.cgColor
         font = theme.typography.body
+        placeholder = placeholderText
+        autocorrectionType = .no
+        layer.borderColor = normalBorderColor
+        layer.borderWidth = normalBorderWidth
+        layer.cornerRadius = 10 // Adjust for desired corner radius
+        
     }
 }
 
 struct PDSTextField_Previews: PreviewProvider {
     static var previews: some View {
         UIViewPreviewWrapper {
-            let textField = PDSTextField()
-            textField.placeholder = "Password"
-            textField.autocapitalizationType = .none
+            let textField = PDSTextField(withPlaceholder: "Password")
             return textField
         }
         .fixedSize()

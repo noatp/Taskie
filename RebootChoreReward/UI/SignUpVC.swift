@@ -10,17 +10,14 @@ import SwiftUI
 
 class SignUpVC: UIViewController {
     let emailTextField: PDSTextField = {
-        let textField = PDSTextField()
-        textField.placeholder = "Email"
+        let textField = PDSTextField(withPlaceholder: "Email")
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
-        textField.autocorrectionType = .no
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     let passwordTextField: PDSTextField = {
-        let textField = PDSTextField()
-        textField.placeholder = "Password"
+        let textField = PDSTextField(withPlaceholder: "Password")
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
