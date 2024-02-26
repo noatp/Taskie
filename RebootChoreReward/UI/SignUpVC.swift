@@ -81,14 +81,25 @@ class SignUpVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    private func showAlert(withMessage alertMessage: String) {
+        let alertVC = AlertVC(alertMessage: alertMessage)
+        alertVC.modalPresentationStyle = .overCurrentContext
+        alertVC.modalTransitionStyle = .crossDissolve
+        present(alertVC, animated: true, completion: nil)
+    }
+    
     @objc func handleSignUp() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print ("Email or password is missing.")
             return
         }
         
         Task {
-            await AuthService.shared.signUp(withEmail: email, password: password)
+            do {
+                try await AuthService.shared.signUp(withEmail: email, password: password)
+            } catch {
+                print("Error signing in: \(error.localizedDescription)")
+                showAlert(withMessage: "\(error.localizedDescription)")
+            }
         }
     }
     

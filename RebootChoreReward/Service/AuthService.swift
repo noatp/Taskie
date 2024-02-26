@@ -29,19 +29,13 @@ class AuthService {
         }
     }
     
-    func signUp(withEmail email: String, password: String) async {
-        do {
-            try await Auth.auth().createUser(withEmail: email, password: password)
-        }
-        catch {
-            print("Error signing up: \(error)")
-        }
+    func signUp(withEmail email: String, password: String) async throws {
+        try await Auth.auth().createUser(withEmail: email, password: password)
     }
     
     func logIn(withEmail email: String, password: String) async throws {
         try await Auth.auth().signIn(withEmail: email, password: password)
     }
-
     
     func signOut() {
         do {
