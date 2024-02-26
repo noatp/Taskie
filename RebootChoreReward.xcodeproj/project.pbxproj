@@ -7,23 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
+		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
+		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
+		CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */; };
+		CA7C69BF2B8C2FCD005B3CF2 /* ChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BE2B8C2FCD005B3CF2 /* ChoreVC.swift */; };
+		CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */; };
+		CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */; };
+		CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */; };
+		CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */; };
+		CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
-		CAEAEB782B840DE40056A0F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* ViewController.swift */; };
-		CAEAEB7B2B840DE40056A0F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB792B840DE40056A0F1 /* Main.storyboard */; };
+		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
 		CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */; };
 		CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */; };
+		CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */; };
+		EEE58493DD2CE576B976F47B /* Pods_RebootChoreReward.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.release.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.release.xcconfig"; sourceTree = "<group>"; };
+		653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RebootChoreReward.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.debug.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.debug.xcconfig"; sourceTree = "<group>"; };
+		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
+		CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		CA7C69BE2B8C2FCD005B3CF2 /* ChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreVC.swift; sourceTree = "<group>"; };
+		CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerPreviewWrapper.swift; sourceTree = "<group>"; };
+		CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSPrimaryButton.swift; sourceTree = "<group>"; };
+		CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewWrapper.swift; sourceTree = "<group>"; };
+		CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTextField.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CAEAEB772B840DE40056A0F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CAEAEB7A2B840DE40056A0F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CAEAEB772B840DE40056A0F1 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAEAEB7F2B840DE50056A0F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CAEAEB812B840DE50056A0F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +55,77 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEE58493DD2CE576B976F47B /* Pods_RebootChoreReward.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47344531631F00E0017BD9B3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */,
+				3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4BF7A256E7C44F37666937D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA7C69B42B8456A5005B3CF2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69C52B8C3E4D005B3CF2 /* Component */,
+				CAEAEB772B840DE40056A0F1 /* RootVC.swift */,
+				CA7C69B82B846236005B3CF2 /* SignUpVC.swift */,
+				CA7C69BA2B846843005B3CF2 /* LogInVC.swift */,
+				CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */,
+				CA7C69BE2B8C2FCD005B3CF2 /* ChoreVC.swift */,
+				CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		CA7C69B52B8456B9005B3CF2 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69B62B8456D0005B3CF2 /* AuthService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		CA7C69C22B8C3734005B3CF2 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */,
+				CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		CA7C69C52B8C3E4D005B3CF2 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
+				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		CAEAEB672B840DE40056A0F1 = {
 			isa = PBXGroup;
 			children = (
 				CAEAEB722B840DE40056A0F1 /* RebootChoreReward */,
 				CAEAEB712B840DE40056A0F1 /* Products */,
+				47344531631F00E0017BD9B3 /* Pods */,
+				4BF7A256E7C44F37666937D8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,13 +140,15 @@
 		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
 			isa = PBXGroup;
 			children = (
+				CA7C69C22B8C3734005B3CF2 /* Util */,
+				CA7C69B52B8456B9005B3CF2 /* Service */,
+				CA7C69B42B8456A5005B3CF2 /* UI */,
 				CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */,
 				CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */,
-				CAEAEB772B840DE40056A0F1 /* ViewController.swift */,
-				CAEAEB792B840DE40056A0F1 /* Main.storyboard */,
 				CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */,
 				CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */,
 				CAEAEB812B840DE50056A0F1 /* Info.plist */,
+				CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */,
 			);
 			path = RebootChoreReward;
 			sourceTree = "<group>";
@@ -74,9 +160,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "RebootChoreReward" */;
 			buildPhases = (
+				1AFF165B6447B505210F8FE6 /* [CP] Check Pods Manifest.lock */,
 				CAEAEB6C2B840DE40056A0F1 /* Sources */,
 				CAEAEB6D2B840DE40056A0F1 /* Frameworks */,
 				CAEAEB6E2B840DE40056A0F1 /* Resources */,
+				F8E53644B55CB45B0B057546 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,35 +214,79 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */,
+				CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */,
 				CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */,
-				CAEAEB7B2B840DE40056A0F1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AFF165B6447B505210F8FE6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RebootChoreReward-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8E53644B55CB45B0B057546 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CAEAEB6C2B840DE40056A0F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAEAEB782B840DE40056A0F1 /* ViewController.swift in Sources */,
+				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
+				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
+				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
+				CA7C69BF2B8C2FCD005B3CF2 /* ChoreVC.swift in Sources */,
+				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
+				CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */,
+				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
+				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
+				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
+				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
+				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CAEAEB792B840DE40056A0F1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CAEAEB7A2B840DE40056A0F1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -287,17 +419,18 @@
 		};
 		CAEAEB852B840DE50056A0F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZRF6QZUXP5;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RebootChoreReward/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -315,17 +448,18 @@
 		};
 		CAEAEB862B840DE50056A0F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZRF6QZUXP5;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RebootChoreReward/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
