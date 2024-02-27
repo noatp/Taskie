@@ -687,6 +687,8 @@ PODS:
     - "gRPC-C++ (~> 1.49.1)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseFirestoreSwift (10.18.0):
+    - FirebaseFirestore (~> 10.17)
   - FirebaseInstallations (10.21.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
@@ -807,6 +809,7 @@ DEPENDENCIES:
   - FirebaseAnalytics
   - FirebaseAuth
   - FirebaseFirestore
+  - FirebaseFirestoreSwift
 
 SPEC REPOS:
   trunk:
@@ -820,6 +823,7 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseFirestore
     - FirebaseFirestoreInternal
+    - FirebaseFirestoreSwift
     - FirebaseInstallations
     - FirebaseSharedSwift
     - GoogleAppMeasurement
@@ -843,6 +847,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: 43c1788eaeee9d1b97caaa751af567ce11010d00
   FirebaseFirestore: cadbbc63223d27fdbdaca7cbdae2a6dc809a3929
   FirebaseFirestoreInternal: 7ac1e0c5b4e75aeb898dfe4b1d6d77abbac9eca3
+  FirebaseFirestoreSwift: a6692c48a01d2e673c161713fce52cdbc7e0a19b
   FirebaseInstallations: 390ea1d10a4d02b20c965cbfd527ee9b3b412acb
   FirebaseSharedSwift: 19b3f709993d6fa1d84941d41c01e3c4c11eab93
   GoogleAppMeasurement: a65314d316443969ed3d3709b3a187448ed6418f
@@ -855,6 +860,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 
-PODFILE CHECKSUM: 50336eecbb9323200be539b3bf62d0922c7e30dd
+PODFILE CHECKSUM: 25bb6d2240c74b157d3d27b6bb3ef36c96a01fbe
 
 COCOAPODS: 1.15.2

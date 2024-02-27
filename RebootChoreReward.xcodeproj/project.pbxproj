@@ -10,6 +10,10 @@
 		CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */; };
 		CA1683E02B8D24940086153A /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683DF2B8D24940086153A /* Typography.swift */; };
 		CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E12B8D2ED70086153A /* PDSLabel.swift */; };
+		CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */; };
+		CA1683E72B8D425A0086153A /* Chore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E62B8D425A0086153A /* Chore.swift */; };
+		CA1683E92B8D45A70086153A /* UserFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E82B8D45A70086153A /* UserFirestoreService.swift */; };
+		CA1683EB2B8D45D80086153A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683EA2B8D45D80086153A /* User.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -40,6 +44,10 @@
 		CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fredoka-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		CA1683DF2B8D24940086153A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		CA1683E12B8D2ED70086153A /* PDSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLabel.swift; sourceTree = "<group>"; };
+		CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreFirestoreService.swift; sourceTree = "<group>"; };
+		CA1683E62B8D425A0086153A /* Chore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chore.swift; sourceTree = "<group>"; };
+		CA1683E82B8D45A70086153A /* UserFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirestoreService.swift; sourceTree = "<group>"; };
+		CA1683EA2B8D45D80086153A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -102,6 +110,15 @@
 			path = Typography;
 			sourceTree = "<group>";
 		};
+		CA1683E52B8D42500086153A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA1683E62B8D425A0086153A /* Chore.swift */,
+				CA1683EA2B8D45D80086153A /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA7C69B42B8456A5005B3CF2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				CA7C69B62B8456D0005B3CF2 /* AuthService.swift */,
+				CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */,
+				CA1683E82B8D45A70086153A /* UserFirestoreService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -177,6 +196,7 @@
 		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
 			isa = PBXGroup;
 			children = (
+				CA1683E52B8D42500086153A /* Model */,
 				CA7C69C22B8C3734005B3CF2 /* Util */,
 				CA7C69B52B8456B9005B3CF2 /* Service */,
 				CA7C69B42B8456A5005B3CF2 /* UI */,
@@ -309,6 +329,7 @@
 				CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */,
 				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
+				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
 				CA7E33022B8C651F00CA7B20 /* AlertVC.swift in Sources */,
@@ -317,14 +338,17 @@
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
 				CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */,
+				CA1683E92B8D45A70086153A /* UserFirestoreService.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
+				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
+				CA1683EB2B8D45D80086153A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
