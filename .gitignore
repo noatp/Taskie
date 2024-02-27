@@ -1,0 +1,21 @@
+# CocoaPods
+Pods/
+
+# Xcode
+.DS_Store
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+DerivedData/
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# SwiftLint
+# .swiftlint.yml (Include or exclude based on team agreement)
+
+# OS X specific
+._*
+.Spotlight-V100
+.Trashes
