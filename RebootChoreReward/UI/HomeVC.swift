@@ -14,7 +14,7 @@ class HomeVC: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        let choreVC = ChoreVC()
+        let choreVC = UINavigationController(rootViewController: ChoreVC()) 
         let profileVC = ProfileVC()
         
         choreVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)

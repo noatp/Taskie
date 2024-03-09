@@ -14,6 +14,7 @@
 		CA1683E72B8D425A0086153A /* Chore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E62B8D425A0086153A /* Chore.swift */; };
 		CA1683E92B8D45A70086153A /* UserFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E82B8D45A70086153A /* UserFirestoreService.swift */; };
 		CA1683EB2B8D45D80086153A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683EA2B8D45D80086153A /* User.swift */; };
+		CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683EC2B8D9B980086153A /* LogUtil.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -48,6 +49,7 @@
 		CA1683E62B8D425A0086153A /* Chore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chore.swift; sourceTree = "<group>"; };
 		CA1683E82B8D45A70086153A /* UserFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirestoreService.swift; sourceTree = "<group>"; };
 		CA1683EA2B8D45D80086153A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CA1683EC2B8D9B980086153A /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */,
 				CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */,
 				CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */,
+				CA1683EC2B8D9B980086153A /* LogUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
+				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,

@@ -38,7 +38,7 @@ class SignUpVC: UIViewController {
         setUpActions()
     }
     
-    func setUpViews() {
+    private func setUpViews() {
         view.backgroundColor = .systemBackground
 
         // Add subviews
@@ -64,7 +64,7 @@ class SignUpVC: UIViewController {
         ])
     }
     
-    func setUpActions() {
+    private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
     }
     

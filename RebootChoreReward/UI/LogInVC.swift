@@ -44,7 +44,7 @@ class LogInVC: UIViewController {
         setUpActions()
     }
     
-    func setUpViews() {
+    private func setUpViews() {
         view.backgroundColor = .systemBackground
         
         // Add subviews
@@ -75,7 +75,7 @@ class LogInVC: UIViewController {
         ])
     }
     
-    func setUpActions() {
+    private func setUpActions() {
         logInButton.addTarget(self, action: #selector(handleLogIn), for: .touchUpInside)
         navToSignUpVCButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
     }
