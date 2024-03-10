@@ -14,12 +14,12 @@ class HomeVC: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        let choreVC = UINavigationController(rootViewController: ChoreVC()) 
+        let choreListVC = UINavigationController(rootViewController: ChoreListVC())
         let profileVC = ProfileVC()
         
-        choreVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
+        choreListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
         profileVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
-        self.viewControllers = [choreVC, profileVC]
+        self.viewControllers = [choreListVC, profileVC]
         
     }
 }

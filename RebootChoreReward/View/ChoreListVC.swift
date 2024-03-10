@@ -1,5 +1,5 @@
 //
-//  ChoreVC.swift
+//  ChoreListVC.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 2/25/24.
@@ -9,10 +9,9 @@ import UIKit
 import SwiftUI
 import Combine
 
-class ChoreVC: UIViewController {
-    private var chores = [Chore]()
+class ChoreListVC: UIViewController {
+    private var viewModel: ChoreListViewModel
     private var cancellables: Set<AnyCancellable> = []
-    
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -21,19 +20,29 @@ class ChoreVC: UIViewController {
         return tableView
     }()
     
+    init(viewModel: ChoreListViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubscription()
+        bindViewModel()
         setUpViews()
         setUpActions()
     }
     
-    private func addSubscription() {
-        ChoreFirestoreService.shared.chores.sink { [weak self] chores in
-            self?.chores = chores
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+    private func bindViewModel() {
+        viewModel.$chores
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     private func setUpViews() {
@@ -57,38 +66,31 @@ class ChoreVC: UIViewController {
     }
     
     @objc func addNewItem() {
-        Task {
-            do {
-                try await ChoreFirestoreService.shared.createChore(withChore: Chore(name: "Test Chore", creator: "Me"))
-                // Optionally, handle any UI updates or confirmations here
-            } catch {
-                print("Error creating chore: \(error)")
-                // Handle errors, perhaps by showing an alert to the user
-            }
-        }
+
     }
 }
 
-extension ChoreVC: UITableViewDelegate {
+extension ChoreListVC: UITableViewDelegate {
     
 }
 
-extension ChoreVC: UITableViewDataSource {
+extension ChoreListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chores.count
+        return viewModel.chores.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
-        cell.textLabel?.text = chores[indexPath.row].name
+        cell.textLabel?.text = viewModel.chores[indexPath.row].name
         return cell
     }
 }
 
-struct ChoreVC_Previews: PreviewProvider {
+struct ChoreListVC_Previews: PreviewProvider {
     static var previews: some View {
+        let viewModel = ChoreListViewModel(choreService: ChoreMockService())
         UIViewControllerPreviewWrapper {
-            UINavigationController(rootViewController: ChoreVC())
+            UINavigationController(rootViewController: ChoreListVC(viewModel: viewModel))
         }
     }
 }

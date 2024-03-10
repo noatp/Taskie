@@ -8,7 +8,11 @@
 import FirebaseFirestore
 import Combine
 
-class ChoreFirestoreService {
+protocol ChoreService {
+    var chores: AnyPublisher<[Chore], Never> { get }
+}
+
+class ChoreFirestoreService: ChoreService {
     static let shared = ChoreFirestoreService()
     
     let db = Firestore.firestore()
@@ -55,4 +59,14 @@ class ChoreFirestoreService {
     deinit {
         choreCollectionListener?.remove()
     }
+}
+
+class ChoreMockService: ChoreService {
+    var chores: AnyPublisher<[Chore], Never> {
+        Just([
+            Chore(name: "Mock Chore 1", creator: "Mock Creator"),
+            Chore(name: "Mock Chore 2", creator: "Mock Creator")
+        ]).eraseToAnyPublisher()
+    }
+    
 }
