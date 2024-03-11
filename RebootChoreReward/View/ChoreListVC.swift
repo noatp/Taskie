@@ -66,7 +66,9 @@ class ChoreListVC: UIViewController {
     }
     
     @objc func addNewItem() {
-
+        let addChoreVC = PDSModalVC(childVC: AddChoreVC())
+        addChoreVC.modalPresentationStyle = .overFullScreen
+        self.present(addChoreVC, animated: false)
     }
 }
 
