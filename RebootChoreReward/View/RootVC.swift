@@ -9,13 +9,22 @@ import UIKit
 import Combine
 
 class RootVC: UIViewController {
-    private let authService = AuthService.shared
-    private var authStateSubscriber: AnyCancellable?
+    private var viewModel: RootViewModel
+    private var cancellables: Set<AnyCancellable> = []
     private let homeVC = HomeVC()
+    
+    init(viewModel: RootViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        observeAuthState()
+        bindViewModel()
         addChild(homeVC)
         homeVC.didMove(toParent: self)
         setUpViews()
@@ -38,17 +47,14 @@ class RootVC: UIViewController {
         
     }
     
-    private func observeAuthState() {
-        authStateSubscriber = AuthService.shared.isUserLoggedIn
-            .receive(on: DispatchQueue.main)
+    private func bindViewModel() {
+        viewModel.$authState
+            .receive(on: RunLoop.main)
             .sink { [weak self] isUserLoggedIn in
-                if isUserLoggedIn {
-                    self?.dismissLogInVC()
-                }
-                else {
-                    self?.presentLogInVC()
-                }
+                isUserLoggedIn ? self?.dismissLogInVC() : self?.presentLogInVC()
             }
+            .store(in: &cancellables)
+
     }
     
     private func presentLogInVC() {

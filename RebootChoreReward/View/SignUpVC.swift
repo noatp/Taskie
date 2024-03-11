@@ -9,6 +9,9 @@ import UIKit
 import SwiftUI
 
 class SignUpVC: UIViewController {
+    private var viewModel: SignUpViewModel
+    var signUpButtonBottomConstraint: NSLayoutConstraint = .init()
+    
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email")
         textField.autocapitalizationType = .none
@@ -29,7 +32,15 @@ class SignUpVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    var signUpButtonBottomConstraint: NSLayoutConstraint = .init()
+    
+    init(viewModel: SignUpViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +51,7 @@ class SignUpVC: UIViewController {
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
-
+        
         // Add subviews
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
@@ -86,16 +97,16 @@ class SignUpVC: UIViewController {
     }
     
     @objc func handleSignUp() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            return
-        }
+        viewModel.email = emailTextField.text
+        viewModel.password = passwordTextField.text
         
-        Task {
-            do {
-                try await AuthService.shared.signUp(withEmail: email, password: password)
-            } catch {
-                print("Error signing in: \(error.localizedDescription)")
-                showAlert(withMessage: "\(error.localizedDescription)")
+        viewModel.signUp { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                if let errorMessage = errorMessage {
+                    self?.showAlert(withMessage: errorMessage)
+                } else {
+                    // Handle successful signup
+                }
             }
         }
     }
@@ -103,8 +114,7 @@ class SignUpVC: UIViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardFrame.height
-            // Adjust the constant of the bottom constraint to move the button up
-            signUpButtonBottomConstraint.constant = -keyboardHeight - 20 // You might want to add some extra space, like 20 points.
+            signUpButtonBottomConstraint.constant = -keyboardHeight - 20
             
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
@@ -113,7 +123,6 @@ class SignUpVC: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        // Reset the constant of the bottom constraint to its original value
         signUpButtonBottomConstraint.constant = -100
         
         UIView.animate(withDuration: 0.3) {

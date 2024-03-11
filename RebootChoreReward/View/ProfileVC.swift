@@ -9,6 +9,8 @@ import UIKit
 import SwiftUI
 
 class ProfileVC: UIViewController {
+    private var viewModel: ProfileViewModel
+    
     let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Sign out", for: .normal)
@@ -16,6 +18,15 @@ class ProfileVC: UIViewController {
         return button
     }()
 
+    init(viewModel: ProfileViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +49,7 @@ class ProfileVC: UIViewController {
     }
     
     @objc func handleSignOut() {
-        AuthService.shared.signOut()
+        viewModel.signOut()
     }
 }
 

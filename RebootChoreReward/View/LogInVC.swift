@@ -9,6 +9,9 @@ import UIKit
 import SwiftUI
 
 class LogInVC: UIViewController {
+    private var viewModel: LogInViewModel
+    var navToSignUpVCButtonBottomConstraint: NSLayoutConstraint = .init()
+    
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email")
         textField.autocapitalizationType = .none
@@ -35,7 +38,15 @@ class LogInVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    var navToSignUpVCButtonBottomConstraint: NSLayoutConstraint = .init()
+    
+    init(viewModel: LogInViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,16 +109,16 @@ class LogInVC: UIViewController {
     }
     
     @objc func handleLogIn() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            return
-        }
+        viewModel.email = emailTextField.text
+        viewModel.password = passwordTextField.text
         
-        Task {
-            do {
-                try await AuthService.shared.logIn(withEmail: email, password: password)
-            } catch {
-                print("Error signing in: \(error.localizedDescription)")
-                showAlert(withMessage: "\(error.localizedDescription)")
+        viewModel.logIn { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                if let errorMessage = errorMessage {
+                    self?.showAlert(withMessage: errorMessage)
+                } else {
+                    // Handle successful login
+                }
             }
         }
     }
@@ -120,9 +131,7 @@ class LogInVC: UIViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardFrame.height
-            // Adjust the constant of the bottom constraint to move the button up
-            navToSignUpVCButtonBottomConstraint.constant = -keyboardHeight - 20 // You might want to add some extra space, like 20 points.
-            
+            navToSignUpVCButtonBottomConstraint.constant = -keyboardHeight - 20
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
             }
@@ -130,7 +139,6 @@ class LogInVC: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        // Reset the constant of the bottom constraint to its original value
         navToSignUpVCButtonBottomConstraint.constant = -100
         
         UIView.animate(withDuration: 0.3) {
