@@ -1,0 +1,41 @@
+___FILEHEADER___
+
+import SwiftUI
+import UIKit
+
+class ___VARIABLE_viewName:identifier___VC: UIViewController {
+    private var viewModel: ___VARIABLE_viewName:identifier___ViewModel
+
+    init(viewModel: ___VARIABLE_viewName:identifier___ViewModel = .init()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpViews()
+        setUpActions()
+    }
+
+    private func setUpViews() {
+
+    }
+
+    private func setUpActions() {
+        
+    }
+}
+
+struct ___VARIABLE_viewName:identifier___VC_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = ___VARIABLE_viewName:identifier___ViewModel()
+        UIViewControllerPreviewWrapper {
+            UINavigationController(rootViewController: ___VARIABLE_viewName:identifier___VC(viewModel: viewModel))
+        }
+    }
+}
+ 

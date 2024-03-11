@@ -1,0 +1,11 @@
+___FILEHEADER___
+
+import Combine
+
+class ___VARIABLE_viewName:identifier___ViewModel: ObservableObject {
+    private var cancellables: Set<AnyCancellable> = []
+    
+    init() {
+        
+    }
+}

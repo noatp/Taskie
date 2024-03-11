@@ -20,6 +20,11 @@
 		CA1683F42B9E73330086153A /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F32B9E73330086153A /* SignUpViewModel.swift */; };
 		CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F52B9E74D60086153A /* RootViewModel.swift */; };
 		CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F72B9E80910086153A /* ProfileViewModel.swift */; };
+		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
+		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
+		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
+		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
+		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -60,6 +65,12 @@
 		CA1683F32B9E73330086153A /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		CA1683F52B9E74D60086153A /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		CA1683F72B9E80910086153A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
+		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
+		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
+		CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "___VARIABLE_viewName-identifier___ViewModel.txt"; sourceTree = "<group>"; };
+		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -134,6 +145,7 @@
 		CA1683EE2B9D301A0086153A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */,
 				CA1683EF2B9D305D0086153A /* ChoreListViewModel.swift */,
 				CA1683F12B9E70D50086153A /* LogInViewModel.swift */,
 				CA1683F32B9E73330086153A /* SignUpViewModel.swift */,
@@ -141,6 +153,17 @@
 				CA1683F72B9E80910086153A /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CA48864E2B9EB483003F22C8 /* Xcode Template */ = {
+			isa = PBXGroup;
+			children = (
+				CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */,
+				CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */,
+				CA4886532B9EB5A9003F22C8 /* readme.txt */,
+				CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */,
+			);
+			path = "Xcode Template";
 			sourceTree = "<group>";
 		};
 		CA7C69B42B8456A5005B3CF2 /* View */ = {
@@ -154,6 +177,7 @@
 				CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */,
 				CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */,
 				CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */,
+				CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -221,6 +245,7 @@
 		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
 			isa = PBXGroup;
 			children = (
+				CA48864E2B9EB483003F22C8 /* Xcode Template */,
 				CA1683EE2B9D301A0086153A /* ViewModel */,
 				CA1683E52B8D42500086153A /* Model */,
 				CA7C69C22B8C3734005B3CF2 /* Util */,
@@ -296,9 +321,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */,
 				CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */,
 				CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */,
 				CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */,
+				CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */,
+				CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */,
 				CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,12 +398,14 @@
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
+				CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
+				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
