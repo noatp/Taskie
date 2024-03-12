@@ -8,9 +8,8 @@
 import UIKit
 import SwiftUI
 
-class SignUpVC: UIViewController {
+class SignUpVC: PDSViewController {
     private var viewModel: SignUpViewModel
-    var signUpButtonBottomConstraint: NSLayoutConstraint = .init()
     
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email")
@@ -44,7 +43,6 @@ class SignUpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNotificationObserver()
         setUpViews()
         setUpActions()
     }
@@ -52,14 +50,12 @@ class SignUpVC: UIViewController {
     private func setUpViews() {
         view.backgroundColor = .systemBackground
         
-        // Add subviews
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(signUpButton)
         
-        signUpButtonBottomConstraint = signUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        keyboardAdjustmentConstraint = signUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
         
-        // Auto Layout constraints
         NSLayoutConstraint.activate([
             emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -69,7 +65,7 @@ class SignUpVC: UIViewController {
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            signUpButtonBottomConstraint,
+            keyboardAdjustmentConstraint,
             signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
@@ -78,17 +74,6 @@ class SignUpVC: UIViewController {
     private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
     }
-    
-    private func setUpNotificationObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    private func removeNotificationObserver() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
     
     @objc func handleSignUp() {
         viewModel.email = emailTextField.text
@@ -103,29 +88,6 @@ class SignUpVC: UIViewController {
                 }
             }
         }
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight = keyboardFrame.height
-            signUpButtonBottomConstraint.constant = -keyboardHeight - 20
-            
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        signUpButtonBottomConstraint.constant = -100
-        
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    deinit {
-        removeNotificationObserver()
     }
 }
 

@@ -16,10 +16,12 @@ class PDSTextField: UITextField, Themable {
     let highlightedBorderWidth: CGFloat = 3.0
     
     let placeholderText: String
+    let hasBorder: Bool
     var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
-    init(withPlaceholder placeholderText: String) {
+    init(withPlaceholder placeholderText: String, hasBorder: Bool = true) {
         self.placeholderText = placeholderText
+        self.hasBorder = hasBorder
         super.init(frame: .zero)
         configureTextField()
     }
@@ -34,7 +36,7 @@ class PDSTextField: UITextField, Themable {
     
     override func becomeFirstResponder() -> Bool {
         let becomeActive = super.becomeFirstResponder()
-        if becomeActive {
+        if becomeActive && hasBorder{
             // Highlight the border when textField is focused
             layer.borderColor = highlightedBorderColor
             layer.borderWidth = highlightedBorderWidth
@@ -71,21 +73,32 @@ class PDSTextField: UITextField, Themable {
         highlightedBorderColor = theme.color.primaryColor.cgColor
         font = theme.typography.body
         placeholder = placeholderText
+        keyboardAppearance = .dark
         autocorrectionType = .no
-        layer.borderColor = normalBorderColor
-        layer.borderWidth = normalBorderWidth
-        layer.cornerRadius = theme.styling.cornerRadius
-        
+        if hasBorder {
+            layer.borderColor = normalBorderColor
+            layer.borderWidth = normalBorderWidth
+            layer.cornerRadius = theme.styling.cornerRadius
+        }
     }
 }
 
 struct PDSTextField_Previews: PreviewProvider {
     static var previews: some View {
-        UIViewPreviewWrapper {
-            let textField = PDSTextField(withPlaceholder: "Password")
-            return textField
+        VStack {
+            UIViewPreviewWrapper {
+                let textField = PDSTextField(withPlaceholder: "Password", hasBorder: true)
+                return textField
+            }
+            .fixedSize()
+            
+            UIViewPreviewWrapper {
+                let textField = PDSTextField(withPlaceholder: "Password", hasBorder: false)
+                return textField
+            }
+            .fixedSize()
         }
-        .fixedSize()
+        
         .previewLayout(.sizeThatFits)
     }
 }

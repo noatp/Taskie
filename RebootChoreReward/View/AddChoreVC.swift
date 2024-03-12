@@ -8,12 +8,11 @@
 import SwiftUI
 import UIKit
 
-class AddChoreVC: UIViewController, PDSModalChildVC {
-    var dismissParentVC: (() -> Void)?
+class AddChoreVC: PDSViewController {
     private var viewModel: AddChoreViewModel
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Create chore", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Create chore", fontScale: .headline2, textColor: PDSTheme.defaultTheme.color.onSurface)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -30,9 +29,22 @@ class AddChoreVC: UIViewController, PDSModalChildVC {
         return textField
     }()
     
-    private let createChoreButton: PDSPrimaryButton = {
-        let button = PDSPrimaryButton()
-        button.setTitle("Create", for: .normal)
+    private let createChoreButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.filled()
+        config.title = "Create"
+        config.baseBackgroundColor = PDSTheme.defaultTheme.color.primaryColor
+        config.baseForegroundColor = PDSTheme.defaultTheme.color.onPrimary
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = PDSTheme.defaultTheme.typography.button
+            return outgoing
+        }
+        config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
+            return button.isHighlighted ? PDSTheme.defaultTheme.color.darkenPrimaryColor : PDSTheme.defaultTheme.color.primaryColor
+        }
+        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -58,8 +70,7 @@ class AddChoreVC: UIViewController, PDSModalChildVC {
         let vStack = UIStackView(arrangedSubviews: [
             titleLabel,
             choreNameTextField,
-            choreDescriptionTextField,
-            createChoreButton
+            choreDescriptionTextField
         ])
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing
@@ -68,11 +79,15 @@ class AddChoreVC: UIViewController, PDSModalChildVC {
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
+        view.addSubview(createChoreButton)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            
+            createChoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            createChoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            createChoreButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -90,20 +105,35 @@ class AddChoreVC: UIViewController, PDSModalChildVC {
                     self?.showAlert(withMessage: errorMessage)
                 }
                 else {
-                    if let dismissParentVC = self?.dismissParentVC {
-                        dismissParentVC()
-                    }
+                    self?.dismiss(animated: true)
                 }
             }
         }
+    }
+    
+    override func keyboardWillShow(notification: NSNotification) {
+        super.keyboardWillShow(notification: notification)
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: -self.bottomConstraintValue + 20, trailing: 20)
+        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+    }
+    
+    override func keyboardWillHide(notification: NSNotification) {
+        super.keyboardWillHide(notification: notification)
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
     }
 }
 
 struct AddChoreVC_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = AddChoreViewModel()
         UIViewControllerPreviewWrapper {
-            UINavigationController(rootViewController: AddChoreVC(viewModel: viewModel))
+            let baseVC = UIViewController()
+            let addChoreVC = AddChoreVC()
+            DispatchQueue.main.async {
+                baseVC.present(addChoreVC, animated: true, completion: nil)
+            }
+            
+            return baseVC
         }
     }
 }

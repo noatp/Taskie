@@ -21,6 +21,8 @@
 		CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F52B9E74D60086153A /* RootViewModel.swift */; };
 		CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F72B9E80910086153A /* ProfileViewModel.swift */; };
 		CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */; };
+		CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */; };
+		CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -38,7 +40,7 @@
 		CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */; };
 		CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */; };
 		CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */; };
-		CA7E33022B8C651F00CA7B20 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33012B8C651F00CA7B20 /* AlertVC.swift */; };
+		CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */; };
 		CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */; };
 		CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
@@ -68,6 +70,8 @@
 		CA1683F52B9E74D60086153A /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		CA1683F72B9E80910086153A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSViewController.swift; sourceTree = "<group>"; };
+		CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -86,7 +90,7 @@
 		CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewWrapper.swift; sourceTree = "<group>"; };
 		CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTextField.swift; sourceTree = "<group>"; };
 		CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSSecondaryButton.swift; sourceTree = "<group>"; };
-		CA7E33012B8C651F00CA7B20 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
+		CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSAlertVC.swift; sourceTree = "<group>"; };
 		CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +208,7 @@
 				CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */,
 				CA1683EC2B8D9B980086153A /* LogUtil.swift */,
 				CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */,
+				CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -214,9 +219,10 @@
 				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
 				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
 				CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */,
-				CA7E33012B8C651F00CA7B20 /* AlertVC.swift */,
+				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
+				CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -393,7 +399,7 @@
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
-				CA7E33022B8C651F00CA7B20 /* AlertVC.swift in Sources */,
+				CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */,
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
@@ -411,9 +417,11 @@
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
+				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
+				CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,

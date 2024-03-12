@@ -9,7 +9,7 @@ import UIKit
 
 extension UIViewController {
     func showAlert(withMessage alertMessage: String) {
-        let alertVC = AlertVC(alertMessage: alertMessage)
+        let alertVC = PDSAlertVC(alertMessage: alertMessage)
         alertVC.modalPresentationStyle = .overCurrentContext
         alertVC.modalTransitionStyle = .crossDissolve
         present(alertVC, animated: true, completion: nil)

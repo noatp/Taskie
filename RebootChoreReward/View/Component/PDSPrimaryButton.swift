@@ -41,8 +41,8 @@ class PDSPrimaryButton: UIButton, Themable {
             outgoing.font = theme.typography.button
             return outgoing
         }
-        config.imagePadding = 10 // Space between image and title if both are used
-        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        config.imagePadding = 10
+        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         
         // Customizing the button for the `.highlighted` state
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in

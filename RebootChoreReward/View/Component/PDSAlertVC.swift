@@ -1,5 +1,5 @@
 //
-//  AlertVC.swift
+//  PDSAlertVC.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 2/26/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class AlertVC: UIViewController {
+class PDSAlertVC: UIViewController {
     private let alertMessage: String
     
     init(alertMessage: String) {
@@ -111,7 +111,7 @@ class AlertVC: UIViewController {
 struct AlertVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            AlertVC(alertMessage: "This is a custom alert message. This is a long text to test text wrapping.")
+            PDSAlertVC(alertMessage: "This is a custom alert message. This is a long text to test text wrapping.")
         }
     }
 }

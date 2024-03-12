@@ -16,14 +16,14 @@ protocol PDSModalChildVC: UIViewController {
     var dismissParentVC: (() -> Void)? { get set }
 }
 
-class PDSModalVC: UIViewController {
+class PDSModalVC: PDSViewController {
     private var childVC: UIViewController
     let defaultHeight: CGFloat = 400
     let dismissableHeight: CGFloat = 200
     let maximumChildViewHeight: CGFloat = UIScreen.main.bounds.height - 64
     var currentChildViewHeight: CGFloat = 400
     var childViewHeightConstraint: NSLayoutConstraint?
-    var childViewBottomConstraint: NSLayoutConstraint?
+
     let maxDimmedAlpha: CGFloat = 0.6
     
     lazy var dimmedView: UIView = {
@@ -64,7 +64,7 @@ class PDSModalVC: UIViewController {
         guard let childView = childVC.view else {
             return
         }
-        childView.layer.cornerRadius = 16
+        childView.roundTopCorners(cornerRadius: PDSTheme.defaultTheme.styling.cornerRadius)
         childView.clipsToBounds = true
         childView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dimmedView)
@@ -80,9 +80,9 @@ class PDSModalVC: UIViewController {
         ])
         
         childViewHeightConstraint = childView.heightAnchor.constraint(equalToConstant: defaultHeight)
-        childViewBottomConstraint = childView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
+        keyboardAdjustmentConstraint = childView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
         childViewHeightConstraint?.isActive = true
-        childViewBottomConstraint?.isActive = true
+        keyboardAdjustmentConstraint.isActive = true
     }
     
     private func setUpActions() {
@@ -112,14 +112,8 @@ class PDSModalVC: UIViewController {
         switch gesture.state {
         case .changed:
             if newChildViewHeight <= defaultHeight {
-                childViewHeightConstraint?.constant = defaultHeight
-                childViewBottomConstraint?.constant = 0 + (defaultHeight - newChildViewHeight)
-                view.layoutIfNeeded()
-                return
-            }
-            if newChildViewHeight < maximumChildViewHeight {
-                childViewBottomConstraint?.constant = 0
-                childViewHeightConstraint?.constant = newChildViewHeight
+//                childViewHeightConstraint?.constant = defaultHeight
+                keyboardAdjustmentConstraint.constant = bottomConstraintValue + (defaultHeight - newChildViewHeight)
                 view.layoutIfNeeded()
                 return
             }
@@ -129,17 +123,17 @@ class PDSModalVC: UIViewController {
                 return
             }
             animateChildBottomConstraint(0)
-            if newChildViewHeight < defaultHeight {
-                animateChildViewHeight(defaultHeight)
-                return
-            }
-            if newChildViewHeight < maximumChildViewHeight && isDraggingDown {
-                animateChildViewHeight(defaultHeight)
-                return
-            }
-            if newChildViewHeight > defaultHeight && !isDraggingDown {
-                animateChildViewHeight(maximumChildViewHeight)
-            }
+//            if newChildViewHeight < defaultHeight {
+//                animateChildViewHeight(defaultHeight)
+//                return
+//            }
+//            if newChildViewHeight < maximumChildViewHeight && isDraggingDown {
+//                animateChildViewHeight(defaultHeight)
+//                return
+//            }
+//            if newChildViewHeight > defaultHeight && !isDraggingDown {
+//                animateChildViewHeight(maximumChildViewHeight)
+//            }
             
         default:
             break
@@ -163,15 +157,21 @@ class PDSModalVC: UIViewController {
     }
     
     func animateChildBottomConstraint(_ verticalPosition: CGFloat){
-        UIView.animate(withDuration: 0.3) {
-            self.childViewBottomConstraint?.constant = verticalPosition
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.keyboardAdjustmentConstraint.constant = self.bottomConstraintValue + verticalPosition
             self.view.layoutIfNeeded()
         }
     }
     
     func animateDismissView() {
-        UIView.animate(withDuration: 0.2) {
-            self.childViewBottomConstraint?.constant = self.defaultHeight
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.keyboardAdjustmentConstraint.constant = bottomConstraintValue + self.defaultHeight
             self.view.layoutIfNeeded()
         }
         dimmedView.alpha = maxDimmedAlpha
