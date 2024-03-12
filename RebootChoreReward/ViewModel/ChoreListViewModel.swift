@@ -23,12 +23,4 @@ class ChoreListViewModel: ObservableObject {
         }
         .store(in: &cancellables)
     }
-    
-    func createChore() async {
-        do {
-            try await ChoreFirestoreService.shared.createChore(withChore: Chore(name: "Test Chore", creator: "Me"))
-        } catch {
-            print("Error creating chore: \(error)")
-        }
-    }
 }

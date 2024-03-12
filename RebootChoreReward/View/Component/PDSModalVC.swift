@@ -8,6 +8,14 @@
 import UIKit
 import SwiftUI
 
+protocol ModalDismissDelegate: AnyObject {
+    func dismissViewController()
+}
+
+protocol PDSModalChildVC: UIViewController {
+    var dismissParentVC: (() -> Void)? { get set }
+}
+
 class PDSModalVC: UIViewController {
     private var childVC: UIViewController
     let defaultHeight: CGFloat = 400
@@ -29,6 +37,9 @@ class PDSModalVC: UIViewController {
     init(childVC: UIViewController) {
         self.childVC = childVC
         super.init(nibName: nil, bundle: nil)
+        (self.childVC as? PDSModalChildVC)?.dismissParentVC = { [weak self] in
+            self?.animateDismissView()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -159,16 +170,22 @@ class PDSModalVC: UIViewController {
     }
     
     func animateDismissView() {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.2) {
             self.childViewBottomConstraint?.constant = self.defaultHeight
             self.view.layoutIfNeeded()
         }
         dimmedView.alpha = maxDimmedAlpha
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = 0
         } completion: { _ in
             self.dismiss(animated: true)
         }
+    }
+}
+
+extension PDSModalVC: ModalDismissDelegate {
+    func dismissViewController() {
+        self.animateDismissView()
     }
 }
 

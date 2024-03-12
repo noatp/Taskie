@@ -89,12 +89,6 @@ class SignUpVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    private func showAlert(withMessage alertMessage: String) {
-        let alertVC = AlertVC(alertMessage: alertMessage)
-        alertVC.modalPresentationStyle = .overCurrentContext
-        alertVC.modalTransitionStyle = .crossDissolve
-        present(alertVC, animated: true, completion: nil)
-    }
     
     @objc func handleSignUp() {
         viewModel.email = emailTextField.text

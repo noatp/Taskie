@@ -8,7 +8,8 @@
 import SwiftUI
 import UIKit
 
-class AddChoreVC: UIViewController {
+class AddChoreVC: UIViewController, PDSModalChildVC {
+    var dismissParentVC: (() -> Void)?
     private var viewModel: AddChoreViewModel
     
     private let titleLabel: PDSLabel = {
@@ -76,7 +77,24 @@ class AddChoreVC: UIViewController {
     }
 
     private func setUpActions() {
+        createChoreButton.addTarget(self, action: #selector(handleCreateChore), for: .touchUpInside)
+    }
+    
+    @objc func handleCreateChore() {
+        viewModel.choreName = choreNameTextField.text
         
+        viewModel.createChore { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                if let errorMessage = errorMessage {
+                    self?.showAlert(withMessage: errorMessage)
+                }
+                else {
+                    if let dismissParentVC = self?.dismissParentVC {
+                        dismissParentVC()
+                    }
+                }
+            }
+        }
     }
 }
 

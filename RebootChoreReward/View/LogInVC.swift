@@ -101,13 +101,6 @@ class LogInVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func showAlert(withMessage alertMessage: String) {
-        let alertVC = AlertVC(alertMessage: alertMessage)
-        alertVC.modalPresentationStyle = .overCurrentContext
-        alertVC.modalTransitionStyle = .crossDissolve
-        present(alertVC, animated: true, completion: nil)
-    }
-    
     @objc func handleLogIn() {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
