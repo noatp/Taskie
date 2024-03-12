@@ -12,19 +12,32 @@ class AddChoreVC: PDSViewController {
     private var viewModel: AddChoreViewModel
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Create chore", fontScale: .headline2, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Create chore", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.onSurface)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let choreNameTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Chore name")
+        textField.font = PDSTheme.defaultTheme.typography.headline2
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private let choreDescriptionTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Chore description")
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let rewardLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Reward", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let rewardAmountTextField: PDSCurrencyTextField = {
+        let textField = PDSCurrencyTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -69,21 +82,27 @@ class AddChoreVC: PDSViewController {
         
         let vStack = UIStackView(arrangedSubviews: [
             titleLabel,
+            UIView.createSpacerView(height: 40),
             choreNameTextField,
-            choreDescriptionTextField
+            UIView.createSpacerView(height: 20),
+            choreDescriptionTextField,
+            UIView.createSpacerView(height: 40),
+            rewardLabel,
+            UIView.createSpacerView(height: 10),
+            rewardAmountTextField
         ])
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing
         vStack.alignment = .center
-        vStack.spacing = 20
+        vStack.spacing = 0
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
         view.addSubview(createChoreButton)
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             createChoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             createChoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),

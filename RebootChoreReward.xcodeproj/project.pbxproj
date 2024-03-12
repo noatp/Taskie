@@ -23,6 +23,7 @@
 		CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */; };
 		CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */; };
 		CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */; };
+		CA20AFE12BA0A99700BE9C18 /* PDSCurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -72,6 +73,7 @@
 		CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSViewController.swift; sourceTree = "<group>"; };
 		CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSCurrencyTextField.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
 				CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */,
+				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA20AFE12BA0A99700BE9C18 /* PDSCurrencyTextField.swift in Sources */,
 				CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */,
 				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
 				CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */,

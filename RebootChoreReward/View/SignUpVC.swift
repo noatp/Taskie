@@ -12,14 +12,14 @@ class SignUpVC: PDSViewController {
     private var viewModel: SignUpViewModel
     
     let emailTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Email")
+        let textField = PDSTextField(withPlaceholder: "Email", hasBorder: true)
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     let passwordTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Password")
+        let textField = PDSTextField(withPlaceholder: "Password", hasBorder: true)
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
