@@ -11,20 +11,21 @@ import Combine
 
 class AuthService {
     static let shared = AuthService()
-
+    
+    private var currentUserCache: [String: String] = [:]
     private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
-
+    
     var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
     }
-
+    
     init() {
         // Initialize with the current auth state
         _isUserLoggedIn.send(Auth.auth().currentUser != nil)
-
+        
         // Listen to auth state changes
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
-            print(user)
+            self?.updateCurrentUserCache(user: user)
             self?._isUserLoggedIn.send(user != nil)
         }
     }
@@ -37,11 +38,28 @@ class AuthService {
         try await Auth.auth().signIn(withEmail: email, password: password)
     }
     
+    func getCurrentUserCache(key: String) -> String? {
+        return currentUserCache[key]
+    }
+    
+    private func updateCurrentUserCache(user: FirebaseAuth.User?) {
+        currentUserCache.removeAll()
+        guard let user = user else { return }
+        currentUserCache["uid"] = user.uid
+        currentUserCache["displayName"] = user.displayName
+        currentUserCache["photoUrl"] = user.photoURL?.absoluteString
+    }
+    
     func signOut() {
         do {
             try Auth.auth().signOut()
+            clearCurrentUserCache()
         } catch {
             print("Error signing out \(error)")
         }
+    }
+    
+    func clearCurrentUserCache() {
+        currentUserCache.removeAll()
     }
 }

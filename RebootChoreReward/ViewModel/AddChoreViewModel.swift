@@ -9,10 +9,18 @@ import Combine
 
 class AddChoreViewModel: ObservableObject {
     var choreName: String?
+    var choreDescription: String?
     
     func createChore(completion: @escaping (_ errorMessage: String?) -> Void) {
-        guard let choreName = choreName, !choreName.isEmpty else {
+        guard let choreName = choreName,
+              let choreDescription = choreDescription,
+              !choreName.isEmpty else {
             completion("Please enter a name for this chore.")
+            return
+        }
+        
+        guard let uid = AuthService.shared.getCurrentUserCache(key: "uid") else {
+            completion("Something went wrong. Please try again later!")
             return
         }
         
@@ -20,7 +28,8 @@ class AddChoreViewModel: ObservableObject {
             do {
                 try await ChoreFirestoreService.shared.createChore(withChore: Chore(
                     name: choreName,
-                    creator: "Me"
+                    creator: uid, 
+                    description: choreDescription
                 ))
                 completion(nil)
             } catch {

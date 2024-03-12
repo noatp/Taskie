@@ -64,8 +64,8 @@ class ChoreFirestoreService: ChoreService {
 class ChoreMockService: ChoreService {
     var chores: AnyPublisher<[Chore], Never> {
         Just([
-            Chore(name: "Mock Chore 1", creator: "Mock Creator"),
-            Chore(name: "Mock Chore 2", creator: "Mock Creator")
+            Chore(name: "Mock Chore 1", creator: "Mock Creator", description: "Some description"),
+            Chore(name: "Mock Chore 2", creator: "Mock Creator", description: "Some description")
         ]).eraseToAnyPublisher()
     }
     

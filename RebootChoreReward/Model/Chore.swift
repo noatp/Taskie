@@ -8,4 +8,5 @@
 struct Chore: Codable {
     let name: String
     let creator: String
+    let description: String
 }

@@ -82,6 +82,7 @@ class AddChoreVC: UIViewController, PDSModalChildVC {
     
     @objc func handleCreateChore() {
         viewModel.choreName = choreNameTextField.text
+        viewModel.choreDescription = choreDescriptionTextField.text
         
         viewModel.createChore { [weak self] errorMessage in
             DispatchQueue.main.async {
