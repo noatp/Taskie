@@ -10,12 +10,21 @@ import Combine
 class AddChoreViewModel: ObservableObject {
     var choreName: String?
     var choreDescription: String?
+    var choreRewardAmount: String?
     
     func createChore(completion: @escaping (_ errorMessage: String?) -> Void) {
-        guard let choreName = choreName,
-              let choreDescription = choreDescription,
-              !choreName.isEmpty else {
+        guard let choreName = choreName, !choreName.isEmpty else {
             completion("Please enter a name for this chore.")
+            return
+        }
+        guard let choreRewardAmount = choreRewardAmount?.stripDollarSign(),
+              choreRewardAmount != StringConstant.emptyString,
+              let choreRewardAmountDouble = Double(choreRewardAmount.stripDollarSign()) else {
+            completion("Please enter a reward amount for this chore.")
+            return
+        }
+        guard let choreDescription = choreDescription else {
+            completion(StringConstant.emptyString)
             return
         }
         
@@ -29,7 +38,8 @@ class AddChoreViewModel: ObservableObject {
                 try await ChoreFirestoreService.shared.createChore(withChore: Chore(
                     name: choreName,
                     creator: uid, 
-                    description: choreDescription
+                    description: choreDescription,
+                    rewardAmount: choreRewardAmountDouble
                 ))
                 completion(nil)
             } catch {

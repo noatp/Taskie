@@ -36,7 +36,7 @@ class AddChoreVC: PDSViewController {
         return label
     }()
     
-    private let rewardAmountTextField: PDSCurrencyTextField = {
+    private let choreRewardAmountTextField: PDSCurrencyTextField = {
         let textField = PDSCurrencyTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -89,7 +89,7 @@ class AddChoreVC: PDSViewController {
             UIView.createSpacerView(height: 40),
             rewardLabel,
             UIView.createSpacerView(height: 10),
-            rewardAmountTextField
+            choreRewardAmountTextField
         ])
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing
@@ -117,6 +117,7 @@ class AddChoreVC: PDSViewController {
     @objc func handleCreateChore() {
         viewModel.choreName = choreNameTextField.text
         viewModel.choreDescription = choreDescriptionTextField.text
+        viewModel.choreRewardAmount = choreRewardAmountTextField.text
         
         viewModel.createChore { [weak self] errorMessage in
             DispatchQueue.main.async {

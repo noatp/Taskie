@@ -94,17 +94,9 @@ extension PDSCurrencyTextField: UITextFieldDelegate {
             textField.text = ""
             textField.placeholder = "\(currencySymbol)0.00"
         } else {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.currencySymbol = currencySymbol
-
-            let amountString = textField.text?.replacingOccurrences(of: currencySymbol, with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-
-            if let amountString = amountString,
-               let amount = Double(amountString),
-               let formattedString = formatter.string(from: NSNumber(value: amount)) {
-                textField.text = formattedString
-            }
+            textField.text = textField.text?
+                .stripDollarSign()
+                .formatAmountInCents()
         }
     }
     
