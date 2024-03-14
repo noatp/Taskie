@@ -7,9 +7,12 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class AddChoreVC: PDSViewController {
     private var viewModel: AddChoreViewModel
+    private var cancellables: Set<AnyCancellable> = []
+    private let imageSelectionRowVC = PDSImageSelectionRowVC()
     
     private let titleLabel: PDSLabel = {
         let label = PDSLabel(withText: "Create chore", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.onSurface)
@@ -73,15 +76,32 @@ class AddChoreVC: PDSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
+        addChild(imageSelectionRowVC)
+        imageSelectionRowVC.didMove(toParent: self)
         setUpViews()
         setUpActions()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$images
+            .receive(on: RunLoop.main)
+            .sink { [weak self] images in
+                self?.imageSelectionRowVC.images = images
+            }
+            .store(in: &cancellables)
     }
 
     private func setUpViews() {
         view.backgroundColor = PDSTheme.defaultTheme.color.surfaceColor
+        guard let imageSelectionRow = imageSelectionRowVC.view else {
+            return
+        }
         
         let vStack = UIStackView(arrangedSubviews: [
             titleLabel,
+            UIView.createSpacerView(height: 40),
+            imageSelectionRow,
             UIView.createSpacerView(height: 40),
             choreNameTextField,
             UIView.createSpacerView(height: 20),
@@ -103,6 +123,10 @@ class AddChoreVC: PDSViewController {
             vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            imageSelectionRow.heightAnchor.constraint(equalToConstant: 100),
+            imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 10),
+            imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -10),
             
             createChoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             createChoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -143,6 +167,22 @@ class AddChoreVC: PDSViewController {
         UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
     }
 }
+
+extension AddChoreVC: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[.editedImage] as? UIImage {
+            viewModel.add(image: pickedImage)
+        }
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            // Handle cancellation
+            picker.dismiss(animated: true, completion: nil)
+        }
+}
+
+extension AddChoreVC: UINavigationControllerDelegate {}
 
 struct AddChoreVC_Previews: PreviewProvider {
     static var previews: some View {

@@ -6,8 +6,10 @@
 //
 
 import Combine
+import UIKit
 
 class AddChoreViewModel: ObservableObject {
+    @Published var images: [UIImage?] = [nil]
     var choreName: String?
     var choreDescription: String?
     var choreRewardAmount: String?
@@ -46,5 +48,9 @@ class AddChoreViewModel: ObservableObject {
                 completion("Error creating chore: \(error)")
             }
         }
+    }
+    
+    func add(image: UIImage) {
+        images.insert(image, at: 0)
     }
 }

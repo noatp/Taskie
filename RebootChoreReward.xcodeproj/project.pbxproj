@@ -26,6 +26,8 @@
 		CA20AFE12BA0A99700BE9C18 /* PDSCurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */; };
 		CA20AFE32BA0D44A00BE9C18 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */; };
 		CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */; };
+		CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */; };
+		CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -78,6 +80,8 @@
 		CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSCurrencyTextField.swift; sourceTree = "<group>"; };
 		CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConstant.swift; sourceTree = "<group>"; };
+		CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSImageRowSelectionVC.swift; sourceTree = "<group>"; };
+		CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 				CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */,
 				CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */,
 				CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */,
+				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
 				CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */,
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
+				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -432,8 +438,10 @@
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
+				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,
 				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
 				CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */,
+				CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
