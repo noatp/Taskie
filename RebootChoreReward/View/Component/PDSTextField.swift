@@ -19,10 +19,13 @@ class PDSTextField: UITextField, Themable {
     let hasBorder: Bool
     var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
-    init(withPlaceholder placeholderText: String, hasBorder: Bool = false) {
+    init(withPlaceholder placeholderText: String, hasBorder: Bool = false, isCentered: Bool = false) {
         self.placeholderText = placeholderText
         self.hasBorder = hasBorder
         super.init(frame: .zero)
+        if isCentered {
+            self.delegate = self
+        }
         configureTextField()
     }
     
@@ -77,6 +80,21 @@ class PDSTextField: UITextField, Themable {
             layer.borderColor = normalBorderColor
             layer.borderWidth = normalBorderWidth
             layer.cornerRadius = theme.styling.cornerRadius
+        }
+    }
+}
+
+extension PDSTextField: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        textField.textAlignment = newText.isEmpty ? .left : .center
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text?.isEmpty ?? true {
+            textField.textAlignment = .left
         }
     }
 }

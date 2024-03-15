@@ -10,4 +10,5 @@ struct Chore: Codable {
     let creator: String
     let description: String
     let rewardAmount: Double
+    let imageUrls: [String]
 }

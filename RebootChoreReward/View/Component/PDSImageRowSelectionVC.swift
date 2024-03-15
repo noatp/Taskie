@@ -8,19 +8,15 @@
 import SwiftUI
 import UIKit
 
-class PDSImageRowCell: UICollectionViewCell {
+class PDSImageRowCell: UICollectionViewCell, Themable {
     
     private let imageView = UIImageView()
-    private let addImageLabel = PDSLabel(withText: "Add image", fontScale: .button, textColor: PDSTheme.defaultTheme.color.onSurface)
+    private let addImageLabel = PDSLabel(withText: "Add image", fontScale: .button, textColor: PDSTheme.defaultTheme.color.onBackground)
     private var activeImageConstraints: [NSLayoutConstraint] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-        addImageLabel.isHidden = true
+        ThemeManager.shared.register(self)
         
         contentView.addSubview(imageView)
         contentView.addSubview(addImageLabel)
@@ -60,6 +56,16 @@ class PDSImageRowCell: UICollectionViewCell {
             ]
             NSLayoutConstraint.activate(activeImageConstraints)
         }
+    }
+    
+    func applyTheme(_ theme: PDSTheme) {
+        contentView.backgroundColor = theme.color.backgroundColor
+        contentView.layer.cornerRadius = theme.styling.cornerRadius
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.tintColor = theme.color.secondaryColor
+        imageView.layer.cornerRadius = theme.styling.cornerRadius
     }
 }
 
@@ -150,7 +156,7 @@ struct PDSImageSelectionRowVC_Previews: PreviewProvider {
         UIViewControllerPreviewWrapper {
             PDSImageSelectionRowVC()
         }
-        .fixedSize()
+        .frame(width: UIScreen.main.bounds.width, height: 100) // Specify the frame size for the preview
         .previewLayout(.sizeThatFits)
     }
 }

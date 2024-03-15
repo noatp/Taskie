@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0563CE059FE62C6CBCEA6879 /* Pods_RebootChoreReward.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */; };
 		CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */; };
 		CA1683E02B8D24940086153A /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683DF2B8D24940086153A /* Typography.swift */; };
 		CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E12B8D2ED70086153A /* PDSLabel.swift */; };
@@ -28,6 +29,7 @@
 		CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */; };
 		CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */; };
 		CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */; };
+		CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -54,13 +56,12 @@
 		CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */; };
 		CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */; };
 		CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */; };
-		EEE58493DD2CE576B976F47B /* Pods_RebootChoreReward.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.release.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.release.xcconfig"; sourceTree = "<group>"; };
-		653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RebootChoreReward.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.debug.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.debug.xcconfig"; sourceTree = "<group>"; };
+		51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.debug.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.debug.xcconfig"; sourceTree = "<group>"; };
+		6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RebootChoreReward.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.release.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.release.xcconfig"; sourceTree = "<group>"; };
 		CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fredoka-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		CA1683DF2B8D24940086153A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		CA1683E12B8D2ED70086153A /* PDSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLabel.swift; sourceTree = "<group>"; };
@@ -82,6 +83,7 @@
 		CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConstant.swift; sourceTree = "<group>"; };
 		CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSImageRowSelectionVC.swift; sourceTree = "<group>"; };
 		CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
+		CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -118,28 +120,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEE58493DD2CE576B976F47B /* Pods_RebootChoreReward.framework in Frameworks */,
+				0563CE059FE62C6CBCEA6879 /* Pods_RebootChoreReward.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		166B97EC01F91784B968CA1C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		47344531631F00E0017BD9B3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */,
-				3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */,
+				51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */,
+				AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		4BF7A256E7C44F37666937D8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				653DCAE0CCD78196B8180039 /* Pods_RebootChoreReward.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CA1683DC2B8D15740086153A /* Typography */ = {
@@ -206,6 +208,7 @@
 				CA7C69B62B8456D0005B3CF2 /* AuthService.swift */,
 				CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */,
 				CA1683E82B8D45A70086153A /* UserFirestoreService.swift */,
+				CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -257,7 +260,7 @@
 				CAEAEB722B840DE40056A0F1 /* RebootChoreReward */,
 				CAEAEB712B840DE40056A0F1 /* Products */,
 				47344531631F00E0017BD9B3 /* Pods */,
-				4BF7A256E7C44F37666937D8 /* Frameworks */,
+				166B97EC01F91784B968CA1C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,11 +298,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "RebootChoreReward" */;
 			buildPhases = (
-				1AFF165B6447B505210F8FE6 /* [CP] Check Pods Manifest.lock */,
+				01AD4B39E261BC1F18337D5F /* [CP] Check Pods Manifest.lock */,
 				CAEAEB6C2B840DE40056A0F1 /* Sources */,
 				CAEAEB6D2B840DE40056A0F1 /* Frameworks */,
 				CAEAEB6E2B840DE40056A0F1 /* Resources */,
-				F8E53644B55CB45B0B057546 /* [CP] Embed Pods Frameworks */,
+				38734EF8620E68750BDF8564 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -361,7 +364,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1AFF165B6447B505210F8FE6 /* [CP] Check Pods Manifest.lock */ = {
+		01AD4B39E261BC1F18337D5F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -383,7 +386,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F8E53644B55CB45B0B057546 /* [CP] Embed Pods Frameworks */ = {
+		38734EF8620E68750BDF8564 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -435,6 +438,7 @@
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
+				CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */,
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
@@ -585,7 +589,7 @@
 		};
 		CAEAEB852B840DE50056A0F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8A7CBD567735F46BF1E65D0 /* Pods-RebootChoreReward.debug.xcconfig */;
+			baseConfigurationReference = 51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -614,7 +618,7 @@
 		};
 		CAEAEB862B840DE50056A0F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B8DE3E2AEA24973E25CAD46 /* Pods-RebootChoreReward.release.xcconfig */;
+			baseConfigurationReference = AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

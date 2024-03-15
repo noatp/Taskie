@@ -15,20 +15,20 @@ class AddChoreVC: PDSViewController {
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Create chore", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Create chore", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.secondaryColor)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let choreNameTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore name")
+        let textField = PDSTextField(withPlaceholder: "Chore name", isCentered: true)
         textField.font = PDSTheme.defaultTheme.typography.headline2
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private let choreDescriptionTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore description")
+        let textField = PDSTextField(withPlaceholder: "Chore description", isCentered: true)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
