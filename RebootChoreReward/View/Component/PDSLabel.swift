@@ -21,7 +21,7 @@ class PDSLabel: UILabel, Themable {
     let labelText: String
     let labelTextColor: UIColor
     
-    init(withText labelText: String, fontScale labelFontScale: LabelFontScale, textColor labelTextColor: UIColor) {
+    init(withText labelText: String, fontScale labelFontScale: LabelFontScale, textColor labelTextColor: UIColor = .black) {
         self.labelFontScale = labelFontScale
         self.labelText = labelText
         self.labelTextColor = labelTextColor

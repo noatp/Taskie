@@ -50,6 +50,8 @@
 		CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */; };
 		CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */; };
 		CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */; };
+		CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */; };
+		CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -105,6 +107,8 @@
 		CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSAlertVC.swift; sourceTree = "<group>"; };
 		CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSChoreCell.swift; sourceTree = "<group>"; };
+		CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */,
 				CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */,
 				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
+				CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 				CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */,
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
+				CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -423,6 +429,7 @@
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
+				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
 				CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */,
 				CA1683E92B8D45A70086153A /* UserFirestoreService.swift in Sources */,
@@ -437,6 +444,7 @@
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
+				CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
 				CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */,
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,

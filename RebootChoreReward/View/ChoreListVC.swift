@@ -15,8 +15,9 @@ class ChoreListVC: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
+        tableView.register(PDSChoreCell.self, forCellReuseIdentifier: PDSChoreCell.className)
         return tableView
     }()
     
@@ -81,8 +82,10 @@ extension ChoreListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
-        cell.textLabel?.text = viewModel.chores[indexPath.row].name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PDSChoreCell.className, for: indexPath) as? PDSChoreCell else {
+            return UITableViewCell()
+        }
+        cell.configureCell(withChore: viewModel.chores[indexPath.row])
         return cell
     }
 }
