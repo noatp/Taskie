@@ -20,7 +20,12 @@ class SignUpViewModel {
         Task {
             do {
                 try await AuthService.shared.signUp(withEmail: email, password: password)
-                completion(nil) // Success, no error message to return
+                guard let uid = AuthService.shared.getCurrentUserCache(key: "uid") else {
+                    completion("Error signing up: could not get user info")
+                    return
+                }
+                HouseholdFirestoreService.shared.createHousehold(from: Household(id: UUID().uuidString, members: [uid]))
+                completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")
             }

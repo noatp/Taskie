@@ -22,11 +22,11 @@ class ChoreFirestoreService: ChoreService {
     }
     private let _chores = CurrentValueSubject<[Chore], Never>([])
     
-    init() {
+    private init() {
         readChores()
     }
     
-    func createChore(withChore choreObject: Chore) async throws {
+    func createChore(from choreObject: Chore) async throws {
         let jsonData = try JSONEncoder().encode(choreObject)
         let choreData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] ?? [:]
         try await db.collection("chores").addDocument(data: choreData)
