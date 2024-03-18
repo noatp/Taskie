@@ -24,7 +24,9 @@ class SignUpViewModel {
                     completion("Error signing up: could not get user info")
                     return
                 }
-                HouseholdFirestoreService.shared.createHousehold(from: Household(id: UUID().uuidString, members: [uid]))
+                let householdId = UUID().uuidString
+                HouseholdFirestoreService.shared.createHousehold(from: Household(id: householdId, members: [uid]))
+                UserFirestoreService.shared.createUser(from: User(name: "", id: uid, household: householdId))
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

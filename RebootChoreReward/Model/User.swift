@@ -6,6 +6,14 @@
 //
 
 struct User: Codable {
+    static let empty = User(name: "", id: "", household: "")
+    static let mock = User(
+        name: "some name",
+        id: "some id",
+        household: "some id"
+    )
+    
     let name: String
-    let userId: String
+    let id: String
+    let household: String
 }
