@@ -21,19 +21,19 @@ class ChoreFirestoreService: ChoreService {
         _chores.eraseToAnyPublisher()
     }
     private let _chores = CurrentValueSubject<[Chore], Never>([])
+    private var choreCollectionRef: CollectionReference?
     
-    private init() {
-        readChores()
-    }
+    private init() {}
     
     func createChore(from choreObject: Chore) async throws {
         let jsonData = try JSONEncoder().encode(choreObject)
         let choreData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] ?? [:]
-        try await db.collection("chores").addDocument(data: choreData)
+        try await choreCollectionRef?.addDocument(data: choreData)
     }
     
-    func readChores() {
-        self.choreCollectionListener = db.collection("chores").addSnapshotListener { [weak self] collectionSnapshot, error in
+    func readChores(inHousehold householdId: String) {
+        choreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        self.choreCollectionListener = choreCollectionRef?.addSnapshotListener { [weak self] collectionSnapshot, error in
             
             guard let collectionSnapshot = collectionSnapshot else {
                 if let error = error {

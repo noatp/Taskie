@@ -32,6 +32,36 @@ class HouseholdFirestoreService: HouseholdService {
         }
     }
     
+    func readHousehold(withId householdId: String) {
+        self.householdCollectionListener = db.collection("households").document(householdId).addSnapshotListener({ [weak self] documentSnapshot, error in
+            guard let document = documentSnapshot, document.exists else {
+                if let error = error {
+                    LogUtil.log("Error fetching household document: \(error)")
+                }
+                else {
+                    LogUtil.log("Household document does not exist")
+                }
+                self?._household.send(.empty)
+                return
+            }
+
+            do {
+                if let household = try documentSnapshot?.data(as: Household.self) {
+                    self?._household.send(household)
+                }
+                else {
+                    LogUtil.log("Error decoding household document")
+                    self?._household.send(.empty)
+                }
+            }
+            catch {
+                LogUtil.log("Error decoding household document \(error)")
+                self?._household.send(.empty)
+                return
+            }
+        })
+    }
+    
     deinit {
         householdCollectionListener?.remove()
     }
