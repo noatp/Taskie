@@ -20,7 +20,7 @@ class HouseholdFirestoreService: HouseholdService {
     var household: AnyPublisher<Household, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household, Never>(.init(id: "", members: []))
+    private let _household = CurrentValueSubject<Household, Never>(.empty)
     
     private init() {}
     
@@ -40,10 +40,7 @@ class HouseholdFirestoreService: HouseholdService {
 class HouseholdMockService: HouseholdService {
     var household: AnyPublisher<Household, Never> {
         Just(
-            Household(
-                id: "someHouseholdId",
-                members: ["someUserId", "someUserId"]
-            )
+            .mock
         )
         .eraseToAnyPublisher()
     }
