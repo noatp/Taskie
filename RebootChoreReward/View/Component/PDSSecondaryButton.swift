@@ -22,11 +22,9 @@ class PDSSecondaryButton: UIButton, Themable {
         ThemeManager.shared.register(self)
     }
     
-    // If you want to change the appearance when the button is highlighted,
-    // you can override the isHighlighted property and update the configuration accordingly.
     override var isHighlighted: Bool {
         didSet {
-            applyTheme(ThemeManager.shared.currentTheme) // Re-apply the configuration to update the background color transformer
+            applyTheme(ThemeManager.shared.currentTheme)
         }
     }
     
@@ -44,12 +42,10 @@ class PDSSecondaryButton: UIButton, Themable {
         config.imagePadding = 10
         config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
 
-        // Customizing the button for the `.highlighted` state
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
             return self.isHighlighted ? UIColor.darkGray : UIColor.systemBackground
         }
 
-        // Custom shadow properties can be added via layer because UIButton.Configuration does not directly support shadows
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 3

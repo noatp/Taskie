@@ -22,8 +22,6 @@ class PDSPrimaryButton: UIButton, Themable {
         ThemeManager.shared.register(self)
     }
     
-    // If you want to change the appearance when the button is highlighted,
-    // you can override the isHighlighted property and update the configuration accordingly.
     override var isHighlighted: Bool {
         didSet {
             applyTheme(ThemeManager.shared.currentTheme)
@@ -35,21 +33,19 @@ class PDSPrimaryButton: UIButton, Themable {
         config.baseBackgroundColor = theme.color.primaryColor
         config.baseForegroundColor = theme.color.onPrimary
         config.cornerStyle = .large
-        config.title = self.title(for: .normal) // Default title, can be overridden
+        config.title = self.title(for: .normal)
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = theme.typography.button
             return outgoing
         }
         config.imagePadding = 10
-        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         
-        // Customizing the button for the `.highlighted` state
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
             return self.isHighlighted ? theme.color.darkenPrimaryColor : theme.color.primaryColor
         }
         
-        // Custom shadow properties can be added via layer because UIButton.Configuration does not directly support shadows
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 3
