@@ -78,7 +78,11 @@ class ChoreListVC: UIViewController {
 }
 
 extension ChoreListVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
+        let choreDetailVC = depedencyView.choreDetailVC()
+        present(choreDetailVC, animated: true)
+    }
 }
 
 extension ChoreListVC: UITableViewDataSource {

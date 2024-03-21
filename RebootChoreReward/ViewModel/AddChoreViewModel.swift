@@ -52,8 +52,10 @@ class AddChoreViewModel: ObservableObject {
             do {
                 let imageURLs = try await storageService.uploadImages(images.compactMap{$0})
                 let choreImageUrls = imageURLs.map { $0.absoluteString }
+                let choreId = UUID().uuidString
                 
                 try await choreService.createChore(from: Chore(
+                    id: choreId,
                     name: choreName,
                     creator: uid,
                     description: choreDescription,

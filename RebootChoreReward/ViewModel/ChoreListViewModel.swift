@@ -23,6 +23,10 @@ class ChoreListViewModel: ObservableObject {
         }
         .store(in: &cancellables)
     }
+    
+    func readSelectedChore(choreId: String){
+        choreService.readSelectedChore(choreId: choreId)
+    }
 }
 
 extension Dependency.ViewModel {
