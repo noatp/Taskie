@@ -9,7 +9,6 @@ import FirebaseFirestore
 import Combine
 
 class UserFirestoreRepository {
-    static let shared = UserFirestoreRepository()
     private let db = Firestore.firestore()
     private var userCollectionListener: ListenerRegistration?
     var user: AnyPublisher<User, Never> {
@@ -17,7 +16,7 @@ class UserFirestoreRepository {
     }
     private let _user = CurrentValueSubject<User, Never>(.empty)
     
-    private init() {}
+    init() {}
     
     func createUser(from userObject: User) {
         do {

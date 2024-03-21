@@ -192,7 +192,7 @@ extension PDSModalVC: ModalDismissDelegate {
 struct PDSModalVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            PDSModalVC(childVC: AddChoreVC())
+            PDSModalVC(childVC: Dependency.preview.view.addChoreVC())
         }
         
     }

@@ -10,10 +10,12 @@ import Combine
 
 protocol UserService {
     var user: AnyPublisher<User, Never> { get }
+    func createUser(from userObject: User)
+    func readUser(withId userId: String)
+    
 }
 
 class UserFirestoreService: UserService {
-    static let shared = UserFirestoreService(userRepository: .shared)
     private var userSubscription: AnyCancellable?
     private let userRepository: UserFirestoreRepository
     
@@ -52,4 +54,9 @@ class UserMockService: UserService {
         )
         .eraseToAnyPublisher()
     }
+    
+    func createUser(from userObject: User) {}
+
+    
+    func readUser(withId userId: String) {}
 }

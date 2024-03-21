@@ -10,10 +10,11 @@ import Combine
 
 protocol HouseholdService {
     var household: AnyPublisher<Household, Never> { get }
+    func createHousehold(from householdObject: Household)
+    func readHousehold(withId householdId: String)
 }
 
 class HouseholdFirestoreService: HouseholdService {
-    static let shared = HouseholdFirestoreService(householdRepository: .shared)
     private var householdSubscription: AnyCancellable?
     private var householdRepository: HouseholdFirestoreRepository
     
@@ -51,4 +52,8 @@ class HouseholdMockService: HouseholdService {
         )
         .eraseToAnyPublisher()
     }
+    
+    func createHousehold(from householdObject: Household) {}
+    
+    func readHousehold(withId householdId: String) {}
 }

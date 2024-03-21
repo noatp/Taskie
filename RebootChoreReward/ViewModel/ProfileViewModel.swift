@@ -8,7 +8,19 @@
 import Foundation
 
 class ProfileViewModel {
+    private var authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+    }
+    
     func signOut() {
-        AuthService.shared.signOut()
+        authService.signOut()
+    }
+}
+
+extension Dependency.ViewModel {
+    func profileViewModel() -> ProfileViewModel {
+        return ProfileViewModel(authService: service.authService)
     }
 }

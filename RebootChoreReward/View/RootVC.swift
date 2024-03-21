@@ -11,10 +11,13 @@ import Combine
 class RootVC: UIViewController {
     private var viewModel: RootViewModel
     private var cancellables: Set<AnyCancellable> = []
-    private let homeVC = HomeVC()
+    private var dependencyView: Dependency.View
+    private var homeVC: HomeVC
     
-    init(viewModel: RootViewModel = .init()) {
+    init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
+        self.dependencyView = dependencyView
+        self.homeVC = dependencyView.homeVC()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,7 +65,7 @@ class RootVC: UIViewController {
             return
         }
         
-        let logInVC = LogInVC()
+        let logInVC = dependencyView.loginInVC()
         let logInFlowNavVC = UINavigationController(rootViewController: logInVC)
         logInFlowNavVC.modalPresentationStyle = .fullScreen
         present(logInFlowNavVC, animated: true)
@@ -75,5 +78,14 @@ class RootVC: UIViewController {
         }
     }
     
+}
+
+extension Dependency.View {
+    func rootVC() -> RootVC {
+        return RootVC(
+            viewModel: viewModel.rootViewModel(),
+            dependencyView: self
+        )
+    }
 }
 

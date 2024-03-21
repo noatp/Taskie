@@ -65,7 +65,7 @@ class AddChoreVC: PDSViewController {
         return button
     }()
 
-    init(viewModel: AddChoreViewModel = .init()) {
+    init(viewModel: AddChoreViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -188,13 +188,19 @@ struct AddChoreVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
             let baseVC = UIViewController()
-            let addChoreVC = AddChoreVC()
+            let addChoreVC = Dependency.preview.view.addChoreVC()
             DispatchQueue.main.async {
                 baseVC.present(addChoreVC, animated: true, completion: nil)
             }
             
             return baseVC
         }
+    }
+}
+
+extension Dependency.View {
+    func addChoreVC() -> AddChoreVC {
+        return AddChoreVC(viewModel: viewModel.addChoreViewModel())
     }
 }
  

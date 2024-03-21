@@ -9,9 +9,7 @@ import Foundation
 import FirebaseAuth
 import Combine
 
-class AuthService {
-    static let shared = AuthService()
-    
+class AuthService {    
     private var currentUserCache: [String: String] = [:]
     private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
     

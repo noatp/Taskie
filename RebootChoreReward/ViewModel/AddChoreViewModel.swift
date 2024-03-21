@@ -13,6 +13,19 @@ class AddChoreViewModel: ObservableObject {
     var choreName: String?
     var choreDescription: String?
     var choreRewardAmount: String?
+    private var authService: AuthService
+    private var storageService: StorageService
+    private var choreService: ChoreService
+    
+    init(
+        authService: AuthService,
+        storageService: StorageService,
+        choreService: ChoreService
+    ) {
+        self.authService = authService
+        self.storageService = storageService
+        self.choreService = choreService
+    }
     
     func createChore(completion: @escaping (_ errorMessage: String?) -> Void) {
         guard let choreName = choreName, !choreName.isEmpty else {
@@ -30,17 +43,17 @@ class AddChoreViewModel: ObservableObject {
             return
         }
         
-        guard let uid = AuthService.shared.getCurrentUserCache(key: "uid") else {
+        guard let uid = authService.getCurrentUserCache(key: "uid") else {
             completion("Something went wrong. Please try again later!")
             return
         }
         
         Task {
             do {
-                let imageURLs = try await StorageService.shared.uploadImages(images.compactMap{$0})
+                let imageURLs = try await storageService.uploadImages(images.compactMap{$0})
                 let choreImageUrls = imageURLs.map { $0.absoluteString }
                 
-                try await ChoreFirestoreService.shared.createChore(from: Chore(
+                try await choreService.createChore(from: Chore(
                     name: choreName,
                     creator: uid,
                     description: choreDescription,
@@ -56,5 +69,15 @@ class AddChoreViewModel: ObservableObject {
     
     func add(image: UIImage) {
         images.insert(image, at: 0)
+    }
+}
+
+extension Dependency.ViewModel {
+    func addChoreViewModel() -> AddChoreViewModel {
+        return AddChoreViewModel(
+            authService: service.authService,
+            storageService: service.storageService,
+            choreService: service.choreService
+        )
     }
 }

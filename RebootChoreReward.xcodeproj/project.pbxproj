@@ -57,6 +57,7 @@
 		CACE2E8A2BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E892BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift */; };
 		CACE2E8C2BA927A7007FD9F2 /* UserFirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E8B2BA927A7007FD9F2 /* UserFirestoreRepository.swift */; };
 		CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E8D2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift */; };
+		CACE2E902BA9F5C9007FD9F2 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E8F2BA9F5C9007FD9F2 /* Dependency.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -119,6 +120,7 @@
 		CACE2E892BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreFirestoreRepository.swift; sourceTree = "<group>"; };
 		CACE2E8B2BA927A7007FD9F2 /* UserFirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirestoreRepository.swift; sourceTree = "<group>"; };
 		CACE2E8D2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdFirestoreRepository.swift; sourceTree = "<group>"; };
+		CACE2E8F2BA9F5C9007FD9F2 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */,
 				CAEAEB812B840DE50056A0F1 /* Info.plist */,
 				CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */,
+				CACE2E8F2BA9F5C9007FD9F2 /* Dependency.swift */,
 			);
 			path = RebootChoreReward;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,
 				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
+				CACE2E902BA9F5C9007FD9F2 /* Dependency.swift in Sources */,
 				CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */,
 				CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */,
 				CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */,

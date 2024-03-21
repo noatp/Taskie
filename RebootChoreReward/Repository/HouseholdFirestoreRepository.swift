@@ -9,7 +9,6 @@ import FirebaseFirestore
 import Combine
 
 class HouseholdFirestoreRepository {
-    static let shared = HouseholdFirestoreRepository()
     private let db = Firestore.firestore()
     private var householdCollectionListener: ListenerRegistration?
     var household: AnyPublisher<Household, Never> {
@@ -17,7 +16,7 @@ class HouseholdFirestoreRepository {
     }
     private let _household = CurrentValueSubject<Household, Never>(.empty)
     
-    private init() {}
+    init() {}
     
     func createHousehold(from householdObject: Household) {
         do {

@@ -12,7 +12,6 @@ enum ImageUploadError: Error {
 }
 
 class StorageService {
-    static let shared = StorageService()
     let storage = Storage.storage()
     
     func uploadImage(_ image: UIImage) async throws -> URL {

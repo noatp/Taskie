@@ -9,7 +9,6 @@ import FirebaseFirestore
 import Combine
 
 class ChoreFirestoreRepository {    
-    static let shared = ChoreFirestoreRepository.init()
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
     private var choreCollectionRef: CollectionReference?
@@ -18,7 +17,7 @@ class ChoreFirestoreRepository {
     }
     private let _chores = CurrentValueSubject<[Chore], Never>([])
     
-    private init() {}
+    init() {}
     
     func createChore(from choreObject: Chore) {
         do {
