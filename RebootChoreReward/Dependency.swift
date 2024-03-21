@@ -52,8 +52,14 @@ class Dependency {
                 self.authService = AuthService()
             } else {
                 self.userService = UserFirestoreService(userRepository: repository.userRepository)
-                self.choreService = ChoreFirestoreService(choreRepository: repository.choreRepository)
-                self.householdService = HouseholdFirestoreService(householdRepository: repository.householdRepository)
+                self.choreService = ChoreFirestoreService(
+                    choreRepository: repository.choreRepository,
+                    householdRepository: repository.householdRepository
+                )
+                self.householdService = HouseholdFirestoreService(
+                    householdRepository: repository.householdRepository,
+                    userRepository: repository.userRepository
+                )
                 self.storageService = StorageService()
                 self.authService = AuthService()
             }

@@ -27,8 +27,6 @@ class RootViewModel: ObservableObject {
         self.householdService = householdService
         self.choreService = choreService
         subscribeToAuthService()
-        subscribeToUserService()
-        subscribeToHouseholdService()
     }
     
     private func subscribeToAuthService() {
@@ -46,25 +44,7 @@ class RootViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
-    private func subscribeToUserService() {
-        userService.user.sink { [weak self] user in
-            guard !user.household.isEmpty else {
-                return
-            }
-            self?.householdService.readHousehold(withId: user.household)
-        }
-        .store(in: &cancellables)
-    }
     
-    private func subscribeToHouseholdService() {
-        householdService.household.sink { [weak self] household in
-            guard !household.id.isEmpty else {
-                return
-            }
-            self?.choreService.readChores(inHousehold: household.id)
-        }
-        .store(in: &cancellables)
-    }
 }
 
 extension Dependency.ViewModel {

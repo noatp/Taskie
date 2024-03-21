@@ -17,8 +17,9 @@ protocol ChoreService {
 }
 
 class ChoreFirestoreService: ChoreService {
-    private var choresSupscription: AnyCancellable?
+    private var cancellables: Set<AnyCancellable> = []
     private let choreRepository: ChoreFirestoreRepository
+    private let householdRepository: HouseholdFirestoreRepository
     private var selectedChoreId: String?
     
     var chores: AnyPublisher<[Chore], Never> {
@@ -31,13 +32,18 @@ class ChoreFirestoreService: ChoreService {
     }
     private let _selectedChore = CurrentValueSubject<Chore, Never>(.empty)
     
-    init(choreRepository: ChoreFirestoreRepository) {
+    init(
+        choreRepository: ChoreFirestoreRepository,
+        householdRepository: HouseholdFirestoreRepository
+    ) {
         self.choreRepository = choreRepository
+        self.householdRepository = householdRepository
         subscribeToChoreRepository()
+        subscribeToHouseholdRepository()
     }
     
     private func subscribeToChoreRepository() {
-        choresSupscription = choreRepository.chores.sink(
+        choreRepository.chores.sink(
             receiveValue: { [weak self] chores in
                 self?._chores.send(chores)
                 
@@ -48,6 +54,17 @@ class ChoreFirestoreService: ChoreService {
                 }
             }
         )
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToHouseholdRepository() {
+        householdRepository.household.sink { [weak self] household in
+            guard !household.id.isEmpty else {
+                return
+            }
+            self?.readChores(inHousehold: household.id)
+        }
+        .store(in: &cancellables)
     }
     
     func createChore(from choreObject: Chore) async throws {

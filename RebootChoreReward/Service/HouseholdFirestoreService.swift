@@ -15,25 +15,40 @@ protocol HouseholdService {
 }
 
 class HouseholdFirestoreService: HouseholdService {
-    private var householdSubscription: AnyCancellable?
+    private var cancellables: Set<AnyCancellable> = []
     private var householdRepository: HouseholdFirestoreRepository
+    private var userRepository: UserFirestoreRepository
     
     var household: AnyPublisher<Household, Never> {
         _household.eraseToAnyPublisher()
     }
     private let _household = PassthroughSubject<Household, Never>()
     
-    init(householdRepository: HouseholdFirestoreRepository) {
+    init(
+        householdRepository: HouseholdFirestoreRepository,
+        userRepository: UserFirestoreRepository
+    ) {
         self.householdRepository = householdRepository
+        self.userRepository = userRepository
         subscribeToHouseholdRepository()
+        subscribeToUserRepository()
     }
     
     private func subscribeToHouseholdRepository() {
-        householdSubscription = householdRepository.household.sink(
-            receiveValue: { [weak self] household in
-                self?._household.send(household)
+        householdRepository.household.sink { [weak self] household in
+            self?._household.send(household)
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToUserRepository() {
+        userRepository.user.sink { [weak self] user in
+            guard !user.household.isEmpty else {
+                return
             }
-        )
+            self?.householdRepository.readHousehold(withId: user.household)
+        }
+        .store(in: &cancellables)
     }
     
     func createHousehold(from householdObject: Household) {
