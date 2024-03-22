@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import Combine
 
-class ChoreFirestoreRepository {    
+class ChoreFirestoreRepository {
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
     private var choreCollectionRef: CollectionReference?
@@ -30,26 +30,28 @@ class ChoreFirestoreRepository {
     
     func readChores(inHousehold householdId: String) {
         choreCollectionRef = db.collection("households").document(householdId).collection("chores")
-        self.choreCollectionListener = choreCollectionRef?.addSnapshotListener { [weak self] collectionSnapshot, error in
-            guard let collectionSnapshot = collectionSnapshot else {
-                if let error = error {
-                    LogUtil.log("\(error)")
+        self.choreCollectionListener = choreCollectionRef?
+            .order(by: "createdDate", descending: true)
+            .addSnapshotListener { [weak self] collectionSnapshot, error in
+                guard let collectionSnapshot = collectionSnapshot else {
+                    if let error = error {
+                        LogUtil.log("\(error)")
+                    }
+                    return
                 }
-                return
+                
+                let chores = collectionSnapshot.documents.compactMap { documentSnapshot in
+                    do {
+                        return try documentSnapshot.data(as: Chore.self)
+                    }
+                    catch {
+                        LogUtil.log("\(error)")
+                        return nil
+                    }
+                }
+                
+                self?._chores.send(chores)
             }
-            
-            let chores = collectionSnapshot.documents.compactMap { documentSnapshot in
-                do {
-                    return try documentSnapshot.data(as: Chore.self)
-                }
-                catch {
-                    LogUtil.log("\(error)")
-                    return nil
-                }
-            }
-            
-            self?._chores.send(chores)
-        }
     }
     
     deinit {
