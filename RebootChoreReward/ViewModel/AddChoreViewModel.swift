@@ -7,6 +7,7 @@
 
 import Combine
 import UIKit
+import FirebaseFirestore
 
 class AddChoreViewModel: ObservableObject {
     @Published var images: [UIImage?] = [nil]
@@ -60,7 +61,8 @@ class AddChoreViewModel: ObservableObject {
                     creator: uid,
                     description: choreDescription,
                     rewardAmount: choreRewardAmountDouble,
-                    imageUrls: choreImageUrls
+                    imageUrls: choreImageUrls,
+                    createdDate: .init()
                 ))
                 completion(nil)
             } catch {
