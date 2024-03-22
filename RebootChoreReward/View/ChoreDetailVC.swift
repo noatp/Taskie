@@ -12,9 +12,34 @@ import Combine
 class ChoreDetailVC: UIViewController {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
+    private let swipableImageRowVC = PDSSwipableImageRowVC()
 
     private let titleLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.secondaryColor)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let descriptionLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Description", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let descriptionDetailLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let rewardLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Reward", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let rewardAmountLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -33,6 +58,8 @@ class ChoreDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+        addChild(swipableImageRowVC)
+        swipableImageRowVC.didMove(toParent: self)
         setUpViews()
         setUpActions()
     }
@@ -42,15 +69,31 @@ class ChoreDetailVC: UIViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] chore in
                 self?.titleLabel.text = chore.name
+                self?.descriptionDetailLabel.text = chore.description
+                self?.rewardAmountLabel.text = String(format: "%.2f", chore.rewardAmount)
+                self?.swipableImageRowVC.imageUrls = chore.imageUrls
             }
             .store(in: &cancellables)
     }
 
     private func setUpViews() {
         view.backgroundColor = PDSTheme.defaultTheme.color.surfaceColor
+        guard let swipableImageRow = swipableImageRowVC.view else {
+            return
+        }
         
         let vStack = UIStackView(arrangedSubviews: [
-            titleLabel
+            titleLabel,
+            UIView.createSpacerView(height: 20),
+            swipableImageRow,
+            UIView.createSpacerView(height: 20),
+            descriptionLabel,
+            UIView.createSpacerView(height: 10),
+            descriptionDetailLabel,
+            UIView.createSpacerView(height: 20),
+            rewardLabel,
+            UIView.createSpacerView(height: 10),
+            rewardAmountLabel
         ])
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing
@@ -61,9 +104,13 @@ class ChoreDetailVC: UIViewController {
         view.addSubview(vStack)
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            vStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            swipableImageRow.heightAnchor.constraint(equalToConstant: 300),
+            swipableImageRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
+            swipableImageRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)
+            
         ])
     }
 
