@@ -44,6 +44,30 @@ class ChoreDetailVC: UIViewController {
         return label
     }()
     
+    private let createdByLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Created by", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let creatorLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let createdOnLabel: PDSLabel = {
+        let label = PDSLabel(withText: "on", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let createdDateLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     init(
         viewModel: ChoreDetailViewModel
     ) {
@@ -70,8 +94,10 @@ class ChoreDetailVC: UIViewController {
             .sink { [weak self] chore in
                 self?.titleLabel.text = chore.name
                 self?.descriptionDetailLabel.text = chore.description
-                self?.rewardAmountLabel.text = String(format: "%.2f", chore.rewardAmount)
+                self?.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self?.swipableImageRowVC.imageUrls = chore.imageUrls
+                self?.creatorLabel.text = chore.creator
+                self?.createdDateLabel.text = chore.createdDate.toRelativeString()
             }
             .store(in: &cancellables)
     }
@@ -93,7 +119,15 @@ class ChoreDetailVC: UIViewController {
             UIView.createSpacerView(height: 20),
             rewardLabel,
             UIView.createSpacerView(height: 10),
-            rewardAmountLabel
+            rewardAmountLabel,
+            UIView.createSpacerView(height: 20),
+            createdByLabel,
+            UIView.createSpacerView(height: 10),
+            creatorLabel,
+            UIView.createSpacerView(height: 20),
+            createdOnLabel,
+            UIView.createSpacerView(height: 10),
+            createdDateLabel
         ])
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing

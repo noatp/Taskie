@@ -61,6 +61,7 @@
 		CACE2E932BACA88A007FD9F2 /* ChoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */; };
 		CACE2E942BACA88A007FD9F2 /* ChoreDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */; };
 		CACE2E972BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */; };
+		CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -127,6 +128,7 @@
 		CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreDetailViewModel.swift; sourceTree = "<group>"; };
 		CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreDetailVC.swift; sourceTree = "<group>"; };
 		CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSSwipableImageRowVC.swift; sourceTree = "<group>"; };
+		CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExtension.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -244,13 +246,8 @@
 			children = (
 				CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */,
 				CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */,
-				CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */,
 				CA1683EC2B8D9B980086153A /* LogUtil.swift */,
-				CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */,
-				CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */,
-				CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */,
 				CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */,
-				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
 				CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */,
 			);
 			path = Util;
@@ -293,6 +290,19 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
+		CACE2E982BAE1799007FD9F2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */,
+				CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */,
+				CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */,
+				CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */,
+				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
+				CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		CAEAEB672B840DE40056A0F1 = {
 			isa = PBXGroup;
 			children = (
@@ -314,6 +324,7 @@
 		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
 			isa = PBXGroup;
 			children = (
+				CACE2E982BAE1799007FD9F2 /* Extension */,
 				CA7C69C22B8C3734005B3CF2 /* Util */,
 				CACE2E882BA8FDD0007FD9F2 /* Repository */,
 				CA7C69B52B8456B9005B3CF2 /* Service */,
@@ -473,6 +484,7 @@
 				CA1683F42B9E73330086153A /* SignUpViewModel.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CACE2E932BACA88A007FD9F2 /* ChoreDetailViewModel.swift in Sources */,
+				CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
 				CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */,
