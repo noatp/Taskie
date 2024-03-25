@@ -10,60 +10,53 @@ import Combine
 
 protocol HouseholdService {
     var household: AnyPublisher<Household, Never> { get }
+    func createHousehold(from householdObject: Household)
+    func readHousehold(withId householdId: String)
 }
 
 class HouseholdFirestoreService: HouseholdService {
-    static let shared = HouseholdFirestoreService()
+    private var cancellables: Set<AnyCancellable> = []
+    private var householdRepository: HouseholdFirestoreRepository
+    private var userRepository: UserFirestoreRepository
     
-    let db = Firestore.firestore()
-    var householdCollectionListener: ListenerRegistration?
     var household: AnyPublisher<Household, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household, Never>(.empty)
+    private let _household = PassthroughSubject<Household, Never>()
     
-    private init() {}
+    init(
+        householdRepository: HouseholdFirestoreRepository,
+        userRepository: UserFirestoreRepository
+    ) {
+        self.householdRepository = householdRepository
+        self.userRepository = userRepository
+        subscribeToHouseholdRepository()
+        subscribeToUserRepository()
+    }
+    
+    private func subscribeToHouseholdRepository() {
+        householdRepository.household.sink { [weak self] household in
+            self?._household.send(household)
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToUserRepository() {
+        userRepository.user.sink { [weak self] user in
+            guard !user.household.isEmpty else {
+                return
+            }
+            self?.householdRepository.readHousehold(withId: user.household)
+        }
+        .store(in: &cancellables)
+    }
     
     func createHousehold(from householdObject: Household) {
-        do {
-            try db.collection("households").document(householdObject.id).setData(from: householdObject)
-        } catch let error {
-            print("Error writing household to Firestore: \(error)")
-        }
+        householdRepository.createHousehold(from: householdObject)
     }
     
     func readHousehold(withId householdId: String) {
-        self.householdCollectionListener = db.collection("households").document(householdId).addSnapshotListener({ [weak self] documentSnapshot, error in
-            guard let document = documentSnapshot, document.exists else {
-                if let error = error {
-                    LogUtil.log("Error fetching household document: \(error)")
-                }
-                else {
-                    LogUtil.log("Household document does not exist")
-                }
-                self?._household.send(.empty)
-                return
-            }
-
-            do {
-                if let household = try documentSnapshot?.data(as: Household.self) {
-                    self?._household.send(household)
-                }
-                else {
-                    LogUtil.log("Error decoding household document")
-                    self?._household.send(.empty)
-                }
-            }
-            catch {
-                LogUtil.log("Error decoding household document \(error)")
-                self?._household.send(.empty)
-                return
-            }
-        })
-    }
-    
-    deinit {
-        householdCollectionListener?.remove()
+        householdRepository.readHousehold(withId: householdId)
     }
 }
 
@@ -74,4 +67,8 @@ class HouseholdMockService: HouseholdService {
         )
         .eraseToAnyPublisher()
     }
+    
+    func createHousehold(from householdObject: Household) {}
+    
+    func readHousehold(withId householdId: String) {}
 }

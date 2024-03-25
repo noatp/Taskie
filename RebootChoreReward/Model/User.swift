@@ -6,14 +6,26 @@
 //
 
 struct User: Codable {
-    static let empty = User(name: "", id: "", household: "")
+    static let empty = User(
+        name: "",
+        id: "",
+        household: "",
+        role: .parent
+    )
     static let mock = User(
         name: "some name",
         id: "some id",
-        household: "some id"
+        household: "some id",
+        role: .parent
     )
     
     let name: String
     let id: String
     let household: String
+    let role: Role
+}
+
+enum Role: String, Codable {
+    case parent = "parent"
+    case child = "child"
 }

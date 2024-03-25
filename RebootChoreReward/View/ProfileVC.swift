@@ -10,6 +10,7 @@ import SwiftUI
 
 class ProfileVC: UIViewController {
     private var viewModel: ProfileViewModel
+    private let dependencyView: Dependency.View
     
     let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
@@ -18,8 +19,12 @@ class ProfileVC: UIViewController {
         return button
     }()
 
-    init(viewModel: ProfileViewModel = .init()) {
+    init(
+        viewModel: ProfileViewModel,
+        dependencyView: Dependency.View
+    ) {
         self.viewModel = viewModel
+        self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +61,16 @@ class ProfileVC: UIViewController {
 struct ProfileVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            ProfileVC()
+            Dependency.preview.view.profileVC()
         }
+    }
+}
+
+extension Dependency.View {
+    func profileVC() -> ProfileVC {
+        return ProfileVC (
+            viewModel: viewModel.profileViewModel(),
+            dependencyView: self
+        )
     }
 }

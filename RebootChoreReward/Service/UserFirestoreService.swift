@@ -10,60 +10,40 @@ import Combine
 
 protocol UserService {
     var user: AnyPublisher<User, Never> { get }
+    func createUser(from userObject: User)
+    func readUser(withId userId: String)
+    
 }
 
 class UserFirestoreService: UserService {
-    static let shared = UserFirestoreService()
+    private var userSubscription: AnyCancellable?
+    private let userRepository: UserFirestoreRepository
     
-    let db = Firestore.firestore()
-    var userCollectionListener: ListenerRegistration?
     var user: AnyPublisher<User, Never> {
         _user.eraseToAnyPublisher()
     }
-    private let _user = CurrentValueSubject<User, Never>(.empty)
+    private let _user = PassthroughSubject<User, Never>()
     
-    private init() {}
+    init(userRepository: UserFirestoreRepository) {
+        self.userRepository = userRepository
+        subscribeToUserRepository()
+    }
+    
+    private func subscribeToUserRepository() {
+        userSubscription = userRepository.user.sink(
+            receiveValue: { [weak self] user in
+                self?._user.send(user)
+            }
+        )
+    }
     
     func createUser(from userObject: User) {
-        do {
-            try db.collection("users").document(userObject.id).setData(from: userObject)
-        } catch let error {
-            print("Error writing user to Firestore: \(error)")
-        }
+        userRepository.createUser(from: userObject)
     }
+
     
     func readUser(withId userId: String) {
-        self.userCollectionListener = db.collection("users").document(userId).addSnapshotListener { [weak self] documentSnapshot, error in
-            guard let document = documentSnapshot, document.exists else {
-                if let error = error {
-                    LogUtil.log("Error fetching user document: \(error)")
-                }
-                else {
-                    LogUtil.log("User document does not exist")
-                }
-                self?._user.send(.empty)
-                return
-            }
-
-            do {
-                if let user = try documentSnapshot?.data(as: User.self) {
-                    self?._user.send(user)
-                }
-                else {
-                    LogUtil.log("Error decoding user document")
-                    self?._user.send(.empty)
-                }
-            }
-            catch {
-                LogUtil.log("Error decoding user document \(error)")
-                self?._user.send(.empty)
-                return
-            }
-        }
-    }
-    
-    deinit {
-        userCollectionListener?.remove()
+        userRepository.readUser(withId: userId)
     }
 }
 
@@ -74,4 +54,9 @@ class UserMockService: UserService {
         )
         .eraseToAnyPublisher()
     }
+    
+    func createUser(from userObject: User) {}
+
+    
+    func readUser(withId userId: String) {}
 }

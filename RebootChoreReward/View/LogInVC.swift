@@ -10,6 +10,7 @@ import SwiftUI
 
 class LogInVC: PDSViewController {
     private var viewModel: LogInViewModel
+    private let dependencyView: Dependency.View
     
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email", hasBorder: true)
@@ -38,8 +39,12 @@ class LogInVC: PDSViewController {
         return button
     }()
     
-    init(viewModel: LogInViewModel = .init()) {
+    init(
+        viewModel: LogInViewModel,
+        dependencyView: Dependency.View
+    ) {
         self.viewModel = viewModel
+        self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,7 +108,7 @@ class LogInVC: PDSViewController {
     }
     
     @objc func navigateToSignUp() {
-        let signUpVC = SignUpVC()
+        let signUpVC = dependencyView.signUpVC()
         navigationController?.pushViewController(signUpVC, animated: true)
     }
 }
@@ -111,7 +116,16 @@ class LogInVC: PDSViewController {
 struct LogInVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            LogInVC()
+            Dependency.preview.view.loginInVC()
         }
+    }
+}
+
+extension Dependency.View {
+    func loginInVC() -> LogInVC {
+        return LogInVC(
+            viewModel: viewModel.logInViewModel(),
+            dependencyView: self
+        )
     }
 }

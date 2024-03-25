@@ -93,11 +93,6 @@ class PDSImageSelectionRowVC: UICollectionViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PDSImageRowCell.self, forCellWithReuseIdentifier: PDSImageRowCell.className)
-        if let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.scrollDirection = .horizontal
-            flowLayout.minimumInteritemSpacing = 8
-            flowLayout.itemSize = CGSize(width: 30, height: 100) // Adjust the size as needed
-        }
         collectionView.backgroundColor = .none
         collectionView.showsHorizontalScrollIndicator = false
     }

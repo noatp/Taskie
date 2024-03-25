@@ -10,58 +10,85 @@ import Combine
 
 protocol ChoreService {
     var chores: AnyPublisher<[Chore], Never> { get }
+    var selectedChore: AnyPublisher<Chore, Never> { get }
+    func createChore(from choreObject: Chore) async throws
+    func readChores(inHousehold householdId: String)
+    func readSelectedChore(choreId: String)
 }
 
 class ChoreFirestoreService: ChoreService {
-    static let shared = ChoreFirestoreService()
+    private var cancellables: Set<AnyCancellable> = []
+    private let choreRepository: ChoreFirestoreRepository
+    private let householdRepository: HouseholdFirestoreRepository
+    private var selectedChoreId: String?
     
-    let db = Firestore.firestore()
-    var choreCollectionListener: ListenerRegistration?
     var chores: AnyPublisher<[Chore], Never> {
         _chores.eraseToAnyPublisher()
     }
     private let _chores = CurrentValueSubject<[Chore], Never>([])
-    private var choreCollectionRef: CollectionReference?
     
-    private init() {}
+    var selectedChore: AnyPublisher<Chore, Never> {
+        _selectedChore.eraseToAnyPublisher()
+    }
+    private let _selectedChore = CurrentValueSubject<Chore, Never>(.empty)
+    
+    init(
+        choreRepository: ChoreFirestoreRepository,
+        householdRepository: HouseholdFirestoreRepository
+    ) {
+        self.choreRepository = choreRepository
+        self.householdRepository = householdRepository
+        subscribeToChoreRepository()
+        subscribeToHouseholdRepository()
+    }
+    
+    private func subscribeToChoreRepository() {
+        choreRepository.chores.sink(
+            receiveValue: { [weak self] chores in
+                self?._chores.send(chores)
+                
+                if let selectedChoreId = self?.selectedChoreId,
+                   let selectedChore = chores.first(where: { $0.id == selectedChoreId })
+                {
+                    self?._selectedChore.send(selectedChore)
+                }
+            }
+        )
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToHouseholdRepository() {
+        householdRepository.household.sink { [weak self] household in
+            guard !household.id.isEmpty else {
+                return
+            }
+            self?.readChores(inHousehold: household.id)
+        }
+        .store(in: &cancellables)
+    }
     
     func createChore(from choreObject: Chore) async throws {
-        let jsonData = try JSONEncoder().encode(choreObject)
-        let choreData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] ?? [:]
-        try await choreCollectionRef?.addDocument(data: choreData)
+        choreRepository.createChore(from: choreObject)
     }
     
     func readChores(inHousehold householdId: String) {
-        choreCollectionRef = db.collection("households").document(householdId).collection("chores")
-        self.choreCollectionListener = choreCollectionRef?.addSnapshotListener { [weak self] collectionSnapshot, error in
-            
-            guard let collectionSnapshot = collectionSnapshot else {
-                if let error = error {
-                    LogUtil.log("\(error)")
-                }
-                return
-            }
-            
-            let chores = collectionSnapshot.documents.compactMap { documentSnapshot in
-                do {
-                    return try documentSnapshot.data(as: Chore.self)
-                }
-                catch {
-                    LogUtil.log("\(error)")
-                    return nil
-                }
-            }
-            
-            self?._chores.send(chores)
-        }
+        choreRepository.readChores(inHousehold: householdId)
     }
     
-    deinit {
-        choreCollectionListener?.remove()
+    func readSelectedChore(choreId: String){
+        self.selectedChoreId = choreId
+        
+        if let selectedChore = _chores.value.first(where: { $0.id == choreId }) {
+            _selectedChore.send(selectedChore)
+        }
     }
 }
 
 class ChoreMockService: ChoreService {
+    var selectedChore: AnyPublisher<Chore, Never> {
+        Just(.mock).eraseToAnyPublisher()
+    }
+    
     var chores: AnyPublisher<[Chore], Never> {
         Just([
             .mock,
@@ -69,4 +96,9 @@ class ChoreMockService: ChoreService {
         ]).eraseToAnyPublisher()
     }
     
+    func createChore(from choreObject: Chore) async throws {}
+    
+    func readChores(inHousehold householdId: String) {}
+    
+    func readSelectedChore(choreId: String) {}
 }

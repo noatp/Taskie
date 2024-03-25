@@ -14,52 +14,46 @@ class RootViewModel: ObservableObject {
     private var authService: AuthService
     private var userService: UserService
     private var householdService: HouseholdService
+    private var choreService: ChoreService
     
     init(
-        authService: AuthService = AuthService.shared,
-        userService: UserService = UserFirestoreService.shared,
-        householdService: HouseholdService = HouseholdFirestoreService.shared
+        authService: AuthService,
+        userService: UserService,
+        householdService: HouseholdService,
+        choreService: ChoreService
     ) {
         self.authService = authService
         self.userService = userService
         self.householdService = householdService
+        self.choreService = choreService
         subscribeToAuthService()
-        subscribeToUserService()
-        subscribeToHouseholdService()
     }
     
     private func subscribeToAuthService() {
         authService.isUserLoggedIn.sink { [weak self] isUserLoggedIn in
             self?.authState = isUserLoggedIn
             if isUserLoggedIn {
-                guard let uid = AuthService.shared.getCurrentUserCache(key: "uid"),
+                guard let uid = self?.authService.getCurrentUserCache(key: "uid"),
                       !uid.isEmpty
                 else {
                     return
                 }
-                UserFirestoreService.shared.readUser(withId: uid)
+                self?.userService.readUser(withId: uid)
             }
         }
         .store(in: &cancellables)
     }
     
-    private func subscribeToUserService() {
-        userService.user.sink { user in
-            guard !user.household.isEmpty else {
-                return
-            }
-            HouseholdFirestoreService.shared.readHousehold(withId: user.household)
-        }
-        .store(in: &cancellables)
-    }
     
-    private func subscribeToHouseholdService() {
-        householdService.household.sink { household in
-            guard !household.id.isEmpty else {
-                return
-            }
-            ChoreFirestoreService.shared.readChores(inHousehold: household.id)
-        }
-        .store(in: &cancellables)
+}
+
+extension Dependency.ViewModel {
+    func rootViewModel() -> RootViewModel {
+        return RootViewModel(
+            authService: service.authService,
+            userService: service.userService,
+            householdService: service.householdService,
+            choreService: service.choreService
+        )
     }
 }

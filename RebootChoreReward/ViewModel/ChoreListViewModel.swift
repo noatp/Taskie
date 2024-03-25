@@ -12,7 +12,7 @@ class ChoreListViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private var choreService: ChoreService
     
-    init(choreService: ChoreService = ChoreFirestoreService.shared) {
+    init(choreService: ChoreService) {
         self.choreService = choreService
         subscribeToChoreFirestoreService()
     }
@@ -22,5 +22,15 @@ class ChoreListViewModel: ObservableObject {
             self?.chores = chores
         }
         .store(in: &cancellables)
+    }
+    
+    func readSelectedChore(choreId: String){
+        choreService.readSelectedChore(choreId: choreId)
+    }
+}
+
+extension Dependency.ViewModel {
+    func choreListViewModel() -> ChoreListViewModel {
+        return ChoreListViewModel(choreService: service.choreService)
     }
 }

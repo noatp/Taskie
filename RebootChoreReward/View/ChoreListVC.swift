@@ -8,10 +8,11 @@
 import UIKit
 import SwiftUI
 import Combine
-
+ 
 class ChoreListVC: UIViewController {
     private var viewModel: ChoreListViewModel
     private var cancellables: Set<AnyCancellable> = []
+    private let depedencyView: Dependency.View
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -21,8 +22,12 @@ class ChoreListVC: UIViewController {
         return tableView
     }()
     
-    init(viewModel: ChoreListViewModel = .init()) {
+    init(
+        viewModel: ChoreListViewModel,
+        depedencyView: Dependency.View
+    ) {
         self.viewModel = viewModel
+        self.depedencyView = depedencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,13 +72,17 @@ class ChoreListVC: UIViewController {
     }
     
     @objc func addNewItem() {
-        let addChoreVC = AddChoreVC()
+        let addChoreVC = depedencyView.addChoreVC()
         self.present(addChoreVC, animated: true)
     }
 }
 
 extension ChoreListVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
+        let choreDetailVC = depedencyView.choreDetailVC()
+        present(choreDetailVC, animated: true)
+    }
 }
 
 extension ChoreListVC: UITableViewDataSource {
@@ -92,10 +101,20 @@ extension ChoreListVC: UITableViewDataSource {
 
 struct ChoreListVC_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ChoreListViewModel(choreService: ChoreMockService())
         UIViewControllerPreviewWrapper {
-            UINavigationController(rootViewController: ChoreListVC(viewModel: viewModel))
+            UINavigationController(
+                rootViewController: Dependency.preview.view.choreListVC()
+            )
         }
+    }
+}
+
+extension Dependency.View {
+    func choreListVC() -> ChoreListVC {
+        return ChoreListVC(
+            viewModel: viewModel.choreListViewModel(),
+            depedencyView: self
+        )
     }
 }
 

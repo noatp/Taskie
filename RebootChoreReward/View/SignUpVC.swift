@@ -32,7 +32,7 @@ class SignUpVC: PDSViewController {
         return button
     }()
     
-    init(viewModel: SignUpViewModel = .init()) {
+    init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -94,8 +94,16 @@ class SignUpVC: PDSViewController {
 struct SignUpVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            SignUpVC()
+            Dependency.preview.view.signUpVC()
         }
+    }
+}
+
+extension Dependency.View {
+    func signUpVC() -> SignUpVC {
+        return SignUpVC(
+            viewModel: viewModel.signUpViewModel()
+        )
     }
 }
 
