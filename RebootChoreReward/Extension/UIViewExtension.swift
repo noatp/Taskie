@@ -24,6 +24,13 @@ extension UIView {
         
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         
+        if height == nil && width == nil {
+            let heightConstraint = spacerView.heightAnchor.constraint(equalToConstant: 0)
+            heightConstraint.priority = UILayoutPriority(1)
+            heightConstraint.isActive = true
+            return spacerView
+        }
+        
         if let height = height {
             NSLayoutConstraint.activate([
                 spacerView.heightAnchor.constraint(equalToConstant: height)

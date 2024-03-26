@@ -11,6 +11,14 @@ import SwiftUI
 class SignUpVC: PDSViewController {
     private var viewModel: SignUpViewModel
     
+    let nameTextField: PDSTextField = {
+        let textField = PDSTextField(withPlaceholder: "Name", hasBorder: true)
+        textField.autocapitalizationType = .none
+        textField.keyboardType = .namePhonePad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email", hasBorder: true)
         textField.autocapitalizationType = .none
@@ -18,6 +26,7 @@ class SignUpVC: PDSViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
     let passwordTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Password", hasBorder: true)
         textField.isSecureTextEntry = true
@@ -50,24 +59,34 @@ class SignUpVC: PDSViewController {
     private func setUpViews() {
         view.backgroundColor = .systemBackground
         
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(signUpButton)
+        let vStack = UIStackView(arrangedSubviews: [
+            nameTextField,
+            UIView.createSpacerView(height: 40),
+            emailTextField,
+            UIView.createSpacerView(height: 40),
+            passwordTextField,
+            UIView.createSpacerView(),
+            signUpButton
+        ])
+        vStack.axis = .vertical
+        vStack.alignment = .center
+        vStack.spacing = 0
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         
-        keyboardAdjustmentConstraint = signUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        view.addSubview(vStack)
+        
+        keyboardAdjustmentConstraint = vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
+            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             keyboardAdjustmentConstraint,
-            signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            
+            nameTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
+            emailTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
+            passwordTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
+            signUpButton.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -78,7 +97,7 @@ class SignUpVC: PDSViewController {
     @objc func handleSignUp() {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
-        
+        viewModel.name = nameTextField.text
         viewModel.signUp { [weak self] errorMessage in
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {

@@ -10,6 +10,8 @@ import Foundation
 class SignUpViewModel {
     var email: String?
     var password: String?
+    var name: String?
+    
     private var authService: AuthService
     private var householdService: HouseholdService
     private var userService: UserService
@@ -25,8 +27,8 @@ class SignUpViewModel {
     }
     
     func signUp(completion: @escaping (String?) -> Void) {
-        guard let email = email, let password = password else {
-            completion("Please enter both email and password.")
+        guard let email = email, let password = password, let name = name else {
+            completion("Please enter your name, email, and password.")
             return
         }
         
@@ -39,7 +41,7 @@ class SignUpViewModel {
                 }
                 let householdId = UUID().uuidString
                 householdService.createHousehold(from: Household(id: householdId, members: [uid]))
-                userService.createUser(from: User(name: "", id: uid, household: householdId, role: .parent))
+                userService.createUser(from: User(name: name, id: uid, household: householdId, role: .parent))
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

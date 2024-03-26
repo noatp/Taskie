@@ -8,9 +8,14 @@
 import FirebaseFirestore
 import Combine
 
+enum UserFetchingError: Error {
+    case userNotFound
+}
+
 class UserFirestoreRepository {
     private let db = Firestore.firestore()
     private var userCollectionListener: ListenerRegistration?
+    
     var user: AnyPublisher<User, Never> {
         _user.eraseToAnyPublisher()
     }
@@ -54,6 +59,15 @@ class UserFirestoreRepository {
                 self?._user.send(.empty)
                 return
             }
+        }
+    }
+    
+    func readUser(withId userId: String) async throws -> User {
+        let documentSnapshot = try await db.collection("users").document(userId).getDocument()
+        if let user = try? documentSnapshot.data(as: User.self) {
+            return user
+        } else {
+            throw UserFetchingError.userNotFound
         }
     }
     

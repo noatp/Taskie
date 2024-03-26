@@ -89,15 +89,15 @@ class ChoreDetailVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$chore
+        viewModel.$choreDetailForView
             .receive(on: RunLoop.main)
             .sink { [weak self] chore in
                 self?.titleLabel.text = chore.name
                 self?.descriptionDetailLabel.text = chore.description
                 self?.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self?.swipableImageRowVC.imageUrls = chore.imageUrls
-                self?.creatorLabel.text = chore.creator
-                self?.createdDateLabel.text = chore.createdDate.toRelativeString()
+                self?.creatorLabel.text = chore.creatorName
+                self?.createdDateLabel.text = chore.createdDate
             }
             .store(in: &cancellables)
     }
