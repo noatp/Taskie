@@ -98,39 +98,35 @@ class AddChoreVC: PDSViewController {
             return
         }
         
-        let vStack = UIStackView(arrangedSubviews: [
+        let vStack = UIStackView.vStack(arrangedSubviews: [
             titleLabel,
-            UIView.createSpacerView(height: 40),
+            .createSpacerView(height: 40),
             imageSelectionRow,
-            UIView.createSpacerView(height: 40),
+            .createSpacerView(height: 40),
             choreNameTextField,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             choreDescriptionTextField,
-            UIView.createSpacerView(height: 40),
+            .createSpacerView(height: 40),
             rewardLabel,
-            UIView.createSpacerView(height: 10),
-            choreRewardAmountTextField
-        ])
-        vStack.axis = .vertical
-        vStack.distribution = .equalSpacing
-        vStack.alignment = .center
-        vStack.spacing = 0
+            .createSpacerView(height: 10),
+            choreRewardAmountTextField,
+            .createSpacerView(),
+            createChoreButton
+        ], alignment: .center)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
-        view.addSubview(createChoreButton)
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             
             imageSelectionRow.heightAnchor.constraint(equalToConstant: 100),
-            imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 10),
-            imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -10),
+            imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 20),
+            imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -20),
             
-            createChoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            createChoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            createChoreButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            createChoreButton.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
         ])
     }
 

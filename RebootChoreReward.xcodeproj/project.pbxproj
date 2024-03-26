@@ -62,6 +62,7 @@
 		CACE2E942BACA88A007FD9F2 /* ChoreDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */; };
 		CACE2E972BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */; };
 		CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */; };
+		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -129,6 +130,7 @@
 		CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreDetailVC.swift; sourceTree = "<group>"; };
 		CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSSwipableImageRowVC.swift; sourceTree = "<group>"; };
 		CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExtension.swift; sourceTree = "<group>"; };
+		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */,
 				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
 				CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */,
+				CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */,
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
+				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,

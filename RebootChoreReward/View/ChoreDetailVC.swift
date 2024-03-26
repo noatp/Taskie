@@ -108,36 +108,32 @@ class ChoreDetailVC: UIViewController {
             return
         }
         
-        let vStack = UIStackView(arrangedSubviews: [
+        let vStack = UIStackView.vStack(arrangedSubviews: [
             titleLabel,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             swipableImageRow,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             descriptionLabel,
-            UIView.createSpacerView(height: 10),
+            .createSpacerView(height: 10),
             descriptionDetailLabel,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             rewardLabel,
-            UIView.createSpacerView(height: 10),
+            .createSpacerView(height: 10),
             rewardAmountLabel,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             createdByLabel,
-            UIView.createSpacerView(height: 10),
+            .createSpacerView(height: 10),
             creatorLabel,
-            UIView.createSpacerView(height: 20),
+            .createSpacerView(height: 20),
             createdOnLabel,
-            UIView.createSpacerView(height: 10),
+            .createSpacerView(height: 10),
             createdDateLabel
-        ])
-        vStack.axis = .vertical
-        vStack.distribution = .equalSpacing
-        vStack.alignment = .center
-        vStack.spacing = 0
+        ], alignment: .center)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             

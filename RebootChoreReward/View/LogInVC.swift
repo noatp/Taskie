@@ -61,29 +61,25 @@ class LogInVC: PDSViewController {
     private func setUpViews() {
         view.backgroundColor = .systemBackground
         
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(logInButton)
-        view.addSubview(navToSignUpVCButton)
+        let vStack = UIStackView.vStack(arrangedSubviews: [
+            emailTextField,
+            .createSpacerView(height: 20),
+            passwordTextField,
+            .createSpacerView(),
+            logInButton,
+            .createSpacerView(height: 20),
+            navToSignUpVCButton
+        ], alignment: .center, shouldExpandSubviewWidth: true)
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        keyboardAdjustmentConstraint = vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         
-        keyboardAdjustmentConstraint = navToSignUpVCButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        view.addSubview(vStack)
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            navToSignUpVCButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 20),
+            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             keyboardAdjustmentConstraint,
-            navToSignUpVCButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            navToSignUpVCButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     

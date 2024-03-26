@@ -59,7 +59,7 @@ class SignUpVC: PDSViewController {
     private func setUpViews() {
         view.backgroundColor = .systemBackground
         
-        let vStack = UIStackView(arrangedSubviews: [
+        let vStack = UIStackView.vStack(arrangedSubviews: [
             nameTextField,
             UIView.createSpacerView(height: 40),
             emailTextField,
@@ -67,10 +67,7 @@ class SignUpVC: PDSViewController {
             passwordTextField,
             UIView.createSpacerView(),
             signUpButton
-        ])
-        vStack.axis = .vertical
-        vStack.alignment = .center
-        vStack.spacing = 0
+        ], alignment: .center, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
@@ -81,12 +78,7 @@ class SignUpVC: PDSViewController {
             vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            keyboardAdjustmentConstraint,
-            
-            nameTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
-            emailTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
-            passwordTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
-            signUpButton.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
+            keyboardAdjustmentConstraint
         ])
     }
     
