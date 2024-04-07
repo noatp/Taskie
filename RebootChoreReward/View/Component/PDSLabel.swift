@@ -19,9 +19,9 @@ enum LabelFontScale {
 class PDSLabel: UILabel, Themable {
     let labelFontScale: LabelFontScale
     let labelText: String
-    let labelTextColor: UIColor
+    let labelTextColor: UIColor?
     
-    init(withText labelText: String, fontScale labelFontScale: LabelFontScale, textColor labelTextColor: UIColor = .black) {
+    init(withText labelText: String, fontScale labelFontScale: LabelFontScale, textColor labelTextColor: UIColor? = nil) {
         self.labelFontScale = labelFontScale
         self.labelText = labelText
         self.labelTextColor = labelTextColor
@@ -39,7 +39,7 @@ class PDSLabel: UILabel, Themable {
     
     func applyTheme(_ theme: PDSTheme) {
         text = labelText
-        textColor = labelTextColor
+        textColor = labelTextColor == nil ? theme.color.onSurface : labelTextColor
         switch labelFontScale {
         case .headline1:
             font = theme.typography.headline1

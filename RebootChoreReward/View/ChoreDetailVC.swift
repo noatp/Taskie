@@ -9,61 +9,61 @@ import SwiftUI
 import UIKit
 import Combine
 
-class ChoreDetailVC: UIViewController {
+class ChoreDetailVC: UIViewController, Themable {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
 
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.secondaryColor)
+        let label = PDSLabel(withText: "", fontScale: .headline1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let descriptionLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Description", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Description", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let descriptionDetailLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let rewardLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Reward", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Reward", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let rewardAmountLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let createdByLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Created by", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Created by", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let creatorLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let createdOnLabel: PDSLabel = {
-        let label = PDSLabel(withText: "on", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "on", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let createdDateLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -103,7 +103,8 @@ class ChoreDetailVC: UIViewController {
     }
 
     private func setUpViews() {
-        view.backgroundColor = PDSTheme.defaultTheme.color.surfaceColor
+        ThemeManager.shared.register(self)
+        
         guard let swipableImageRow = swipableImageRowVC.view else {
             return
         }
@@ -146,6 +147,11 @@ class ChoreDetailVC: UIViewController {
 
     private func setUpActions() {
         
+    }
+    
+    func applyTheme(_ theme: PDSTheme) {
+        titleLabel.textColor = theme.color.secondaryColor
+        view.backgroundColor = theme.color.surfaceColor
     }
 }
 

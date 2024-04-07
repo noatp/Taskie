@@ -29,26 +29,40 @@ struct PDSColor {
     var onBackground: UIColor
     var onSurface: UIColor
     var onError: UIColor
-    var highlightColor: UIColor
     var dividerColor: UIColor
 
     // Add more theme attributes as needed
     
     // Define default and other themes
     static let lightModeColors = PDSColor(
-        primaryColor: .init(hex: "#87cefa"),
-        darkenPrimaryColor: .init(hex: "#6CA5C8"),
-        secondaryColor: .init(hex: "#4169E1"),
-        darkenSecondaryColor: .init(hex: "#3454B4"),
-        backgroundColor: .init(hex: "#f5f5f5"),
-        surfaceColor: .init(hex: "#ffffff"),
-        errorColor: .init(hex: "#f44336"),
-        onPrimary: .init(hex: "#000000"),
-        onSecondary: .init(hex: "#ffffff"),
+        primaryColor: .init(hex: "#1B631B"),
+        darkenPrimaryColor: .init(hex: "#165016"),
+        secondaryColor: .init(hex: "#329F5B"),
+        darkenSecondaryColor: .init(hex: "#2C8C51"),
+        backgroundColor: .init(hex: "#EFEFEF"),
+        surfaceColor: .init(hex: "#FFFFFF"),
+        errorColor: .init(hex: "#CC4700"),
+        onPrimary: .init(hex: "#FFFFFF"),
+        onSecondary: .init(hex: "#FFFFFF"),
         onBackground: .init(hex: "#000000"),
         onSurface: .init(hex: "#000000"),
-        onError: .init(hex: "#ffffff"),
-        highlightColor: .init(hex: "#A0E8FF"),
+        onError: .init(hex: "#FFFFFF"),
+        dividerColor: .init(hex: "#e0e0e0")
+    )
+    
+    static let darkModeColors = PDSColor(
+        primaryColor: .init(hex: "#9BE49B"),
+        darkenPrimaryColor: .init(hex: "#AFE9AF"),
+        secondaryColor: .init(hex: "#60CD8A"),
+        darkenSecondaryColor: .init(hex: "#73D398"),
+        backgroundColor: .init(hex: "#0F0F0F"),
+        surfaceColor: .init(hex: "#000000"),
+        errorColor: .init(hex: "#FF7A33"),
+        onPrimary: .init(hex: "#000000"),
+        onSecondary: .init(hex: "#000000"),
+        onBackground: .init(hex: "#FFFFFF"),
+        onSurface: .init(hex: "#FFFFFF"),
+        onError: .init(hex: "#000000"),
         dividerColor: .init(hex: "#e0e0e0")
     )
 }

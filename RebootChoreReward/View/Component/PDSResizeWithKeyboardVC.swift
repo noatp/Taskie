@@ -8,7 +8,7 @@
 import UIKit
 
 // inherit this UIViewController to has the ability to resize view when keyboard shows
-class PDSViewController: UIViewController {
+class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
     var keyboardAdjustmentConstraint: NSLayoutConstraint = .init()
     var bottomConstraintValue: CGFloat = 0
     var bottomConstraintOffset: CGFloat = 0

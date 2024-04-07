@@ -22,7 +22,7 @@
 		CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F52B9E74D60086153A /* RootViewModel.swift */; };
 		CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F72B9E80910086153A /* ProfileViewModel.swift */; };
 		CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */; };
-		CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */; };
+		CA20AFDD2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */; };
 		CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */; };
 		CA20AFE12BA0A99700BE9C18 /* PDSCurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */; };
 		CA20AFE32BA0D44A00BE9C18 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */; };
@@ -63,6 +63,7 @@
 		CACE2E972BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */; };
 		CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */; };
 		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
+		CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -89,7 +90,7 @@
 		CA1683F52B9E74D60086153A /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		CA1683F72B9E80910086153A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
-		CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSViewController.swift; sourceTree = "<group>"; };
+		CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSResizeWithKeyboardVC.swift; sourceTree = "<group>"; };
 		CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSCurrencyTextField.swift; sourceTree = "<group>"; };
 		CA20AFE22BA0D44A00BE9C18 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -131,6 +132,7 @@
 		CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSSwipableImageRowVC.swift; sourceTree = "<group>"; };
 		CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExtension.swift; sourceTree = "<group>"; };
 		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
+		CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTitleWrapperVC.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -264,11 +266,12 @@
 				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
-				CA20AFDC2B9FECE300BE9C18 /* PDSViewController.swift */,
+				CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */,
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
 				CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */,
 				CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */,
+				CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -511,7 +514,8 @@
 				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
 				CACE2E902BA9F5C9007FD9F2 /* Dependency.swift in Sources */,
 				CACE2E942BACA88A007FD9F2 /* ChoreDetailVC.swift in Sources */,
-				CA20AFDD2B9FECE300BE9C18 /* PDSViewController.swift in Sources */,
+				CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */,
+				CA20AFDD2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift in Sources */,
 				CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */,
 				CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,

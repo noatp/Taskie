@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import Combine
  
-class ChoreListVC: UIViewController {
+class ChoreListVC: PDSTitleWrapperVC {
     private var viewModel: ChoreListViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let depedencyView: Dependency.View
@@ -53,27 +53,32 @@ class ChoreListVC: UIViewController {
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
+        setTitle("Chores")
         tableView.dataSource = self
         tableView.delegate = self
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
-        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
         ])
     }
     
     private func setUpActions() {
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(showMenu))
     }
     
     @objc func addNewItem() {
         let addChoreVC = depedencyView.addChoreVC()
         self.present(addChoreVC, animated: true)
+    }
+    
+    @objc func showMenu() {
+        let profileVC = depedencyView.profileVC()
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }
 

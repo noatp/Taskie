@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class SignUpVC: PDSViewController {
+class SignUpVC: PDSResizeWithKeyboardVC {
     private var viewModel: SignUpViewModel
     
     let nameTextField: PDSTextField = {
@@ -58,6 +58,7 @@ class SignUpVC: PDSViewController {
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
+        setTitle("Sign up")
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
             nameTextField,
@@ -75,7 +76,7 @@ class SignUpVC: PDSViewController {
         keyboardAdjustmentConstraint = vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             keyboardAdjustmentConstraint

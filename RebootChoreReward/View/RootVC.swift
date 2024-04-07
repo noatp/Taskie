@@ -12,12 +12,12 @@ class RootVC: UIViewController {
     private var viewModel: RootViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var dependencyView: Dependency.View
-    private var homeVC: HomeVC
+    private var choreListVC: UINavigationController
     
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.homeVC = dependencyView.homeVC()
+        self.choreListVC = UINavigationController(rootViewController: dependencyView.choreListVC())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,15 +28,15 @@ class RootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        addChild(homeVC)
-        homeVC.didMove(toParent: self)
+        addChild(choreListVC)
+        choreListVC.didMove(toParent: self)
         setUpViews()
     }
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
 
-        guard let childView = homeVC.view else {
+        guard let childView = choreListVC.view else {
             return
         }
         childView.translatesAutoresizingMaskIntoConstraints = false

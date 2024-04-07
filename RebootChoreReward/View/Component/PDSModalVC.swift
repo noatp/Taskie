@@ -16,7 +16,7 @@ protocol PDSModalChildVC: UIViewController {
     var dismissParentVC: (() -> Void)? { get set }
 }
 
-class PDSModalVC: PDSViewController {
+class PDSModalVC: PDSResizeWithKeyboardVC {
     private var childVC: UIViewController
     let defaultHeight: CGFloat = 400
     let dismissableHeight: CGFloat = 200
@@ -64,7 +64,6 @@ class PDSModalVC: PDSViewController {
         guard let childView = childVC.view else {
             return
         }
-        childView.roundTopCorners(cornerRadius: PDSTheme.defaultTheme.styling.cornerRadius)
         childView.clipsToBounds = true
         childView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dimmedView)
@@ -180,6 +179,14 @@ class PDSModalVC: PDSViewController {
         } completion: { _ in
             self.dismiss(animated: true)
         }
+    }
+    
+    override func applyTheme(_ theme: PDSTheme) {
+        super.applyTheme(theme)
+        guard let childView = childVC.view else {
+            return
+        }
+        childView.roundTopCorners(cornerRadius: theme.styling.cornerRadius)
     }
 }
 

@@ -9,20 +9,19 @@ import SwiftUI
 import UIKit
 import Combine
 
-class AddChoreVC: PDSViewController {
+class AddChoreVC: PDSResizeWithKeyboardVC {
     private var viewModel: AddChoreViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Create chore", fontScale: .headline1, textColor: PDSTheme.defaultTheme.color.secondaryColor)
+        let label = PDSLabel(withText: "Create chore", fontScale: .headline1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let choreNameTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Chore name", isCentered: true)
-        textField.font = PDSTheme.defaultTheme.typography.headline2
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -34,7 +33,7 @@ class AddChoreVC: PDSViewController {
     }()
     
     private let rewardLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Reward", fontScale: .caption, textColor: PDSTheme.defaultTheme.color.onSurface)
+        let label = PDSLabel(withText: "Reward", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,22 +48,12 @@ class AddChoreVC: PDSViewController {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Create"
-        config.baseBackgroundColor = PDSTheme.defaultTheme.color.primaryColor
-        config.baseForegroundColor = PDSTheme.defaultTheme.color.onPrimary
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = PDSTheme.defaultTheme.typography.button
-            return outgoing
-        }
-        config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
-            return button.isHighlighted ? PDSTheme.defaultTheme.color.darkenPrimaryColor : PDSTheme.defaultTheme.color.primaryColor
-        }
         config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     init(viewModel: AddChoreViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -73,7 +62,7 @@ class AddChoreVC: PDSViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
@@ -91,9 +80,8 @@ class AddChoreVC: PDSViewController {
             }
             .store(in: &cancellables)
     }
-
+    
     private func setUpViews() {
-        view.backgroundColor = PDSTheme.defaultTheme.color.surfaceColor
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
         }
@@ -129,7 +117,7 @@ class AddChoreVC: PDSViewController {
             createChoreButton.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
         ])
     }
-
+    
     private func setUpActions() {
         createChoreButton.addTarget(self, action: #selector(handleCreateChore), for: .touchUpInside)
     }
@@ -162,6 +150,26 @@ class AddChoreVC: PDSViewController {
         createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
     }
+    
+    override func applyTheme(_ theme: PDSTheme) {
+        titleLabel.textColor = theme.color.primaryColor
+        choreNameTextField.font = theme.typography.headline2
+        rewardLabel.textColor = theme.color.onSurface
+        createChoreButton.backgroundColor = theme.color.primaryColor
+        createChoreButton.titleLabel?.textColor = theme.color.onPrimary
+        createChoreButton.configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = theme.typography.button
+            return outgoing
+        }
+        createChoreButton.configuration?.background.backgroundColorTransformer = UIConfigurationColorTransformer { [weak self] _ in
+            guard let self = self else {
+                return theme.color.primaryColor
+            }
+            return self.createChoreButton.isHighlighted ? theme.color.darkenPrimaryColor : theme.color.primaryColor
+        }
+        view.backgroundColor = theme.color.surfaceColor
+    }
 }
 
 extension AddChoreVC: UIImagePickerControllerDelegate {
@@ -173,9 +181,9 @@ extension AddChoreVC: UIImagePickerControllerDelegate {
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            // Handle cancellation
-            picker.dismiss(animated: true, completion: nil)
-        }
+        // Handle cancellation
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension AddChoreVC: UINavigationControllerDelegate {}
@@ -199,4 +207,4 @@ extension Dependency.View {
         return AddChoreVC(viewModel: viewModel.addChoreViewModel())
     }
 }
- 
+

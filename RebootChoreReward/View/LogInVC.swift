@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class LogInVC: PDSViewController {
+class LogInVC: PDSResizeWithKeyboardVC {
     private var viewModel: LogInViewModel
     private let dependencyView: Dependency.View
     

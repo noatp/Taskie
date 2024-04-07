@@ -11,7 +11,7 @@ import UIKit
 class PDSImageRowCell: UICollectionViewCell, Themable {
     
     private let imageView = UIImageView()
-    private let addImageLabel = PDSLabel(withText: "Add image", fontScale: .button, textColor: PDSTheme.defaultTheme.color.onBackground)
+    private let addImageLabel = PDSLabel(withText: "Add image", fontScale: .button)
     private var activeImageConstraints: [NSLayoutConstraint] = []
     
     override init(frame: CGRect) {

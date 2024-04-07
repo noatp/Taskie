@@ -29,14 +29,12 @@ class PDSAlertVC: UIViewController {
     
     private let alertView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.shared.currentTheme.color.surfaceColor
-        view.layer.cornerRadius = ThemeManager.shared.currentTheme.styling.cornerRadius
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private let messageLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body, textColor: ThemeManager.shared.currentTheme.color.onSurface)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -45,7 +43,7 @@ class PDSAlertVC: UIViewController {
     }()
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Error", fontScale: .headline2, textColor: ThemeManager.shared.currentTheme.color.onSurface)
+        let label = PDSLabel(withText: "Error", fontScale: .headline2)
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +64,8 @@ class PDSAlertVC: UIViewController {
     }
     
     private func setUpViews() {
+        ThemeManager.shared.register(self)
+        
         messageLabel.text = alertMessage
         
         view.addSubview(backgroundView)
@@ -105,6 +105,15 @@ class PDSAlertVC: UIViewController {
     
     @objc func dismissAlert() {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PDSAlertVC: Themable {
+    func applyTheme(_ theme: PDSTheme) {
+        alertView.backgroundColor = theme.color.surfaceColor
+        alertView.layer.cornerRadius = theme.styling.cornerRadius
+        messageLabel.textColor = theme.color.onSurface
+        titleLabel.textColor = theme.color.errorColor
     }
 }
 
