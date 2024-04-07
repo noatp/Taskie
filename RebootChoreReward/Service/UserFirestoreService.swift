@@ -51,7 +51,9 @@ class UserFirestoreService: UserService {
         if let familyMember = familyMembers.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
-            return try await userRepository.readUser(withId: lookUpId)
+            let familyMember = try await userRepository.readUser(withId: lookUpId)
+            familyMembers.append(familyMember)
+            return familyMember
         }
     }
 }
