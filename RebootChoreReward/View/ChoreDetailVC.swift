@@ -150,7 +150,7 @@ class ChoreDetailVC: UIViewController, Themable {
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        titleLabel.textColor = theme.color.secondaryColor
+        titleLabel.textColor = theme.color.primaryColor
         view.backgroundColor = theme.color.surfaceColor
     }
 }
