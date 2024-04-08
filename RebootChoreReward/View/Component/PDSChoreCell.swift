@@ -46,7 +46,7 @@ class PDSChoreCell: UITableViewCell, Themable {
         contentView.addSubview(choreRewardLabel)
         
         NSLayoutConstraint.activate([
-            choreImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            choreImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             choreImageView.heightAnchor.constraint(equalToConstant: 100),
             choreImageView.widthAnchor.constraint(equalTo: choreImageView.heightAnchor, multiplier: 1),
             choreImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -57,7 +57,7 @@ class PDSChoreCell: UITableViewCell, Themable {
             choreNameLabel.trailingAnchor.constraint(equalTo: choreRewardLabel.leadingAnchor, constant: -10),
             
             choreRewardLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            choreRewardLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            choreRewardLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     

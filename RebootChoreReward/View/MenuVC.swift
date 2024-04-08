@@ -12,20 +12,30 @@ class MenuVC: PDSTitleWrapperVC {
     private var viewModel: ProfileViewModel
     private let dependencyView: Dependency.View
     
-    let signOutButton: PDSPrimaryButton = {
+    private let menuOptions = ["Household", "Profile"]
+    
+    private let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Sign out", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let backBarButton: PDSTertiaryButton = {
+    private let backBarButton: PDSTertiaryButton = {
         let button = PDSTertiaryButton()
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
+    private let menuOptionTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(PDSMenuCell.self, forCellReuseIdentifier: PDSMenuCell.className)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     init(
         viewModel: ProfileViewModel,
         dependencyView: Dependency.View
@@ -50,11 +60,21 @@ class MenuVC: PDSTitleWrapperVC {
         setTitle("Menu")
         
         view.backgroundColor = .systemBackground
+        
+        menuOptionTableView.delegate = self
+        menuOptionTableView.dataSource = self
 
+        view.addSubview(menuOptionTableView)
         view.addSubview(signOutButton)
         NSLayoutConstraint.activate([
-            signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signOutButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            menuOptionTableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
+            menuOptionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuOptionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            menuOptionTableView.bottomAnchor.constraint(equalTo: signOutButton.topAnchor, constant: -40),
+            
+            signOutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            signOutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         ])
     }
     
@@ -71,6 +91,26 @@ class MenuVC: PDSTitleWrapperVC {
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
     }
+}
+
+extension MenuVC: UITableViewDelegate {
+    
+}
+
+extension MenuVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        menuOptions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PDSMenuCell.className, for: indexPath) as? PDSMenuCell else {
+            return UITableViewCell()
+        }
+        cell.configureCell(withOption: menuOptions[indexPath.row])
+        return cell
+    }
+    
+    
 }
 
 struct MenuVC_Previews: PreviewProvider {

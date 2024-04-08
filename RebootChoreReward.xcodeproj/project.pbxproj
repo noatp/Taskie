@@ -64,6 +64,7 @@
 		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
 		CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */; };
 		CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */; };
+		CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -133,6 +134,7 @@
 		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
 		CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTitleWrapperVC.swift; sourceTree = "<group>"; };
 		CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTertiaryButton.swift; sourceTree = "<group>"; };
+		CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSMenuCell.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
 				CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */,
+				CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */,
 				CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */,
 				CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */,
 			);
@@ -508,6 +511,7 @@
 				CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */,
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */,
+				CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */,
 				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,

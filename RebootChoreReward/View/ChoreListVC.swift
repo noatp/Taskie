@@ -16,8 +16,8 @@ class ChoreListVC: PDSTitleWrapperVC {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.register(PDSChoreCell.self, forCellReuseIdentifier: PDSChoreCell.className)
         return tableView
     }()
@@ -75,8 +75,8 @@ class ChoreListVC: PDSTitleWrapperVC {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
