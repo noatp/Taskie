@@ -9,15 +9,16 @@ import SwiftUI
 import UIKit
 import Combine
 
-class ChoreDetailVC: UIViewController, Themable {
+class ChoreDetailVC: PDSTitleWrapperVC {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
-
-    private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .headline1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    
+    private let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let descriptionLabel: PDSLabel = {
@@ -92,7 +93,7 @@ class ChoreDetailVC: UIViewController, Themable {
         viewModel.$choreDetailForView
             .receive(on: RunLoop.main)
             .sink { [weak self] chore in
-                self?.titleLabel.text = chore.name
+                self?.setTitle(chore.name)
                 self?.descriptionDetailLabel.text = chore.description
                 self?.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self?.swipableImageRowVC.imageUrls = chore.imageUrls
@@ -110,8 +111,6 @@ class ChoreDetailVC: UIViewController, Themable {
         }
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
-            titleLabel,
-            .createSpacerView(height: 20),
             swipableImageRow,
             .createSpacerView(height: 20),
             descriptionLabel,
@@ -134,7 +133,7 @@ class ChoreDetailVC: UIViewController, Themable {
         
         view.addSubview(vStack)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
@@ -146,12 +145,17 @@ class ChoreDetailVC: UIViewController, Themable {
     }
 
     private func setUpActions() {
-        
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
-    func applyTheme(_ theme: PDSTheme) {
-        titleLabel.textColor = theme.color.primaryColor
+    override func applyTheme(_ theme: PDSTheme) {
+        super.applyTheme(theme)
         view.backgroundColor = theme.color.surfaceColor
+    }
+    
+    @objc func handleBack() {
+        self.dismiss(animated: true)
     }
 }
 

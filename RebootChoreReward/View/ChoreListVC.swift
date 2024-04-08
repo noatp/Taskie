@@ -104,7 +104,8 @@ extension ChoreListVC: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
         let choreDetailVC = depedencyView.choreDetailVC()
-        present(choreDetailVC, animated: true)
+        let navVC = UINavigationController(rootViewController: choreDetailVC)
+        present(navVC, animated: true)
     }
 }
 
