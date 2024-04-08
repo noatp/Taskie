@@ -111,6 +111,9 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             vStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             
+            choreNameTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1, constant: -40),
+            choreDescriptionTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1, constant: -40),
+            
             imageSelectionRow.heightAnchor.constraint(equalToConstant: 100),
             imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 20),
             imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -20),

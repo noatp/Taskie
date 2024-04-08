@@ -72,6 +72,7 @@ class PDSTextField: UITextField, Themable {
     func applyTheme(_ theme: PDSTheme) {
         font = theme.typography.body
         placeholder = placeholderText
+        textAlignment = .center
         keyboardAppearance = .dark
         autocorrectionType = .no
         if hasBorder {

@@ -9,10 +9,18 @@ import SwiftUI
 import UIKit
 import Combine
 
-class ChoreDetailVC: PDSTitleWrapperVC {
+class ChoreDetailVC: UIViewController, Themable {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
+    
+    private let choreNameLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .headline2)
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let backBarButton: PDSTertiaryButton = {
         let button = PDSTertiaryButton()
@@ -29,18 +37,14 @@ class ChoreDetailVC: PDSTitleWrapperVC {
     
     private let descriptionDetailLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let rewardLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Reward", fontScale: .caption)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let rewardAmountLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body)
+        let label = PDSLabel(withText: "", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,12 +57,6 @@ class ChoreDetailVC: PDSTitleWrapperVC {
     
     private let creatorLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let createdOnLabel: PDSLabel = {
-        let label = PDSLabel(withText: "on", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -93,7 +91,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
         viewModel.$choreDetailForView
             .receive(on: RunLoop.main)
             .sink { [weak self] chore in
-                self?.setTitle(chore.name)
+                self?.choreNameLabel.text = chore.name
                 self?.descriptionDetailLabel.text = chore.description
                 self?.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self?.swipableImageRowVC.imageUrls = chore.imageUrls
@@ -111,31 +109,37 @@ class ChoreDetailVC: PDSTitleWrapperVC {
         }
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
-            swipableImageRow,
+            choreNameLabel,
+            .createSpacerView(height: 10),
+            rewardAmountLabel,
+            .createSpacerView(height: 10),
+            createdDateLabel,
             .createSpacerView(height: 20),
             descriptionLabel,
             .createSpacerView(height: 10),
             descriptionDetailLabel,
             .createSpacerView(height: 20),
-            rewardLabel,
-            .createSpacerView(height: 10),
-            rewardAmountLabel,
-            .createSpacerView(height: 20),
             createdByLabel,
             .createSpacerView(height: 10),
-            creatorLabel,
-            .createSpacerView(height: 20),
-            createdOnLabel,
-            .createSpacerView(height: 10),
-            createdDateLabel
-        ], alignment: .center)
-        vStack.translatesAutoresizingMaskIntoConstraints = false
+            creatorLabel
+        ], alignment: .leading)
         
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        swipableImageRow.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(swipableImageRow)
         view.addSubview(vStack)
+        
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            swipableImageRow.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            swipableImageRow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            swipableImageRow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            vStack.topAnchor.constraint(equalTo: swipableImageRow.bottomAnchor, constant: 10),
+            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            descriptionDetailLabel.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
             
             swipableImageRow.heightAnchor.constraint(equalToConstant: 300),
             swipableImageRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
@@ -149,9 +153,10 @@ class ChoreDetailVC: PDSTitleWrapperVC {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
-    override func applyTheme(_ theme: PDSTheme) {
-        super.applyTheme(theme)
+    func applyTheme(_ theme: PDSTheme) {
         view.backgroundColor = theme.color.surfaceColor
+        choreNameLabel.textColor = theme.color.primaryColor
+        rewardAmountLabel.textColor = theme.color.secondaryColor
     }
     
     @objc func handleBack() {
@@ -162,7 +167,14 @@ class ChoreDetailVC: PDSTitleWrapperVC {
 struct ChoreDetailVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            Dependency.preview.view.choreDetailVC()
+            let baseVC = UIViewController()
+            let choreDetailVC = Dependency.preview.view.choreDetailVC()
+            let navVC = UINavigationController(rootViewController: choreDetailVC)
+            DispatchQueue.main.async {
+                baseVC.present(navVC, animated: true, completion: nil)
+            }
+            
+            return baseVC
         }
     }
 }
