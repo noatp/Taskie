@@ -39,9 +39,8 @@
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
-		CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */; };
 		CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */; };
-		CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */; };
+		CA7C69C12B8C2FDD005B3CF2 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */; };
 		CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */; };
 		CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */; };
 		CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */; };
@@ -64,6 +63,7 @@
 		CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */; };
 		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
 		CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */; };
+		CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -108,9 +108,8 @@
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
-		CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreListVC.swift; sourceTree = "<group>"; };
-		CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		CA7C69C32B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerPreviewWrapper.swift; sourceTree = "<group>"; };
 		CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSPrimaryButton.swift; sourceTree = "<group>"; };
 		CA7C69C82B8C4274005B3CF2 /* UIViewPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewWrapper.swift; sourceTree = "<group>"; };
@@ -133,6 +132,7 @@
 		CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExtension.swift; sourceTree = "<group>"; };
 		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
 		CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTitleWrapperVC.swift; sourceTree = "<group>"; };
+		CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTertiaryButton.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -224,9 +224,8 @@
 				CAEAEB772B840DE40056A0F1 /* RootVC.swift */,
 				CA7C69B82B846236005B3CF2 /* SignUpVC.swift */,
 				CA7C69BA2B846843005B3CF2 /* LogInVC.swift */,
-				CA7C69BC2B8C2F95005B3CF2 /* HomeVC.swift */,
 				CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */,
-				CA7C69C02B8C2FDD005B3CF2 /* ProfileVC.swift */,
+				CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */,
 				CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */,
 				CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */,
 			);
@@ -261,8 +260,9 @@
 			isa = PBXGroup;
 			children = (
 				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
-				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
 				CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */,
+				CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */,
+				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
 				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
@@ -476,6 +476,7 @@
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,
+				CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
@@ -486,7 +487,7 @@
 				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserFirestoreRepository.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
-				CA7C69C12B8C2FDD005B3CF2 /* ProfileVC.swift in Sources */,
+				CA7C69C12B8C2FDD005B3CF2 /* MenuVC.swift in Sources */,
 				CA1683E92B8D45A70086153A /* HouseholdFirestoreService.swift in Sources */,
 				CA1683F42B9E73330086153A /* SignUpViewModel.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
@@ -501,7 +502,6 @@
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
-				CA7C69BD2B8C2F95005B3CF2 /* HomeVC.swift in Sources */,
 				CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
 				CACE2E972BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift in Sources */,

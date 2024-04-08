@@ -13,13 +13,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     private var viewModel: AddChoreViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
-    
-    private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Create chore", fontScale: .headline1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+        
     private let choreNameTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Chore name", isCentered: true)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -43,13 +37,20 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+        
     private let createChoreButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Create"
         config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let cancelBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -82,13 +83,13 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     }
     
     private func setUpViews() {
+        setTitle("Create chore")
+        
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
         }
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
-            titleLabel,
-            .createSpacerView(height: 40),
             imageSelectionRow,
             .createSpacerView(height: 40),
             choreNameTextField,
@@ -105,7 +106,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         
         view.addSubview(vStack)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             vStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
@@ -120,6 +121,8 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     
     private func setUpActions() {
         createChoreButton.addTarget(self, action: #selector(handleCreateChore), for: .touchUpInside)
+        cancelBarButton.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelBarButton)
     }
     
     @objc func handleCreateChore() {
@@ -139,6 +142,10 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         }
     }
     
+    @objc func handleCancel() {
+        dismiss(animated: true)
+    }
+    
     override func keyboardWillShow(notification: NSNotification) {
         super.keyboardWillShow(notification: notification)
         createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: -self.bottomConstraintValue + 20, trailing: 20)
@@ -152,7 +159,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     }
     
     override func applyTheme(_ theme: PDSTheme) {
-        titleLabel.textColor = theme.color.primaryColor
+        super.applyTheme(theme)
         choreNameTextField.font = theme.typography.headline2
         rewardLabel.textColor = theme.color.onSurface
         createChoreButton.backgroundColor = theme.color.primaryColor
@@ -193,8 +200,9 @@ struct AddChoreVC_Previews: PreviewProvider {
         UIViewControllerPreviewWrapper {
             let baseVC = UIViewController()
             let addChoreVC = Dependency.preview.view.addChoreVC()
+            let navVC = UINavigationController(rootViewController: addChoreVC)
             DispatchQueue.main.async {
-                baseVC.present(addChoreVC, animated: true, completion: nil)
+                baseVC.present(navVC, animated: true, completion: nil)
             }
             
             return baseVC

@@ -34,9 +34,17 @@ class SignUpVC: PDSResizeWithKeyboardVC {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
     let signUpButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Sign up", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -85,6 +93,8 @@ class SignUpVC: PDSResizeWithKeyboardVC {
     
     private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleSignUp() {
@@ -100,6 +110,10 @@ class SignUpVC: PDSResizeWithKeyboardVC {
                 }
             }
         }
+    }
+    
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

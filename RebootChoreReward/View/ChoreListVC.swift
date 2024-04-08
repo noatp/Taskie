@@ -22,6 +22,20 @@ class ChoreListVC: PDSTitleWrapperVC {
         return tableView
     }()
     
+    private let menuBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "line.3.horizontal"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let addBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     init(
         viewModel: ChoreListViewModel,
         depedencyView: Dependency.View
@@ -67,17 +81,20 @@ class ChoreListVC: PDSTitleWrapperVC {
     }
     
     private func setUpActions() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(showMenu))
+        menuBarButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        addBarButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addBarButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: menuBarButton)
     }
     
     @objc func addNewItem() {
         let addChoreVC = depedencyView.addChoreVC()
-        self.present(addChoreVC, animated: true)
+        let navVC = UINavigationController(rootViewController: addChoreVC)
+        self.present(navVC, animated: true)
     }
     
     @objc func showMenu() {
-        let profileVC = depedencyView.profileVC()
+        let profileVC = depedencyView.menuVC()
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }

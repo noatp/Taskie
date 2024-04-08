@@ -8,13 +8,20 @@
 import UIKit
 import SwiftUI
 
-class ProfileVC: UIViewController {
+class MenuVC: PDSTitleWrapperVC {
     private var viewModel: ProfileViewModel
     private let dependencyView: Dependency.View
     
     let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Sign out", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -40,6 +47,8 @@ class ProfileVC: UIViewController {
     }
     
     private func setUpViews() {
+        setTitle("Menu")
+        
         view.backgroundColor = .systemBackground
 
         view.addSubview(signOutButton)
@@ -51,24 +60,30 @@ class ProfileVC: UIViewController {
     
     private func setUpActions() {
         signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleSignOut() {
         viewModel.signOut()
     }
+    
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
-struct ProfileVC_Previews: PreviewProvider {
+struct MenuVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            Dependency.preview.view.profileVC()
+            Dependency.preview.view.menuVC()
         }
     }
 }
 
 extension Dependency.View {
-    func profileVC() -> ProfileVC {
-        return ProfileVC (
+    func menuVC() -> MenuVC {
+        return MenuVC (
             viewModel: viewModel.profileViewModel(),
             dependencyView: self
         )

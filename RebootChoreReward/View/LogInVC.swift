@@ -59,6 +59,8 @@ class LogInVC: PDSResizeWithKeyboardVC {
     }
     
     private func setUpViews() {
+        setTitle("Log in")
+        
         view.backgroundColor = .systemBackground
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
@@ -76,7 +78,7 @@ class LogInVC: PDSResizeWithKeyboardVC {
         view.addSubview(vStack)
         
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             keyboardAdjustmentConstraint,
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
