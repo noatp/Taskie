@@ -101,11 +101,15 @@ class ChoreListVC: PDSTitleWrapperVC {
 
 extension ChoreListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
         viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
         let choreDetailVC = depedencyView.choreDetailVC()
         let navVC = UINavigationController(rootViewController: choreDetailVC)
         present(navVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        120
     }
 }
 

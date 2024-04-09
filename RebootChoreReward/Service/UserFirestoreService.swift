@@ -9,7 +9,7 @@ import Combine
 
 protocol UserService {
     var user: AnyPublisher<User, Never> { get }
-    var familyMembers: [User] { get }
+    var familyMembers: AnyPublisher<[User], Never> { get }
     func createUser(from userObject: User, inHousehold householdId: String)
     func readUser(withId userId: String)
     func readFamilyMember(withId lookUpId: String) async throws -> User
@@ -19,7 +19,12 @@ class UserFirestoreService: UserService {
     private var cancellables: Set<AnyCancellable> = []
     private let userRepository: UserFirestoreRepository
     private var currentUserId: String = ""
-    var familyMembers: [User] = []
+    
+    var familyMembers: AnyPublisher<[User], Never> {
+        _familyMembers.eraseToAnyPublisher()
+    }
+    private let _familyMembers = CurrentValueSubject<[User], Never>([])
+    
     var user: AnyPublisher<User, Never> {
         _user.eraseToAnyPublisher()
     }
@@ -32,11 +37,12 @@ class UserFirestoreService: UserService {
     
     private func subscribeToUserRepository() {
         userRepository.members.sink { [weak self] members in
+            self?._familyMembers.send(members)
+
             guard let self = self,
                   let currentUser = members.first(where: { $0.id == self.currentUserId }) else {
                 return
             }
-            familyMembers = members
             _user.send(currentUser)
         }
         .store(in: &cancellables)
@@ -61,7 +67,7 @@ class UserFirestoreService: UserService {
     }
     
     func readFamilyMember(withId lookUpId: String) async throws -> User {
-        if let familyMember = familyMembers.first(where: { $0.id == lookUpId }) {
+        if let familyMember = _familyMembers.value.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
             throw UserFetchingError.userNotFound
@@ -70,8 +76,15 @@ class UserFirestoreService: UserService {
 }
 
 class UserMockService: UserService {
-    var familyMembers: [User] = [.mock, .mock]
-    
+    var familyMembers: AnyPublisher<[User], Never> {
+        Just ([
+            .mock,
+            .mock,
+            .mock
+        ])
+        .eraseToAnyPublisher()
+    }
+        
     var user: AnyPublisher<User, Never> {
         Just(
             .mock

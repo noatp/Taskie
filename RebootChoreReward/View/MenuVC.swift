@@ -94,7 +94,13 @@ class MenuVC: PDSTitleWrapperVC {
 }
 
 extension MenuVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        if indexPath.row == 0 {
+            let memberListVC = dependencyView.householdMemberListVC()
+            navigationController?.pushViewController(memberListVC, animated: true)
+        }
+    }
 }
 
 extension MenuVC: UITableViewDataSource {
