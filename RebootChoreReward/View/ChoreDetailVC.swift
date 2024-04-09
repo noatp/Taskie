@@ -134,17 +134,13 @@ class ChoreDetailVC: UIViewController, Themable {
             swipableImageRow.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             swipableImageRow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             swipableImageRow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            swipableImageRow.heightAnchor.constraint(equalToConstant: 300),
             
             vStack.topAnchor.constraint(equalTo: swipableImageRow.bottomAnchor, constant: 10),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            descriptionDetailLabel.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
-            
-            swipableImageRow.heightAnchor.constraint(equalToConstant: 300),
-            swipableImageRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
-            swipableImageRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)
-            
+            descriptionDetailLabel.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
         ])
     }
 
