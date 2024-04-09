@@ -34,7 +34,6 @@ class UserFirestoreRepository {
         householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
         do {
             try householdMemberCollectionRef?.document(userObject.id).setData(from: userObject)
-            db.collection("users").document(userObject.id).setData(["householdId": householdId])
         }
         catch let error {
             LogUtil.log("Error writing user to Firestore: \(error)")

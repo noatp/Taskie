@@ -33,12 +33,15 @@ class RootViewModel: ObservableObject {
         authService.isUserLoggedIn.sink { [weak self] isUserLoggedIn in
             self?.authState = isUserLoggedIn
             if isUserLoggedIn {
-                guard let uid = self?.authService.getCurrentUserCache(key: "uid"),
+                guard let uid = self?.authService.currentUserId,
                       !uid.isEmpty
                 else {
                     return
                 }
                 self?.userService.readUser(withId: uid)
+            }
+            else {
+                //maybe call reset services?
             }
         }
         .store(in: &cancellables)

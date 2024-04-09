@@ -21,6 +21,7 @@ class ChoreFirestoreService: ChoreService {
     private let choreRepository: ChoreFirestoreRepository
     private let userRepository: UserFirestoreRepository
     private var selectedChoreId: String?
+    private var currentHouseholdId: String?
     
     var chores: AnyPublisher<[Chore], Never> {
         _chores.eraseToAnyPublisher()
@@ -59,6 +60,8 @@ class ChoreFirestoreService: ChoreService {
     
     private func subscribeToUserRepository() {
         userRepository.userHouseholdId.sink { [weak self] householdId in
+            self?.currentHouseholdId = householdId
+            
             guard !householdId.isEmpty else {
                 return
             }
@@ -68,7 +71,10 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func createChore(from choreObject: Chore) async throws {
-        choreRepository.createChore(from: choreObject)
+        guard let currentHouseholdId = currentHouseholdId else {
+            return
+        }
+        choreRepository.createChore(from: choreObject, inHousehold: currentHouseholdId)
     }
     
     func readChores(inHousehold householdId: String) {

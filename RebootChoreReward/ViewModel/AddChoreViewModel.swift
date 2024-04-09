@@ -44,7 +44,7 @@ class AddChoreViewModel: ObservableObject {
             return
         }
         
-        guard let uid = authService.getCurrentUserCache(key: "uid") else {
+        guard let uid = authService.currentUserId else {
             completion("Something went wrong. Please try again later!")
             return
         }

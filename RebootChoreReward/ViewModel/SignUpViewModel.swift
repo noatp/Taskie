@@ -35,7 +35,7 @@ class SignUpViewModel {
         Task {
             do {
                 try await authService.signUp(withEmail: email, password: password)
-                guard let uid = authService.getCurrentUserCache(key: "uid") else {
+                guard let uid = authService.currentUserId else {
                     completion("Error signing up: could not get user info")
                     return
                 }
