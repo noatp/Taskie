@@ -19,7 +19,7 @@ protocol ChoreService {
 class ChoreFirestoreService: ChoreService {
     private var cancellables: Set<AnyCancellable> = []
     private let choreRepository: ChoreFirestoreRepository
-    private let householdRepository: HouseholdFirestoreRepository
+    private let userRepository: UserFirestoreRepository
     private var selectedChoreId: String?
     
     var chores: AnyPublisher<[Chore], Never> {
@@ -34,12 +34,12 @@ class ChoreFirestoreService: ChoreService {
     
     init(
         choreRepository: ChoreFirestoreRepository,
-        householdRepository: HouseholdFirestoreRepository
+        userRepository: UserFirestoreRepository
     ) {
         self.choreRepository = choreRepository
-        self.householdRepository = householdRepository
+        self.userRepository = userRepository
         subscribeToChoreRepository()
-        subscribeToHouseholdRepository()
+        subscribeToUserRepository()
     }
     
     private func subscribeToChoreRepository() {
@@ -57,12 +57,12 @@ class ChoreFirestoreService: ChoreService {
         .store(in: &cancellables)
     }
     
-    private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] household in
-            guard !household.id.isEmpty else {
+    private func subscribeToUserRepository() {
+        userRepository.userHouseholdId.sink { [weak self] householdId in
+            guard !householdId.isEmpty else {
                 return
             }
-            self?.readChores(inHousehold: household.id)
+            self?.readChores(inHousehold: householdId)
         }
         .store(in: &cancellables)
     }

@@ -40,8 +40,11 @@ class SignUpViewModel {
                     return
                 }
                 let householdId = UUID().uuidString
-                householdService.createHousehold(from: Household(id: householdId, members: [uid]))
-                userService.createUser(from: User(name: name, id: uid, household: householdId, role: .parent))
+                householdService.createHousehold(from: Household(id: householdId))
+                userService.createUser(
+                    from: User(name: name, id: uid, household: householdId, role: .parent),
+                    inHousehold: householdId
+                )
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

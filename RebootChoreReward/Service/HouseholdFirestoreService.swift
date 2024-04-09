@@ -42,11 +42,11 @@ class HouseholdFirestoreService: HouseholdService {
     }
     
     private func subscribeToUserRepository() {
-        userRepository.user.sink { [weak self] user in
-            guard !user.household.isEmpty else {
+        userRepository.userHouseholdId.sink { [weak self] householdId in
+            guard !householdId.isEmpty else {
                 return
             }
-            self?.householdRepository.readHousehold(withId: user.household)
+            self?.readHousehold(withId: householdId)
         }
         .store(in: &cancellables)
     }

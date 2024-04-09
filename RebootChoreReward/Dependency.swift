@@ -54,7 +54,7 @@ class Dependency {
                 self.userService = UserFirestoreService(userRepository: repository.userRepository)
                 self.choreService = ChoreFirestoreService(
                     choreRepository: repository.choreRepository,
-                    householdRepository: repository.householdRepository
+                    userRepository: repository.userRepository
                 )
                 self.householdService = HouseholdFirestoreService(
                     householdRepository: repository.householdRepository,

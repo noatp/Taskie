@@ -14,64 +14,82 @@ enum UserFetchingError: Error {
 
 class UserFirestoreRepository {
     private let db = Firestore.firestore()
-    private var userCollectionListener: ListenerRegistration?
+    private var householdMemberCollectionListener: ListenerRegistration?
+    private var householdMemberCollectionRef: CollectionReference?
+
     
-    var user: AnyPublisher<User, Never> {
-        _user.eraseToAnyPublisher()
+    var members: AnyPublisher<[User], Never> {
+        _members.eraseToAnyPublisher()
     }
-    private let _user = CurrentValueSubject<User, Never>(.empty)
+    private let _members = CurrentValueSubject<[User], Never>([])
+    
+    var userHouseholdId: AnyPublisher<String, Never> {
+        _userHouseholdId.eraseToAnyPublisher()
+    }
+    private let _userHouseholdId = CurrentValueSubject<String, Never>("")
     
     init() {}
     
-    func createUser(from userObject: User) {
+    func createUser(from userObject: User, inHousehold householdId: String) {
+        householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
         do {
-            try db.collection("users").document(userObject.id).setData(from: userObject)
+            try householdMemberCollectionRef?.document(userObject.id).setData(from: userObject)
+            db.collection("users").document(userObject.id).setData(["householdId": householdId])
         }
         catch let error {
             LogUtil.log("Error writing user to Firestore: \(error)")
         }
     }
     
-    func readUser(withId userId: String) {
-        self.userCollectionListener = db.collection("users").document(userId).addSnapshotListener { [weak self] documentSnapshot, error in
-            guard let document = documentSnapshot, document.exists else {
-                if let error = error {
-                    LogUtil.log("Error fetching user document: \(error)")
+    func readUsers(inHousehold householdId: String){
+        householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
+        self.householdMemberCollectionListener = householdMemberCollectionRef?
+            //.orderByage
+            .addSnapshotListener { [weak self] collectionSnapshot, error in
+                guard let collectionSnapshot = collectionSnapshot else {
+                    if let error = error {
+                        LogUtil.log("\(error)")
+                    }
+                    return
                 }
-                else {
-                    LogUtil.log("User document does not exist")
+                
+                let members = collectionSnapshot.documents.compactMap { documentSnapshot in
+                    do {
+                        return try documentSnapshot.data(as: User.self)
+                    }
+                    catch {
+                        LogUtil.log("\(error)")
+                        return nil
+                    }
                 }
-                self?._user.send(.empty)
-                return
+                
+                self?._members.send(members)
             }
-            
-            do {
-                if let user = try documentSnapshot?.data(as: User.self) {
-                    self?._user.send(user)
-                }
-                else {
-                    LogUtil.log("Error decoding user document")
-                    self?._user.send(.empty)
-                }
-            }
-            catch {
-                LogUtil.log("Error decoding user document \(error)")
-                self?._user.send(.empty)
-                return
-            }
-        }
     }
     
-    func readUser(withId userId: String) async throws -> User {
-        let documentSnapshot = try await db.collection("users").document(userId).getDocument()
-        if let user = try? documentSnapshot.data(as: User.self) {
-            return user
-        } else {
-            throw UserFetchingError.userNotFound
+    func readUserForHouseholdId(userId: String) {
+        db.collection("users").document(userId).getDocument { [weak self] documentSnapshot, error in
+            if let error = error {
+                LogUtil.log("\(error)")
+                return
+            }
+            else {
+                if let documentSnapshot = documentSnapshot, documentSnapshot.exists {
+                    guard let data = documentSnapshot.data(),
+                          let householdId = data["householdId"] as? String else {
+                        LogUtil.log("Document does not exist or householdId field is missing")
+                        return
+                    }
+                    self?._userHouseholdId.send(householdId)
+                }
+                else {
+                    LogUtil.log("Document does not exist")
+                }
+            }
         }
     }
     
     deinit {
-        userCollectionListener?.remove()
+        householdMemberCollectionListener?.remove()
     }
 }
