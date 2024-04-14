@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 class MenuVC: PDSTitleWrapperVC {
-    private var viewModel: ProfileViewModel
+    private var viewModel: MenuViewModel
     private let dependencyView: Dependency.View
     
     private let menuOptions = ["Household", "Profile"]
@@ -37,7 +37,7 @@ class MenuVC: PDSTitleWrapperVC {
     }()
     
     init(
-        viewModel: ProfileViewModel,
+        viewModel: MenuViewModel,
         dependencyView: Dependency.View
     ) {
         self.viewModel = viewModel
@@ -130,7 +130,7 @@ struct MenuVC_Previews: PreviewProvider {
 extension Dependency.View {
     func menuVC() -> MenuVC {
         return MenuVC (
-            viewModel: viewModel.profileViewModel(),
+            viewModel: viewModel.menuViewModel(),
             dependencyView: self
         )
     }

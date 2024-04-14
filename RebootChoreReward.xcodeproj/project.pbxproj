@@ -20,7 +20,7 @@
 		CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F12B9E70D50086153A /* LogInViewModel.swift */; };
 		CA1683F42B9E73330086153A /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F32B9E73330086153A /* SignUpViewModel.swift */; };
 		CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F52B9E74D60086153A /* RootViewModel.swift */; };
-		CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F72B9E80910086153A /* ProfileViewModel.swift */; };
+		CA1683F82B9E80910086153A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683F72B9E80910086153A /* MenuViewModel.swift */; };
 		CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */; };
 		CA20AFDD2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */; };
 		CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */; };
@@ -91,7 +91,7 @@
 		CA1683F12B9E70D50086153A /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		CA1683F32B9E73330086153A /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		CA1683F52B9E74D60086153A /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
-		CA1683F72B9E80910086153A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CA1683F72B9E80910086153A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		CA20AFDA2B9FD95000BE9C18 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSResizeWithKeyboardVC.swift; sourceTree = "<group>"; };
 		CA20AFDE2BA000AF00BE9C18 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 				CA1683F12B9E70D50086153A /* LogInViewModel.swift */,
 				CA1683F32B9E73330086153A /* SignUpViewModel.swift */,
 				CA1683F52B9E74D60086153A /* RootViewModel.swift */,
-				CA1683F72B9E80910086153A /* ProfileViewModel.swift */,
+				CA1683F72B9E80910086153A /* MenuViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -481,7 +481,7 @@
 				CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */,
 				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
 				CA20AFE32BA0D44A00BE9C18 /* StringExtension.swift in Sources */,
-				CA1683F82B9E80910086153A /* ProfileViewModel.swift in Sources */,
+				CA1683F82B9E80910086153A /* MenuViewModel.swift in Sources */,
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,

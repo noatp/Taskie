@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProfileViewModel {
+class MenuViewModel {
     private var authService: AuthService
     
     init(authService: AuthService) {
@@ -20,7 +20,7 @@ class ProfileViewModel {
 }
 
 extension Dependency.ViewModel {
-    func profileViewModel() -> ProfileViewModel {
-        return ProfileViewModel(authService: service.authService)
+    func menuViewModel() -> MenuViewModel {
+        return MenuViewModel(authService: service.authService)
     }
 }
