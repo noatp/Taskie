@@ -68,13 +68,13 @@ class RootVC: UIViewController {
         let logInVC = dependencyView.loginInVC()
         let logInFlowNavVC = UINavigationController(rootViewController: logInVC)
         logInFlowNavVC.modalPresentationStyle = .fullScreen
-        present(logInFlowNavVC, animated: true)
+        present(logInFlowNavVC, animated: false)
     }
     
     private func dismissLogInVC() {
         if let navController = presentedViewController as? UINavigationController,
            navController.viewControllers.first is LogInVC {
-            dismiss(animated: true)
+            dismiss(animated: false)
         }
     }
     

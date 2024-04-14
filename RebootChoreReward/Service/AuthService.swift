@@ -9,44 +9,46 @@ import Foundation
 import FirebaseAuth
 import Combine
 
-class AuthService {    
+class AuthService {
     private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
+    private let auth = Auth.auth()
     
     var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
     }
     
     var currentUserId: String? {
-        Auth.auth().currentUser?.uid
+        auth.currentUser?.uid
     }
     
     init() {
-        // Listen to auth state changes
-        Auth.auth().addStateDidChangeListener { [weak self] _, user in
-            user?.getIDTokenForcingRefresh(true) { _, error in
-                if let error = error {
-                    LogUtil.log("\(error)")
-                    self?.signOut()
-                }
-                else {
-                    self?._isUserLoggedIn.send(user != nil)
-                }
-            }
-            
+        auth.addStateDidChangeListener { [weak self] _, user in
+            LogUtil.log("\(user)")
+            self?._isUserLoggedIn.send(user != nil)
         }
     }
     
     func signUp(withEmail email: String, password: String) async throws {
-        try await Auth.auth().createUser(withEmail: email, password: password)
+        try await auth.createUser(withEmail: email, password: password)
+    }
+    
+    func silentLogIn() {
+        auth.currentUser?.getIDTokenForcingRefresh(true){ _, error in
+            if let error = error {
+                self.signOut()
+                LogUtil.log("\(error)")
+            }
+        }
     }
     
     func logIn(withEmail email: String, password: String) async throws {
-        try await Auth.auth().signIn(withEmail: email, password: password)
+        try await auth.signIn(withEmail: email, password: password)
     }
     
     func signOut() {
         do {
-            try Auth.auth().signOut()
+            try auth.signOut()
+            LogUtil.log("Signing out")
         } catch {
             print("Error signing out \(error)")
         }

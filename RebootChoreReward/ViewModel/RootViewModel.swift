@@ -41,10 +41,12 @@ class RootViewModel: ObservableObject {
                 self?.userService.readUser(withId: uid)
             }
             else {
-                //maybe call reset services?
+                //maybe call reset services? 
             }
         }
         .store(in: &cancellables)
+        
+        authService.silentLogIn()
     }
     
     
