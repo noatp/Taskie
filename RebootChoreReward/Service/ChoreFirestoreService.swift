@@ -20,8 +20,6 @@ class ChoreFirestoreService: ChoreService {
     private var cancellables: Set<AnyCancellable> = []
     private let choreRepository: ChoreFirestoreRepository
     private let userRepository: UserFirestoreRepository
-    private var selectedChoreId: String?
-    private var currentHouseholdId: String?
     
     var chores: AnyPublisher<[Chore], Never> {
         _chores.eraseToAnyPublisher()
@@ -46,13 +44,8 @@ class ChoreFirestoreService: ChoreService {
     private func subscribeToChoreRepository() {
         choreRepository.chores.sink(
             receiveValue: { [weak self] chores in
+                LogUtil.log("Received chores \(chores)")
                 self?._chores.send(chores)
-                
-                if let selectedChoreId = self?.selectedChoreId,
-                   let selectedChore = chores.first(where: { $0.id == selectedChoreId })
-                {
-                    self?._selectedChore.send(selectedChore)
-                }
             }
         )
         .store(in: &cancellables)
@@ -60,8 +53,7 @@ class ChoreFirestoreService: ChoreService {
     
     private func subscribeToUserRepository() {
         userRepository.userHouseholdId.sink { [weak self] householdId in
-            self?.currentHouseholdId = householdId
-            
+            LogUtil.log("Received householdId: \(householdId)")
             guard !householdId.isEmpty else {
                 return
             }
@@ -71,10 +63,11 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func createChore(from choreObject: Chore) async throws {
-        guard let currentHouseholdId = currentHouseholdId else {
+        let householdId = userRepository.currentHouseholdId()
+        guard !householdId.isEmpty else {
             return
         }
-        choreRepository.createChore(from: choreObject, inHousehold: currentHouseholdId)
+        choreRepository.createChore(from: choreObject, inHousehold: householdId)
     }
     
     func readChores(inHousehold householdId: String) {
@@ -82,8 +75,6 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func readSelectedChore(choreId: String){
-        self.selectedChoreId = choreId
-        
         if let selectedChore = _chores.value.first(where: { $0.id == choreId }) {
             _selectedChore.send(selectedChore)
         }

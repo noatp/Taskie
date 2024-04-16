@@ -91,6 +91,10 @@ class MenuVC: PDSTitleWrapperVC {
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 extension MenuVC: UITableViewDelegate {

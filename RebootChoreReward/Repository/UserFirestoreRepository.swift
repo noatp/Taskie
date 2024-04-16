@@ -8,15 +8,16 @@
 import FirebaseFirestore
 import Combine
 
-enum UserFetchingError: Error {
+enum UserRepositoryError: Error {
     case userNotFound
+    case encodingError
 }
 
 class UserFirestoreRepository {
     private let db = Firestore.firestore()
     private var householdMemberCollectionListener: ListenerRegistration?
+    private var userDocumentListener: ListenerRegistration?
     private var householdMemberCollectionRef: CollectionReference?
-
     
     var members: AnyPublisher<[User], Never> {
         _members.eraseToAnyPublisher()
@@ -30,10 +31,14 @@ class UserFirestoreRepository {
     
     init() {}
     
-    func createUser(from userObject: User, inHousehold householdId: String) {
+    func createUser(from userObject: User, inHousehold householdId: String) async throws {
         householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
         do {
-            try householdMemberCollectionRef?.document(userObject.id).setData(from: userObject)
+            guard let documentData = try CodableUtil.dictionaryFromCodable(userObject) else {
+                throw UserRepositoryError.encodingError
+            }
+            try await householdMemberCollectionRef?.document(userObject.id).setData(documentData)
+            try await db.collection("users").document(userObject.id).setData(["householdId": householdId])
         }
         catch let error {
             LogUtil.log("Error writing user to Firestore: \(error)")
@@ -43,7 +48,7 @@ class UserFirestoreRepository {
     func readUsers(inHousehold householdId: String){
         householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
         self.householdMemberCollectionListener = householdMemberCollectionRef?
-            //.orderByage
+        //.orderByage
             .addSnapshotListener { [weak self] collectionSnapshot, error in
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
@@ -67,28 +72,52 @@ class UserFirestoreRepository {
     }
     
     func readUserForHouseholdId(userId: String) {
-        db.collection("users").document(userId).getDocument { [weak self] documentSnapshot, error in
-            if let error = error {
-                LogUtil.log("\(error)")
-                return
-            }
-            else {
-                if let documentSnapshot = documentSnapshot, documentSnapshot.exists {
-                    guard let data = documentSnapshot.data(),
-                          let householdId = data["householdId"] as? String else {
-                        LogUtil.log("Document does not exist or householdId field is missing")
-                        return
-                    }
-                    self?._userHouseholdId.send(householdId)
+        LogUtil.log("attaching listener for userId \(userId)")
+        userDocumentListener = db.collection("users")
+            .document(userId)
+            .addSnapshotListener { [weak self] documentSnapshot, error in
+                if let error = error {
+                    LogUtil.log("Error: \(error.localizedDescription)")
+                    return
                 }
-                else {
-                    LogUtil.log("Document does not exist")
+                
+                guard let document = documentSnapshot else {
+                    LogUtil.log("Error fetching document")
+                    return
                 }
+                
+                guard let data = document.data() else {
+                    LogUtil.log("Document data was empty")
+                    return
+                }
+                
+                guard let householdId = data["householdId"] as? String else {
+                    LogUtil.log("Failed to get householdId as String")
+                    return
+                }
+                
+                LogUtil.log("Got householdId \(householdId)")
+                self?._userHouseholdId.send(householdId)
             }
-        }
+    }
+    
+    func currentHouseholdId() -> String {
+        _userHouseholdId.value
+    }
+    
+    func reset() {
+        LogUtil.log("resetting")
+        householdMemberCollectionListener?.remove()
+        householdMemberCollectionListener = nil
+        userDocumentListener?.remove()
+        userDocumentListener = nil
+        householdMemberCollectionRef = nil
+        _members.send([])
+        _userHouseholdId.send("")
     }
     
     deinit {
         householdMemberCollectionListener?.remove()
+        userDocumentListener?.remove()
     }
 }

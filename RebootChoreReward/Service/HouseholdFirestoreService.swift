@@ -7,11 +7,14 @@
 
 import FirebaseFirestore
 import Combine
+import FirebaseFunctions
+import FirebaseAuth
 
 protocol HouseholdService {
     var household: AnyPublisher<Household, Never> { get }
     func createHousehold(from householdObject: Household)
     func readHousehold(withId householdId: String)
+    func requestInviteCode(completion: @escaping (Bool) -> Void)
 }
 
 class HouseholdFirestoreService: HouseholdService {
@@ -22,7 +25,7 @@ class HouseholdFirestoreService: HouseholdService {
     var household: AnyPublisher<Household, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = PassthroughSubject<Household, Never>()
+    private let _household = CurrentValueSubject<Household, Never>(.empty)
     
     init(
         householdRepository: HouseholdFirestoreRepository,
@@ -36,6 +39,7 @@ class HouseholdFirestoreService: HouseholdService {
     
     private func subscribeToHouseholdRepository() {
         householdRepository.household.sink { [weak self] household in
+            LogUtil.log("Received household \(household)")
             self?._household.send(household)
         }
         .store(in: &cancellables)
@@ -43,6 +47,7 @@ class HouseholdFirestoreService: HouseholdService {
     
     private func subscribeToUserRepository() {
         userRepository.userHouseholdId.sink { [weak self] householdId in
+            LogUtil.log("Received householdId \(householdId)")
             guard !householdId.isEmpty else {
                 return
             }
@@ -58,9 +63,29 @@ class HouseholdFirestoreService: HouseholdService {
     func readHousehold(withId householdId: String) {
         householdRepository.readHousehold(withId: householdId)
     }
+    
+    func requestInviteCode(completion: @escaping (Bool) -> Void) {
+        let functions = Functions.functions()
+        let householdId = userRepository.currentHouseholdId()
+        guard !householdId.isEmpty else {
+            return
+        }
+        functions.httpsCallable("generateInviteCode").call(["householdId": householdId]) { result, error in
+            if let error = error {
+                LogUtil.log("\(error.localizedDescription)")
+                completion(false)
+            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool {
+                completion(success)
+            } else {
+                completion(false)
+            }
+        }
+    }
 }
 
 class HouseholdMockService: HouseholdService {
+    func requestInviteCode(completion: @escaping (Bool) -> Void) {}
+    
     var household: AnyPublisher<Household, Never> {
         Just(
             .mock

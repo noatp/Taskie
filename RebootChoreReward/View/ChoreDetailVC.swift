@@ -158,6 +158,10 @@ class ChoreDetailVC: UIViewController, Themable {
     @objc func handleBack() {
         self.dismiss(animated: true)
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 struct ChoreDetailVC_Previews: PreviewProvider {

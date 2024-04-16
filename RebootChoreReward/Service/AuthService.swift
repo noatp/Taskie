@@ -9,9 +9,22 @@ import Foundation
 import FirebaseAuth
 import Combine
 
-class AuthService {
+protocol AuthService {
+    var isUserLoggedIn: AnyPublisher<Bool, Never> { get }
+    var currentUserId: String? { get }
+    func signUp(withEmail email: String, password: String) async throws
+    func logIn(withEmail email: String, password: String) async throws
+    func signOut()
+    func silentLogIn()
+}
+
+class AuthenticationService: AuthService {
     private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
     private let auth = Auth.auth()
+    private let userRepository: UserFirestoreRepository
+    private let choreRepository: ChoreFirestoreRepository
+    private let householdRepository: HouseholdFirestoreRepository
+
     
     var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
@@ -21,10 +34,25 @@ class AuthService {
         auth.currentUser?.uid
     }
     
-    init() {
+    init(
+        userRepository: UserFirestoreRepository,
+        choreRepository: ChoreFirestoreRepository,
+        householdRepository: HouseholdFirestoreRepository
+    ) {
+        self.userRepository = userRepository
+        self.choreRepository = choreRepository
+        self.householdRepository = householdRepository
+        
         auth.addStateDidChangeListener { [weak self] _, user in
-            LogUtil.log("\(user)")
-            self?._isUserLoggedIn.send(user != nil)
+            if let user = user {
+                LogUtil.log("Logged in with userId \(user.uid)")
+                self?._isUserLoggedIn.send(true)
+            }
+            else {
+                LogUtil.log("Signed out")
+                self?._isUserLoggedIn.send(false)
+                self?.resetRepositories()
+            }
         }
     }
     
@@ -53,4 +81,28 @@ class AuthService {
             print("Error signing out \(error)")
         }
     }
+    
+    func resetRepositories() {
+        userRepository.reset()
+        householdRepository.reset()
+        choreRepository.reset()
+    }
+}
+
+class AuthMockService: AuthService {
+    func silentLogIn() {}
+    
+    var isUserLoggedIn: AnyPublisher<Bool, Never> {
+        Just(true).eraseToAnyPublisher()
+    }
+    
+    func signUp(withEmail email: String, password: String) async throws {}
+    
+    func logIn(withEmail email: String, password: String) async throws {}
+    
+    func signOut() {}
+    
+    var currentUserId: String? = ""
+    
+    
 }

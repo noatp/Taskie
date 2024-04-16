@@ -49,7 +49,7 @@ class Dependency {
                 self.choreService = ChoreMockService()
                 self.householdService = HouseholdMockService()
                 self.storageService = StorageService()
-                self.authService = AuthService()
+                self.authService = AuthMockService()
             } else {
                 self.userService = UserFirestoreService(userRepository: repository.userRepository)
                 self.choreService = ChoreFirestoreService(
@@ -61,7 +61,11 @@ class Dependency {
                     userRepository: repository.userRepository
                 )
                 self.storageService = StorageService()
-                self.authService = AuthService()
+                self.authService = AuthenticationService(
+                    userRepository: repository.userRepository,
+                    choreRepository: repository.choreRepository,
+                    householdRepository: repository.householdRepository
+                )
             }
         }
     }

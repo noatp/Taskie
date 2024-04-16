@@ -12,4 +12,5 @@ target 'RebootChoreReward' do
   pod 'FirebaseFirestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Storage'
+  pod 'FirebaseFunctions'
 end

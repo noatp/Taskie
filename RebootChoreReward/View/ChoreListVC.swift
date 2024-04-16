@@ -97,6 +97,10 @@ class ChoreListVC: PDSTitleWrapperVC {
         let profileVC = depedencyView.menuVC()
         navigationController?.pushViewController(profileVC, animated: true)
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 extension ChoreListVC: UITableViewDelegate {

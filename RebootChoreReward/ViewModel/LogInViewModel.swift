@@ -11,9 +11,14 @@ class LogInViewModel {
     var email: String?
     var password: String?
     private let authService: AuthService
+    private let userService: UserService
     
-    init(authService: AuthService) {
+    init(
+        authService: AuthService,
+        userService: UserService
+    ) {
         self.authService = authService
+        self.userService = userService
     }
     
     func logIn(completion: @escaping (String?) -> Void) {
@@ -24,7 +29,11 @@ class LogInViewModel {
         
         Task {
             do {
-                try await authService.logIn(withEmail: email, password: password)
+                try await self.authService.logIn(withEmail: email, password: password)
+                guard let currentUserId = self.authService.currentUserId else {
+                    completion("Error signing in: could not get user info")
+                    return
+                }
                 completion(nil)
             } catch {
                 completion("Error signing in: \(error.localizedDescription)")
@@ -35,6 +44,6 @@ class LogInViewModel {
 
 extension Dependency.ViewModel {
     func logInViewModel() -> LogInViewModel {
-        return LogInViewModel(authService: service.authService)
+        return LogInViewModel(authService: service.authService, userService: service.userService)
     }
 }

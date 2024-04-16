@@ -34,15 +34,15 @@ class SignUpViewModel {
         
         Task {
             do {
-                try await authService.signUp(withEmail: email, password: password)
-                guard let uid = authService.currentUserId else {
+                try await self.authService.signUp(withEmail: email, password: password)
+                guard let currentUserId = self.authService.currentUserId else {
                     completion("Error signing up: could not get user info")
                     return
                 }
                 let householdId = UUID().uuidString
-                householdService.createHousehold(from: Household(id: householdId))
-                userService.createUser(
-                    from: User(name: name, id: uid, household: householdId, role: .parent),
+                self.householdService.createHousehold(from: Household(id: householdId))
+                try await self.userService.createUser(
+                    from: User(name: name, id: currentUserId, household: householdId, role: .parent),
                     inHousehold: householdId
                 )
                 completion(nil)
@@ -50,6 +50,10 @@ class SignUpViewModel {
                 completion("Error signing up: \(error.localizedDescription)")
             }
         }
+    }
+    
+    deinit {
+        LogUtil.log("deinit")
     }
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Themable {
+protocol Themable: AnyObject {
     func applyTheme(_ theme: PDSTheme)
 }
 
@@ -30,7 +30,7 @@ struct PDSColor {
     var onSurface: UIColor
     var onError: UIColor
     var dividerColor: UIColor
-
+    
     // Add more theme attributes as needed
     
     // Define default and other themes
@@ -76,26 +76,34 @@ struct PDSTheme {
 }
 
 
+class WeakThemable {
+    weak var component: Themable?
+    
+    init(_ component: Themable) {
+        self.component = component
+    }
+}
+
 class ThemeManager {
     static let shared = ThemeManager()
-
+    
     private(set) var currentTheme: PDSTheme = .defaultTheme {
         didSet {
             // Notify all registered components about the theme change
-            for component in themableComponents {
+            themableComponents = themableComponents.compactMap { weakThemable in
+                guard let component = weakThemable.component else { return nil }
                 component.applyTheme(currentTheme)
+                return weakThemable
             }
         }
     }
-
-    private var themableComponents = [Themable]()
-
+    
+    private var themableComponents = [WeakThemable]()
+    
     func register(_ component: Themable) {
-        themableComponents.append(component)
+        themableComponents.append(WeakThemable(component))
         component.applyTheme(currentTheme) // Apply current theme immediately
     }
-    
-    
     
     // Add methods to switch themes as needed
     func switchToTheme(_ theme: PDSTheme) {

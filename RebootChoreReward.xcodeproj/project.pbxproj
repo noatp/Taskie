@@ -67,6 +67,9 @@
 		CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */; };
 		CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */; };
 		CACE2EB72BC4E11E007FD9F2 /* HouseholdMemberListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */; };
+		CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */; };
+		CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */; };
+		CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -139,6 +142,9 @@
 		CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSMenuCell.swift; sourceTree = "<group>"; };
 		CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListViewModel.swift; sourceTree = "<group>"; };
 		CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListVC.swift; sourceTree = "<group>"; };
+		CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberViewModel.swift; sourceTree = "<group>"; };
+		CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberVC.swift; sourceTree = "<group>"; };
+		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -200,6 +206,7 @@
 		CA1683EE2B9D301A0086153A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
 				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
 				CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */,
 				CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */,
@@ -236,6 +243,7 @@
 				CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */,
 				CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */,
 				CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */,
+				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,6 +268,7 @@
 				CA1683EC2B8D9B980086153A /* LogUtil.swift */,
 				CA20AFE42BA0D54100BE9C18 /* StringConstant.swift */,
 				CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */,
+				CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -508,6 +517,7 @@
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
+				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
@@ -534,6 +544,8 @@
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
 				CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */,
+				CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */,
+				CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */,
 				CA1683EB2B8D45D80086153A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

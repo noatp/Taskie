@@ -105,15 +105,17 @@ class SignUpVC: PDSResizeWithKeyboardVC {
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {
                     self?.showAlert(withMessage: errorMessage)
-                } else {
-                    // Handle successful signup
-                }
+                } 
             }
         }
     }
     
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    deinit {
+        LogUtil.log("deinit")
     }
 }
 

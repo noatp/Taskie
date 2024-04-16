@@ -19,6 +19,8 @@ class HouseholdMemberListViewModel: ObservableObject {
     
     private func subscribeToUserFirestoreService() {
         userService.familyMembers.sink { [weak self] familyMembers in
+            LogUtil.log("Received familyMembers \(familyMembers)")
+
             self?.familyMembers = familyMembers
         }
         .store(in: &cancellables)

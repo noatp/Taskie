@@ -180,6 +180,10 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         }
         view.backgroundColor = theme.color.surfaceColor
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 extension AddChoreVC: UIImagePickerControllerDelegate {

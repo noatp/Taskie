@@ -55,6 +55,14 @@ class ChoreFirestoreRepository {
             }
     }
     
+    func reset() {
+        LogUtil.log("resetting")
+        choreCollectionListener?.remove()
+        choreCollectionListener = nil
+        householdChoreCollectionRef = nil
+        _chores.send([])
+    }
+    
     deinit {
         choreCollectionListener?.remove()
     }

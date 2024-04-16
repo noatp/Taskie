@@ -16,17 +16,50 @@ import * as admin from "firebase-admin";
 
 admin.initializeApp();
 
-exports.createUserInUsersCollection = functions.firestore
-  .document("households/{householdId}/members/{memberId}")
-  .onCreate((snap, context) => {
-    const householdId = context.params.householdId;
-    const memberId = context.params.memberId;
+exports.generateInviteCode = functions.https.onCall(async (data, context) => {
+  const householdId: string = data.householdId;
+  const db = admin.firestore();
 
-    const userDoc = {
-      householdId: householdId,
-    };
+  /**
+   * Recursively generates a unique 6-digit code and updates the household
+   * document without returning it to the client.
+   *
+   * The code will be used directly from the Firestore 'households' collection
+   * by the client.
+   */
+  async function generateCode(): Promise<{success: boolean}> {
+    const code: string = ("000000" + Math.floor(Math.random() * 1000000)
+      .toString())
+      .slice(-6);
+    const inviteCodeDocRef = db.collection("inviteCodes").doc(code);
+    const inviteCodeDoc = await inviteCodeDocRef.get();
+    const householdDocRef = db.collection("households").doc(householdId);
 
-    return admin.firestore().collection("users").doc(memberId).set(userDoc)
-      .then(() => console.log("User document for ${memberId} created"))
-      .catch((error) => console.error("Error creating user document: ", error));
-  });
+    if (inviteCodeDoc.exists) {
+      // Recursively generate a new code if there's a collision
+      console.log("invite code collision");
+      return generateCode();
+    } else {
+      // Code is unique, store it with the householdId
+      const batch = db.batch();
+      batch.set(inviteCodeDocRef, {householdId: householdId});
+      batch.update(householdDocRef, {inviteCode: code});
+
+      try {
+        await batch.commit();
+        console.log("Invite code generated and saved to household");
+        // Simply return a success message or empty object
+        return {success: true};
+      } catch (error) {
+        console.error("Error updating documents: ", error);
+        throw new functions.https.HttpsError(
+          "unknown",
+          "Failed to generate and store invite code",
+          error
+        );
+      }
+    }
+  }
+
+  return generateCode();
+});

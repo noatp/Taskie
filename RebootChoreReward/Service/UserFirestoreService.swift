@@ -6,11 +6,12 @@
 //
 
 import Combine
+import FirebaseAuth
 
 protocol UserService {
     var user: AnyPublisher<User, Never> { get }
     var familyMembers: AnyPublisher<[User], Never> { get }
-    func createUser(from userObject: User, inHousehold householdId: String)
+    func createUser(from userObject: User, inHousehold householdId: String) async throws
     func readUser(withId userId: String)
     func readFamilyMember(withId lookUpId: String) async throws -> User
 }
@@ -18,7 +19,6 @@ protocol UserService {
 class UserFirestoreService: UserService {
     private var cancellables: Set<AnyCancellable> = []
     private let userRepository: UserFirestoreRepository
-    private var currentUserId: String = ""
     
     var familyMembers: AnyPublisher<[User], Never> {
         _familyMembers.eraseToAnyPublisher()
@@ -37,10 +37,13 @@ class UserFirestoreService: UserService {
     
     private func subscribeToUserRepository() {
         userRepository.members.sink { [weak self] members in
+            LogUtil.log("Received members \(members)")
+
             self?._familyMembers.send(members)
 
             guard let self = self,
-                  let currentUser = members.first(where: { $0.id == self.currentUserId }) else {
+                  let currentUserId = Auth.auth().currentUser?.uid,
+                  let currentUser = members.first(where: { $0.id == currentUserId }) else {
                 return
             }
             _user.send(currentUser)
@@ -56,13 +59,12 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
     }
     
-    func createUser(from userObject: User, inHousehold householdId: String) {
-        userRepository.createUser(from: userObject, inHousehold: householdId)
+    func createUser(from userObject: User, inHousehold householdId: String) async throws {
+        try await userRepository.createUser(from: userObject, inHousehold: householdId)
         
     }
 
     func readUser(withId userId: String) {
-        currentUserId = userId
         userRepository.readUserForHouseholdId(userId: userId)
     }
     
@@ -70,8 +72,12 @@ class UserFirestoreService: UserService {
         if let familyMember = _familyMembers.value.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
-            throw UserFetchingError.userNotFound
+            throw UserRepositoryError.userNotFound
         }
+    }
+    
+    func reset() {
+        
     }
 }
 
@@ -92,7 +98,7 @@ class UserMockService: UserService {
         .eraseToAnyPublisher()
     }
     
-    func createUser(from userObject: User, inHousehold householdId: String) {}
+    func createUser(from userObject: User, inHousehold householdId: String) async throws {}
 
     
     func readUser(withId userId: String) {}

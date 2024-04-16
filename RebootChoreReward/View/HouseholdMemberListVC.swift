@@ -12,7 +12,8 @@ import Combine
 class HouseholdMemberListVC: PDSTitleWrapperVC {
     private var viewModel: HouseholdMemberListViewModel
     private var cancellables: Set<AnyCancellable> = []
-
+    private let depedencyView: Dependency.View
+    
     private let tableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -27,8 +28,19 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
         return button
     }()
     
-    init(viewModel: HouseholdMemberListViewModel) {
+    private let addBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    init(
+        viewModel: HouseholdMemberListViewModel,
+        depedencyView: Dependency.View
+    ) {
         self.viewModel = viewModel
+        self.depedencyView = depedencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,11 +82,23 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
 
     private func setUpActions() {
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        addBarButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addBarButton)
     }
     
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func addNewItem() {
+        let addHouseholdMemberVC = depedencyView.addHouseholdMemberVC()
+        let navVC = UINavigationController(rootViewController: addHouseholdMemberVC)
+        self.present(navVC, animated: true)
+    }
+    
+    deinit {
+        LogUtil.log("deinit")
     }
 }
 
@@ -108,7 +132,7 @@ struct HouseholdMemberListVC_Previews: PreviewProvider {
 extension Dependency.View {
     func householdMemberListVC() -> HouseholdMemberListVC {
         return HouseholdMemberListVC(
-            viewModel: viewModel.householdMemberListViewModel()
+            viewModel: viewModel.householdMemberListViewModel(), depedencyView: self
         )
     }
 }

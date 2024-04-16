@@ -56,6 +56,13 @@ class HouseholdFirestoreRepository {
         })
     }
     
+    func reset() {
+        LogUtil.log("resetting")
+        householdCollectionListener?.remove()
+        householdCollectionListener = nil
+        _household.send(.empty)
+    }
+    
     deinit {
         householdCollectionListener?.remove()
     }

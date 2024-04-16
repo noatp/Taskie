@@ -12,12 +12,12 @@ class RootVC: UIViewController {
     private var viewModel: RootViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var dependencyView: Dependency.View
-    private var choreListVC: UINavigationController
+    private var current: UIViewController
     
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.choreListVC = UINavigationController(rootViewController: dependencyView.choreListVC())
+        self.current = UINavigationController(rootViewController: dependencyView.loginInVC())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,56 +28,68 @@ class RootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        addChild(choreListVC)
-        choreListVC.didMove(toParent: self)
+        addChild(current)
+        current.didMove(toParent: self)
         setUpViews()
     }
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
-
-        guard let childView = choreListVC.view else {
+        
+        guard let childView = current.view else {
             return
         }
         childView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(childView)
-        NSLayoutConstraint.activate([
-            childView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            childView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            childView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            childView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
+        setupConstraints(for: childView)
     }
     
     private func bindViewModel() {
         viewModel.$authState
             .receive(on: RunLoop.main)
             .sink { [weak self] isUserLoggedIn in
-                isUserLoggedIn ? self?.dismissLogInVC() : self?.presentLogInVC()
+                if isUserLoggedIn {
+                    guard let choreListVC = self?.dependencyView.choreListVC() else {
+                        return
+                    }
+                    let navVC = UINavigationController(rootViewController: choreListVC)
+                    self?.switchToViewController(navVC)
+                }
+                else {
+                    guard let logInVC = self?.dependencyView.loginInVC() else {
+                        return
+                    }
+                    let navVC = UINavigationController(rootViewController: logInVC)
+                    self?.switchToViewController(navVC)
+                }
             }
             .store(in: &cancellables)
-
     }
     
-    private func presentLogInVC() {
-        if presentedViewController is LogInVC {
-            return
-        }
+    private func switchToViewController(_ newVC: UIViewController) {
+        let oldVC = current
+        // Prepare the new view controller
+        addChild(newVC)
+        newVC.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(newVC.view)
+        setupConstraints(for: newVC.view)
+        newVC.didMove(toParent: self)
+        oldVC.willMove(toParent: nil)
+        oldVC.view.removeFromSuperview()
+        oldVC.removeFromParent()
         
-        let logInVC = dependencyView.loginInVC()
-        let logInFlowNavVC = UINavigationController(rootViewController: logInVC)
-        logInFlowNavVC.modalPresentationStyle = .fullScreen
-        present(logInFlowNavVC, animated: false)
+        // Update the current view controller reference
+        current = newVC
     }
     
-    private func dismissLogInVC() {
-        if let navController = presentedViewController as? UINavigationController,
-           navController.viewControllers.first is LogInVC {
-            dismiss(animated: false)
-        }
+    private func setupConstraints(for childView: UIView) {
+        NSLayoutConstraint.activate([
+            childView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            childView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            childView.topAnchor.constraint(equalTo: view.topAnchor),
+            childView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
-    
 }
 
 extension Dependency.View {

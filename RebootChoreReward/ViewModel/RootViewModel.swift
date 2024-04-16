@@ -31,17 +31,15 @@ class RootViewModel: ObservableObject {
     
     private func subscribeToAuthService() {
         authService.isUserLoggedIn.sink { [weak self] isUserLoggedIn in
+            LogUtil.log("Received isUserLoggedIn \(isUserLoggedIn)")
+
             self?.authState = isUserLoggedIn
             if isUserLoggedIn {
-                guard let uid = self?.authService.currentUserId,
-                      !uid.isEmpty
-                else {
+                guard let currentUserId = self?.authService.currentUserId,
+                      !currentUserId.isEmpty else {
                     return
                 }
-                self?.userService.readUser(withId: uid)
-            }
-            else {
-                //maybe call reset services? 
+                self?.userService.readUser(withId: currentUserId)
             }
         }
         .store(in: &cancellables)

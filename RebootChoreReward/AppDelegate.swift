@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFunctions
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,15 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-//        var settings = Firestore.firestore().settings
+        
+        // umcomment this to hit emulators
+//        // firestore
+//        let settings = Firestore.firestore().settings
 //        settings.host = "localhost:8080"
 //        settings.isSSLEnabled = false
 //        Firestore.firestore().settings = settings
-//        
+//        // Authentication
 //        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
-//        
+//        // Storage
 //        let storage = Storage.storage()
 //        storage.useEmulator(withHost: "localhost", port: 9199)
+//        // Functions
+//        let functions = Functions.functions()
+//        functions.useEmulator(withHost: "localhost", port: 5001)
         return true
     }
 

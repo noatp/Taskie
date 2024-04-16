@@ -98,8 +98,6 @@ class LogInVC: PDSResizeWithKeyboardVC {
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {
                     self?.showAlert(withMessage: errorMessage)
-                } else {
-                    // Handle successful login
                 }
             }
         }
@@ -108,6 +106,10 @@ class LogInVC: PDSResizeWithKeyboardVC {
     @objc func navigateToSignUp() {
         let signUpVC = dependencyView.signUpVC()
         navigationController?.pushViewController(signUpVC, animated: true)
+    }
+    
+    deinit {
+        LogUtil.log("deinit")
     }
 }
 
