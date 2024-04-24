@@ -11,8 +11,6 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM
-*.log
-
 # SwiftLint
 # .swiftlint.yml (Include or exclude based on team agreement)
 
@@ -20,3 +18,5 @@ DerivedData/
 ._*
 .Spotlight-V100
 .Trashes
+firebase-debug.log
+firestore-debug.log
