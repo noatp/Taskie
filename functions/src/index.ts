@@ -41,8 +41,12 @@ exports.generateInviteCode = functions.https.onCall(async (data, context) => {
       return generateCode();
     } else {
       // Code is unique, store it with the householdId
+      const expirationTime = admin.firestore.Timestamp.now().toMillis() + (5 * 60 * 1000);
       const batch = db.batch();
-      batch.set(inviteCodeDocRef, {householdId: householdId});
+      batch.set(inviteCodeDocRef, {
+        householdId: householdId,
+        expirationTime: admin.firestore.Timestamp.fromMillis(expirationTime),
+      });
       batch.update(householdDocRef, {inviteCode: code});
 
       try {
