@@ -9,19 +9,21 @@ import UIKit
 import SwiftUI
 
 class PDSTextField: UITextField, Themable {
-    var normalBorderColor = UIColor.gray.cgColor
-    var highlightedBorderColor = UIColor.systemBlue.cgColor
+    private var normalBorderColor = UIColor.gray.cgColor
+    private var highlightedBorderColor = UIColor.systemBlue.cgColor
     
-    let normalBorderWidth: CGFloat = 1.0
-    let highlightedBorderWidth: CGFloat = 3.0
+    private let normalBorderWidth: CGFloat = 1.0
+    private let highlightedBorderWidth: CGFloat = 3.0
     
-    let placeholderText: String
-    let hasBorder: Bool
-    var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+    private let placeholderText: String
+    private let hasBorder: Bool
+    private let maxChar: Int?
+    private var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
-    init(withPlaceholder placeholderText: String, hasBorder: Bool = false, isCentered: Bool = false) {
+    init(withPlaceholder placeholderText: String, hasBorder: Bool = false, isCentered: Bool = false, maxChar: Int? = nil) {
         self.placeholderText = placeholderText
         self.hasBorder = hasBorder
+        self.maxChar = maxChar
         super.init(frame: .zero)
         if isCentered {
             self.delegate = self
@@ -87,9 +89,13 @@ class PDSTextField: UITextField, Themable {
 
 extension PDSTextField: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         let currentText = textField.text ?? ""
         let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
         textField.textAlignment = newText.isEmpty ? .left : .center
+        if let maxChar = maxChar {
+            return newText.count <= maxChar
+        }
         return true
     }
 

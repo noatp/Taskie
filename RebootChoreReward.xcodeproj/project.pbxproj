@@ -36,6 +36,8 @@
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
+		CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */; };
+		CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -114,6 +116,8 @@
 		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
+		CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewModel.swift; sourceTree = "<group>"; };
+		CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 		CA1683EE2B9D301A0086153A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */,
+				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
 				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
 				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
 				CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */,
@@ -250,8 +256,8 @@
 				CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */,
 				CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */,
 				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
-				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
 				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
+				CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CACE2EC52BD9CE30007FD9F2 /* LandingVC.swift in Sources */,
+				CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */,
 				CA20AFE12BA0A99700BE9C18 /* PDSCurrencyTextField.swift in Sources */,
 				CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */,
 				CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */,
@@ -504,6 +511,7 @@
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,
+				CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */,
 				CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,

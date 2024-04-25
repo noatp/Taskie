@@ -8,11 +8,12 @@
 import SwiftUI
 import UIKit
 
-class LandingVC: UIViewController {
+class LandingVC: UIViewController, Themable {
     private let dependencyView: Dependency.View
     
     private let welcomeLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Welcome to \nChore Reward", fontScale: .headline1)
+        let label = PDSLabel(withText: "", fontScale: .headline1)
+        
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +46,13 @@ class LandingVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     init(
         dependencyView: Dependency.View
@@ -64,6 +72,8 @@ class LandingVC: UIViewController {
     }
 
     private func setUpViews() {
+        ThemeManager.shared.register(self)
+        
         let leftSeparator = UIView.createSeparatorView()
         let rightSeparator = UIView.createSeparatorView()
         
@@ -106,6 +116,7 @@ class LandingVC: UIViewController {
     private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
         logInButton.addTarget(self, action: #selector(navigateToLogIn), for: .touchUpInside)
+        enterInviteCode.addTarget(self, action: #selector(navigateToInviteCode), for: .touchUpInside)
     }
     
     @objc func navigateToSignUp() {
@@ -116,6 +127,25 @@ class LandingVC: UIViewController {
     @objc func navigateToLogIn() {
         let logInVC = dependencyView.logInVC()
         navigationController?.pushViewController(logInVC, animated: true)
+    }
+    
+    @objc func navigateToInviteCode() {
+        let inviteCodeVC = dependencyView.inviteCodeVC()
+        navigationController?.pushViewController(inviteCodeVC, animated: true)
+    }
+    
+    func applyTheme(_ theme: PDSTheme) {
+        let fullText = "Welcome to\nChore Reward"
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let normalAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.onBackground]
+        let choreAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.primaryColor]
+        let rewardAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.secondaryColor]
+        
+        attributedString.addAttributes(normalAttribute, range: (fullText as NSString).range(of: fullText))
+        attributedString.addAttributes(choreAttributes, range: (fullText as NSString).range(of: "Chore"))
+        attributedString.addAttributes(rewardAttributes, range: (fullText as NSString).range(of: "Reward"))
+        
+        welcomeLabel.attributedText = attributedString
     }
 }
 
