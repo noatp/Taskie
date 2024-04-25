@@ -5,9 +5,14 @@ import UIKit
 
 class ___VARIABLE_viewName:identifier___VC: UIViewController {
     private var viewModel: ___VARIABLE_viewName:identifier___ViewModel
+    private let dependencyView: Dependency.View
 
-    init(viewModel: ___VARIABLE_viewName:identifier___ViewModel = .init()) {
+    init(
+        viewModel: ___VARIABLE_viewName:identifier___ViewModel = .init(),
+        dependencyView: Dependency.View
+    ) {
         self.viewModel = viewModel
+        self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,3 +44,11 @@ struct ___VARIABLE_viewName:identifier___VC_Previews: PreviewProvider {
     }
 }
  
+extension Dependency.View {
+    func ___VARIABLE_viewNameLowerCase:identifier___VC() -> ___VARIABLE_viewName:identifier___VC {
+        return ___VARIABLE_viewName:identifier___VC(
+            viewModel: viewModel.___VARIABLE_viewNameLowerCase:identifier___ViewModel,
+            dependencyView: self
+        )
+    }
+}
