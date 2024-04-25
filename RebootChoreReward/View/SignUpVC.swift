@@ -65,7 +65,6 @@ class SignUpVC: PDSResizeWithKeyboardVC {
     }
     
     private func setUpViews() {
-        view.backgroundColor = .systemBackground
         setTitle("Sign up")
         
         let vStack = UIStackView.vStack(arrangedSubviews: [

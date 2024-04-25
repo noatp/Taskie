@@ -44,6 +44,7 @@ class PDSTitleWrapperVC: UIViewController, Themable {
     
     func applyTheme(_ theme: PDSTheme) {
         vcTitleLabel.textColor = theme.color.primaryColor
+        view.backgroundColor = theme.color.backgroundColor
     }
 }
 

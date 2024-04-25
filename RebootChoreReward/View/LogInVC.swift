@@ -10,7 +10,6 @@ import SwiftUI
 
 class LogInVC: PDSResizeWithKeyboardVC {
     private var viewModel: LogInViewModel
-    private let dependencyView: Dependency.View
     
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email", hasBorder: true)
@@ -32,19 +31,17 @@ class LogInVC: PDSResizeWithKeyboardVC {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    let navToSignUpVCButton: PDSSecondaryButton = {
-        let button = PDSSecondaryButton()
-        button.setTitle("Sign up", for: .normal)
+    let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     init(
-        viewModel: LogInViewModel,
-        dependencyView: Dependency.View
+        viewModel: LogInViewModel
     ) {
         self.viewModel = viewModel
-        self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,17 +57,13 @@ class LogInVC: PDSResizeWithKeyboardVC {
     
     private func setUpViews() {
         setTitle("Log in")
-        
-        view.backgroundColor = .systemBackground
-        
+                
         let vStack = UIStackView.vStack(arrangedSubviews: [
             emailTextField,
             .createSpacerView(height: 20),
             passwordTextField,
             .createSpacerView(),
-            logInButton,
-            .createSpacerView(height: 20),
-            navToSignUpVCButton
+            logInButton
         ], alignment: .center, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         keyboardAdjustmentConstraint = vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
@@ -87,7 +80,8 @@ class LogInVC: PDSResizeWithKeyboardVC {
     
     private func setUpActions() {
         logInButton.addTarget(self, action: #selector(handleLogIn), for: .touchUpInside)
-        navToSignUpVCButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleLogIn() {
@@ -103,9 +97,8 @@ class LogInVC: PDSResizeWithKeyboardVC {
         }
     }
     
-    @objc func navigateToSignUp() {
-        let signUpVC = dependencyView.signUpVC()
-        navigationController?.pushViewController(signUpVC, animated: true)
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
     }
     
     deinit {
@@ -116,16 +109,15 @@ class LogInVC: PDSResizeWithKeyboardVC {
 struct LogInVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            Dependency.preview.view.loginInVC()
+            Dependency.preview.view.logInVC()
         }
     }
 }
 
 extension Dependency.View {
-    func loginInVC() -> LogInVC {
+    func logInVC() -> LogInVC {
         return LogInVC(
-            viewModel: viewModel.logInViewModel(),
-            dependencyView: self
+            viewModel: viewModel.logInViewModel()
         )
     }
 }

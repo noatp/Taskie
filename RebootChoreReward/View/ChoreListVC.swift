@@ -66,7 +66,6 @@ class ChoreListVC: PDSTitleWrapperVC {
     }
     
     private func setUpViews() {
-        view.backgroundColor = .systemBackground
         setTitle("Chores")
         tableView.dataSource = self
         tableView.delegate = self

@@ -58,9 +58,7 @@ class MenuVC: PDSTitleWrapperVC {
     
     private func setUpViews() {
         setTitle("Menu")
-        
-        view.backgroundColor = .systemBackground
-        
+                
         menuOptionTableView.delegate = self
         menuOptionTableView.dataSource = self
 

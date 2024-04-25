@@ -44,4 +44,16 @@ extension UIView {
         }
         return spacerView
     }
+    
+    static func createSeparatorView() -> UIView {
+        let separatorView = UIView()
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.backgroundColor = ThemeManager.shared.currentTheme.color.dividerColor
+        
+        NSLayoutConstraint.activate([
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        return separatorView
+    }
 }

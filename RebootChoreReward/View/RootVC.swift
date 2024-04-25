@@ -17,7 +17,7 @@ class RootVC: UIViewController {
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.current = UINavigationController(rootViewController: dependencyView.loginInVC())
+        self.current = UINavigationController(rootViewController: dependencyView.logInVC())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,10 +56,10 @@ class RootVC: UIViewController {
                     self?.switchToViewController(navVC)
                 }
                 else {
-                    guard let logInVC = self?.dependencyView.loginInVC() else {
+                    guard let landingVC = self?.dependencyView.landingVC() else {
                         return
                     }
-                    let navVC = UINavigationController(rootViewController: logInVC)
+                    let navVC = UINavigationController(rootViewController: landingVC)
                     self?.switchToViewController(navVC)
                 }
             }
