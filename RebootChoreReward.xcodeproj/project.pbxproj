@@ -39,6 +39,8 @@
 		CA5535412BDA14C100A5B2BC /* InviteCodeFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */; };
 		CA5535502BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */; };
 		CA5535512BDDFE1B00A5B2BC /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */; };
+		CA5535542BDE0C4B00A5B2BC /* CreateProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */; };
+		CA5535552BDE0C4B00A5B2BC /* CreateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */; };
 		CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */; };
 		CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
@@ -122,6 +124,8 @@
 		CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeFirestoreService.swift; sourceTree = "<group>"; };
 		CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
+		CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewModel.swift; sourceTree = "<group>"; };
+		CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileVC.swift; sourceTree = "<group>"; };
 		CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewModel.swift; sourceTree = "<group>"; };
 		CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 				CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */,
 				CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */,
 				CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */,
+				CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */,
+				CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -547,6 +553,7 @@
 				CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift in Sources */,
+				CA5535552BDE0C4B00A5B2BC /* CreateProfileVC.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
 				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
@@ -578,6 +585,7 @@
 				CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */,
 				CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */,
 				CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */,
+				CA5535542BDE0C4B00A5B2BC /* CreateProfileViewModel.swift in Sources */,
 				CA1683EB2B8D45D80086153A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

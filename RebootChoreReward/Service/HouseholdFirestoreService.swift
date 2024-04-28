@@ -12,7 +12,7 @@ import FirebaseAuth
 
 protocol HouseholdService {
     var household: AnyPublisher<Household?, Never> { get }
-    func createHousehold(from householdObject: Household)
+    func createHousehold(withId householdId: String)
     func readHousehold(withId householdId: String)
     func requestInviteCode(completion: @escaping (Bool) -> Void)
 }
@@ -57,7 +57,8 @@ class HouseholdFirestoreService: HouseholdService {
         .store(in: &cancellables)
     }
     
-    func createHousehold(from householdObject: Household) {
+    func createHousehold(withId householdId: String) {
+        let householdObject = Household(id: householdId)
         householdRepository.createHousehold(from: householdObject)
     }
     
@@ -93,7 +94,7 @@ class HouseholdMockService: HouseholdService {
     
     func requestInviteCode(completion: @escaping (Bool) -> Void) {}
         
-    func createHousehold(from householdObject: Household) {}
+    func createHousehold(withId householdId: String) {}
     
     func readHousehold(withId householdId: String) {}
 }

@@ -113,11 +113,17 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
 
     private func setUpActions() {
         enterInviteCodeButton.addTarget(self, action: #selector(navigateToInviteCode), for: .touchUpInside)
+        createHouseholdButton.addTarget(self, action: #selector(navigateToCreateProfile), for: .touchUpInside)
     }
     
     @objc func navigateToInviteCode() {
         let inviteCodeVC = dependencyView.inviteCodeVC()
         navigationController?.pushViewController(inviteCodeVC, animated: true)
+    }
+    
+    @objc func navigateToCreateProfile() {
+        let createProfileVC = dependencyView.createProfileVC()
+        navigationController?.pushViewController(createProfileVC, animated: true)
     }
 }
 

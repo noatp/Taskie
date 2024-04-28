@@ -15,7 +15,7 @@ class ___VARIABLE_viewName:identifier___VC: PDSTitleWrapperVC {
     }()
     
     init(
-        viewModel: ___VARIABLE_viewName:identifier___ViewModel = .init(),
+        viewModel: ___VARIABLE_viewName:identifier___ViewModel,
         dependencyView: Dependency.View
     ) {
         self.viewModel = viewModel
@@ -49,7 +49,6 @@ class ___VARIABLE_viewName:identifier___VC: PDSTitleWrapperVC {
 
 struct ___VARIABLE_viewName:identifier___VC_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ___VARIABLE_viewName:identifier___ViewModel()
         UIViewControllerPreviewWrapper {
             Dependency.preview.view.___VARIABLE_viewNameLowerCase:identifier___VC()
         }
