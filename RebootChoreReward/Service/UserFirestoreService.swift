@@ -61,7 +61,6 @@ class UserFirestoreService: UserService {
     
     func createUser(from userObject: User, inHousehold householdId: String) async throws {
         try await userRepository.createUser(from: userObject, inHousehold: householdId)
-        
     }
 
     func readUser(withId userId: String) {

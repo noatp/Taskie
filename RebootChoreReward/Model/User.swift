@@ -6,6 +6,11 @@
 //
 
 struct User: Codable {
+    enum Role: String, Codable {
+        case parent = "parent"
+        case child = "child"
+    }
+    
     static let empty = User(
         name: "",
         id: "",
@@ -25,7 +30,4 @@ struct User: Codable {
     let role: Role
 }
 
-enum Role: String, Codable {
-    case parent = "parent"
-    case child = "child"
-}
+

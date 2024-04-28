@@ -13,7 +13,7 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
     private let dependencyView: Dependency.View
     
     private let promptCreateHouseholdLabel: PDSLabel = {
-        let label = PDSLabel(withText: "If this is the first time your family is using Taskie, please create a Household.", fontScale: .caption)
+        let label = PDSLabel(withText: "If you are a parent, and this is the first time your family is using Taskie, please create a Household.", fontScale: .caption)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -112,10 +112,12 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
     }
 
     private func setUpActions() {
-        
+        enterInviteCodeButton.addTarget(self, action: #selector(navigateToInviteCode), for: .touchUpInside)
     }
     
-    @objc func handleBack() {
+    @objc func navigateToInviteCode() {
+        let inviteCodeVC = dependencyView.inviteCodeVC()
+        navigationController?.pushViewController(inviteCodeVC, animated: true)
     }
 }
 
