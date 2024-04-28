@@ -129,6 +129,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     }
     
     @objc func handleCreateChore() {
+        showLoadingIndicator()
         viewModel.choreName = choreNameTextField.text
         viewModel.choreDescription = choreDescriptionTextField.text
         viewModel.choreRewardAmount = choreRewardAmountTextField.text
@@ -136,10 +137,15 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         viewModel.createChore { [weak self] errorMessage in
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {
-                    self?.showAlert(withMessage: errorMessage)
+                    self?.hideLoadingIndicator {
+                        self?.showAlert(withMessage: errorMessage)
+                    }
                 }
                 else {
-                    self?.dismiss(animated: true)
+                    self?.hideLoadingIndicator {
+                        self?.dismiss(animated: true)
+                    }
+                    
                 }
             }
         }

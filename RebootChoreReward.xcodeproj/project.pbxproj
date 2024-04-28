@@ -41,6 +41,7 @@
 		CA5535512BDDFE1B00A5B2BC /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */; };
 		CA5535542BDE0C4B00A5B2BC /* CreateProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */; };
 		CA5535552BDE0C4B00A5B2BC /* CreateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */; };
+		CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */; };
 		CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */; };
 		CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
@@ -126,6 +127,7 @@
 		CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
 		CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewModel.swift; sourceTree = "<group>"; };
 		CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileVC.swift; sourceTree = "<group>"; };
+		CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLoadingIndicator.swift; sourceTree = "<group>"; };
 		CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewModel.swift; sourceTree = "<group>"; };
 		CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */,
 				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
 				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
+				CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */,
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
 				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
 				CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */,
@@ -538,6 +541,7 @@
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
+				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
 				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserFirestoreRepository.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,

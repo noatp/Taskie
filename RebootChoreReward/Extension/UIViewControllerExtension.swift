@@ -14,4 +14,16 @@ extension UIViewController {
         alertVC.modalTransitionStyle = .crossDissolve
         present(alertVC, animated: true, completion: nil)
     }
+    
+    func showLoadingIndicator() {
+        let loadingIndicatorVC = PDSLoadingIndicator()
+        loadingIndicatorVC.modalPresentationStyle = .overCurrentContext
+        loadingIndicatorVC.modalTransitionStyle = .crossDissolve
+        
+        present(loadingIndicatorVC, animated: true)
+    }
+    
+    func hideLoadingIndicator(completion: (() -> Void)? = nil) {
+        dismiss(animated: false, completion: completion)
+    }
 }

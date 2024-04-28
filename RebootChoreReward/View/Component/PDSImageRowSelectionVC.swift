@@ -105,7 +105,9 @@ class PDSImageSelectionRowVC: UICollectionViewController {
         imagePicker.delegate = imagePickerDelegate
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true)
+        hideLoadingIndicator {
+            self.present(imagePicker, animated: true)
+        }
     }
     
 }
@@ -141,6 +143,7 @@ extension PDSImageSelectionRowVC {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == images.count - 1 {
+            showLoadingIndicator()
             presentImagePicker()
         }
     }
