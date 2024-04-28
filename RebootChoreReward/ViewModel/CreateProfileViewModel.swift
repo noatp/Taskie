@@ -15,6 +15,7 @@ class CreateProfileViewModel: ObservableObject {
     private let userService: UserService
     private let authService: AuthService
     private var cancellables: Set<AnyCancellable> = []
+    private var currentHousehold: Household?
     
     init(
         householdService: HouseholdService,
@@ -24,6 +25,15 @@ class CreateProfileViewModel: ObservableObject {
         self.householdService = householdService
         self.userService = userService
         self.authService = authService
+        subscribeToHouseholdFirestoreService()
+    }
+    
+    private func subscribeToHouseholdFirestoreService() {
+        householdService.household.sink { [weak self] household in
+            LogUtil.log("Received household \(household)")
+            self?.currentHousehold = household
+        }
+        .store(in: &cancellables)
     }
     
     func createHouseholdAndUser(completion: @escaping (String?) -> Void) {
@@ -35,8 +45,16 @@ class CreateProfileViewModel: ObservableObject {
         
         Task {
             do {
-                let householdId = UUID().uuidString
-                self.householdService.createHousehold(withId: householdId)
+                var householdId = ""
+                
+                if let household = currentHousehold {
+                    householdId = household.id
+                }
+                else {
+                    householdId = UUID().uuidString
+                    self.householdService.createHousehold(withId: householdId)
+                }
+                
                 try await self.userService.createUser(
                     from: User(
                         name: name,

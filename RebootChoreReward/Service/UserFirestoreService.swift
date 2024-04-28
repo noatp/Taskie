@@ -44,6 +44,7 @@ class UserFirestoreService: UserService {
             guard let self = self,
                   let currentUserId = Auth.auth().currentUser?.uid,
                   let currentUser = members?.first(where: { $0.id == currentUserId }) else {
+                self?._user.send(nil)
                 return
             }
             _user.send(currentUser)

@@ -226,6 +226,8 @@
 		CA1683EE2B9D301A0086153A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */,
+				CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */,
 				CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */,
 				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
 				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
@@ -268,9 +270,7 @@
 				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
 				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
 				CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */,
-				CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */,
 				CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */,
-				CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */,
 				CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */,
 			);
 			path = View;

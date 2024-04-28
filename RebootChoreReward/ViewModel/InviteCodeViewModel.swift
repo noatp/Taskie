@@ -8,7 +8,7 @@
 import Combine
 
 class InviteCodeViewModel: ObservableObject {
-    @Published var shouldNavigateToSignUpVC: Bool = false
+    @Published var shouldNavigateToCreateProfileVC: Bool = false
     
     var inviteCode: String?
 
@@ -27,9 +27,9 @@ class InviteCodeViewModel: ObservableObject {
     
     private func subscribeToHouseholdService() {
         householdService.household.sink { [weak self] household in
+            LogUtil.log("Received household \(household)")
             if let household = household {
-                LogUtil.log("Received household \(household)")
-                self?.shouldNavigateToSignUpVC = true
+                self?.shouldNavigateToCreateProfileVC = true
             }
         }
         .store(in: &cancellables)

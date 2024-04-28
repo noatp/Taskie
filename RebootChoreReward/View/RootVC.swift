@@ -12,7 +12,7 @@ class RootVC: UIViewController {
     private var viewModel: RootViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var dependencyView: Dependency.View
-    private var current: UIViewController
+    private var current: UINavigationController
     
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
@@ -46,13 +46,14 @@ class RootVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.$isInHousehold
+            .combineLatest(viewModel.$isUserDataAvailable)
             .receive(on: RunLoop.main)
-            .sink { [weak self] isInHousehold in
+            .sink { [weak self] isInHousehold, isUserDataAvailable in
                 guard let self = self else {
                     return
                 }
                 
-                if isInHousehold {
+                if isInHousehold && isUserDataAvailable {
                     let choreListVC = self.dependencyView.choreListVC()
                     let navVC = UINavigationController(rootViewController: choreListVC)
                     self.switchToViewController(navVC)
@@ -73,7 +74,13 @@ class RootVC: UIViewController {
             .store(in: &cancellables)
     }
     
-    private func switchToViewController(_ newVC: UIViewController) {
+    private func switchToViewController(_ newVC: UINavigationController) {
+        guard let newRoot = newVC.viewControllers.first,
+              let oldRoot = current.viewControllers.first,
+              type(of: newRoot) != type(of: oldRoot) 
+        else{
+            return
+        }
         let oldVC = current
         // Prepare the new view controller
         addChild(newVC)

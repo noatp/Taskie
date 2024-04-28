@@ -11,7 +11,6 @@ import Combine
 class SignUpViewModel {
     var email: String?
     var password: String?
-    var name: String?
     
     private var currentHousehold: Household?
     private var authService: AuthService
@@ -39,7 +38,7 @@ class SignUpViewModel {
     }
     
     func signUp(completion: @escaping (String?) -> Void) {
-        guard let email = email, let password = password, let name = name else {
+        guard let email = email, let password = password else {
             completion("Please enter your name, email, and password.")
             return
         }
@@ -51,21 +50,6 @@ class SignUpViewModel {
                     completion("Error signing up: could not get user info")
                     return
                 }
-                
-//                var householdId = ""
-//
-//                if let household = currentHousehold {
-//                    householdId = household.id
-//                }
-//                else {
-//                    householdId = UUID().uuidString
-//                    self.householdService.createHousehold(from: Household(id: householdId))
-//                }
-
-//                try await self.userService.createUser(
-//                    from: User(name: name, id: currentUserId, household: householdId, role: .parent),
-//                    inHousehold: householdId
-//                )
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

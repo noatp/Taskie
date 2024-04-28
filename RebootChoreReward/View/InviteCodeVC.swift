@@ -61,14 +61,14 @@ class InviteCodeVC: PDSResizeWithKeyboardVC {
     }
     
     private func bindViewModel() {
-        viewModel.$shouldNavigateToSignUpVC
+        viewModel.$shouldNavigateToCreateProfileVC
             .receive(on: RunLoop.main)
-            .sink { [weak self] shouldNavigateToSignUpVC in
-                if shouldNavigateToSignUpVC {
-                    guard let signUpVC = self?.dependencyView.signUpVC() else {
+            .sink { [weak self] shouldNavigateToCreateProfileVC in
+                if shouldNavigateToCreateProfileVC {
+                    guard let createProfileVC = self?.dependencyView.createProfileVC() else {
                         return
                     }
-                    self?.navigationController?.pushViewController(signUpVC, animated: true)
+                    self?.navigationController?.pushViewController(createProfileVC, animated: true)
                 }
             }
             .store(in: &cancellables)

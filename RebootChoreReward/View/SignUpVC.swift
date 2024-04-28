@@ -11,14 +11,6 @@ import SwiftUI
 class SignUpVC: PDSResizeWithKeyboardVC {
     private var viewModel: SignUpViewModel
     
-    let nameTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Name", hasBorder: true)
-        textField.autocapitalizationType = .none
-        textField.keyboardType = .namePhonePad
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-    
     let emailTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Email", hasBorder: true)
         textField.autocapitalizationType = .none
@@ -68,8 +60,6 @@ class SignUpVC: PDSResizeWithKeyboardVC {
         setTitle("Sign up")
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
-            nameTextField,
-            UIView.createSpacerView(height: 40),
             emailTextField,
             UIView.createSpacerView(height: 40),
             passwordTextField,
@@ -99,7 +89,6 @@ class SignUpVC: PDSResizeWithKeyboardVC {
     @objc func handleSignUp() {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
-        viewModel.name = nameTextField.text
         viewModel.signUp { [weak self] errorMessage in
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {

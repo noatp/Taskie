@@ -10,6 +10,7 @@ import Combine
 
 class RootViewModel: ObservableObject {
     @Published var isInHousehold: Bool = false
+    @Published var isUserDataAvailable: Bool = false
     var isLoggedIn: Bool = false
     
     private var cancellables: Set<AnyCancellable> = []
@@ -52,6 +53,15 @@ class RootViewModel: ObservableObject {
                 return
             }
             self?.isInHousehold = true
+        }
+        .store(in: &cancellables)
+        
+        userService.user.sink { [weak self] user in
+            guard user != nil else {
+                self?.isUserDataAvailable = false
+                return
+            }
+            self?.isUserDataAvailable = true
         }
         .store(in: &cancellables)
         
