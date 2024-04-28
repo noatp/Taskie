@@ -53,6 +53,7 @@ class UserFirestoreRepository {
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
                         LogUtil.log("\(error)")
+                        self?._members.send(nil)
                     }
                     return
                 }
@@ -116,8 +117,8 @@ class UserFirestoreRepository {
         userDocumentListener?.remove()
         userDocumentListener = nil
         householdMemberCollectionRef = nil
-        _members.send([])
-        _userHouseholdId.send("")
+        _members.send(nil)
+        _userHouseholdId.send(nil)
     }
     
     deinit {

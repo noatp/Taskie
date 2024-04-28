@@ -37,6 +37,7 @@ class ChoreFirestoreRepository {
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
                         LogUtil.log("\(error)")
+                        self?._chores.send(nil)
                     }
                     return
                 }
@@ -60,7 +61,7 @@ class ChoreFirestoreRepository {
         choreCollectionListener?.remove()
         choreCollectionListener = nil
         householdChoreCollectionRef = nil
-        _chores.send([])
+        _chores.send(nil)
     }
     
     deinit {

@@ -45,12 +45,12 @@ class HouseholdFirestoreRepository {
                 }
                 else {
                     LogUtil.log("Error decoding household document")
-                    self?._household.send(.empty)
+                    self?._household.send(nil)
                 }
             }
             catch {
                 LogUtil.log("Error decoding household document \(error)")
-                self?._household.send(.empty)
+                self?._household.send(nil)
                 return
             }
         })

@@ -77,6 +77,9 @@ class ChoreFirestoreService: ChoreService {
         if let selectedChore = _chores.value?.first(where: { $0.id == choreId }) {
             _selectedChore.send(selectedChore)
         }
+        else {
+            _selectedChore.send(nil)
+        }
     }
 }
 
