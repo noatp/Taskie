@@ -22,8 +22,9 @@ class AddHouseholdMemberViewModel: ObservableObject {
     private func subscribeToHouseholdService() {
         householdService.household.sink { [weak self] household in
             LogUtil.log("Received household \(household)")
-
-            if let inviteCode = household.inviteCode {
+            
+            if let household = household,
+               let inviteCode = household.inviteCode {
                 self?.inviteCode = inviteCode
             }
             else {

@@ -13,7 +13,7 @@ enum InviteCodeRepositoryError: Error {
     case fetchError
 }
 
-class InviteCodeRepository {
+class InviteCodeFirestoreRepository {
     private let db = Firestore.firestore()
 //    private var householdCollectionListener: ListenerRegistration?
 //    var household: AnyPublisher<Household, Never> {
@@ -23,19 +23,12 @@ class InviteCodeRepository {
     
     init() {}
     
-    func createHousehold(from householdObject: Household) {
-//        do {
-//            try db.collection("households").document(householdObject.id).setData(from: householdObject)
-//        } catch let error {
-//            print("Error writing household to Firestore: \(error)")
-//        }
-    }
     
     func readInviteCode(_ inviteCode: String) async throws -> String {
         do {
             let document = try await db.collection("inviteCodes").document(inviteCode).getDocument()
             if let expirationTime = document.data()?["expirationTime"] as? Timestamp,
-               let householdId = document.data()?["hoseholdId"] as? String
+               let householdId = document.data()?["householdId"] as? String
             {
                 let currentTime = Timestamp(date: .now)
                 if currentTime.seconds < expirationTime.seconds {

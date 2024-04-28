@@ -11,10 +11,10 @@ import Combine
 class HouseholdFirestoreRepository {
     private let db = Firestore.firestore()
     private var householdCollectionListener: ListenerRegistration?
-    var household: AnyPublisher<Household, Never> {
+    var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household, Never>(.empty)
+    private let _household = CurrentValueSubject<Household?, Never>(nil)
     
     init() {}
     
@@ -35,7 +35,7 @@ class HouseholdFirestoreRepository {
                 else {
                     LogUtil.log("Household document does not exist")
                 }
-                self?._household.send(.empty)
+                self?._household.send(nil)
                 return
             }
 
@@ -60,7 +60,7 @@ class HouseholdFirestoreRepository {
         LogUtil.log("resetting")
         householdCollectionListener?.remove()
         householdCollectionListener = nil
-        _household.send(.empty)
+        _household.send(nil)
     }
     
     deinit {

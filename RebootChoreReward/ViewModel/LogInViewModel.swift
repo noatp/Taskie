@@ -30,7 +30,7 @@ class LogInViewModel {
         Task {
             do {
                 try await self.authService.logIn(withEmail: email, password: password)
-                guard let currentUserId = self.authService.currentUserId else {
+                guard (self.authService.currentUserId) != nil else {
                     completion("Error signing in: could not get user info")
                     return
                 }

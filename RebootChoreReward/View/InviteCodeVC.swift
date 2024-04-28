@@ -7,10 +7,12 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class InviteCodeVC: PDSResizeWithKeyboardVC {
     private var viewModel: InviteCodeViewModel
     private let dependencyView: Dependency.View
+    private var cancellables: Set<AnyCancellable> = []
 
     private let inviteCodeTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "000000", hasBorder: true, isCentered: true, maxChar: 6)
@@ -39,7 +41,7 @@ class InviteCodeVC: PDSResizeWithKeyboardVC {
     }()
     
     init(
-        viewModel: InviteCodeViewModel = .init(),
+        viewModel: InviteCodeViewModel,
         dependencyView: Dependency.View
     ) {
         self.viewModel = viewModel
@@ -53,8 +55,23 @@ class InviteCodeVC: PDSResizeWithKeyboardVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
         setUpViews()
         setUpActions()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$shouldNavigateToSignUpVC
+            .receive(on: RunLoop.main)
+            .sink { [weak self] shouldNavigateToSignUpVC in
+                if shouldNavigateToSignUpVC {
+                    guard let signUpVC = self?.dependencyView.signUpVC() else {
+                        return
+                    }
+                    self?.navigationController?.pushViewController(signUpVC, animated: true)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func setUpViews() {
@@ -82,12 +99,24 @@ class InviteCodeVC: PDSResizeWithKeyboardVC {
     }
 
     private func setUpActions() {
+        submitButton.addTarget(self, action: #selector(handleInviteCodeSubmit), for: .touchUpInside)
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleInviteCodeSubmit() {
+        viewModel.inviteCode = inviteCodeTextField.text
+        viewModel.readInviteCode { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                if let errorMessage = errorMessage {
+                    self?.showAlert(withMessage: errorMessage)
+                }
+            }
+        }
     }
 }
 

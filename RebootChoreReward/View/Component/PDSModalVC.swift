@@ -103,7 +103,6 @@ class PDSModalVC: PDSResizeWithKeyboardVC {
         //        print("Pan gesture y offset: \(translation.y)")
         
         // get drag direction
-        let isDraggingDown = translation.y > 0
         //        print("Dragging direction: \(isDraggingDown ? "going down" : "going up")")
         
         let newChildViewHeight = currentChildViewHeight - translation.y

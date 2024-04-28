@@ -11,7 +11,7 @@ import FirebaseFunctions
 import FirebaseAuth
 
 protocol HouseholdService {
-    var household: AnyPublisher<Household, Never> { get }
+    var household: AnyPublisher<Household?, Never> { get }
     func createHousehold(from householdObject: Household)
     func readHousehold(withId householdId: String)
     func requestInviteCode(completion: @escaping (Bool) -> Void)
@@ -22,10 +22,10 @@ class HouseholdFirestoreService: HouseholdService {
     private var householdRepository: HouseholdFirestoreRepository
     private var userRepository: UserFirestoreRepository
     
-    var household: AnyPublisher<Household, Never> {
+    var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household, Never>(.empty)
+    private let _household = CurrentValueSubject<Household?, Never>(nil)
     
     init(
         householdRepository: HouseholdFirestoreRepository,
@@ -84,15 +84,15 @@ class HouseholdFirestoreService: HouseholdService {
 }
 
 class HouseholdMockService: HouseholdService {
-    func requestInviteCode(completion: @escaping (Bool) -> Void) {}
-    
-    var household: AnyPublisher<Household, Never> {
+    var household: AnyPublisher<Household?, Never>{
         Just(
             .mock
         )
         .eraseToAnyPublisher()
     }
     
+    func requestInviteCode(completion: @escaping (Bool) -> Void) {}
+        
     func createHousehold(from householdObject: Household) {}
     
     func readHousehold(withId householdId: String) {}

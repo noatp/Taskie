@@ -36,6 +36,7 @@
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
+		CA5535412BDA14C100A5B2BC /* InviteCodeFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */; };
 		CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */; };
 		CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
@@ -72,7 +73,7 @@
 		CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */; };
 		CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */; };
 		CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */; };
-		CACE2EC12BD9BB2E007FD9F2 /* InviteCodeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC02BD9BB2E007FD9F2 /* InviteCodeRepository.swift */; };
+		CACE2EC12BD9BB2E007FD9F2 /* InviteCodeFirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC02BD9BB2E007FD9F2 /* InviteCodeFirestoreRepository.swift */; };
 		CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */; };
 		CACE2EC52BD9CE30007FD9F2 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
@@ -116,6 +117,7 @@
 		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
+		CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeFirestoreService.swift; sourceTree = "<group>"; };
 		CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewModel.swift; sourceTree = "<group>"; };
 		CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -152,7 +154,7 @@
 		CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberViewModel.swift; sourceTree = "<group>"; };
 		CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberVC.swift; sourceTree = "<group>"; };
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
-		CACE2EC02BD9BB2E007FD9F2 /* InviteCodeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeRepository.swift; sourceTree = "<group>"; };
+		CACE2EC02BD9BB2E007FD9F2 /* InviteCodeFirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeFirestoreRepository.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,6 +272,7 @@
 				CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */,
 				CA1683E82B8D45A70086153A /* HouseholdFirestoreService.swift */,
 				CACE2E862BA7E923007FD9F2 /* UserFirestoreService.swift */,
+				CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -323,7 +326,7 @@
 				CACE2E892BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift */,
 				CACE2E8B2BA927A7007FD9F2 /* UserFirestoreRepository.swift */,
 				CACE2E8D2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift */,
-				CACE2EC02BD9BB2E007FD9F2 /* InviteCodeRepository.swift */,
+				CACE2EC02BD9BB2E007FD9F2 /* InviteCodeFirestoreRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -514,6 +517,7 @@
 				CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */,
 				CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */,
+				CA5535412BDA14C100A5B2BC /* InviteCodeFirestoreService.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
 				CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */,
@@ -525,7 +529,7 @@
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
 				CA7C69C12B8C2FDD005B3CF2 /* MenuVC.swift in Sources */,
 				CA1683E92B8D45A70086153A /* HouseholdFirestoreService.swift in Sources */,
-				CACE2EC12BD9BB2E007FD9F2 /* InviteCodeRepository.swift in Sources */,
+				CACE2EC12BD9BB2E007FD9F2 /* InviteCodeFirestoreRepository.swift in Sources */,
 				CA1683F42B9E73330086153A /* SignUpViewModel.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CACE2E932BACA88A007FD9F2 /* ChoreDetailViewModel.swift in Sources */,

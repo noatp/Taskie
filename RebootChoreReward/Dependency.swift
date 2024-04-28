@@ -31,6 +31,7 @@ class Dependency {
         lazy var userRepository: UserFirestoreRepository = UserFirestoreRepository()
         lazy var householdRepository: HouseholdFirestoreRepository = HouseholdFirestoreRepository()
         lazy var choreRepository: ChoreFirestoreRepository = ChoreFirestoreRepository()
+        lazy var inviteCodeRepository: InviteCodeFirestoreRepository = InviteCodeFirestoreRepository()
     }
     
     class Service {
@@ -40,6 +41,7 @@ class Dependency {
         var authService: AuthService
         var userService: UserService
         var householdService: HouseholdService
+        var inviteCodeService: InviteCodeService
         var choreService: ChoreService
         
         init(repository: Repository, isPreview: Bool = false) {
@@ -50,6 +52,7 @@ class Dependency {
                 self.householdService = HouseholdMockService()
                 self.storageService = StorageService()
                 self.authService = AuthMockService()
+                self.inviteCodeService = InviteCodeMockService()
             } else {
                 self.userService = UserFirestoreService(userRepository: repository.userRepository)
                 self.choreService = ChoreFirestoreService(
@@ -64,6 +67,10 @@ class Dependency {
                 self.authService = AuthenticationService(
                     userRepository: repository.userRepository,
                     choreRepository: repository.choreRepository,
+                    householdRepository: repository.householdRepository
+                )
+                self.inviteCodeService = InviteCodeFirestoreService(
+                    inviteCodeRepository: repository.inviteCodeRepository,
                     householdRepository: repository.householdRepository
                 )
             }
