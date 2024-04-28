@@ -3,10 +3,17 @@ ___FILEHEADER___
 import SwiftUI
 import UIKit
 
-class ___VARIABLE_viewName:identifier___VC: UIViewController {
+class ___VARIABLE_viewName:identifier___VC: PDSTitleWrapperVC {
     private var viewModel: ___VARIABLE_viewName:identifier___ViewModel
     private let dependencyView: Dependency.View
 
+    private let backBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     init(
         viewModel: ___VARIABLE_viewName:identifier___ViewModel = .init(),
         dependencyView: Dependency.View
@@ -27,11 +34,16 @@ class ___VARIABLE_viewName:identifier___VC: UIViewController {
     }
 
     private func setUpViews() {
-
+        setTitle("Title")
     }
 
     private func setUpActions() {
-        
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
+    }
+    
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -39,7 +51,7 @@ struct ___VARIABLE_viewName:identifier___VC_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ___VARIABLE_viewName:identifier___ViewModel()
         UIViewControllerPreviewWrapper {
-            UINavigationController(rootViewController: ___VARIABLE_viewName:identifier___VC(viewModel: viewModel))
+            Dependency.preview.view.___VARIABLE_viewNameLowerCase:identifier___VC()
         }
     }
 }
@@ -47,7 +59,7 @@ struct ___VARIABLE_viewName:identifier___VC_Previews: PreviewProvider {
 extension Dependency.View {
     func ___VARIABLE_viewNameLowerCase:identifier___VC() -> ___VARIABLE_viewName:identifier___VC {
         return ___VARIABLE_viewName:identifier___VC(
-            viewModel: viewModel.___VARIABLE_viewNameLowerCase:identifier___ViewModel,
+            viewModel: viewModel.___VARIABLE_viewNameLowerCase:identifier___ViewModel(),
             dependencyView: self
         )
     }

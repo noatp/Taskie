@@ -37,6 +37,8 @@
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
 		CA5535412BDA14C100A5B2BC /* InviteCodeFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */; };
+		CA5535502BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */; };
+		CA5535512BDDFE1B00A5B2BC /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */; };
 		CA5A5B692BD9FA5D002D963E /* InviteCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */; };
 		CA5A5B6A2BD9FA5D002D963E /* InviteCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
@@ -118,6 +120,8 @@
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
 		CA5535402BDA14C100A5B2BC /* InviteCodeFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeFirestoreService.swift; sourceTree = "<group>"; };
+		CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
+		CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
 		CA5A5B672BD9FA5D002D963E /* InviteCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewModel.swift; sourceTree = "<group>"; };
 		CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
 				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
 				CA5A5B682BD9FA5D002D963E /* InviteCodeVC.swift */,
+				CA55354E2BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift */,
+				CA55354F2BDDFE1B00A5B2BC /* CreateHouseholdVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -518,8 +524,10 @@
 				CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdFirestoreRepository.swift in Sources */,
 				CA5535412BDA14C100A5B2BC /* InviteCodeFirestoreService.swift in Sources */,
+				CA5535512BDDFE1B00A5B2BC /* CreateHouseholdVC.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
+				CA5535502BDDFE1B00A5B2BC /* CreateHouseholdViewModel.swift in Sources */,
 				CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */,
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,

@@ -59,9 +59,8 @@ class RootVC: UIViewController {
                 }
                 else {
                     if self.viewModel.isLoggedIn {
-                        let addHouseholdVC = UIViewController()
-                        addHouseholdVC.view.backgroundColor = .red
-                        let navVC = UINavigationController(rootViewController: addHouseholdVC)
+                        let createHouseholdVC = self.dependencyView.createHouseholdVC()
+                        let navVC = UINavigationController(rootViewController: createHouseholdVC)
                         self.switchToViewController(navVC)
                     }
                     else {
