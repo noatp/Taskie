@@ -52,20 +52,20 @@ class SignUpViewModel {
                     return
                 }
                 
-                var householdId = ""
+//                var householdId = ""
+//
+//                if let household = currentHousehold {
+//                    householdId = household.id
+//                }
+//                else {
+//                    householdId = UUID().uuidString
+//                    self.householdService.createHousehold(from: Household(id: householdId))
+//                }
 
-                if let household = currentHousehold {
-                    householdId = household.id
-                }
-                else {
-                    householdId = UUID().uuidString
-                    self.householdService.createHousehold(from: Household(id: householdId))
-                }
-
-                try await self.userService.createUser(
-                    from: User(name: name, id: currentUserId, household: householdId, role: .parent),
-                    inHousehold: householdId
-                )
+//                try await self.userService.createUser(
+//                    from: User(name: name, id: currentUserId, household: householdId, role: .parent),
+//                    inHousehold: householdId
+//                )
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

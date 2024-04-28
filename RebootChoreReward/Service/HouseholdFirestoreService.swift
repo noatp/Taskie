@@ -48,7 +48,8 @@ class HouseholdFirestoreService: HouseholdService {
     private func subscribeToUserRepository() {
         userRepository.userHouseholdId.sink { [weak self] householdId in
             LogUtil.log("Received householdId \(householdId)")
-            guard !householdId.isEmpty else {
+            guard let householdId = householdId, !householdId.isEmpty else {
+                self?._household.send(nil)
                 return
             }
             self?.readHousehold(withId: householdId)
@@ -66,8 +67,7 @@ class HouseholdFirestoreService: HouseholdService {
     
     func requestInviteCode(completion: @escaping (Bool) -> Void) {
         let functions = Functions.functions()
-        let householdId = userRepository.currentHouseholdId()
-        guard !householdId.isEmpty else {
+        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
             return
         }
         functions.httpsCallable("generateInviteCode").call(["householdId": householdId]) { result, error in

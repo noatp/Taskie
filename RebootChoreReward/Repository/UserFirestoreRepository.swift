@@ -19,15 +19,15 @@ class UserFirestoreRepository {
     private var userDocumentListener: ListenerRegistration?
     private var householdMemberCollectionRef: CollectionReference?
     
-    var members: AnyPublisher<[User], Never> {
+    var members: AnyPublisher<[User]?, Never> {
         _members.eraseToAnyPublisher()
     }
-    private let _members = CurrentValueSubject<[User], Never>([])
+    private let _members = CurrentValueSubject<[User]?, Never>(nil)
     
-    var userHouseholdId: AnyPublisher<String, Never> {
+    var userHouseholdId: AnyPublisher<String?, Never> {
         _userHouseholdId.eraseToAnyPublisher()
     }
-    private let _userHouseholdId = CurrentValueSubject<String, Never>("")
+    private let _userHouseholdId = CurrentValueSubject<String?, Never>(nil)
     
     init() {}
     
@@ -78,21 +78,25 @@ class UserFirestoreRepository {
             .addSnapshotListener { [weak self] documentSnapshot, error in
                 if let error = error {
                     LogUtil.log("Error: \(error.localizedDescription)")
+                    self?._userHouseholdId.send(nil)
                     return
                 }
                 
                 guard let document = documentSnapshot else {
                     LogUtil.log("Error fetching document")
+                    self?._userHouseholdId.send(nil)
                     return
                 }
                 
                 guard let data = document.data() else {
                     LogUtil.log("Document data was empty")
+                    self?._userHouseholdId.send(nil)
                     return
                 }
                 
                 guard let householdId = data["householdId"] as? String else {
                     LogUtil.log("Failed to get householdId as String")
+                    self?._userHouseholdId.send(nil)
                     return
                 }
                 
@@ -101,7 +105,7 @@ class UserFirestoreRepository {
             }
     }
     
-    func currentHouseholdId() -> String {
+    func currentHouseholdId() -> String? {
         _userHouseholdId.value
     }
     

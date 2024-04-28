@@ -12,10 +12,10 @@ class ChoreFirestoreRepository {
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
     private var householdChoreCollectionRef: CollectionReference?
-    var chores: AnyPublisher<[Chore], Never> {
+    var chores: AnyPublisher<[Chore]?, Never> {
         _chores.eraseToAnyPublisher()
     }
-    private let _chores = CurrentValueSubject<[Chore], Never>([])
+    private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
     
     init() {}
     

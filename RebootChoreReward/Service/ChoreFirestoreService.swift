@@ -9,8 +9,8 @@ import FirebaseFirestore
 import Combine
 
 protocol ChoreService {
-    var chores: AnyPublisher<[Chore], Never> { get }
-    var selectedChore: AnyPublisher<Chore, Never> { get }
+    var chores: AnyPublisher<[Chore]?, Never> { get }
+    var selectedChore: AnyPublisher<Chore?, Never> { get }
     func createChore(from choreObject: Chore) async throws
     func readChores(inHousehold householdId: String)
     func readSelectedChore(choreId: String)
@@ -21,15 +21,15 @@ class ChoreFirestoreService: ChoreService {
     private let choreRepository: ChoreFirestoreRepository
     private let userRepository: UserFirestoreRepository
     
-    var chores: AnyPublisher<[Chore], Never> {
+    var chores: AnyPublisher<[Chore]?, Never> {
         _chores.eraseToAnyPublisher()
     }
-    private let _chores = CurrentValueSubject<[Chore], Never>([])
+    private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
     
-    var selectedChore: AnyPublisher<Chore, Never> {
+    var selectedChore: AnyPublisher<Chore?, Never> {
         _selectedChore.eraseToAnyPublisher()
     }
-    private let _selectedChore = CurrentValueSubject<Chore, Never>(.empty)
+    private let _selectedChore = CurrentValueSubject<Chore?, Never>(nil)
     
     init(
         choreRepository: ChoreFirestoreRepository,
@@ -54,7 +54,7 @@ class ChoreFirestoreService: ChoreService {
     private func subscribeToUserRepository() {
         userRepository.userHouseholdId.sink { [weak self] householdId in
             LogUtil.log("Received householdId: \(householdId)")
-            guard !householdId.isEmpty else {
+            guard let householdId = householdId, !householdId.isEmpty else {
                 return
             }
             self?.readChores(inHousehold: householdId)
@@ -63,8 +63,7 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func createChore(from choreObject: Chore) async throws {
-        let householdId = userRepository.currentHouseholdId()
-        guard !householdId.isEmpty else {
+        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
             return
         }
         choreRepository.createChore(from: choreObject, inHousehold: householdId)
@@ -75,18 +74,18 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func readSelectedChore(choreId: String){
-        if let selectedChore = _chores.value.first(where: { $0.id == choreId }) {
+        if let selectedChore = _chores.value?.first(where: { $0.id == choreId }) {
             _selectedChore.send(selectedChore)
         }
     }
 }
 
 class ChoreMockService: ChoreService {
-    var selectedChore: AnyPublisher<Chore, Never> {
+    var selectedChore: AnyPublisher<Chore?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
     
-    var chores: AnyPublisher<[Chore], Never> {
+    var chores: AnyPublisher<[Chore]?, Never> {
         Just([
             .mock,
             .mock

@@ -9,8 +9,8 @@ import Combine
 import FirebaseAuth
 
 protocol UserService {
-    var user: AnyPublisher<User, Never> { get }
-    var familyMembers: AnyPublisher<[User], Never> { get }
+    var user: AnyPublisher<User?, Never> { get }
+    var familyMembers: AnyPublisher<[User]?, Never> { get }
     func createUser(from userObject: User, inHousehold householdId: String) async throws
     func readUser(withId userId: String)
     func readFamilyMember(withId lookUpId: String) async throws -> User
@@ -20,15 +20,15 @@ class UserFirestoreService: UserService {
     private var cancellables: Set<AnyCancellable> = []
     private let userRepository: UserFirestoreRepository
     
-    var familyMembers: AnyPublisher<[User], Never> {
+    var familyMembers: AnyPublisher<[User]?, Never> {
         _familyMembers.eraseToAnyPublisher()
     }
-    private let _familyMembers = CurrentValueSubject<[User], Never>([])
+    private let _familyMembers = CurrentValueSubject<[User]?, Never>([])
     
-    var user: AnyPublisher<User, Never> {
+    var user: AnyPublisher<User?, Never> {
         _user.eraseToAnyPublisher()
     }
-    private let _user = PassthroughSubject<User, Never>()
+    private let _user = PassthroughSubject<User?, Never>()
     
     init(userRepository: UserFirestoreRepository) {
         self.userRepository = userRepository
@@ -43,7 +43,7 @@ class UserFirestoreService: UserService {
 
             guard let self = self,
                   let currentUserId = Auth.auth().currentUser?.uid,
-                  let currentUser = members.first(where: { $0.id == currentUserId }) else {
+                  let currentUser = members?.first(where: { $0.id == currentUserId }) else {
                 return
             }
             _user.send(currentUser)
@@ -51,7 +51,7 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
         
         userRepository.userHouseholdId.sink { [weak self] householdId in
-            guard !householdId.isEmpty else {
+            guard let householdId = householdId, !householdId.isEmpty else {
                 return
             }
             self?.userRepository.readUsers(inHousehold: householdId)
@@ -69,7 +69,7 @@ class UserFirestoreService: UserService {
     }
     
     func readFamilyMember(withId lookUpId: String) async throws -> User {
-        if let familyMember = _familyMembers.value.first(where: { $0.id == lookUpId }) {
+        if let familyMember = _familyMembers.value?.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
             throw UserRepositoryError.userNotFound
@@ -82,7 +82,7 @@ class UserFirestoreService: UserService {
 }
 
 class UserMockService: UserService {
-    var familyMembers: AnyPublisher<[User], Never> {
+    var familyMembers: AnyPublisher<[User]?, Never> {
         Just ([
             .mock,
             .mock,
@@ -91,7 +91,7 @@ class UserMockService: UserService {
         .eraseToAnyPublisher()
     }
         
-    var user: AnyPublisher<User, Never> {
+    var user: AnyPublisher<User?, Never> {
         Just(
             .mock
         )

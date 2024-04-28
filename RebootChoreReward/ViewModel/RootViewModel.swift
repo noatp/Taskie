@@ -9,7 +9,9 @@ import Foundation
 import Combine
 
 class RootViewModel: ObservableObject {
-    @Published var authState: Bool = false
+    @Published var isInHousehold: Bool = false
+    var isLoggedIn: Bool = false
+    
     private var cancellables: Set<AnyCancellable> = []
     private var authService: AuthService
     private var userService: UserService
@@ -33,7 +35,7 @@ class RootViewModel: ObservableObject {
         authService.isUserLoggedIn.sink { [weak self] isUserLoggedIn in
             LogUtil.log("Received isUserLoggedIn \(isUserLoggedIn)")
 
-            self?.authState = isUserLoggedIn
+            self?.isLoggedIn = isUserLoggedIn
             if isUserLoggedIn {
                 guard let currentUserId = self?.authService.currentUserId,
                       !currentUserId.isEmpty else {
@@ -41,6 +43,15 @@ class RootViewModel: ObservableObject {
                 }
                 self?.userService.readUser(withId: currentUserId)
             }
+        }
+        .store(in: &cancellables)
+        
+        householdService.household.sink { [weak self] household in
+            guard household != nil else {
+                self?.isInHousehold = false
+                return
+            }
+            self?.isInHousehold = true
         }
         .store(in: &cancellables)
         

@@ -37,7 +37,9 @@ class ChoreDetailViewModel: ObservableObject {
     private func subscribeToChoreFirestoreService() {
         choreService.selectedChore.sink { [weak self] chore in
             LogUtil.log("Received chore \(chore)")
-
+            guard let chore = chore else {
+                return
+            }
             self?.updateChoreDetail(chore: chore)
         }
         .store(in: &cancellables)
