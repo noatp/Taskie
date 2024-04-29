@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 class AddHouseholdMemberViewModel: ObservableObject {
     @Published var inviteCode: String = ""
@@ -13,9 +14,14 @@ class AddHouseholdMemberViewModel: ObservableObject {
      
     private var cancellables: Set<AnyCancellable> = []
     private var householdService: HouseholdService
+    private var inviteCodeService: InviteCodeService
     
-    init(householdService: HouseholdService) {
+    init(
+        householdService: HouseholdService,
+        inviteCodeService: InviteCodeService
+    ) {
         self.householdService = householdService
+        self.inviteCodeService = inviteCodeService
         subscribeToHouseholdService()
     }
     
@@ -24,7 +30,10 @@ class AddHouseholdMemberViewModel: ObservableObject {
             LogUtil.log("Received household \(household)")
             
             if let household = household,
-               let inviteCode = household.inviteCode {
+               let inviteCode = household.inviteCode,
+               let inviteCodeExpirationTime = household.inviteCodeExpirationTime,
+               Date.now < inviteCodeExpirationTime.date
+            {
                 self?.inviteCode = inviteCode
             }
             else {
@@ -36,14 +45,19 @@ class AddHouseholdMemberViewModel: ObservableObject {
     }
     
     func generateInviteCode() {
-        householdService.requestInviteCode { [weak self] success in
-            self?.shouldShowRetryButton = !success
+        inviteCodeService.deleteInviteCode { [weak self] _ in
+            self?.inviteCodeService.createInviteCode { success in
+                self?.shouldShowRetryButton = !success
+            }
         }
     }
 }
 
 extension Dependency.ViewModel {
     func addHouseholdMemberViewModel() -> AddHouseholdMemberViewModel {
-        return AddHouseholdMemberViewModel(householdService: service.householdService)
+        return AddHouseholdMemberViewModel(
+            householdService: service.householdService,
+            inviteCodeService: service.inviteCodeService
+        )
     }
 }

@@ -71,7 +71,8 @@ class Dependency {
                 )
                 self.inviteCodeService = InviteCodeFirestoreService(
                     inviteCodeRepository: repository.inviteCodeRepository,
-                    householdRepository: repository.householdRepository
+                    householdRepository: repository.householdRepository,
+                    userRepository: repository.userRepository
                 )
             }
         }

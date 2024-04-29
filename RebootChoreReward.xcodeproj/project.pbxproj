@@ -30,6 +30,8 @@
 		CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */; };
 		CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */; };
 		CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */; };
+		CA26D0712BE01734002B5962 /* apple-app-site-association in Resources */ = {isa = PBXBuildFile; fileRef = CA26D0702BE01734002B5962 /* apple-app-site-association */; };
+		CA3A69912BE062C7009D669F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA3A69902BE062C7009D669F /* GoogleService-Info.plist */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -86,7 +88,6 @@
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
 		CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */; };
 		CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */; };
-		CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,9 @@
 		CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSImageRowSelectionVC.swift; sourceTree = "<group>"; };
 		CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
 		CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		CA26D0702BE01734002B5962 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
+		CA26D0722BE020A5002B5962 /* RebootChoreReward.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RebootChoreReward.entitlements; sourceTree = "<group>"; };
+		CA3A69902BE062C7009D669F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -174,7 +178,6 @@
 		CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAEAEB7F2B840DE50056A0F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CAEAEB812B840DE50056A0F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +246,14 @@
 				CA1683F72B9E80910086153A /* MenuViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CA26D06F2BE016FC002B5962 /* UniversalLink */ = {
+			isa = PBXGroup;
+			children = (
+				CA26D0702BE01734002B5962 /* apple-app-site-association */,
+			);
+			path = UniversalLink;
 			sourceTree = "<group>";
 		};
 		CA48864E2B9EB483003F22C8 /* Xcode Template */ = {
@@ -381,6 +392,8 @@
 		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
 			isa = PBXGroup;
 			children = (
+				CA26D0722BE020A5002B5962 /* RebootChoreReward.entitlements */,
+				CA26D06F2BE016FC002B5962 /* UniversalLink */,
 				CACE2E982BAE1799007FD9F2 /* Extension */,
 				CA7C69C22B8C3734005B3CF2 /* Util */,
 				CACE2E882BA8FDD0007FD9F2 /* Repository */,
@@ -394,7 +407,7 @@
 				CAEAEB7C2B840DE50056A0F1 /* Assets.xcassets */,
 				CAEAEB7E2B840DE50056A0F1 /* LaunchScreen.storyboard */,
 				CAEAEB812B840DE50056A0F1 /* Info.plist */,
-				CAEAEB872B840E300056A0F1 /* GoogleService-Info.plist */,
+				CA3A69902BE062C7009D669F /* GoogleService-Info.plist */,
 				CACE2E8F2BA9F5C9007FD9F2 /* Dependency.swift */,
 			);
 			path = RebootChoreReward;
@@ -463,9 +476,10 @@
 				CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */,
 				CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */,
 				CAEAEB802B840DE50056A0F1 /* LaunchScreen.storyboard in Resources */,
-				CAEAEB882B840E300056A0F1 /* GoogleService-Info.plist in Resources */,
+				CA3A69912BE062C7009D669F /* GoogleService-Info.plist in Resources */,
 				CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */,
 				CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */,
+				CA26D0712BE01734002B5962 /* apple-app-site-association in Resources */,
 				CAEAEB7D2B840DE50056A0F1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,23 +747,28 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = RebootChoreReward/RebootChoreReward.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZRF6QZUXP5;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RebootChoreReward/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Taskie;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = panto.RebootChoreReward;
+				PRODUCT_BUNDLE_IDENTIFIER = panto.Taskie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Development Profile for Taskie";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -762,23 +781,28 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = RebootChoreReward/RebootChoreReward.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZRF6QZUXP5;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RebootChoreReward/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Taskie;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = panto.RebootChoreReward;
+				PRODUCT_BUNDLE_IDENTIFIER = panto.Taskie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Development Profile for Taskie";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

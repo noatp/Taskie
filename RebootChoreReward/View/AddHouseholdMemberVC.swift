@@ -37,6 +37,13 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
         return label
     }()
     
+    private let cancelBarButton: PDSTertiaryButton = {
+        let button = PDSTertiaryButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     init(viewModel: AddHouseholdMemberViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -90,7 +97,12 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
     }
 
     private func setUpActions() {
-        
+        cancelBarButton.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelBarButton)
+    }
+    
+    @objc func handleCancel() {
+        dismiss(animated: true)
     }
     
     override func applyTheme(_ theme: PDSTheme) {

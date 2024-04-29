@@ -12,18 +12,23 @@ import FirebaseAuth
 
 protocol InviteCodeService {
     func readInviteCode(_ inviteCode: String) async throws
+    func createInviteCode(completion: @escaping (Bool) -> Void)
+    func deleteInviteCode(completion: @escaping (Bool) -> Void)
 }
 
 class InviteCodeFirestoreService: InviteCodeService {
     private var inviteCodeRepository: InviteCodeFirestoreRepository
     private var householdRepository: HouseholdFirestoreRepository
+    private var userRepository: UserFirestoreRepository
     
     init(
         inviteCodeRepository: InviteCodeFirestoreRepository,
-        householdRepository: HouseholdFirestoreRepository
+        householdRepository: HouseholdFirestoreRepository,
+        userRepository: UserFirestoreRepository
     ) {
         self.inviteCodeRepository = inviteCodeRepository
         self.householdRepository = householdRepository
+        self.userRepository = userRepository
     }
     
     func readInviteCode(_ inviteCode: String) async throws {
@@ -36,25 +41,43 @@ class InviteCodeFirestoreService: InviteCodeService {
         }
     }
     
-//    func requestInviteCode(completion: @escaping (Bool) -> Void) {
-//        let functions = Functions.functions()
-//        let householdId = userRepository.currentHouseholdId()
-//        guard !householdId.isEmpty else {
-//            return
-//        }
-//        functions.httpsCallable("generateInviteCode").call(["householdId": householdId]) { result, error in
-//            if let error = error {
-//                LogUtil.log("\(error.localizedDescription)")
-//                completion(false)
-//            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool {
-//                completion(success)
-//            } else {
-//                completion(false)
-//            }
-//        }
-//    }
+    func createInviteCode(completion: @escaping (Bool) -> Void) {
+        let functions = Functions.functions()
+        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
+            return
+        }
+        functions.httpsCallable("generateInviteCode").call(["householdId": householdId]) { result, error in
+            if let error = error {
+                LogUtil.log("\(error.localizedDescription)")
+                completion(false)
+            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool {
+                completion(success)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    func deleteInviteCode(completion: @escaping (Bool) -> Void) {
+        let functions = Functions.functions()
+        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
+            return
+        }
+        functions.httpsCallable("removeInviteCode").call(["householdId": householdId]) { result, error in
+            if let error = error {
+                LogUtil.log("\(error.localizedDescription)")
+                completion(false)
+            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool {
+                completion(success)
+            } else {
+                completion(false)
+            }
+        }
+    }
 }
 
 class InviteCodeMockService: InviteCodeService {
     func readInviteCode(_ inviteCode: String) async throws {}
+    func createInviteCode(completion: @escaping (Bool) -> Void) {}
+    func deleteInviteCode(completion: @escaping (Bool) -> Void) {}
 }

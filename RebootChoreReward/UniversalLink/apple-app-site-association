@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "ZRF6QZUXP5.panto.Taskie",
+                "paths": ["/invite/*"]
+            }
+        ]
+    }
+}

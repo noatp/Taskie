@@ -15,14 +15,8 @@ enum InviteCodeRepositoryError: Error {
 
 class InviteCodeFirestoreRepository {
     private let db = Firestore.firestore()
-//    private var householdCollectionListener: ListenerRegistration?
-//    var household: AnyPublisher<Household, Never> {
-//        _household.eraseToAnyPublisher()
-//    }
-//    private let _household = CurrentValueSubject<Household, Never>(.empty)
     
     init() {}
-    
     
     func readInviteCode(_ inviteCode: String) async throws -> String {
         do {
@@ -49,9 +43,8 @@ class InviteCodeFirestoreRepository {
             LogUtil.log("Error getting document: \(error)")
             throw error
         }
-
     }
-    
+        
     func reset() {
         LogUtil.log("resetting")
 //        householdCollectionListener?.remove()

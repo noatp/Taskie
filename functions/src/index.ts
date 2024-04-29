@@ -71,3 +71,48 @@ exports.generateInviteCode = functions.https.onCall(async (data, context) => {
 
   return generateCode();
 });
+
+export const removeInviteCode = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError("unauthenticated", "The function must be called while authenticated.");
+  }
+
+  const householdId: string = data.householdId;
+  if (!householdId) {
+    throw new functions.https.HttpsError("invalid-argument", "The function must be called with a valid householdId.");
+  }
+
+  const db = admin.firestore();
+  const householdDocRef = db.collection("households").doc(householdId);
+
+  try {
+    // Retrieve the household to get the invite code
+    const householdDoc = await householdDocRef.get();
+    if (!householdDoc.exists) {
+      throw new functions.https.HttpsError("not-found", "Household not found.");
+    }
+
+    const inviteCode = householdDoc.data()?.inviteCode;
+    if (!inviteCode) {
+      throw new functions.https.HttpsError("not-found", "No invite code associated with this household.");
+    }
+
+    const inviteCodeDocRef = db.collection("inviteCodes").doc(inviteCode);
+
+    // Begin transaction or batch to remove both documents
+    const batch = db.batch();
+    batch.delete(inviteCodeDocRef);
+    batch.update(householdDocRef, {
+      inviteCode: admin.firestore.FieldValue.delete(),
+      inviteCodeExpirationTime: admin.firestore.FieldValue.delete(),
+    });
+
+    // Commit the batch
+    await batch.commit();
+    console.log("Invite code and references successfully removed.");
+    return {success: true};
+  } catch (error) {
+    console.error("Error removing invite code: ", error);
+    throw new functions.https.HttpsError("unknown", "Failed to remove invite code.", error);
+  }
+});
