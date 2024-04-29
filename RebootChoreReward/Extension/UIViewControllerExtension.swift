@@ -24,6 +24,11 @@ extension UIViewController {
     }
     
     func hideLoadingIndicator(completion: (() -> Void)? = nil) {
-        dismiss(animated: false, completion: completion)
+        if let loadingIndicatorVC = presentedViewController as? PDSLoadingIndicator {
+            dismiss(animated: false, completion: completion)
+        }
+        else {
+            completion?()
+        }
     }
 }

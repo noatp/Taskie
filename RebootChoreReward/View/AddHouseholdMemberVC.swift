@@ -12,9 +12,27 @@ import Combine
 class AddHouseholdMemberVC: PDSTitleWrapperVC {
     private var viewModel: AddHouseholdMemberViewModel
     private var cancellables: Set<AnyCancellable> = []
+    
+    private let promptLabel: PDSLabel = {
+        let label = PDSLabel(withText: "To add a family member into this Household:", fontScale: .caption)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let promptBulletsLabel: PDSLabel = {
+        let label = PDSLabel(withText: "\u{2022} have them download the app, and go through sign up process\n\u{2022} provide them with the following 6 digit invite code", fontScale: .body)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private let inviteCodeLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .caption)
+        let label = PDSLabel(withText: "", fontScale: .headline2)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -39,7 +57,13 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
         viewModel.$inviteCode
             .receive(on: RunLoop.main)
             .sink { [weak self] inviteCode in
-                self?.inviteCodeLabel.text = inviteCode
+                if !inviteCode.isEmpty {
+                    self?.inviteCodeLabel.text = inviteCode
+                    self?.hideLoadingIndicator()
+                }
+                else {
+                    self?.showLoadingIndicator()
+                }
             }
             .store(in: &cancellables)
     }
@@ -47,11 +71,21 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
     private func setUpViews() {
         setTitle("Add member")
         
+        view.addSubview(promptLabel)
+        view.addSubview(promptBulletsLabel)
         view.addSubview(inviteCodeLabel)
         
         NSLayoutConstraint.activate([
+            promptLabel.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
+            promptLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            promptLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            promptBulletsLabel.topAnchor.constraint(equalTo: promptLabel.bottomAnchor),
+            promptBulletsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            promptBulletsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            inviteCodeLabel.topAnchor.constraint(equalTo: promptBulletsLabel.bottomAnchor, constant: 40),
             inviteCodeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            inviteCodeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 

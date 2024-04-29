@@ -28,6 +28,7 @@ class AddHouseholdMemberViewModel: ObservableObject {
                 self?.inviteCode = inviteCode
             }
             else {
+                self?.inviteCode = ""
                 self?.generateInviteCode()
             }
         }
