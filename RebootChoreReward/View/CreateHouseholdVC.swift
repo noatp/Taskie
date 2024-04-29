@@ -30,12 +30,6 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
         return label
     }()
     
-    private let separatorLabel: PDSLabel = {
-        let label = PDSLabel(withText: "or", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     private let createHouseholdButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
         button.setTitle("Create Household", for: .normal)
@@ -72,37 +66,19 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
     private func setUpViews() {
         setTitle("Let's get started")
         
-        let leftSeparator = UIView.createSeparatorView()
-        let rightSeparator = UIView.createSeparatorView()
-        
         view.addSubview(promptCreateHouseholdLabel)
         view.addSubview(promptAddToHouseholdLabel)
-        view.addSubview(separatorLabel)
         view.addSubview(createHouseholdButton)
         view.addSubview(enterInviteCodeButton)
-        view.addSubview(leftSeparator)
-        view.addSubview(rightSeparator)
-        
+
         NSLayoutConstraint.activate([
-            separatorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            separatorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            leftSeparator.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            leftSeparator.trailingAnchor.constraint(equalTo: separatorLabel.leadingAnchor, constant: -20),
-            leftSeparator.centerYAnchor.constraint(equalTo: separatorLabel.centerYAnchor),
-            
-            rightSeparator.leadingAnchor.constraint(equalTo: separatorLabel.trailingAnchor, constant: 20),
-            rightSeparator.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            rightSeparator.centerYAnchor.constraint(equalTo: separatorLabel.centerYAnchor),
-            
             enterInviteCodeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            enterInviteCodeButton.bottomAnchor.constraint(equalTo: separatorLabel.topAnchor, constant: -40),
+            enterInviteCodeButton.bottomAnchor.constraint(equalTo: promptCreateHouseholdLabel.topAnchor, constant: -40),
             
             promptAddToHouseholdLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             promptAddToHouseholdLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             promptAddToHouseholdLabel.bottomAnchor.constraint(equalTo: enterInviteCodeButton.topAnchor, constant: -40),
             
-            promptCreateHouseholdLabel.topAnchor.constraint(equalTo: separatorLabel.bottomAnchor, constant: 40),
             promptCreateHouseholdLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             promptCreateHouseholdLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -112,13 +88,7 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
     }
 
     private func setUpActions() {
-        enterInviteCodeButton.addTarget(self, action: #selector(navigateToInviteCode), for: .touchUpInside)
         createHouseholdButton.addTarget(self, action: #selector(navigateToCreateProfile), for: .touchUpInside)
-    }
-    
-    @objc func navigateToInviteCode() {
-        let inviteCodeVC = dependencyView.inviteCodeVC()
-        navigationController?.pushViewController(inviteCodeVC, animated: true)
     }
     
     @objc func navigateToCreateProfile() {

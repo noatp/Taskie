@@ -52,6 +52,7 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
         
         userRepository.userHouseholdId.sink { [weak self] householdId in
+            LogUtil.log("Received householdId \(householdId)")
             guard let householdId = householdId, !householdId.isEmpty else {
                 return
             }

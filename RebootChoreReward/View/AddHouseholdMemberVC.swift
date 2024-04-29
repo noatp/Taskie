@@ -61,18 +61,7 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
     }
     
     private func bindViewModel() {
-        viewModel.$inviteCode
-            .receive(on: RunLoop.main)
-            .sink { [weak self] inviteCode in
-                if !inviteCode.isEmpty {
-                    self?.inviteCodeLabel.text = inviteCode
-                    self?.hideLoadingIndicator()
-                }
-                else {
-                    self?.showLoadingIndicator()
-                }
-            }
-            .store(in: &cancellables)
+        
     }
 
     private func setUpViews() {

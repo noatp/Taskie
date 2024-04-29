@@ -34,19 +34,6 @@ class LandingVC: UIViewController, Themable {
         return button
     }()
     
-    private let separatorLabel: PDSLabel = {
-        let label = PDSLabel(withText: "or", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let enterInviteCode: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setTitle("Enter invite code", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     let backBarButton: PDSTertiaryButton = {
         let button = PDSTertiaryButton()
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -74,41 +61,20 @@ class LandingVC: UIViewController, Themable {
     private func setUpViews() {
         ThemeManager.shared.register(self)
         
-        let leftSeparator = UIView.createSeparatorView()
-        let rightSeparator = UIView.createSeparatorView()
-        
         view.addSubview(welcomeLabel)
         view.addSubview(logInButton)
         view.addSubview(signUpButton)
-        view.addSubview(separatorLabel)
-        view.addSubview(enterInviteCode)
-        view.addSubview(leftSeparator)
-        view.addSubview(rightSeparator)
         
         NSLayoutConstraint.activate([
             welcomeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            enterInviteCode.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            enterInviteCode.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            separatorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            separatorLabel.bottomAnchor.constraint(equalTo: enterInviteCode.topAnchor, constant: -20),
-            
-            leftSeparator.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            leftSeparator.trailingAnchor.constraint(equalTo: separatorLabel.leadingAnchor, constant: -20),
-            leftSeparator.centerYAnchor.constraint(equalTo: separatorLabel.centerYAnchor),
-            
-            rightSeparator.leadingAnchor.constraint(equalTo: separatorLabel.trailingAnchor, constant: 20),
-            rightSeparator.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            rightSeparator.centerYAnchor.constraint(equalTo: separatorLabel.centerYAnchor),
-            
             logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            logInButton.bottomAnchor.constraint(equalTo: separatorLabel.topAnchor, constant: -20),
+            logInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             logInButton.trailingAnchor.constraint(equalTo: signUpButton.leadingAnchor, constant: -20),
             
             signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            signUpButton.bottomAnchor.constraint(equalTo: separatorLabel.topAnchor, constant: -20),
+            signUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             signUpButton.widthAnchor.constraint(equalTo: logInButton.widthAnchor, multiplier: 1)
         ])
     }
@@ -116,7 +82,6 @@ class LandingVC: UIViewController, Themable {
     private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
         logInButton.addTarget(self, action: #selector(navigateToLogIn), for: .touchUpInside)
-        enterInviteCode.addTarget(self, action: #selector(navigateToInviteCode), for: .touchUpInside)
     }
     
     @objc func navigateToSignUp() {
@@ -127,11 +92,6 @@ class LandingVC: UIViewController, Themable {
     @objc func navigateToLogIn() {
         let logInVC = dependencyView.logInVC()
         navigationController?.pushViewController(logInVC, animated: true)
-    }
-    
-    @objc func navigateToInviteCode() {
-        let inviteCodeVC = dependencyView.inviteCodeVC()
-        navigationController?.pushViewController(inviteCodeVC, animated: true)
     }
     
     func applyTheme(_ theme: PDSTheme) {
