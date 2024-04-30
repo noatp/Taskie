@@ -14,7 +14,6 @@ protocol HouseholdService {
     var household: AnyPublisher<Household?, Never> { get }
     func createHousehold(withId householdId: String)
     func readHousehold(withId householdId: String)
-    func requestInviteCode(completion: @escaping (Bool) -> Void)
 }
 
 class HouseholdFirestoreService: HouseholdService {
@@ -65,23 +64,6 @@ class HouseholdFirestoreService: HouseholdService {
     func readHousehold(withId householdId: String) {
         householdRepository.readHousehold(withId: householdId)
     }
-    
-    func requestInviteCode(completion: @escaping (Bool) -> Void) {
-        let functions = Functions.functions()
-        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
-            return
-        }
-        functions.httpsCallable("generateInviteCode").call(["householdId": householdId]) { result, error in
-            if let error = error {
-                LogUtil.log("\(error.localizedDescription)")
-                completion(false)
-            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool {
-                completion(success)
-            } else {
-                completion(false)
-            }
-        }
-    }
 }
 
 class HouseholdMockService: HouseholdService {
@@ -91,8 +73,6 @@ class HouseholdMockService: HouseholdService {
         )
         .eraseToAnyPublisher()
     }
-    
-    func requestInviteCode(completion: @escaping (Bool) -> Void) {}
         
     func createHousehold(withId householdId: String) {}
     

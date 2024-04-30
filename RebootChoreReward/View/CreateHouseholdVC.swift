@@ -75,6 +75,7 @@ class CreateHouseholdVC: PDSTitleWrapperVC {
             enterInviteCodeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             enterInviteCodeButton.bottomAnchor.constraint(equalTo: promptCreateHouseholdLabel.topAnchor, constant: -40),
             
+            promptAddToHouseholdLabel.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             promptAddToHouseholdLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             promptAddToHouseholdLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             promptAddToHouseholdLabel.bottomAnchor.constraint(equalTo: enterInviteCodeButton.topAnchor, constant: -40),
