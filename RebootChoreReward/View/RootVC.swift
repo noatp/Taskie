@@ -17,7 +17,7 @@ class RootVC: UIViewController {
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.current = UINavigationController(rootViewController: dependencyView.logInVC())
+        self.current = UINavigationController(rootViewController: dependencyView.landingVC())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,22 +46,22 @@ class RootVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.$isInHousehold
-            .combineLatest(viewModel.$isUserDataAvailable)
+            .combineLatest(viewModel.$hasInvitation)
             .receive(on: RunLoop.main)
-            .sink { [weak self] isInHousehold, isUserDataAvailable in
+            .sink { [weak self] isInHousehold, hasInvitation in
                 guard let self = self else {
                     return
                 }
                 
-                if isInHousehold && isUserDataAvailable {
+                if self.viewModel.isLoggedIn && isInHousehold {
                     let choreListVC = self.dependencyView.choreListVC()
                     let navVC = UINavigationController(rootViewController: choreListVC)
                     self.switchToViewController(navVC)
                 }
                 else {
-                    if self.viewModel.isLoggedIn {
-                        let createHouseholdVC = self.dependencyView.createHouseholdVC()
-                        let navVC = UINavigationController(rootViewController: createHouseholdVC)
+                    if hasInvitation {
+                        let signUpVC = self.dependencyView.signUpVC()
+                        let navVC = UINavigationController(rootViewController: signUpVC)
                         self.switchToViewController(navVC)
                     }
                     else {

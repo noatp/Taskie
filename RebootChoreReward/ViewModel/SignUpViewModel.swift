@@ -11,12 +11,13 @@ import Combine
 class SignUpViewModel {
     var email: String?
     var password: String?
+    var name: String?
     
-    private var currentHousehold: Household?
     private var authService: AuthService
     private var householdService: HouseholdService
     private var userService: UserService
-    private var cancellable: Set<AnyCancellable> = []
+    private var householdIdReceivedFromLink: String?
+    private var cancellables: Set<AnyCancellable> = []
     
     init(
         authService: AuthService,
@@ -26,19 +27,18 @@ class SignUpViewModel {
         self.authService = authService
         self.householdService = householdService
         self.userService = userService
-        subscribeToHouseholdFirestoreService()
+        subscribeToHouseholdService()
     }
     
-    private func subscribeToHouseholdFirestoreService() {
-        householdService.household.sink { [weak self] household in
-            LogUtil.log("Received household \(household)")
-            self?.currentHousehold = household
+    private func subscribeToHouseholdService() {
+        householdService.householdIdReceivedFromLink.sink { [weak self] householdId in
+            self?.householdIdReceivedFromLink = householdId
         }
-        .store(in: &cancellable)
+        .store(in: &cancellables)
     }
     
     func signUp(completion: @escaping (String?) -> Void) {
-        guard let email = email, let password = password else {
+        guard let email = email, let password = password, let name = name else {
             completion("Please enter your name, email, and password.")
             return
         }
@@ -50,6 +50,28 @@ class SignUpViewModel {
                     completion("Error signing up: could not get user info")
                     return
                 }
+                
+                var householdId = ""
+                
+                if let householdIdReceivedFromLink = self.householdIdReceivedFromLink {
+                    householdId = householdIdReceivedFromLink
+                    householdService.readHousehold(withId: householdIdReceivedFromLink)
+                    householdService.resetHouseholdIdReceivedFromLink()
+                } else {
+                    householdId = UUID().uuidString
+                    householdService.createHousehold(withId: householdId)
+                }
+                
+                try await self.userService.createUser(
+                    from: User(
+                        name: name,
+                        id: currentUserId,
+                        household: householdId,
+                        role: .parent
+                    ),
+                    inHousehold: householdId
+                )
+                
                 completion(nil)
             } catch {
                 completion("Error signing up: \(error.localizedDescription)")

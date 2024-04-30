@@ -7,10 +7,13 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class LandingVC: UIViewController, Themable {
+    private let viewModel: LandingViewModel
     private let dependencyView: Dependency.View
-    
+    private var cancellables: Set<AnyCancellable> = []
+        
     private let welcomeLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline1)
         
@@ -40,10 +43,12 @@ class LandingVC: UIViewController, Themable {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     init(
+        viewModel: LandingViewModel,
         dependencyView: Dependency.View
     ) {
+        self.viewModel = viewModel
         self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,13 +56,13 @@ class LandingVC: UIViewController, Themable {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
         setUpActions()
     }
-
+    
     private func setUpViews() {
         ThemeManager.shared.register(self)
         
@@ -78,15 +83,15 @@ class LandingVC: UIViewController, Themable {
             signUpButton.widthAnchor.constraint(equalTo: logInButton.widthAnchor, multiplier: 1)
         ])
     }
-
+    
     private func setUpActions() {
         signUpButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
         logInButton.addTarget(self, action: #selector(navigateToLogIn), for: .touchUpInside)
     }
     
     @objc func navigateToSignUp() {
-        let signUpVC = dependencyView.signUpVC()
-        navigationController?.pushViewController(signUpVC, animated: true)
+        let preSignUpVC = self.dependencyView.preSignUpVC()
+        navigationController?.pushViewController(preSignUpVC, animated: true)
     }
     
     @objc func navigateToLogIn() {
@@ -120,6 +125,7 @@ struct LandingVC_Previews: PreviewProvider {
 extension Dependency.View {
     func landingVC() -> LandingVC {
         return LandingVC(
+            viewModel: viewModel.landingViewModel(),
             dependencyView: self
         )
     }

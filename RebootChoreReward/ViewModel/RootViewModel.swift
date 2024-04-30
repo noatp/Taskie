@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 class RootViewModel: ObservableObject {
+    @Published var hasInvitation: Bool = false
     @Published var isInHousehold: Bool = false
-    @Published var isUserDataAvailable: Bool = false
     var isLoggedIn: Bool = false
     
     private var cancellables: Set<AnyCancellable> = []
@@ -30,6 +30,7 @@ class RootViewModel: ObservableObject {
         self.householdService = householdService
         self.choreService = choreService
         subscribeToAuthService()
+        subscribeToHouseholdService()
     }
     
     private func subscribeToAuthService() {
@@ -47,25 +48,22 @@ class RootViewModel: ObservableObject {
         }
         .store(in: &cancellables)
         
-        householdService.household.sink { [weak self] household in
-            guard household != nil else {
-                self?.isInHousehold = false
-                return
-            }
-            self?.isInHousehold = true
-        }
-        .store(in: &cancellables)
-        
-        userService.user.sink { [weak self] user in
-            guard user != nil else {
-                self?.isUserDataAvailable = false
-                return
-            }
-            self?.isUserDataAvailable = true
-        }
-        .store(in: &cancellables)
-        
         authService.silentLogIn()
+    }
+    
+    private func subscribeToHouseholdService() {
+        householdService.household.sink { [weak self] household in
+            LogUtil.log("Received household \(household)")
+
+            self?.isInHousehold = household != nil
+        }
+        .store(in: &cancellables)
+        
+        householdService.householdIdReceivedFromLink.sink { [weak self] householdIdReceivedFromLink in
+            LogUtil.log("Received householdIdReceivedFromLink \(householdIdReceivedFromLink)")
+            self?.hasInvitation = householdIdReceivedFromLink != nil
+        }
+        .store(in: &cancellables)
     }
     
     

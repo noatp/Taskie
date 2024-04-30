@@ -15,7 +15,7 @@ class CreateProfileViewModel: ObservableObject {
     private let userService: UserService
     private let authService: AuthService
     private var cancellables: Set<AnyCancellable> = []
-    private var currentHousehold: Household?
+    private var householdIdReceivedFromLink: String?
     
     init(
         householdService: HouseholdService,
@@ -25,13 +25,11 @@ class CreateProfileViewModel: ObservableObject {
         self.householdService = householdService
         self.userService = userService
         self.authService = authService
-        subscribeToHouseholdFirestoreService()
     }
     
-    private func subscribeToHouseholdFirestoreService() {
-        householdService.household.sink { [weak self] household in
-            LogUtil.log("Received household \(household)")
-            self?.currentHousehold = household
+    private func subscribeToHouseholdService() {
+        householdService.householdIdReceivedFromLink.sink { [weak self] householdId in
+            self?.householdIdReceivedFromLink = householdId
         }
         .store(in: &cancellables)
     }
@@ -47,12 +45,12 @@ class CreateProfileViewModel: ObservableObject {
             do {
                 var householdId = ""
                 
-                if let household = currentHousehold {
-                    householdId = household.id
-                }
-                else {
-                    householdId = UUID().uuidString
-                    self.householdService.createHousehold(withId: householdId)
+                if let householdId = self.householdIdReceivedFromLink {
+                    householdService.readHousehold(withId: householdId)
+                    householdService.resetHouseholdIdReceivedFromLink()
+                } else {
+                    let newHouseholdId = UUID().uuidString
+                    householdService.createHousehold(withId: newHouseholdId)
                 }
                 
                 try await self.userService.createUser(

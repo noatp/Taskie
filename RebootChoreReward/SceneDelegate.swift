@@ -11,6 +11,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    let dependency: Dependency = .init()
+    
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -18,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let dependency = Dependency()
         let rootViewController = dependency.view.rootVC()
         window.rootViewController = rootViewController
         self.window = window
@@ -57,6 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
            let incomingURL = userActivity.webpageURL,
            let inviteCode = incomingURL.pathComponents.last {
+            dependency.service.householdService.sendHouseholdIdReceivedFromLink(householdId: inviteCode)
             print("Received invite code through Universal Link: \(inviteCode)")
         }
     }

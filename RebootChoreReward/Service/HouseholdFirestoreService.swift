@@ -12,14 +12,22 @@ import FirebaseAuth
 
 protocol HouseholdService {
     var household: AnyPublisher<Household?, Never> { get }
+    var householdIdReceivedFromLink: AnyPublisher<String?, Never> { get }
     func createHousehold(withId householdId: String)
     func readHousehold(withId householdId: String)
+    func sendHouseholdIdReceivedFromLink(householdId: String)
+    func resetHouseholdIdReceivedFromLink()
 }
 
 class HouseholdFirestoreService: HouseholdService {
     private var cancellables: Set<AnyCancellable> = []
     private var householdRepository: HouseholdFirestoreRepository
     private var userRepository: UserFirestoreRepository
+    
+    var householdIdReceivedFromLink: AnyPublisher<String?, Never> {
+        _householdIdReceivedFromLink.eraseToAnyPublisher()
+    }
+    private let _householdIdReceivedFromLink = CurrentValueSubject<String?, Never>(nil)
     
     var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
@@ -64,16 +72,32 @@ class HouseholdFirestoreService: HouseholdService {
     func readHousehold(withId householdId: String) {
         householdRepository.readHousehold(withId: householdId)
     }
+    
+    func sendHouseholdIdReceivedFromLink(householdId: String) {
+        self._householdIdReceivedFromLink.send(householdId)
+    }
+    
+    func resetHouseholdIdReceivedFromLink() {
+        self._householdIdReceivedFromLink.send(nil)
+    }
 }
 
 class HouseholdMockService: HouseholdService {
+    func sendHouseholdIdReceivedFromLink(householdId: String) {}
+    
+    var householdIdReceivedFromLink: AnyPublisher<String?, Never> {
+        Just("").eraseToAnyPublisher()
+    }
+    
+    func resetHouseholdIdReceivedFromLink() {}
+        
     var household: AnyPublisher<Household?, Never>{
         Just(
             .mock
         )
         .eraseToAnyPublisher()
     }
-        
+    
     func createHousehold(withId householdId: String) {}
     
     func readHousehold(withId householdId: String) {}
