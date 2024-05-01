@@ -21,15 +21,8 @@ class LogInViewModel {
         self.userService = userService
     }
     
-    func logIn(completion: @escaping (String?) -> Void) {
-        guard let email = email, let password = password else {
-            completion("Please enter both email and password.")
-            return
-        }
-        
+    func logIn() {
         self.authService.logIn(withEmail: email, password: password)
-        
-        completion(nil)
     }
 }
 

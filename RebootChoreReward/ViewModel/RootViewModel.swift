@@ -30,10 +30,17 @@ class RootViewModel: ObservableObject {
         self.choreService = choreService
         authService.silentLogIn()
         subscribeToUserService()
+        subscribeToAuthService()
     }
     
     private func subscribeToAuthService() {
-        
+        authService.isUserLoggedIn.sink { [weak self] (isUserLoggedIn, error) in
+            LogUtil.log("From AuthService -- (isUserLoggedIn, error) -- \((isUserLoggedIn, error))")
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+            }
+        }
+        .store(in: &cancellables)
     }
     
     private func subscribeToUserService() {

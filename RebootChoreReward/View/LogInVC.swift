@@ -87,14 +87,7 @@ class LogInVC: PDSResizeWithKeyboardVC {
     @objc func handleLogIn() {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
-        
-        viewModel.logIn { [weak self] errorMessage in
-            DispatchQueue.main.async {
-                if let errorMessage = errorMessage {
-                    self?.showAlert(withMessage: errorMessage)
-                }
-            }
-        }
+        viewModel.logIn()
     }
     
     @objc func handleBack() {

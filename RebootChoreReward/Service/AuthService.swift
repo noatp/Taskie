@@ -9,10 +9,23 @@ import Foundation
 import FirebaseAuth
 import Combine
 
+enum AuthServiceError: Error {
+    case missingInput
+    
+    var localizedDescription: String {
+        switch self {
+        case .missingInput:
+            return "Please enter all required fields."
+        default:
+            return "Please try again later."
+        }
+    }
+}
+
 protocol AuthService {
     var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> { get }
     var currentUserId: String? { get }
-    func logIn(withEmail email: String, password: String)
+    func logIn(withEmail email: String?, password: String?)
     func signUp(withEmail email: String, password: String, name: String)
     func signOut()
     func silentLogIn()
@@ -43,7 +56,14 @@ class AuthenticationService: AuthService {
         self.householdRepository = householdRepository
     }
     
-    func logIn(withEmail email: String, password: String) {
+    func logIn(withEmail email: String?, password: String?) {
+        guard let email = email,
+              let password = password
+        else {
+            self._isUserLoggedIn.send((false, AuthServiceError.missingInput))
+            return
+        }
+        
         auth.signIn(withEmail: email, password: password) { [weak self] _, error in
             guard let self = self else {
                 return
@@ -133,7 +153,7 @@ class AuthMockService: AuthService {
         .eraseToAnyPublisher()
     }
     
-    func logIn(withEmail email: String, password: String) {}
+    func logIn(withEmail email: String?, password: String?) {}
     
     func signUp(withEmail email: String, password: String, name: String) {}
     

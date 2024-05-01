@@ -66,6 +66,19 @@ class RootVC: UIViewController {
                 }
             }
             .store(in: &cancellables)
+        
+        viewModel.$errorMessage
+            .receive(on: RunLoop.main)
+            .sink { [weak self] errorMessage in
+                LogUtil.log("from RootViewModel -- errorMessage -- \(errorMessage)")
+                
+                if let errorMessage = errorMessage {
+                    DispatchQueue.main.async {
+                        self?.showAlert(withMessage: errorMessage)
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func switchToViewController(_ newVC: UINavigationController) {
