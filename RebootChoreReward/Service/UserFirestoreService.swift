@@ -11,8 +11,6 @@ import FirebaseAuth
 protocol UserService {
     var user: AnyPublisher<(User?, Error?), Never> { get }
     var familyMembers: AnyPublisher<[User]?, Never> { get }
-    func createUser(from userObject: User)
-    func readUser(withId userId: String)
     func readFamilyMember(withId lookUpId: String) async throws -> User
 }
 
@@ -39,24 +37,17 @@ class UserFirestoreService: UserService {
     
     private func subscribeToUserRepository() {
         userRepository.user.sink { [weak self] userOrErrorTuple in
+            LogUtil.log("From UserRepository -- userOrErrorTuple -- \(userOrErrorTuple)")
             self?._user.send(userOrErrorTuple)
         }
         .store(in: &cancellables)
         
         userRepository.members.sink { [weak self] members in
-            LogUtil.log("Received members \(members)")
+            LogUtil.log("From UserRepository -- members -- \(members)")
 
             self?._familyMembers.send(members)
         }
         .store(in: &cancellables)
-    }
-    
-    func createUser(from userObject: User) {
-        userRepository.createUser(from: userObject)
-    }
-
-    func readUser(withId userId: String) {
-        userRepository.readUser(withId: userId)
     }
     
     func readFamilyMember(withId lookUpId: String) async throws -> User {
@@ -88,10 +79,6 @@ class UserMockService: UserService {
         ])
         .eraseToAnyPublisher()
     }
-    
-    func createUser(from userObject: User) {}
-    
-    func readUser(withId userId: String) {}
     
     func readFamilyMember(withId lookUpId: String) async throws -> User {return .mock}
 }

@@ -32,6 +32,7 @@ class SignUpViewModel {
     
     private func subscribeToHouseholdService() {
         householdService.householdIdReceivedFromLink.sink { [weak self] householdId in
+            LogUtil.log("From HouseholdService -- householdId -- \(householdId)")
             self?.householdIdReceivedFromLink = householdId
         }
         .store(in: &cancellables)
@@ -43,29 +44,9 @@ class SignUpViewModel {
             return
         }
         
-        Task {
-            do {
-                try await self.authService.signUp(withEmail: email, password: password)
-                
-                guard let currentUserId = self.authService.currentUserId else {
-                    completion("Error signing up: could not get user info")
-                    return
-                }
-                
-                self.userService.createUser(
-                    from: User(
-                        name: name,
-                        id: currentUserId,
-                        householdId: nil,
-                        role: .parent
-                    )
-                )
-                
-                completion(nil)
-            } catch {
-                completion("Error signing up: \(error.localizedDescription)")
-            }
-        }
+        self.authService.signUp(withEmail: email, password: password, name: name)
+        
+        completion(nil)
     }
     
     deinit {

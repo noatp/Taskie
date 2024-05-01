@@ -47,7 +47,7 @@ class HouseholdFirestoreService: HouseholdService {
     
     private func subscribeToHouseholdRepository() {
         householdRepository.household.sink { [weak self] household in
-            LogUtil.log("Received household \(household)")
+            LogUtil.log("From HouseholdRepository -- household -- \(household)")
             self?._household.send(household)
         }
         .store(in: &cancellables)

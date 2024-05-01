@@ -23,7 +23,7 @@ class AddHouseholdMemberViewModel: ObservableObject {
     
     private func subscribeToHouseholdService() {
         householdService.household.sink { [weak self] household in
-            LogUtil.log("Received household \(household)")
+            LogUtil.log("From HouseholdService -- household -- \(household)")
         }
         .store(in: &cancellables)
     }

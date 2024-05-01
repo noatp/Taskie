@@ -10,23 +10,22 @@ import FirebaseAuth
 import Combine
 
 protocol AuthService {
-    var isUserLoggedIn: AnyPublisher<Bool, Never> { get }
+    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> { get }
     var currentUserId: String? { get }
-    func signUp(withEmail email: String, password: String) async throws
-    func logIn(withEmail email: String, password: String) async throws
+    func logIn(withEmail email: String, password: String)
+    func signUp(withEmail email: String, password: String, name: String)
     func signOut()
     func silentLogIn()
 }
 
 class AuthenticationService: AuthService {
-    private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
+    private let _isUserLoggedIn = PassthroughSubject<(Bool, Error?), Never>()
     private let auth = Auth.auth()
     private let userRepository: UserFirestoreRepository
     private let choreRepository: ChoreFirestoreRepository
     private let householdRepository: HouseholdFirestoreRepository
-
     
-    var isUserLoggedIn: AnyPublisher<Bool, Never> {
+    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
     }
     
@@ -42,43 +41,80 @@ class AuthenticationService: AuthService {
         self.userRepository = userRepository
         self.choreRepository = choreRepository
         self.householdRepository = householdRepository
-        
-        auth.addStateDidChangeListener { [weak self] _, user in
-            if let user = user {
-                LogUtil.log("Logged in with userId \(user.uid)")
-                self?._isUserLoggedIn.send(true)
+    }
+    
+    func logIn(withEmail email: String, password: String) {
+        auth.signIn(withEmail: email, password: password) { [weak self] _, error in
+            guard let self = self else {
+                return
+            }
+            
+            if let error = error {
+                self._isUserLoggedIn.send((false, error))
             }
             else {
-                LogUtil.log("Signed out")
-                self?._isUserLoggedIn.send(false)
-                self?.resetRepositories()
+                self.checkCurentAuthSession { currentUserId in
+                    self.userRepository.readUser(withId: currentUserId)
+                }
             }
         }
     }
     
-    func signUp(withEmail email: String, password: String) async throws {
-        try await auth.createUser(withEmail: email, password: password)
+    func signUp(withEmail email: String, password: String, name: String) {
+        auth.createUser(withEmail: email, password: password) { [weak self] _, error in
+            guard let self = self else {
+                return
+            }
+            
+            if let error = error {
+                self._isUserLoggedIn.send((false, error))
+            }
+            else {
+                self.checkCurentAuthSession { currentUserId in
+                    self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                }
+            }
+        }
     }
     
     func silentLogIn() {
-        auth.currentUser?.getIDTokenForcingRefresh(true){ _, error in
+        auth.currentUser?.getIDTokenForcingRefresh(true){ [weak self] _, error in
+            guard let self = self else {
+                return
+            }
+            
             if let error = error {
                 self.signOut()
                 LogUtil.log("\(error)")
             }
+            else {
+                self.checkCurentAuthSession { currentUserId in
+                    self.userRepository.readUser(withId: currentUserId)
+                }
+            }
         }
     }
     
-    func logIn(withEmail email: String, password: String) async throws {
-        try await auth.signIn(withEmail: email, password: password)
+    private func checkCurentAuthSession(afterAuthenticated: (_ currentUserId: String) -> Void) {
+        guard let currentUserId = currentUserId else {
+            LogUtil.log("currentUserId: nil")
+            _isUserLoggedIn.send((false, nil))
+            resetRepositories()
+            return
+        }
+        LogUtil.log("currentUserId: \(currentUserId)")
+        _isUserLoggedIn.send((true, nil))
+        afterAuthenticated(currentUserId)
     }
+    
     
     func signOut() {
         do {
             try auth.signOut()
             LogUtil.log("Signing out")
+            checkCurentAuthSession { currentUserId in}
         } catch {
-            print("Error signing out \(error)")
+            LogUtil.log("Error signing out \(error)")
         }
     }
     
@@ -90,15 +126,18 @@ class AuthenticationService: AuthService {
 }
 
 class AuthMockService: AuthService {
-    func silentLogIn() {}
-    
-    var isUserLoggedIn: AnyPublisher<Bool, Never> {
-        Just(true).eraseToAnyPublisher()
+    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> {
+        Just(
+            (true, nil)
+        )
+        .eraseToAnyPublisher()
     }
     
-    func signUp(withEmail email: String, password: String) async throws {}
+    func logIn(withEmail email: String, password: String) {}
     
-    func logIn(withEmail email: String, password: String) async throws {}
+    func signUp(withEmail email: String, password: String, name: String) {}
+    
+    func silentLogIn() {}
     
     func signOut() {}
     

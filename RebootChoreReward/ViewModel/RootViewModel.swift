@@ -11,7 +11,6 @@ import Combine
 class RootViewModel: ObservableObject {
     @Published var hasUserData: Bool = false
     @Published var errorMessage: String? = nil
-//    var isLoggedIn: Bool = false
     
     private var cancellables: Set<AnyCancellable> = []
     private var authService: AuthService
@@ -29,35 +28,26 @@ class RootViewModel: ObservableObject {
         self.userService = userService
         self.householdService = householdService
         self.choreService = choreService
-        subscribeToAuthService()
+        authService.silentLogIn()
         subscribeToUserService()
     }
     
     private func subscribeToAuthService() {
-//        authService.isUserLoggedIn.sink { [weak self] isUserLoggedIn in
-//            LogUtil.log("Received isUserLoggedIn \(isUserLoggedIn)")
-//
-//            self?.isLoggedIn = isUserLoggedIn
-//            if isUserLoggedIn {
-//                guard let currentUserId = self?.authService.currentUserId,
-//                      !currentUserId.isEmpty else {
-//                    return
-//                }
-//                self?.userService.readUser(withId: currentUserId)
-//            }
-//        }
-//        .store(in: &cancellables)
         
-        authService.silentLogIn()
     }
     
     private func subscribeToUserService() {
         userService.user.sink { [weak self] (user, error) in
+            LogUtil.log("From UserService -- (user, error) -- \((user, error))")
             if let error = error {
                 self?.errorMessage = "Error fetching user data from server."
+                self?.hasUserData = false
             }
             if let user = user {
                 self?.hasUserData = true
+            }
+            else {
+                self?.hasUserData = false
             }
         }
         .store(in: &cancellables)

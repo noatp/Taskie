@@ -48,6 +48,8 @@ class RootVC: UIViewController {
         viewModel.$hasUserData
             .receive(on: RunLoop.main)
             .sink { [weak self] hasUserData in
+                LogUtil.log("From RootViewModel -- hasUserData -- \(hasUserData)")
+
                 guard let self = self else {
                     return
                 }

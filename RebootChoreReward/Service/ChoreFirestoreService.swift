@@ -38,13 +38,12 @@ class ChoreFirestoreService: ChoreService {
         self.choreRepository = choreRepository
         self.userRepository = userRepository
         subscribeToChoreRepository()
-//        subscribeToUserRepository()
     }
     
     private func subscribeToChoreRepository() {
         choreRepository.chores.sink(
             receiveValue: { [weak self] chores in
-                LogUtil.log("Received chores \(chores)")
+                LogUtil.log("From ChoreRepository -- chores -- \(chores)")
                 self?._chores.send(chores)
             }
         )

@@ -27,18 +27,9 @@ class LogInViewModel {
             return
         }
         
-        Task {
-            do {
-                try await self.authService.logIn(withEmail: email, password: password)
-                guard (self.authService.currentUserId) != nil else {
-                    completion("Error signing in: could not get user info")
-                    return
-                }
-                completion(nil)
-            } catch {
-                completion("Error signing in: \(error.localizedDescription)")
-            }
-        }
+        self.authService.logIn(withEmail: email, password: password)
+        
+        completion(nil)
     }
 }
 
