@@ -65,7 +65,7 @@ class ChoreFirestoreService: ChoreService {
                 self?.choreRepository.readChores(inHousehold: household.id)
             }
             else {
-                LogUtil.log("Received household nil, resetting ChoreRepository")
+                LogUtil.log("Received invalid householdId, resetting ChoreRepository")
                 self?.choreRepository.reset()
             }
         }

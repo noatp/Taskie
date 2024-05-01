@@ -64,7 +64,7 @@ class HouseholdFirestoreService: HouseholdService {
                 self?.readHousehold(withId: householdId)
             }
             else {
-                LogUtil.log("Received user nil, resetting HouseholdRepository")
+                LogUtil.log("Received invalid householdId, resetting HouseholdRepository")
                 self?.householdRepository.reset()
             }
         }
