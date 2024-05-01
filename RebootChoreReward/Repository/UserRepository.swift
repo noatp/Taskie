@@ -43,8 +43,10 @@ class UserRepository {
                     LogUtil.log("Error writing document: \(error.localizedDescription)")
                     self?._user.send((nil, UserRepositoryError.creatingError))
                 }
+                else {
+                    self?.readUser(withId: userObject.id)
+                }
             }
-            readUser(withId: userObject.id)
         } catch {
             LogUtil.log("Error encoding user: \(error.localizedDescription)")
             self._user.send((nil, UserRepositoryError.encodingError))
