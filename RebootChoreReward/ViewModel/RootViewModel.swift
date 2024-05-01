@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 class RootViewModel: ObservableObject {
+    @Published var hasHouseholdData: Bool = false
     @Published var hasUserData: Bool = false
     @Published var errorMessage: String? = nil
     
@@ -31,6 +32,7 @@ class RootViewModel: ObservableObject {
         authService.silentLogIn()
         subscribeToUserService()
         subscribeToAuthService()
+        subscribeToHouseholdService()
     }
     
     private func subscribeToAuthService() {
@@ -47,7 +49,7 @@ class RootViewModel: ObservableObject {
         userService.user.sink { [weak self] (user, error) in
             LogUtil.log("From UserService -- (user, error) -- \((user, error))")
             if let error = error {
-                self?.errorMessage = "Error fetching user data from server."
+                self?.errorMessage = "Error fetching user data from server. Please try again later."
                 self?.hasUserData = false
             }
             if let user = user {
@@ -55,6 +57,23 @@ class RootViewModel: ObservableObject {
             }
             else {
                 self?.hasUserData = false
+            }
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToHouseholdService() {
+        householdService.household.sink { [weak self] (household, error) in
+            if let error = error {
+                self?.errorMessage = "Error fetching household data from server. Please try again later."
+                self?.hasHouseholdData = false
+            }
+            
+            if let household = household {
+                self?.hasHouseholdData = true
+            }
+            else {
+                self?.hasHouseholdData = false
             }
         }
         .store(in: &cancellables)

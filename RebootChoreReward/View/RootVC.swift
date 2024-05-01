@@ -46,8 +46,9 @@ class RootVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.$hasUserData
+            .combineLatest(viewModel.$hasHouseholdData)
             .receive(on: RunLoop.main)
-            .sink { [weak self] hasUserData in
+            .sink { [weak self] hasUserData, hasHouseholdData in
                 LogUtil.log("From RootViewModel -- hasUserData -- \(hasUserData)")
 
                 guard let self = self else {
@@ -55,9 +56,16 @@ class RootVC: UIViewController {
                 }
                 
                 if hasUserData {
-                    let choreListVC = self.dependencyView.choreListVC()
-                    let navVC = UINavigationController(rootViewController: choreListVC)
-                    self.switchToViewController(navVC)
+                    if hasHouseholdData {
+                        let choreListVC = self.dependencyView.choreListVC()
+                        let navVC = UINavigationController(rootViewController: choreListVC)
+                        self.switchToViewController(navVC)
+                    }
+                    else {
+                        let createOrAddHouseholdVC = self.dependencyView.createOrAddHouseholdVC()
+                        let navVC = UINavigationController(rootViewController: createOrAddHouseholdVC)
+                        self.switchToViewController(navVC)
+                    }
                 }
                 else {
                     let landingVC = self.dependencyView.landingVC()
