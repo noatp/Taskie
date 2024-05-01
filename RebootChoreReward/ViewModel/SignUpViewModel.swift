@@ -46,30 +46,19 @@ class SignUpViewModel {
         Task {
             do {
                 try await self.authService.signUp(withEmail: email, password: password)
+                
                 guard let currentUserId = self.authService.currentUserId else {
                     completion("Error signing up: could not get user info")
                     return
                 }
                 
-                var householdId = ""
-                
-                if let householdIdReceivedFromLink = self.householdIdReceivedFromLink {
-                    householdId = householdIdReceivedFromLink
-                    householdService.readHousehold(withId: householdIdReceivedFromLink)
-                    householdService.resetHouseholdIdReceivedFromLink()
-                } else {
-                    householdId = UUID().uuidString
-                    householdService.createHousehold(withId: householdId)
-                }
-                
-                try await self.userService.createUser(
+                self.userService.createUser(
                     from: User(
                         name: name,
                         id: currentUserId,
-                        household: householdId,
+                        householdId: nil,
                         role: .parent
-                    ),
-                    inHousehold: householdId
+                    )
                 )
                 
                 completion(nil)

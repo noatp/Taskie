@@ -38,7 +38,7 @@ class ChoreFirestoreService: ChoreService {
         self.choreRepository = choreRepository
         self.userRepository = userRepository
         subscribeToChoreRepository()
-        subscribeToUserRepository()
+//        subscribeToUserRepository()
     }
     
     private func subscribeToChoreRepository() {
@@ -51,22 +51,22 @@ class ChoreFirestoreService: ChoreService {
         .store(in: &cancellables)
     }
     
-    private func subscribeToUserRepository() {
-        userRepository.userHouseholdId.sink { [weak self] householdId in
-            LogUtil.log("Received householdId: \(householdId)")
-            guard let householdId = householdId, !householdId.isEmpty else {
-                return
-            }
-            self?.readChores(inHousehold: householdId)
-        }
-        .store(in: &cancellables)
-    }
+//    private func subscribeToUserRepository() {
+//        userRepository.userHouseholdId.sink { [weak self] householdId in
+//            LogUtil.log("Received householdId: \(householdId)")
+//            guard let householdId = householdId, !householdId.isEmpty else {
+//                return
+//            }
+//            self?.readChores(inHousehold: householdId)
+//        }
+//        .store(in: &cancellables)
+//    }
     
     func createChore(from choreObject: Chore) async throws {
-        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
-            return
-        }
-        choreRepository.createChore(from: choreObject, inHousehold: householdId)
+//        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
+//            return
+//        }
+//        choreRepository.createChore(from: choreObject, inHousehold: householdId)
     }
     
     func readChores(inHousehold householdId: String) {

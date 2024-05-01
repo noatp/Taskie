@@ -90,8 +90,8 @@ class LandingVC: UIViewController, Themable {
     }
     
     @objc func navigateToSignUp() {
-        let preSignUpVC = self.dependencyView.preSignUpVC()
-        navigationController?.pushViewController(preSignUpVC, animated: true)
+        let signUpVC = self.dependencyView.signUpVC()
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     @objc func navigateToLogIn() {

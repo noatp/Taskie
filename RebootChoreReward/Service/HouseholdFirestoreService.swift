@@ -17,6 +17,7 @@ protocol HouseholdService {
     func readHousehold(withId householdId: String)
     func sendHouseholdIdReceivedFromLink(householdId: String)
     func resetHouseholdIdReceivedFromLink()
+    func readHouseholdIdFromInvitation(withEmail email: String) async -> String?
 }
 
 class HouseholdFirestoreService: HouseholdService {
@@ -53,13 +54,12 @@ class HouseholdFirestoreService: HouseholdService {
     }
     
     private func subscribeToUserRepository() {
-        userRepository.userHouseholdId.sink { [weak self] householdId in
-            LogUtil.log("Received householdId \(householdId)")
-            guard let householdId = householdId, !householdId.isEmpty else {
-                self?._household.send(nil)
-                return
+        userRepository.user.sink { [weak self] (user, error) in
+            LogUtil.log("From UserRepository -- user -- \((user, error))")
+            if let user = user,
+               let householdId = user.householdId {
+                self?.readHousehold(withId: householdId)
             }
-            self?.readHousehold(withId: householdId)
         }
         .store(in: &cancellables)
     }
@@ -80,9 +80,22 @@ class HouseholdFirestoreService: HouseholdService {
     func resetHouseholdIdReceivedFromLink() {
         self._householdIdReceivedFromLink.send(nil)
     }
+    
+    func readHouseholdIdFromInvitation(withEmail email: String) async -> String? {
+        do {
+            let householdId = try await householdRepository.readHouseholdIdFromInvitation(withEmail: email)
+            return householdId
+        }
+        catch {
+            LogUtil.log(error.localizedDescription)
+            return nil
+        }
+    }
 }
 
 class HouseholdMockService: HouseholdService {
+    func readHouseholdIdFromInvitation(withEmail email: String) async -> String?{ return nil }
+    
     func sendHouseholdIdReceivedFromLink(householdId: String) {}
     
     var householdIdReceivedFromLink: AnyPublisher<String?, Never> {

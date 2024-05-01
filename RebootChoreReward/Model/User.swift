@@ -14,19 +14,19 @@ struct User: Codable {
     static let empty = User(
         name: "",
         id: "",
-        household: "",
+        householdId: "",
         role: .parent
     )
     static let mock = User(
         name: "some name",
         id: "some id",
-        household: "some id",
+        householdId: "some id",
         role: .parent
     )
     
     let name: String
     let id: String
-    let household: String
+    let householdId: String?
     let role: Role
 }
 

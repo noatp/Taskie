@@ -32,16 +32,12 @@
 		CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */; };
 		CA26D0712BE01734002B5962 /* apple-app-site-association in Resources */ = {isa = PBXBuildFile; fileRef = CA26D0702BE01734002B5962 /* apple-app-site-association */; };
 		CA3A69912BE062C7009D669F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA3A69902BE062C7009D669F /* GoogleService-Info.plist */; };
-		CA3A699C2BE07B63009D669F /* PreSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A699A2BE07B63009D669F /* PreSignUpViewModel.swift */; };
-		CA3A699D2BE07B63009D669F /* PreSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A699B2BE07B63009D669F /* PreSignUpVC.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
-		CA5535542BDE0C4B00A5B2BC /* CreateProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */; };
-		CA5535552BDE0C4B00A5B2BC /* CreateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */; };
 		CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
@@ -115,8 +111,6 @@
 		CA26D0702BE01734002B5962 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		CA26D0722BE020A5002B5962 /* RebootChoreReward.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RebootChoreReward.entitlements; sourceTree = "<group>"; };
 		CA3A69902BE062C7009D669F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CA3A699A2BE07B63009D669F /* PreSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreSignUpViewModel.swift; sourceTree = "<group>"; };
-		CA3A699B2BE07B63009D669F /* PreSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreSignUpVC.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -124,8 +118,6 @@
 		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
-		CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileViewModel.swift; sourceTree = "<group>"; };
-		CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileVC.swift; sourceTree = "<group>"; };
 		CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLoadingIndicator.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -223,7 +215,6 @@
 		CA1683EE2B9D301A0086153A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CA5535522BDE0C4B00A5B2BC /* CreateProfileViewModel.swift */,
 				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
 				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
 				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
@@ -272,9 +263,6 @@
 				CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */,
 				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
 				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
-				CA5535532BDE0C4B00A5B2BC /* CreateProfileVC.swift */,
-				CA3A699A2BE07B63009D669F /* PreSignUpViewModel.swift */,
-				CA3A699B2BE07B63009D669F /* PreSignUpVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -539,7 +527,6 @@
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
 				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
-				CA3A699D2BE07B63009D669F /* PreSignUpVC.swift in Sources */,
 				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserFirestoreRepository.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
@@ -554,7 +541,6 @@
 				CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreFirestoreRepository.swift in Sources */,
-				CA5535552BDE0C4B00A5B2BC /* CreateProfileVC.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
 				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
@@ -581,13 +567,11 @@
 				CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
-				CA3A699C2BE07B63009D669F /* PreSignUpViewModel.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
 				CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */,
 				CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */,
 				CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */,
 				CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */,
-				CA5535542BDE0C4B00A5B2BC /* CreateProfileViewModel.swift in Sources */,
 				CA1683EB2B8D45D80086153A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

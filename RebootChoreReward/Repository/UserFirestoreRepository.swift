@@ -11,6 +11,9 @@ import Combine
 enum UserRepositoryError: Error {
     case userNotFound
     case encodingError
+    case fetchingError
+    case decodingError
+    case creatingError
 }
 
 class UserFirestoreRepository {
@@ -24,24 +27,46 @@ class UserFirestoreRepository {
     }
     private let _members = CurrentValueSubject<[User]?, Never>(nil)
     
-    var userHouseholdId: AnyPublisher<String?, Never> {
-        _userHouseholdId.eraseToAnyPublisher()
+    var user: AnyPublisher<(user: User?, error: Error?), Never> {
+        _user.eraseToAnyPublisher()
     }
-    private let _userHouseholdId = CurrentValueSubject<String?, Never>(nil)
+    private let _user = CurrentValueSubject<(user: User?, error: Error?), Never>((nil, nil))
     
     init() {}
     
-    func createUser(from userObject: User, inHousehold householdId: String) async throws {
-        householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
+    func createUser(from userObject: User) {
+        let userDocRef = db.collection("users").document(userObject.id)
+        
         do {
-            guard let documentData = try CodableUtil.dictionaryFromCodable(userObject) else {
-                throw UserRepositoryError.encodingError
+            try userDocRef.setData(from: userObject) { [weak self] error in
+                if let error = error {
+                    LogUtil.log("Error writing document: \(error.localizedDescription)")
+                    self?._user.send((nil, UserRepositoryError.creatingError))
+                }
             }
-            try await householdMemberCollectionRef?.document(userObject.id).setData(documentData)
-            try await db.collection("users").document(userObject.id).setData(["householdId": householdId])
+            readUser(withId: userObject.id)
+        } catch {
+            LogUtil.log("Error encoding user: \(error.localizedDescription)")
+            self._user.send((nil, UserRepositoryError.encodingError))
         }
-        catch let error {
-            LogUtil.log("Error writing user to Firestore: \(error)")
+    }
+    
+    func readUser(withId userId: String) {
+        let userDocRef = db.collection("users").document(userId)
+        self.userDocumentListener = userDocRef.addSnapshotListener { [weak self] userDocSnapshot, error in
+            guard let userDoc = userDocSnapshot else {
+                LogUtil.log("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                self?._user.send((nil, UserRepositoryError.fetchingError))
+                return
+            }
+            
+            do {
+                let user = try userDoc.data(as: User.self)
+                self?._user.send((user, nil))
+            } catch {
+                LogUtil.log("Error decoding document: \(error.localizedDescription)")
+                self?._user.send((nil, UserRepositoryError.decodingError))
+            }
         }
     }
     
@@ -72,43 +97,43 @@ class UserFirestoreRepository {
             }
     }
     
-    func readUserForHouseholdId(userId: String) {
-        LogUtil.log("attaching listener for userId \(userId)")
-        userDocumentListener = db.collection("users")
-            .document(userId)
-            .addSnapshotListener { [weak self] documentSnapshot, error in
-                if let error = error {
-                    LogUtil.log("Error: \(error.localizedDescription)")
-                    self?._userHouseholdId.send(nil)
-                    return
-                }
-                
-                guard let document = documentSnapshot else {
-                    LogUtil.log("Error fetching document")
-                    self?._userHouseholdId.send(nil)
-                    return
-                }
-                
-                guard let data = document.data() else {
-                    LogUtil.log("Document data was empty")
-                    self?._userHouseholdId.send(nil)
-                    return
-                }
-                
-                guard let householdId = data["householdId"] as? String else {
-                    LogUtil.log("Failed to get householdId as String")
-                    self?._userHouseholdId.send(nil)
-                    return
-                }
-                
-                LogUtil.log("Got householdId \(householdId)")
-                self?._userHouseholdId.send(householdId)
-            }
-    }
+    //    func readUserForHouseholdId(userId: String) {
+    //        LogUtil.log("attaching listener for userId \(userId)")
+    //        userDocumentListener = db.collection("users")
+    //            .document(userId)
+    //            .addSnapshotListener { [weak self] documentSnapshot, error in
+    //                if let error = error {
+    //                    LogUtil.log("Error: \(error.localizedDescription)")
+    //                    self?._userHouseholdId.send(nil)
+    //                    return
+    //                }
+    //
+    //                guard let document = documentSnapshot else {
+    //                    LogUtil.log("Error fetching document")
+    //                    self?._userHouseholdId.send(nil)
+    //                    return
+    //                }
+    //
+    //                guard let data = document.data() else {
+    //                    LogUtil.log("Document data was empty")
+    //                    self?._userHouseholdId.send(nil)
+    //                    return
+    //                }
+    //
+    //                guard let householdId = data["householdId"] as? String else {
+    //                    LogUtil.log("Failed to get householdId as String")
+    //                    self?._userHouseholdId.send(nil)
+    //                    return
+    //                }
+    //
+    //                LogUtil.log("Got householdId \(householdId)")
+    //                self?._userHouseholdId.send(householdId)
+    //            }
+    //    }
     
-    func currentHouseholdId() -> String? {
-        _userHouseholdId.value
-    }
+//    func currentHouseholdId() -> String? {
+//        _userHouseholdId.value
+//    }
     
     func reset() {
         LogUtil.log("resetting")
@@ -118,7 +143,7 @@ class UserFirestoreRepository {
         userDocumentListener = nil
         householdMemberCollectionRef = nil
         _members.send(nil)
-        _userHouseholdId.send(nil)
+        _user.send((nil, nil))
     }
     
     deinit {

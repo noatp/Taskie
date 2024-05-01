@@ -9,9 +9,9 @@ import Combine
 import FirebaseAuth
 
 protocol UserService {
-    var user: AnyPublisher<User?, Never> { get }
+    var user: AnyPublisher<(User?, Error?), Never> { get }
     var familyMembers: AnyPublisher<[User]?, Never> { get }
-    func createUser(from userObject: User, inHousehold householdId: String) async throws
+    func createUser(from userObject: User)
     func readUser(withId userId: String)
     func readFamilyMember(withId lookUpId: String) async throws -> User
 }
@@ -20,15 +20,17 @@ class UserFirestoreService: UserService {
     private var cancellables: Set<AnyCancellable> = []
     private let userRepository: UserFirestoreRepository
     
+    var user: AnyPublisher<(User?, Error?), Never> {
+        _user.eraseToAnyPublisher()
+    }
+    private let _user = PassthroughSubject<(User?, Error?), Never>()
+    
     var familyMembers: AnyPublisher<[User]?, Never> {
         _familyMembers.eraseToAnyPublisher()
     }
     private let _familyMembers = CurrentValueSubject<[User]?, Never>([])
     
-    var user: AnyPublisher<User?, Never> {
-        _user.eraseToAnyPublisher()
-    }
-    private let _user = PassthroughSubject<User?, Never>()
+    
     
     init(userRepository: UserFirestoreRepository) {
         self.userRepository = userRepository
@@ -36,37 +38,25 @@ class UserFirestoreService: UserService {
     }
     
     private func subscribeToUserRepository() {
+        userRepository.user.sink { [weak self] userOrErrorTuple in
+            self?._user.send(userOrErrorTuple)
+        }
+        .store(in: &cancellables)
+        
         userRepository.members.sink { [weak self] members in
             LogUtil.log("Received members \(members)")
 
             self?._familyMembers.send(members)
-
-            guard let self = self,
-                  let currentUserId = Auth.auth().currentUser?.uid,
-                  let currentUser = members?.first(where: { $0.id == currentUserId }) else {
-                self?._user.send(nil)
-                return
-            }
-            _user.send(currentUser)
-        }
-        .store(in: &cancellables)
-        
-        userRepository.userHouseholdId.sink { [weak self] householdId in
-            LogUtil.log("Received householdId \(householdId)")
-            guard let householdId = householdId, !householdId.isEmpty else {
-                return
-            }
-            self?.userRepository.readUsers(inHousehold: householdId)
         }
         .store(in: &cancellables)
     }
     
-    func createUser(from userObject: User, inHousehold householdId: String) async throws {
-        try await userRepository.createUser(from: userObject, inHousehold: householdId)
+    func createUser(from userObject: User) {
+        userRepository.createUser(from: userObject)
     }
 
     func readUser(withId userId: String) {
-        userRepository.readUserForHouseholdId(userId: userId)
+        userRepository.readUser(withId: userId)
     }
     
     func readFamilyMember(withId lookUpId: String) async throws -> User {
@@ -83,6 +73,13 @@ class UserFirestoreService: UserService {
 }
 
 class UserMockService: UserService {
+    var user: AnyPublisher<(User?, Error?), Never> {
+        Just(
+            (.mock, nil)
+        )
+        .eraseToAnyPublisher()
+    }
+    
     var familyMembers: AnyPublisher<[User]?, Never> {
         Just ([
             .mock,
@@ -91,16 +88,8 @@ class UserMockService: UserService {
         ])
         .eraseToAnyPublisher()
     }
-        
-    var user: AnyPublisher<User?, Never> {
-        Just(
-            .mock
-        )
-        .eraseToAnyPublisher()
-    }
     
-    func createUser(from userObject: User, inHousehold householdId: String) async throws {}
-
+    func createUser(from userObject: User) {}
     
     func readUser(withId userId: String) {}
     

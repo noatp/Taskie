@@ -38,7 +38,7 @@ class HouseholdFirestoreRepository {
                 self?._household.send(nil)
                 return
             }
-
+            
             do {
                 if let household = try documentSnapshot?.data(as: Household.self) {
                     self?._household.send(household)
@@ -54,6 +54,18 @@ class HouseholdFirestoreRepository {
                 return
             }
         })
+    }
+    
+    func readHouseholdIdFromInvitation(withEmail email: String) async throws -> String? {
+        let docRef = db.collection("invitations").document(email)
+        let document = try await docRef.getDocument()
+        if let data = document.data(),
+           let householdId = data["householdId"] as? String {
+            return householdId
+        }
+        else {
+            return nil
+        }
     }
     
     func reset() {

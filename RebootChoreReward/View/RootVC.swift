@@ -45,30 +45,22 @@ class RootVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$isInHousehold
-            .combineLatest(viewModel.$hasInvitation)
+        viewModel.$hasUserData
             .receive(on: RunLoop.main)
-            .sink { [weak self] isInHousehold, hasInvitation in
+            .sink { [weak self] hasUserData in
                 guard let self = self else {
                     return
                 }
                 
-                if self.viewModel.isLoggedIn && isInHousehold {
+                if hasUserData {
                     let choreListVC = self.dependencyView.choreListVC()
                     let navVC = UINavigationController(rootViewController: choreListVC)
                     self.switchToViewController(navVC)
                 }
                 else {
-                    if hasInvitation {
-                        let signUpVC = self.dependencyView.signUpVC()
-                        let navVC = UINavigationController(rootViewController: signUpVC)
-                        self.switchToViewController(navVC)
-                    }
-                    else {
-                        let landingVC = self.dependencyView.landingVC()
-                        let navVC = UINavigationController(rootViewController: landingVC)
-                        self.switchToViewController(navVC)
-                    }
+                    let landingVC = self.dependencyView.landingVC()
+                    let navVC = UINavigationController(rootViewController: landingVC)
+                    self.switchToViewController(navVC)
                 }
             }
             .store(in: &cancellables)
