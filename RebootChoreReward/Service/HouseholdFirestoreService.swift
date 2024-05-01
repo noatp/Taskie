@@ -11,7 +11,7 @@ import FirebaseFunctions
 import FirebaseAuth
 
 protocol HouseholdService {
-    var household: AnyPublisher<Household?, Never> { get }
+    var household: AnyPublisher<(Household?, Error?), Never> { get }
     var householdIdReceivedFromLink: AnyPublisher<String?, Never> { get }
     func createHousehold(withId householdId: String)
     func readHousehold(withId householdId: String)
@@ -30,10 +30,10 @@ class HouseholdFirestoreService: HouseholdService {
     }
     private let _householdIdReceivedFromLink = CurrentValueSubject<String?, Never>(nil)
     
-    var household: AnyPublisher<Household?, Never> {
+    var household: AnyPublisher<(Household?, Error?), Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household?, Never>(nil)
+    private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
     
     init(
         householdRepository: HouseholdFirestoreRepository,
@@ -46,19 +46,26 @@ class HouseholdFirestoreService: HouseholdService {
     }
     
     private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] household in
-            LogUtil.log("From HouseholdRepository -- household -- \(household)")
-            self?._household.send(household)
+        householdRepository.household.sink { [weak self] (household, error) in
+            LogUtil.log("From HouseholdRepository -- (household, error) -- \((household, error))")
+            self?._household.send((household, error))
         }
         .store(in: &cancellables)
     }
     
     private func subscribeToUserRepository() {
-        userRepository.user.sink { [weak self] (user, error) in
-            LogUtil.log("From UserRepository -- user -- \((user, error))")
+        userRepository.user.sink { [weak self] (user, _) in
+            LogUtil.log("From UserRepository -- user -- \(user)")
             if let user = user,
-               let householdId = user.householdId {
+               let householdId = user.householdId,
+               !householdId.isEmpty
+            {
+                LogUtil.log("Received valid user, reading household")
                 self?.readHousehold(withId: householdId)
+            }
+            else {
+                LogUtil.log("Received user nil, sending household (nil, nil), reseting")
+                self?._household.send((nil, nil))
             }
         }
         .store(in: &cancellables)
@@ -104,9 +111,9 @@ class HouseholdMockService: HouseholdService {
     
     func resetHouseholdIdReceivedFromLink() {}
         
-    var household: AnyPublisher<Household?, Never>{
+    var household: AnyPublisher<(Household?, Error?), Never>{
         Just(
-            .mock
+            (.mock, nil)
         )
         .eraseToAnyPublisher()
     }

@@ -18,7 +18,7 @@ class ChoreListViewModel: ObservableObject {
     }
     
     private func subscribeToChoreFirestoreService() {
-        choreService.chores.sink { [weak self] chores in
+        choreService.chores.sink { [weak self] (chores, error) in
             LogUtil.log("From ChoreService -- chores -- \(chores)")
             guard let chores = chores else {
                 return

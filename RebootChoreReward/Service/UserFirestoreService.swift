@@ -36,9 +36,9 @@ class UserFirestoreService: UserService {
     }
     
     private func subscribeToUserRepository() {
-        userRepository.user.sink { [weak self] userOrErrorTuple in
-            LogUtil.log("From UserRepository -- userOrErrorTuple -- \(userOrErrorTuple)")
-            self?._user.send(userOrErrorTuple)
+        userRepository.user.sink { [weak self] (user, error) in
+            LogUtil.log("From UserRepository -- (user, error) -- \((user, error))")
+            self?._user.send((user, error))
         }
         .store(in: &cancellables)
         

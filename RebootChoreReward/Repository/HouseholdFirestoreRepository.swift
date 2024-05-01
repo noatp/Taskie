@@ -8,52 +8,59 @@
 import FirebaseFirestore
 import Combine
 
+enum HouseholdRepositoryError: Error {
+    case householdNotFound
+    case encodingError
+    case fetchingError
+    case decodingError
+    case creatingError
+}
+
 class HouseholdFirestoreRepository {
     private let db = Firestore.firestore()
-    private var householdCollectionListener: ListenerRegistration?
-    var household: AnyPublisher<Household?, Never> {
+    private var householdDocumentListener: ListenerRegistration?
+    var household: AnyPublisher<(Household?, Error?), Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<Household?, Never>(nil)
+    private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
     
     init() {}
     
     func createHousehold(from householdObject: Household) {
+        let householdDocRef = db.collection("households").document(householdObject.id)
+        
         do {
-            try db.collection("households").document(householdObject.id).setData(from: householdObject)
-        } catch let error {
-            print("Error writing household to Firestore: \(error)")
+            try householdDocRef.setData(from: householdObject) { [weak self] error in
+                if let error = error {
+                    LogUtil.log("Error writing document: \(error.localizedDescription)")
+                    self?._household.send((nil, HouseholdRepositoryError.creatingError))
+                }
+            }
+            readHousehold(withId: householdObject.id)
+        }
+        catch {
+            LogUtil.log("Error encoding household: \(error.localizedDescription)")
+            self._household.send((nil, HouseholdRepositoryError.encodingError))
         }
     }
     
     func readHousehold(withId householdId: String) {
-        self.householdCollectionListener = db.collection("households").document(householdId).addSnapshotListener({ [weak self] documentSnapshot, error in
-            guard let document = documentSnapshot, document.exists else {
-                if let error = error {
-                    LogUtil.log("Error fetching household document: \(error)")
-                }
-                else {
-                    LogUtil.log("Household document does not exist")
-                }
-                self?._household.send(nil)
+        let householdDocRef = db.collection("households").document(householdId)
+        self.householdDocumentListener = householdDocRef.addSnapshotListener { [weak self] householdDocSnapshot, error in
+            guard let householdDoc = householdDocSnapshot else {
+                LogUtil.log("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+                self?._household.send((nil, HouseholdRepositoryError.fetchingError))
                 return
             }
             
             do {
-                if let household = try documentSnapshot?.data(as: Household.self) {
-                    self?._household.send(household)
-                }
-                else {
-                    LogUtil.log("Error decoding household document")
-                    self?._household.send(nil)
-                }
+                let household = try householdDoc.data(as: Household.self)
+                self?._household.send((household, nil))
+            } catch {
+                LogUtil.log("Error decoding document: \(error.localizedDescription)")
+                self?._household.send((nil, HouseholdRepositoryError.decodingError))
             }
-            catch {
-                LogUtil.log("Error decoding household document \(error)")
-                self?._household.send(nil)
-                return
-            }
-        })
+        }
     }
     
     func readHouseholdIdFromInvitation(withEmail email: String) async throws -> String? {
@@ -70,12 +77,12 @@ class HouseholdFirestoreRepository {
     
     func reset() {
         LogUtil.log("resetting")
-        householdCollectionListener?.remove()
-        householdCollectionListener = nil
-        _household.send(nil)
+        householdDocumentListener?.remove()
+        householdDocumentListener = nil
+        _household.send((nil, nil))
     }
     
     deinit {
-        householdCollectionListener?.remove()
+        householdDocumentListener?.remove()
     }
 }
