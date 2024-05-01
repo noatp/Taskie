@@ -98,6 +98,7 @@ class AuthenticationService: AuthService {
     }
     
     func silentLogIn() {
+        LogUtil.log("Performing silent login")
         auth.currentUser?.getIDTokenForcingRefresh(true){ [weak self] _, error in
             guard let self = self else {
                 return
@@ -119,7 +120,7 @@ class AuthenticationService: AuthService {
         guard let currentUserId = currentUserId else {
             _isUserLoggedIn.send((false, nil))
             LogUtil.log("currentUserId: nil -- resetting UserRepository")
-            resetRepositories()
+            resetUserRepository()
             return
         }
         LogUtil.log("currentUserId: \(currentUserId)")
@@ -138,7 +139,7 @@ class AuthenticationService: AuthService {
         }
     }
     
-    func resetRepositories() {
+    func resetUserRepository() {
         userRepository.reset()
     }
 }
