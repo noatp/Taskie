@@ -18,9 +18,9 @@ protocol ChoreService {
 
 class ChoreFirestoreService: ChoreService {
     private var cancellables: Set<AnyCancellable> = []
-    private let choreRepository: ChoreFirestoreRepository
-    private let userRepository: UserFirestoreRepository
-    private let householdRepository: HouseholdFirestoreRepository
+    private let choreRepository: ChoreRepository
+    private let userRepository: UserRepository
+    private let householdRepository: HouseholdRepository
     
     var chores: AnyPublisher<([Chore]?, Error?), Never> {
         _chores.eraseToAnyPublisher()
@@ -33,9 +33,9 @@ class ChoreFirestoreService: ChoreService {
     private let _selectedChore = CurrentValueSubject<Chore?, Never>(nil)
     
     init(
-        choreRepository: ChoreFirestoreRepository,
-        userRepository: UserFirestoreRepository,
-        householdRepository: HouseholdFirestoreRepository
+        choreRepository: ChoreRepository,
+        userRepository: UserRepository,
+        householdRepository: HouseholdRepository
     ) {
         self.choreRepository = choreRepository
         self.userRepository = userRepository
@@ -65,8 +65,8 @@ class ChoreFirestoreService: ChoreService {
                 self?.choreRepository.readChores(inHousehold: household.id)
             }
             else {
-                LogUtil.log("Received household nil, sending chores (nil, nil), reseting")
-                self?._chores.send((nil, nil))
+                LogUtil.log("Received household nil, resetting ChoreRepository")
+                self?.choreRepository.reset()
             }
         }
         .store(in: &cancellables)

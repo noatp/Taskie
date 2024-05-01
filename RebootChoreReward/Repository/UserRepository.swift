@@ -1,5 +1,5 @@
 //
-//  UserFirestoreRepository.swift
+//  UserRepository.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 3/18/24.
@@ -16,7 +16,7 @@ enum UserRepositoryError: Error {
     case creatingError
 }
 
-class UserFirestoreRepository {
+class UserRepository {
     private let db = Firestore.firestore()
     private var householdMemberCollectionListener: ListenerRegistration?
     private var userDocumentListener: ListenerRegistration?
@@ -136,7 +136,7 @@ class UserFirestoreRepository {
 //    }
     
     func reset() {
-        LogUtil.log("resetting")
+        LogUtil.log("UserRepository -- resetting")
         householdMemberCollectionListener?.remove()
         householdMemberCollectionListener = nil
         userDocumentListener?.remove()

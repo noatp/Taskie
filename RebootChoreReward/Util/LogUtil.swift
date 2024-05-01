@@ -10,6 +10,20 @@ import Foundation
 
 struct LogUtil {
     static func log(_ msg: String, file: String = #fileID, function: String = #function) {
-        print("\(file) \(function): \(msg)")
+        let fileName = extractFileName(from: file)
+        print("\(fileName) \(function): \(msg)")
+    }
+    
+    static func extractFileName(from filePath: String) -> String {
+
+        let components = filePath.split(separator: "/").last ?? ""
+        
+
+        let fileNameWithExtension = String(components)
+        
+
+        let fileName = fileNameWithExtension.replacingOccurrences(of: ".swift", with: "")
+        
+        return fileName
     }
 }

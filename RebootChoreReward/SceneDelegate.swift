@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            let incomingURL = userActivity.webpageURL,
            let inviteCode = incomingURL.pathComponents.last {
             dependency.service.householdService.sendHouseholdIdReceivedFromLink(householdId: inviteCode)
-            print("Received invite code through Universal Link: \(inviteCode)")
+            LogUtil.log("Received invite code through Universal Link: \(inviteCode)")
         }
     }
 }

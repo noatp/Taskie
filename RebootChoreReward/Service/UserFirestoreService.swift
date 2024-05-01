@@ -16,7 +16,7 @@ protocol UserService {
 
 class UserFirestoreService: UserService {
     private var cancellables: Set<AnyCancellable> = []
-    private let userRepository: UserFirestoreRepository
+    private let userRepository: UserRepository
     
     var user: AnyPublisher<(User?, Error?), Never> {
         _user.eraseToAnyPublisher()
@@ -30,7 +30,7 @@ class UserFirestoreService: UserService {
     
     
     
-    init(userRepository: UserFirestoreRepository) {
+    init(userRepository: UserRepository) {
         self.userRepository = userRepository
         subscribeToUserRepository()
     }

@@ -59,7 +59,7 @@ class ChoreDetailViewModel: ObservableObject {
                         createdDate: chore.createdDate.toRelativeString())
                 }
             } catch {
-                print("Failed to fetch family member: \(error)")
+                LogUtil.log("Failed to fetch family member: \(error)")
             }
         }
     }

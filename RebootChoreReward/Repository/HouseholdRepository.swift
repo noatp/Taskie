@@ -1,5 +1,5 @@
 //
-//  HouseholdFirestoreRepository.swift
+//  HouseholdRepository.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 3/18/24.
@@ -16,16 +16,14 @@ enum HouseholdRepositoryError: Error {
     case creatingError
 }
 
-class HouseholdFirestoreRepository {
+class HouseholdRepository {
     private let db = Firestore.firestore()
     private var householdDocumentListener: ListenerRegistration?
     var household: AnyPublisher<(Household?, Error?), Never> {
         _household.eraseToAnyPublisher()
     }
     private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
-    
-    init() {}
-    
+        
     func createHousehold(from householdObject: Household) {
         let householdDocRef = db.collection("households").document(householdObject.id)
         
@@ -76,7 +74,7 @@ class HouseholdFirestoreRepository {
     }
     
     func reset() {
-        LogUtil.log("resetting")
+        LogUtil.log("HouseholdRepository -- resetting")
         householdDocumentListener?.remove()
         householdDocumentListener = nil
         _household.send((nil, nil))

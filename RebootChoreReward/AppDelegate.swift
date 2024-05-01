@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        print("App launched with options: \(String(describing: launchOptions))")
+        LogUtil.log("App launched with options: \(String(describing: launchOptions))")
         // umcomment this to hit emulators
         //        // firestore
         //        let settings = Firestore.firestore().settings

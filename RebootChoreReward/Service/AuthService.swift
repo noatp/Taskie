@@ -34,9 +34,9 @@ protocol AuthService {
 class AuthenticationService: AuthService {
     private let _isUserLoggedIn = PassthroughSubject<(Bool, Error?), Never>()
     private let auth = Auth.auth()
-    private let userRepository: UserFirestoreRepository
-    private let choreRepository: ChoreFirestoreRepository
-    private let householdRepository: HouseholdFirestoreRepository
+    private let userRepository: UserRepository
+    private let choreRepository: ChoreRepository
+    private let householdRepository: HouseholdRepository
     
     var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
@@ -47,9 +47,9 @@ class AuthenticationService: AuthService {
     }
     
     init(
-        userRepository: UserFirestoreRepository,
-        choreRepository: ChoreFirestoreRepository,
-        householdRepository: HouseholdFirestoreRepository
+        userRepository: UserRepository,
+        choreRepository: ChoreRepository,
+        householdRepository: HouseholdRepository
     ) {
         self.userRepository = userRepository
         self.choreRepository = choreRepository
@@ -117,8 +117,8 @@ class AuthenticationService: AuthService {
     
     private func checkCurentAuthSession(afterAuthenticated: (_ currentUserId: String) -> Void) {
         guard let currentUserId = currentUserId else {
-            LogUtil.log("currentUserId: nil")
             _isUserLoggedIn.send((false, nil))
+            LogUtil.log("currentUserId: nil -- resetting UserRepository")
             resetRepositories()
             return
         }
@@ -140,8 +140,6 @@ class AuthenticationService: AuthService {
     
     func resetRepositories() {
         userRepository.reset()
-        householdRepository.reset()
-        choreRepository.reset()
     }
 }
 

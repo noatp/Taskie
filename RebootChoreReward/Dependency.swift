@@ -28,9 +28,9 @@ class Dependency {
     }
     
     class Repository {
-        lazy var userRepository: UserFirestoreRepository = UserFirestoreRepository()
-        lazy var householdRepository: HouseholdFirestoreRepository = HouseholdFirestoreRepository()
-        lazy var choreRepository: ChoreFirestoreRepository = ChoreFirestoreRepository()
+        lazy var userRepository: UserRepository = UserRepository()
+        lazy var householdRepository: HouseholdRepository = HouseholdRepository()
+        lazy var choreRepository: ChoreRepository = ChoreRepository()
     }
     
     class Service {

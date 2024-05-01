@@ -1,5 +1,5 @@
 //
-//  ChoreFirestoreRepository.swift
+//  ChoreRepository.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 3/18/24.
@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import Combine
 
-class ChoreFirestoreRepository {
+class ChoreRepository {
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
     private var householdChoreCollectionRef: CollectionReference?
@@ -57,7 +57,7 @@ class ChoreFirestoreRepository {
     }
     
     func reset() {
-        LogUtil.log("resetting")
+        LogUtil.log("ChoreRepository -- resetting")
         choreCollectionListener?.remove()
         choreCollectionListener = nil
         householdChoreCollectionRef = nil

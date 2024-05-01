@@ -22,8 +22,8 @@ protocol HouseholdService {
 
 class HouseholdFirestoreService: HouseholdService {
     private var cancellables: Set<AnyCancellable> = []
-    private var householdRepository: HouseholdFirestoreRepository
-    private var userRepository: UserFirestoreRepository
+    private var householdRepository: HouseholdRepository
+    private var userRepository: UserRepository
     
     var householdIdReceivedFromLink: AnyPublisher<String?, Never> {
         _householdIdReceivedFromLink.eraseToAnyPublisher()
@@ -36,8 +36,8 @@ class HouseholdFirestoreService: HouseholdService {
     private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
     
     init(
-        householdRepository: HouseholdFirestoreRepository,
-        userRepository: UserFirestoreRepository
+        householdRepository: HouseholdRepository,
+        userRepository: UserRepository
     ) {
         self.householdRepository = householdRepository
         self.userRepository = userRepository
@@ -64,8 +64,8 @@ class HouseholdFirestoreService: HouseholdService {
                 self?.readHousehold(withId: householdId)
             }
             else {
-                LogUtil.log("Received user nil, sending household (nil, nil), reseting")
-                self?._household.send((nil, nil))
+                LogUtil.log("Received user nil, resetting HouseholdRepository")
+                self?.householdRepository.reset()
             }
         }
         .store(in: &cancellables)
