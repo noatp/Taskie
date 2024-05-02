@@ -49,11 +49,7 @@ class UserRepository {
     }
     
     func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) async {
-        let userDocRef = db
-            .collection("households")
-            .document(householdId)
-            .collection("users")
-            .document(decentralizedUserObject.id)
+        let userDocRef = db.collection("households").document(householdId).collection("users").document(decentralizedUserObject.id)
         
         do {
             try await userDocRef.setDataAsync(from: decentralizedUserObject)
