@@ -11,16 +11,17 @@ import Combine
 class ChoreRepository {
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
-    private var householdChoreCollectionRef: CollectionReference?
+    
     var chores: AnyPublisher<[Chore]?, Never> {
         _chores.eraseToAnyPublisher()
     }
     private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
         
     func createChore(from choreObject: Chore, inHousehold householdId: String) {
-        householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        let householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        
         do {
-            try householdChoreCollectionRef?.document(choreObject.id).setData(from: choreObject)
+            try householdChoreCollectionRef.document(choreObject.id).setData(from: choreObject)
         }
         catch let error {
             LogUtil.log("Error writing chore to Firestore: \(error)")
@@ -28,8 +29,8 @@ class ChoreRepository {
     }
     
     func readChores(inHousehold householdId: String) {
-        householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
-        self.choreCollectionListener = householdChoreCollectionRef?
+        let householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        self.choreCollectionListener = householdChoreCollectionRef
             .order(by: "createdDate", descending: true)
             .addSnapshotListener { [weak self] collectionSnapshot, error in
                 guard let collectionSnapshot = collectionSnapshot else {
@@ -58,7 +59,6 @@ class ChoreRepository {
         LogUtil.log("ChoreRepository -- resetting")
         choreCollectionListener?.remove()
         choreCollectionListener = nil
-        householdChoreCollectionRef = nil
         _chores.send(nil)
     }
     

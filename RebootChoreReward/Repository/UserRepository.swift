@@ -21,19 +21,16 @@ class UserRepository {
     private let db = Firestore.firestore()
     private var householdMemberCollectionListener: ListenerRegistration?
     private var userDocumentListener: ListenerRegistration?
-    private var householdMemberCollectionRef: CollectionReference?
     
-    var members: AnyPublisher<[User]?, Never> {
+    var members: AnyPublisher<(members: [DecentrailizedUser]?, error: Error?), Never> {
         _members.eraseToAnyPublisher()
     }
-    private let _members = CurrentValueSubject<[User]?, Never>(nil)
+    private let _members = CurrentValueSubject<(members: [DecentrailizedUser]?, error: Error?), Never>((nil, nil))
     
     var user: AnyPublisher<(user: User?, error: Error?), Never> {
         _user.eraseToAnyPublisher()
     }
     private let _user = CurrentValueSubject<(user: User?, error: Error?), Never>((nil, nil))
-    
-    init() {}
     
     func createUser(from userObject: User) async {
         let userDocRef = db.collection("users").document(userObject.id)
@@ -81,30 +78,31 @@ class UserRepository {
         }
     }
     
-    func readUsers(inHousehold householdId: String){
-        householdMemberCollectionRef = db.collection("households").document(householdId).collection("members")
-        self.householdMemberCollectionListener = householdMemberCollectionRef?
+    func readMembers(inHousehold householdId: String) {
+        let householdMemberCollectionRef = db.collection("households").document(householdId).collection("users")
+        self.householdMemberCollectionListener = householdMemberCollectionRef
         //.orderByage
             .addSnapshotListener { [weak self] collectionSnapshot, error in
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
                         LogUtil.log("\(error)")
-                        self?._members.send(nil)
+                        self?._members.send((nil, error))
                     }
                     return
                 }
                 
                 let members = collectionSnapshot.documents.compactMap { documentSnapshot in
                     do {
-                        return try documentSnapshot.data(as: User.self)
+                        return try documentSnapshot.data(as: DecentrailizedUser.self)
                     }
                     catch {
                         LogUtil.log("\(error)")
+                        self?._members.send((nil, error))
                         return nil
                     }
                 }
                 
-                self?._members.send(members)
+                self?._members.send((members, nil))
             }
     }
     
@@ -167,8 +165,7 @@ class UserRepository {
         householdMemberCollectionListener = nil
         userDocumentListener?.remove()
         userDocumentListener = nil
-        householdMemberCollectionRef = nil
-        _members.send(nil)
+        _members.send((nil, nil))
         _user.send((nil, nil))
     }
     

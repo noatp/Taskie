@@ -65,7 +65,7 @@ class ChoreDetailViewModel: ObservableObject {
     }
     
     
-    func getFamilyMember(withId lookUpId: String) async throws -> User {
+    func getFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser {
         return try await userService.readFamilyMember(withId: lookUpId)
     }
 }

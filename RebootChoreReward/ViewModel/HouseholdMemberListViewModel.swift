@@ -8,7 +8,7 @@
 import Combine
 
 class HouseholdMemberListViewModel: ObservableObject {
-    @Published var familyMembers: [User] = []
+    @Published var familyMembers: [DecentrailizedUser] = []
     private var cancellables: Set<AnyCancellable> = []
     private var userService: UserService
     
@@ -18,7 +18,7 @@ class HouseholdMemberListViewModel: ObservableObject {
     }
     
     private func subscribeToUserFirestoreService() {
-        userService.familyMembers.sink { [weak self] familyMembers in
+        userService.familyMembers.sink { [weak self] (familyMembers, _) in
             LogUtil.log("From UserService -- familyMembers -- \(familyMembers)")
             guard let familyMembers = familyMembers else {
                 return
