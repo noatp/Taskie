@@ -8,6 +8,17 @@
 import FirebaseFirestore
 import Combine
 
+enum ChoreServiceError: Error, LocalizedError {
+    case choreNotFound
+    
+    var errorDescription: String? {
+        switch self {
+        case .choreNotFound:
+            return "Chore information not found. Please try again later."
+        }
+    }
+}
+
 protocol ChoreService {
     var chores: AnyPublisher<[Chore]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
@@ -84,16 +95,16 @@ class ChoreFirestoreService: ChoreService {
         .store(in: &cancellables)
     }
     
-//    private func subscribeToUserRepository() {
-//        userRepository.userHouseholdId.sink { [weak self] householdId in
-//            LogUtil.log("Received householdId: \(householdId)")
-//            guard let householdId = householdId, !householdId.isEmpty else {
-//                return
-//            }
-//            self?.readChores(inHousehold: householdId)
-//        }
-//        .store(in: &cancellables)
-//    }
+    //    private func subscribeToUserRepository() {
+    //        userRepository.userHouseholdId.sink { [weak self] householdId in
+    //            LogUtil.log("Received householdId: \(householdId)")
+    //            guard let householdId = householdId, !householdId.isEmpty else {
+    //                return
+    //            }
+    //            self?.readChores(inHousehold: householdId)
+    //        }
+    //        .store(in: &cancellables)
+    //    }
     
     func createChore(from choreObject: Chore) async {
         guard let householdId = householdRepository.currentHouseholdId(), !householdId.isEmpty else {
@@ -107,12 +118,12 @@ class ChoreFirestoreService: ChoreService {
     }
     
     func readSelectedChore(choreId: String){
-//        if let selectedChore = _chores.value?.first(where: { $0.id == choreId }) {
-//            _selectedChore.send(selectedChore)
-//        }
-//        else {
-//            _selectedChore.send(nil)
-//        }
+        if let selectedChore = _chores.value?.first(where: { $0.id == choreId }) {
+            _selectedChore.send(selectedChore)
+        }
+        else {
+            _error.send(ChoreServiceError.choreNotFound)
+        }
     }
 }
 

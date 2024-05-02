@@ -8,11 +8,22 @@
 import Combine
 import FirebaseAuth
 
+enum UserServiceError: Error, LocalizedError {
+    case userNotFound
+    
+    var errorDescription: String? {
+        switch self {
+        case .userNotFound:
+            return "User information not found. Please try again later."
+        }
+    }
+}
+
 protocol UserService {
     var user: AnyPublisher<User?, Never> { get }
     var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
-    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser
+    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser?
 }
 
 class UserFirestoreService: UserService {
@@ -77,11 +88,12 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
     }
     
-    func readFamilyMember(withId lookUpId: String) throws -> DecentrailizedUser {
+    func readFamilyMember(withId lookUpId: String) throws -> DecentrailizedUser? {
         if let familyMember = _familyMembers.value?.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
-            throw UserRepositoryError.userNotFound
+            self._error.send(UserServiceError.userNotFound)
+            return nil
         }
     }
     
@@ -110,5 +122,5 @@ class UserMockService: UserService {
         .eraseToAnyPublisher()
     }
     
-    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser {return .mock}
+    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {return .mock}
 }

@@ -48,7 +48,9 @@ class ChoreDetailViewModel: ObservableObject {
     private func updateChoreDetail(chore: Chore) {
         Task {
             do {
-                let familyMember = try await getFamilyMember(withId: chore.creator)
+                guard let familyMember = try await getFamilyMember(withId: chore.creator) else {
+                    return
+                }
                 DispatchQueue.main.async { [weak self] in
                     self?.choreDetailForView = ChoreDetailForView(
                         name: chore.name,
@@ -65,7 +67,7 @@ class ChoreDetailViewModel: ObservableObject {
     }
     
     
-    func getFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser {
+    func getFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {
         return try await userService.readFamilyMember(withId: lookUpId)
     }
 }
