@@ -21,10 +21,15 @@ class HouseholdRepository {
     private let db = Firestore.firestore()
     private var householdDocumentListener: ListenerRegistration?
     
-    var household: AnyPublisher<(Household?, Error?), Never> {
+    var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
+    private let _household = CurrentValueSubject<Household?, Never>(nil)
+    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
         
     func createHousehold(from householdObject: Household) async {
         let householdDocRef = db.collection("households").document(householdObject.id)
@@ -34,7 +39,7 @@ class HouseholdRepository {
         }
         catch {
             LogUtil.log("Error encoding household: \(error.localizedDescription)")
-            self._household.send((nil, HouseholdRepositoryError.encodingError))
+            self._error.send(error)
         }
     }
     
@@ -43,16 +48,16 @@ class HouseholdRepository {
         self.householdDocumentListener = householdDocRef.addSnapshotListener { [weak self] householdDocSnapshot, error in
             guard let householdDoc = householdDocSnapshot else {
                 LogUtil.log("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
-                self?._household.send((nil, HouseholdRepositoryError.fetchingError))
+                self?._error.send(error)
                 return
             }
             
             do {
                 let household = try householdDoc.data(as: Household.self)
-                self?._household.send((household, nil))
+                self?._household.send(household)
             } catch {
                 LogUtil.log("Error decoding document: \(error.localizedDescription)")
-                self?._household.send((nil, HouseholdRepositoryError.decodingError))
+                self?._error.send(error)
             }
         }
     }
@@ -82,14 +87,15 @@ class HouseholdRepository {
     }
     
     func currentHouseholdId() -> String? {
-        _household.value.0?.id
+        _household.value?.id
     }
     
     func reset() {
         LogUtil.log("HouseholdRepository -- resetting")
         householdDocumentListener?.remove()
         householdDocumentListener = nil
-        _household.send((nil, nil))
+        _household.send(nil)
+        _error.send(nil)
     }
     
     deinit {

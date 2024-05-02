@@ -9,8 +9,9 @@ import Combine
 import FirebaseAuth
 
 protocol UserService {
-    var user: AnyPublisher<(user: User?, error: Error?), Never> { get }
-    var familyMembers: AnyPublisher<(members: [DecentrailizedUser]?, error: Error?), Never> { get }
+    var user: AnyPublisher<User?, Never> { get }
+    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
+    var error: AnyPublisher<Error?, Never> { get }
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser
 }
 
@@ -19,17 +20,20 @@ class UserFirestoreService: UserService {
     private let userRepository: UserRepository
     private let householdRepository: HouseholdRepository
     
-    var user: AnyPublisher<(user: User?, error: Error?), Never> {
+    var user: AnyPublisher<User?, Never> {
         _user.eraseToAnyPublisher()
     }
-    private let _user = CurrentValueSubject<(user: User?, error: Error?), Never>((nil, nil))
+    private let _user = CurrentValueSubject<User?, Never>(nil)
     
-    var familyMembers: AnyPublisher<(members: [DecentrailizedUser]?, error: Error?), Never> {
+    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> {
         _familyMembers.eraseToAnyPublisher()
     }
-    private let _familyMembers = CurrentValueSubject<(members: [DecentrailizedUser]?, error: Error?), Never>((nil, nil))
+    private let _familyMembers = CurrentValueSubject<[DecentrailizedUser]?, Never>(nil)
     
-    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
     
     init(
         userRepository: UserRepository,
@@ -42,22 +46,27 @@ class UserFirestoreService: UserService {
     }
     
     private func subscribeToUserRepository() {
-        userRepository.user.sink { [weak self] (user, error) in
-            LogUtil.log("From UserRepository -- (user, error) -- \((user, error))")
-            self?._user.send((user, error))
+        userRepository.user.sink { [weak self] user in
+            LogUtil.log("From UserRepository -- user -- \(user)")
+            self?._user.send(user)
         }
         .store(in: &cancellables)
         
-        userRepository.members.sink { [weak self] (members, error) in
-            LogUtil.log("From UserRepository -- (members, error) -- \((members, error))")
-
-            self?._familyMembers.send((members, error))
+        userRepository.members.sink { [weak self] members in
+            LogUtil.log("From UserRepository -- members -- \(members)")
+            self?._familyMembers.send(members)
+        }
+        .store(in: &cancellables)
+        
+        userRepository.error.sink { [weak self] error in
+            LogUtil.log("From UserRepository -- error -- \(error)")
+            self?._error.send(error)
         }
         .store(in: &cancellables)
     }
     
     private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] (household, _) in
+        householdRepository.household.sink { [weak self] household in
             LogUtil.log("From HouseholdRepository -- household -- \(household)")
             
             if let household = household, !household.id.isEmpty {
@@ -69,7 +78,7 @@ class UserFirestoreService: UserService {
     }
     
     func readFamilyMember(withId lookUpId: String) throws -> DecentrailizedUser {
-        if let familyMember = _familyMembers.value.members?.first(where: { $0.id == lookUpId }) {
+        if let familyMember = _familyMembers.value?.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
             throw UserRepositoryError.userNotFound
@@ -86,16 +95,17 @@ class UserFirestoreService: UserService {
 }
 
 class UserMockService: UserService {
-    var user: AnyPublisher<(user: User?, error: Error?), Never> {
-        Just(
-            (.mock, nil)
-        )
-        .eraseToAnyPublisher()
+    var error: AnyPublisher<Error?, Never> {
+        Just(nil).eraseToAnyPublisher()
     }
     
-    var familyMembers: AnyPublisher<(members: [DecentrailizedUser]?, error: Error?), Never> {
+    var user: AnyPublisher<User?, Never> {
+        Just(.mock).eraseToAnyPublisher()
+    }
+    
+    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> {
         Just (
-            ([.mock, .mock, .mock], nil)
+            [.mock, .mock, .mock]
         )
         .eraseToAnyPublisher()
     }

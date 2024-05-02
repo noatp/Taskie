@@ -26,7 +26,7 @@ class CreateHouseholdViewModel: ObservableObject {
     }
     
     private func subscribeToUserService() {
-        userService.user.sink { [weak self] (user, _) in
+        userService.user.sink { [weak self] user in
             LogUtil.log("From UserService -- user -- \(user)")
             self?.curentUser = user
         }

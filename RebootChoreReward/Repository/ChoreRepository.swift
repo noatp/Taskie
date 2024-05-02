@@ -16,15 +16,21 @@ class ChoreRepository {
         _chores.eraseToAnyPublisher()
     }
     private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
+    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
         
-    func createChore(from choreObject: Chore, inHousehold householdId: String) {
-        let householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+    func createChore(from choreObject: Chore, inHousehold householdId: String) async {
+        let choreDocRef = db.collection("households").document(householdId).collection("chores").document(choreObject.id)
         
         do {
-            try householdChoreCollectionRef.document(choreObject.id).setData(from: choreObject)
+            try await choreDocRef.setDataAsync(from: choreObject)
         }
-        catch let error {
+        catch {
             LogUtil.log("Error writing chore to Firestore: \(error)")
+            self._error.send(error)
         }
     }
     
@@ -36,7 +42,7 @@ class ChoreRepository {
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
                         LogUtil.log("\(error)")
-                        self?._chores.send(nil)
+                        self?._error.send(nil)
                     }
                     return
                 }
@@ -47,6 +53,7 @@ class ChoreRepository {
                     }
                     catch {
                         LogUtil.log("\(error)")
+                        self?._error.send(error)
                         return nil
                     }
                 }
@@ -60,6 +67,7 @@ class ChoreRepository {
         choreCollectionListener?.remove()
         choreCollectionListener = nil
         _chores.send(nil)
+        _error.send(nil)
     }
     
     deinit {

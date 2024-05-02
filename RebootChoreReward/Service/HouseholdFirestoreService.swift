@@ -25,8 +25,9 @@ enum HouseholdServiceError: Error, LocalizedError {
 }
 
 protocol HouseholdService {
-    var household: AnyPublisher<(Household?, Error?), Never> { get }
+    var household: AnyPublisher<Household?, Never> { get }
     var householdIdReceivedFromLink: AnyPublisher<String?, Never> { get }
+    var error: AnyPublisher<Error?, Never> { get }
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?)
     func readHousehold(withId householdId: String)
     func sendHouseholdIdReceivedFromLink(householdId: String)
@@ -44,10 +45,15 @@ class HouseholdFirestoreService: HouseholdService {
     }
     private let _householdIdReceivedFromLink = CurrentValueSubject<String?, Never>(nil)
     
-    var household: AnyPublisher<(Household?, Error?), Never> {
+    var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
     }
-    private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
+    private let _household = CurrentValueSubject<Household?, Never>(nil)
+    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
     
     init(
         householdRepository: HouseholdRepository,
@@ -60,15 +66,21 @@ class HouseholdFirestoreService: HouseholdService {
     }
     
     private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] (household, error) in
-            LogUtil.log("From HouseholdRepository -- (household, error) -- \((household, error))")
-            self?._household.send((household, error))
+        householdRepository.household.sink { [weak self] household in
+            LogUtil.log("From HouseholdRepository -- household -- \(household)")
+            self?._household.send(household)
+        }
+        .store(in: &cancellables)
+        
+        householdRepository.error.sink { [weak self] error in
+            LogUtil.log("From HouseholdRepository -- error -- \(error)")
+            self?._error.send(error)
         }
         .store(in: &cancellables)
     }
     
     private func subscribeToUserRepository() {
-        userRepository.user.sink { [weak self] (user, _) in
+        userRepository.user.sink { [weak self] user in
             LogUtil.log("From UserRepository -- user -- \(user)")
             if let user = user,
                let householdId = user.householdId,
@@ -87,7 +99,7 @@ class HouseholdFirestoreService: HouseholdService {
     
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {
         guard let tag = tag, !tag.isEmpty else {
-            self._household.send((nil, HouseholdServiceError.missingInput))
+            self._error.send(HouseholdServiceError.missingInput)
             return
         }
         
@@ -95,7 +107,7 @@ class HouseholdFirestoreService: HouseholdService {
             do {
                 let hasTagCollision = try await householdRepository.readHouseholdTagForCollsion(tag: tag)
                 if hasTagCollision {
-                    self._household.send((nil, HouseholdServiceError.tagCollion))
+                    self._error.send(HouseholdServiceError.tagCollion)
                     return
                 }
                 let householdId = UUID().uuidString
@@ -106,7 +118,7 @@ class HouseholdFirestoreService: HouseholdService {
                 await userRepository.updateUser(atUserId: decentralizedUserObject.id, withHouseholdId: householdId)
             }
             catch {
-                self._household.send((nil, error))
+                self._error.send(error)
             }
         }
     }
@@ -136,6 +148,12 @@ class HouseholdFirestoreService: HouseholdService {
 }
 
 class HouseholdMockService: HouseholdService {
+    
+    
+    var error: AnyPublisher<Error?, Never> {
+        Just(nil).eraseToAnyPublisher()
+    }
+    
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {}
     
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?{ return nil }
@@ -148,11 +166,8 @@ class HouseholdMockService: HouseholdService {
     
     func resetHouseholdIdReceivedFromLink() {}
     
-    var household: AnyPublisher<(Household?, Error?), Never>{
-        Just(
-            (.mock, nil)
-        )
-        .eraseToAnyPublisher()
+    var household: AnyPublisher<Household?, Never> {
+        Just(.mock).eraseToAnyPublisher()
     }
     
     func readHousehold(withId householdId: String) {}

@@ -9,7 +9,8 @@ import FirebaseFirestore
 import Combine
 
 protocol ChoreService {
-    var chores: AnyPublisher<([Chore]?, Error?), Never> { get }
+    var chores: AnyPublisher<[Chore]?, Never> { get }
+    var error: AnyPublisher<Error?, Never> { get }
     var selectedChore: AnyPublisher<Chore?, Never> { get }
     func createChore(from choreObject: Chore) async throws
     func readChores(inHousehold householdId: String)
@@ -22,15 +23,20 @@ class ChoreFirestoreService: ChoreService {
     private let userRepository: UserRepository
     private let householdRepository: HouseholdRepository
     
-    var chores: AnyPublisher<([Chore]?, Error?), Never> {
+    var chores: AnyPublisher<[Chore]?, Never> {
         _chores.eraseToAnyPublisher()
     }
-    private let _chores = CurrentValueSubject<([Chore]?, Error?), Never>((nil, nil))
+    private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
     
     var selectedChore: AnyPublisher<Chore?, Never> {
         _selectedChore.eraseToAnyPublisher()
     }
     private let _selectedChore = CurrentValueSubject<Chore?, Never>(nil)
+    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
     
     init(
         choreRepository: ChoreRepository,
@@ -48,14 +54,20 @@ class ChoreFirestoreService: ChoreService {
         choreRepository.chores.sink(
             receiveValue: { [weak self] chores in
                 LogUtil.log("From ChoreRepository -- chores -- \(chores)")
-                self?._chores.send((chores, nil))
+                self?._chores.send(chores)
             }
         )
+        .store(in: &cancellables)
+        
+        choreRepository.error.sink { [weak self] error in
+            LogUtil.log("From ChoreRepository -- error -- \(error)")
+            self?._error.send(error)
+        }
         .store(in: &cancellables)
     }
     
     private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] (household, _) in
+        householdRepository.household.sink { [weak self] household in
             LogUtil.log("From HouseholdRepository -- household -- \(household)")
             
             if let household = household,
@@ -83,11 +95,11 @@ class ChoreFirestoreService: ChoreService {
 //        .store(in: &cancellables)
 //    }
     
-    func createChore(from choreObject: Chore) async throws {
+    func createChore(from choreObject: Chore) async {
         guard let householdId = householdRepository.currentHouseholdId(), !householdId.isEmpty else {
             return
         }
-        choreRepository.createChore(from: choreObject, inHousehold: householdId)
+        await choreRepository.createChore(from: choreObject, inHousehold: householdId)
     }
     
     func readChores(inHousehold householdId: String) {
@@ -105,13 +117,16 @@ class ChoreFirestoreService: ChoreService {
 }
 
 class ChoreMockService: ChoreService {
+    var error: AnyPublisher<Error?, Never> {
+        Just(nil).eraseToAnyPublisher()
+    }
+    
     var selectedChore: AnyPublisher<Chore?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
     
-    var chores: AnyPublisher<([Chore]?, Error?), Never> {
-        Just(([.mock,.mock], nil))
-            .eraseToAnyPublisher()
+    var chores: AnyPublisher<[Chore]?, Never> {
+        Just([.mock,.mock]).eraseToAnyPublisher()
     }
     
     func createChore(from choreObject: Chore) async throws {}

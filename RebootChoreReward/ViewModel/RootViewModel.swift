@@ -33,6 +33,7 @@ class RootViewModel: ObservableObject {
         subscribeToUserService()
         subscribeToAuthService()
         subscribeToHouseholdService()
+        subscribeToChoreService()
     }
     
     private func subscribeToAuthService() {
@@ -46,12 +47,8 @@ class RootViewModel: ObservableObject {
     }
     
     private func subscribeToUserService() {
-        userService.user.sink { [weak self] (user, error) in
-            LogUtil.log("From UserService -- (user, error) -- \((user, error))")
-            if let error = error {
-                self?.errorMessage = "Error fetching user data from server. Please try again later."
-                self?.hasUserData = false
-            }
+        userService.user.sink { [weak self] user in
+            LogUtil.log("From UserService -- user -- \(user)")
             if let user = user {
                 self?.hasUserData = true
             }
@@ -60,20 +57,41 @@ class RootViewModel: ObservableObject {
             }
         }
         .store(in: &cancellables)
+        
+        userService.error.sink { [weak self] error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+                self?.hasUserData = false
+            }
+        }
+        .store(in: &cancellables)
     }
     
     private func subscribeToHouseholdService() {
-        householdService.household.sink { [weak self] (household, error) in
-            if let error = error {
-                self?.errorMessage = error.localizedDescription
-                self?.hasHouseholdData = false
-            }
-            
+        householdService.household.sink { [weak self] household in
             if let household = household {
                 self?.hasHouseholdData = true
             }
             else {
                 self?.hasHouseholdData = false
+            }
+        }
+        .store(in: &cancellables)
+        
+        householdService.error.sink { [weak self] error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+                self?.hasUserData = false
+            }
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func subscribeToChoreService() {
+        choreService.error.sink { [weak self] error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+                self?.hasUserData = false
             }
         }
         .store(in: &cancellables)
