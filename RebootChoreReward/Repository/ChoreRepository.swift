@@ -16,9 +16,7 @@ class ChoreRepository {
         _chores.eraseToAnyPublisher()
     }
     private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
-    
-    init() {}
-    
+        
     func createChore(from choreObject: Chore, inHousehold householdId: String) {
         householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
         do {

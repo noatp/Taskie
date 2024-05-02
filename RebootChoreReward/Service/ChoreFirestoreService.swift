@@ -84,10 +84,10 @@ class ChoreFirestoreService: ChoreService {
 //    }
     
     func createChore(from choreObject: Chore) async throws {
-//        guard let householdId = userRepository.currentHouseholdId(), !householdId.isEmpty else {
-//            return
-//        }
-//        choreRepository.createChore(from: choreObject, inHousehold: householdId)
+        guard let householdId = householdRepository.currentHouseholdId(), !householdId.isEmpty else {
+            return
+        }
+        choreRepository.createChore(from: choreObject, inHousehold: householdId)
     }
     
     func readChores(inHousehold householdId: String) {

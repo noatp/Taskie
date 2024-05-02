@@ -157,6 +157,10 @@ class UserRepository {
     //        _userHouseholdId.value
     //    }
     
+    func currentUserId() -> String? {
+        _user.value.user?.id
+    }
+    
     func reset() {
         LogUtil.log("UserRepository -- resetting")
         householdMemberCollectionListener?.remove()

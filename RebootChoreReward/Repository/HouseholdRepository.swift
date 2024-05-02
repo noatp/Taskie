@@ -20,6 +20,7 @@ enum HouseholdRepositoryError: Error {
 class HouseholdRepository {
     private let db = Firestore.firestore()
     private var householdDocumentListener: ListenerRegistration?
+    
     var household: AnyPublisher<(Household?, Error?), Never> {
         _household.eraseToAnyPublisher()
     }
@@ -78,6 +79,10 @@ class HouseholdRepository {
         else {
             return nil
         }
+    }
+    
+    func currentHouseholdId() -> String? {
+        _household.value.0?.id
     }
     
     func reset() {
