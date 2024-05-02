@@ -61,7 +61,6 @@ class RootViewModel: ObservableObject {
         userService.error.sink { [weak self] error in
             if let error = error {
                 self?.errorMessage = error.localizedDescription
-                self?.hasUserData = false
             }
         }
         .store(in: &cancellables)
@@ -81,7 +80,6 @@ class RootViewModel: ObservableObject {
         householdService.error.sink { [weak self] error in
             if let error = error {
                 self?.errorMessage = error.localizedDescription
-                self?.hasUserData = false
             }
         }
         .store(in: &cancellables)
@@ -91,7 +89,6 @@ class RootViewModel: ObservableObject {
         choreService.error.sink { [weak self] error in
             if let error = error {
                 self?.errorMessage = error.localizedDescription
-                self?.hasUserData = false
             }
         }
         .store(in: &cancellables)
