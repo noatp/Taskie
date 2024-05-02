@@ -31,6 +31,7 @@ class Dependency {
         lazy var userRepository: UserRepository = UserRepository()
         lazy var householdRepository: HouseholdRepository = HouseholdRepository()
         lazy var choreRepository: ChoreRepository = ChoreRepository()
+        lazy var invitationRepository: InvitationRepository = InvitationRepository()
     }
     
     class Service {
@@ -65,7 +66,8 @@ class Dependency {
                 self.authService = AuthenticationService(
                     userRepository: repository.userRepository,
                     choreRepository: repository.choreRepository,
-                    householdRepository: repository.householdRepository
+                    householdRepository: repository.householdRepository,
+                    invitationRepository: repository.invitationRepository
                 )
             }
         }

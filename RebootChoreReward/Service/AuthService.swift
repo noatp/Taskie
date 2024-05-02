@@ -23,24 +23,35 @@ enum AuthServiceError: Error {
 }
 
 protocol AuthService {
-    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> { get }
+    var isUserLoggedIn: AnyPublisher<Bool, Never> { get }
+    var error: AnyPublisher<Error?, Never> { get }
     var currentUserId: String? { get }
     func logIn(withEmail email: String?, password: String?)
     func signUp(withEmail email: String?, password: String?, name: String?)
     func signOut()
     func silentLogIn()
+    func readInvitationForHouseholdId(withEmail email: String) async -> String?
+    func setHouseholdIdFromUniversalLink(householdId: String)
 }
 
 class AuthenticationService: AuthService {
-    private let _isUserLoggedIn = PassthroughSubject<(Bool, Error?), Never>()
     private let auth = Auth.auth()
     private let userRepository: UserRepository
     private let choreRepository: ChoreRepository
     private let householdRepository: HouseholdRepository
+    private let invitationRepository: InvitationRepository
     
-    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> {
+    private var householdIdFromUniversalLink: String?
+    
+    var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
     }
+    private let _isUserLoggedIn = PassthroughSubject<Bool, Never>()
+    
+    var error: AnyPublisher<Error?, Never> {
+        _error.eraseToAnyPublisher()
+    }
+    private let _error = CurrentValueSubject<Error?, Never>(nil)
     
     var currentUserId: String? {
         auth.currentUser?.uid
@@ -49,18 +60,20 @@ class AuthenticationService: AuthService {
     init(
         userRepository: UserRepository,
         choreRepository: ChoreRepository,
-        householdRepository: HouseholdRepository
+        householdRepository: HouseholdRepository,
+        invitationRepository: InvitationRepository
     ) {
         self.userRepository = userRepository
         self.choreRepository = choreRepository
         self.householdRepository = householdRepository
+        self.invitationRepository = invitationRepository
     }
     
     func logIn(withEmail email: String?, password: String?) {
         guard let email = email,
               let password = password
         else {
-            self._isUserLoggedIn.send((false, AuthServiceError.missingInput))
+            self._error.send(AuthServiceError.missingInput)
             return
         }
         
@@ -70,7 +83,7 @@ class AuthenticationService: AuthService {
             }
             
             if let error = error {
-                self._isUserLoggedIn.send((false, error))
+                self._error.send(error)
             }
             else {
                 self.checkCurentAuthSession { currentUserId in
@@ -86,7 +99,7 @@ class AuthenticationService: AuthService {
               let name = name,
               !name.isEmpty 
         else {
-            self._isUserLoggedIn.send((false, AuthServiceError.missingInput))
+            self._error.send(AuthServiceError.missingInput)
             return
         }
         
@@ -96,13 +109,19 @@ class AuthenticationService: AuthService {
             }
             
             if let error = error {
-                self._isUserLoggedIn.send((false, error))
+                self._error.send(error)
                 return
             }
             else {
                 self.checkCurentAuthSession { currentUserId in
                     Task {
-                        await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                        if let householdId = await self.readInvitationForHouseholdId(withEmail: email) {
+                            await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: householdId, role: .parent))
+                            await self.userRepository.createUserInHouseholdSub(householdId: householdId, withUser: .init(id: currentUserId, name: name))
+                        }
+                        else {
+                            await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                        }
                         self.userRepository.readUser(withId: currentUserId)
                     }
                 }
@@ -131,13 +150,13 @@ class AuthenticationService: AuthService {
     
     private func checkCurentAuthSession(afterAuthenticated: (_ currentUserId: String) -> Void) {
         guard let currentUserId = currentUserId else {
-            _isUserLoggedIn.send((false, nil))
+            _isUserLoggedIn.send(false)
             LogUtil.log("currentUserId: nil -- resetting UserRepository")
             resetUserRepository()
             return
         }
         LogUtil.log("currentUserId: \(currentUserId)")
-        _isUserLoggedIn.send((true, nil))
+        _isUserLoggedIn.send(true)
         afterAuthenticated(currentUserId)
     }
     
@@ -152,17 +171,46 @@ class AuthenticationService: AuthService {
         }
     }
     
+    func readInvitationForHouseholdId(withEmail email: String) async -> String? {
+        if let householdIdFromUniversalLink = householdIdFromUniversalLink {
+            return householdIdFromUniversalLink
+        }
+        
+        do {
+            let householdIdFromInvitation = try await invitationRepository.readInvitationForHouseholdId(withEmail: email)
+            if !householdIdFromInvitation.isEmpty {
+                return householdIdFromInvitation
+            }
+            return nil
+        }
+        catch {
+            self._error.send(error)
+            return nil
+        }
+    }
+    
+    func setHouseholdIdFromUniversalLink(householdId: String) {
+        self.householdIdFromUniversalLink = householdId
+    }
+    
     func resetUserRepository() {
         userRepository.reset()
     }
 }
 
 class AuthMockService: AuthService {
-    var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> {
-        Just(
-            (true, nil)
-        )
-        .eraseToAnyPublisher()
+    var error: AnyPublisher<Error?, Never> {
+        Just(nil).eraseToAnyPublisher()
+    }
+    
+    func readInvitationForHouseholdId(withEmail email: String) async -> String? { nil }
+    
+    func setHouseholdIdFromUniversalLink(householdId: String) {}
+    
+    func signUpWithExistingHousehold(householdId: String, withEmail email: String?, password: String?, name: String?) {}
+    
+    var isUserLoggedIn: AnyPublisher<Bool, Never> {
+        Just(true).eraseToAnyPublisher()
     }
     
     func logIn(withEmail email: String?, password: String?) {}

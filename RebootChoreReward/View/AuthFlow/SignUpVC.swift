@@ -100,13 +100,7 @@ class SignUpVC: PDSResizeWithKeyboardVC {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
         viewModel.name = nameTextField.text
-        viewModel.signUp { [weak self] errorMessage in
-            DispatchQueue.main.async {
-                if let errorMessage = errorMessage {
-                    self?.showAlert(withMessage: errorMessage)
-                } 
-            }
-        }
+        viewModel.signUp()
     }
     
     @objc func handleBack() {

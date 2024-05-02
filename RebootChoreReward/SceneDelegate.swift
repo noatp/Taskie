@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
            let incomingURL = userActivity.webpageURL,
            let inviteCode = incomingURL.pathComponents.last {
-            dependency.service.householdService.sendHouseholdIdReceivedFromLink(householdId: inviteCode)
+            dependency.service.authService.setHouseholdIdFromUniversalLink(householdId: inviteCode)
             LogUtil.log("Received invite code through Universal Link: \(inviteCode)")
         }
     }

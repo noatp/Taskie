@@ -37,8 +37,8 @@ class RootViewModel: ObservableObject {
     }
     
     private func subscribeToAuthService() {
-        authService.isUserLoggedIn.sink { [weak self] (isUserLoggedIn, error) in
-            LogUtil.log("From AuthService -- (isUserLoggedIn, error) -- \((isUserLoggedIn, error))")
+        authService.error.sink { [weak self] error in
+            LogUtil.log("From AuthService -- error -- \(error)")
             if let error = error {
                 self?.errorMessage = error.localizedDescription
             }

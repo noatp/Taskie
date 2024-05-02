@@ -16,13 +16,14 @@ class SignUpViewModel {
     private var authService: AuthService
     private var householdService: HouseholdService
     private var userService: UserService
-    private var householdIdReceivedFromLink: String?
+    private var householdIdFromUniversalLink: String?
     private var cancellables: Set<AnyCancellable> = []
     
     init(
         authService: AuthService,
         householdService: HouseholdService,
         userService: UserService
+        
     ) {
         self.authService = authService
         self.householdService = householdService
@@ -33,20 +34,13 @@ class SignUpViewModel {
     private func subscribeToHouseholdService() {
         householdService.householdIdReceivedFromLink.sink { [weak self] householdId in
             LogUtil.log("From HouseholdService -- householdId -- \(householdId)")
-            self?.householdIdReceivedFromLink = householdId
+            self?.householdIdFromUniversalLink = householdId
         }
         .store(in: &cancellables)
     }
     
-    func signUp(completion: @escaping (String?) -> Void) {
-        guard let email = email, let password = password, let name = name else {
-            completion("Please enter your name, email, and password.")
-            return
-        }
-        
+    func signUp() {
         self.authService.signUp(withEmail: email, password: password, name: name)
-        
-        completion(nil)
     }
     
     deinit {

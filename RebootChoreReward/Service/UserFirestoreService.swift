@@ -100,10 +100,6 @@ class UserFirestoreService: UserService {
     func readFamilyMembersInHousehold(withHouseholdId householdId: String) {
         userRepository.readMembers(inHousehold: householdId)
     }
-    
-    func reset() {
-        
-    }
 }
 
 class UserMockService: UserService {
