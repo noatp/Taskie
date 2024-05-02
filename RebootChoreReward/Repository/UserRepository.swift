@@ -14,6 +14,7 @@ enum UserRepositoryError: Error {
     case fetchingError
     case decodingError
     case creatingError
+    case updatingError
 }
 
 class UserRepository {
@@ -34,22 +35,30 @@ class UserRepository {
     
     init() {}
     
-    func createUser(from userObject: User) {
+    func createUser(from userObject: User) async {
         let userDocRef = db.collection("users").document(userObject.id)
         
         do {
-            try userDocRef.setData(from: userObject) { [weak self] error in
-                if let error = error {
-                    LogUtil.log("Error writing document: \(error.localizedDescription)")
-                    self?._user.send((nil, UserRepositoryError.creatingError))
-                }
-                else {
-                    self?.readUser(withId: userObject.id)
-                }
-            }
+            try await userDocRef.setDataAsync(from: userObject)
         } catch {
-            LogUtil.log("Error encoding user: \(error.localizedDescription)")
-            self._user.send((nil, UserRepositoryError.encodingError))
+            LogUtil.log("Error creating user: \(error.localizedDescription)")
+            self._user.send((nil, UserRepositoryError.creatingError))
+        }
+    }
+    
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) async {
+        let userDocRef = db
+            .collection("households")
+            .document(householdId)
+            .collection("users")
+            .document(decentralizedUserObject.id)
+        
+        do {
+            try await userDocRef.setDataAsync(from: decentralizedUserObject)
+        }
+        catch {
+            LogUtil.log("Error creating user: \(error.localizedDescription)")
+            self._user.send((nil, UserRepositoryError.creatingError))
         }
     }
     
@@ -99,6 +108,17 @@ class UserRepository {
             }
     }
     
+    func updateUser(atUserId userId: String, withHouseholdId householdId: String) async {
+        let userDocRef = db.collection("users").document(userId)
+        
+        do {
+            try await userDocRef.updateData(["householdId": householdId])
+        } catch {
+            LogUtil.log("Error updating user household ID: \(error.localizedDescription)")
+            self._user.send((nil, UserRepositoryError.updatingError))
+        }
+    }
+    
     //    func readUserForHouseholdId(userId: String) {
     //        LogUtil.log("attaching listener for userId \(userId)")
     //        userDocumentListener = db.collection("users")
@@ -133,9 +153,9 @@ class UserRepository {
     //            }
     //    }
     
-//    func currentHouseholdId() -> String? {
-//        _userHouseholdId.value
-//    }
+    //    func currentHouseholdId() -> String? {
+    //        _userHouseholdId.value
+    //    }
     
     func reset() {
         LogUtil.log("UserRepository -- resetting")

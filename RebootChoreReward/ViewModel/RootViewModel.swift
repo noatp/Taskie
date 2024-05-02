@@ -65,7 +65,7 @@ class RootViewModel: ObservableObject {
     private func subscribeToHouseholdService() {
         householdService.household.sink { [weak self] (household, error) in
             if let error = error {
-                self?.errorMessage = "Error fetching household data from server. Please try again later."
+                self?.errorMessage = error.localizedDescription
                 self?.hasHouseholdData = false
             }
             

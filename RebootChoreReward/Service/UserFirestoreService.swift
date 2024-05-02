@@ -21,7 +21,7 @@ class UserFirestoreService: UserService {
     var user: AnyPublisher<(User?, Error?), Never> {
         _user.eraseToAnyPublisher()
     }
-    private let _user = PassthroughSubject<(User?, Error?), Never>()
+    private let _user = CurrentValueSubject<(User?, Error?), Never>((nil, nil))
     
     var familyMembers: AnyPublisher<[User]?, Never> {
         _familyMembers.eraseToAnyPublisher()

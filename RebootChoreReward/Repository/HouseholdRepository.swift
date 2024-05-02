@@ -14,6 +14,7 @@ enum HouseholdRepositoryError: Error {
     case fetchingError
     case decodingError
     case creatingError
+    case queryingError
 }
 
 class HouseholdRepository {
@@ -24,17 +25,11 @@ class HouseholdRepository {
     }
     private let _household = CurrentValueSubject<(Household?, Error?), Never>((nil, nil))
         
-    func createHousehold(from householdObject: Household) {
+    func createHousehold(from householdObject: Household) async {
         let householdDocRef = db.collection("households").document(householdObject.id)
         
         do {
-            try householdDocRef.setData(from: householdObject) { [weak self] error in
-                if let error = error {
-                    LogUtil.log("Error writing document: \(error.localizedDescription)")
-                    self?._household.send((nil, HouseholdRepositoryError.creatingError))
-                }
-            }
-            readHousehold(withId: householdObject.id)
+            try await householdDocRef.setDataAsync(from: householdObject)
         }
         catch {
             LogUtil.log("Error encoding household: \(error.localizedDescription)")
@@ -58,6 +53,18 @@ class HouseholdRepository {
                 LogUtil.log("Error decoding document: \(error.localizedDescription)")
                 self?._household.send((nil, HouseholdRepositoryError.decodingError))
             }
+        }
+    }
+    
+    func readHouseholdTagForCollsion(tag: String) async throws-> Bool {
+        let householdCollectionRef = db.collection("households")
+        
+        let querySnapshot = try await householdCollectionRef.whereField("tag", isEqualTo: tag).getDocuments()
+        if querySnapshot.documents.isEmpty {
+            return false
+        }
+        else {
+            return true
         }
     }
     

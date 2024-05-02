@@ -10,10 +10,24 @@ import Combine
 import FirebaseFunctions
 import FirebaseAuth
 
+enum HouseholdServiceError: Error, LocalizedError {
+    case missingInput
+    case tagCollion
+    
+    var errorDescription: String? {
+        switch self {
+        case .missingInput:
+            return "Please enter all required fields."
+        case .tagCollion:
+            return "This tag already exists. Please use a different tag."
+        }
+    }
+}
+
 protocol HouseholdService {
     var household: AnyPublisher<(Household?, Error?), Never> { get }
     var householdIdReceivedFromLink: AnyPublisher<String?, Never> { get }
-    func createHousehold(withId householdId: String)
+    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?)
     func readHousehold(withId householdId: String)
     func sendHouseholdIdReceivedFromLink(householdId: String)
     func resetHouseholdIdReceivedFromLink()
@@ -71,9 +85,30 @@ class HouseholdFirestoreService: HouseholdService {
         .store(in: &cancellables)
     }
     
-    func createHousehold(withId householdId: String) {
-        let householdObject = Household(id: householdId)
-        householdRepository.createHousehold(from: householdObject)
+    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {
+        guard let tag = tag, !tag.isEmpty else {
+            self._household.send((nil, HouseholdServiceError.missingInput))
+            return
+        }
+        
+        Task {
+            do {
+                let hasTagCollision = try await householdRepository.readHouseholdTagForCollsion(tag: tag)
+                if hasTagCollision {
+                    self._household.send((nil, HouseholdServiceError.tagCollion))
+                    return
+                }
+                let householdId = UUID().uuidString
+                let householdObject = Household(id: householdId, tag: tag)
+                
+                await householdRepository.createHousehold(from: householdObject)
+                await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: decentralizedUserObject)
+                await userRepository.updateUser(atUserId: decentralizedUserObject.id, withHouseholdId: householdId)
+            }
+            catch {
+                self._household.send((nil, error))
+            }
+        }
     }
     
     func readHousehold(withId householdId: String) {
@@ -101,6 +136,8 @@ class HouseholdFirestoreService: HouseholdService {
 }
 
 class HouseholdMockService: HouseholdService {
+    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {}
+    
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?{ return nil }
     
     func sendHouseholdIdReceivedFromLink(householdId: String) {}
@@ -110,15 +147,13 @@ class HouseholdMockService: HouseholdService {
     }
     
     func resetHouseholdIdReceivedFromLink() {}
-        
+    
     var household: AnyPublisher<(Household?, Error?), Never>{
         Just(
             (.mock, nil)
         )
         .eraseToAnyPublisher()
     }
-    
-    func createHousehold(withId householdId: String) {}
     
     func readHousehold(withId householdId: String) {}
 }

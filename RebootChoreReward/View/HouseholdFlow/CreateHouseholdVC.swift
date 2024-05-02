@@ -21,7 +21,7 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
         return label
     }()
     
-    private let nicknameTextField: PDSTextField = {
+    private let tagTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Nickname", hasBorder: true, isCentered: true)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -64,7 +64,7 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
         setTitle("Create household")
         
         view.addSubview(promptLabel)
-        view.addSubview(nicknameTextField)
+        view.addSubview(tagTextField)
         view.addSubview(createHouseholdButton)
         
         keyboardAdjustmentConstraint = createHouseholdButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
@@ -74,9 +74,9 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
             promptLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             promptLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            nicknameTextField.topAnchor.constraint(equalTo: promptLabel.bottomAnchor, constant: 20),
-            nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            tagTextField.topAnchor.constraint(equalTo: promptLabel.bottomAnchor, constant: 20),
+            tagTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            tagTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             keyboardAdjustmentConstraint,
             createHouseholdButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -85,8 +85,14 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
     }
 
     private func setUpActions() {
+        createHouseholdButton.addTarget(self, action: #selector(handleCreateHousehold), for: .touchUpInside)
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
+    }
+    
+    @objc func handleCreateHousehold() {
+        viewModel.tag = tagTextField.text
+        viewModel.createHousehold()
     }
     
     @objc func handleBack() {

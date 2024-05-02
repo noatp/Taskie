@@ -43,6 +43,8 @@
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
 		CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */; };
+		CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */; };
+		CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
 		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
@@ -127,6 +129,8 @@
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
 		CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLoadingIndicator.swift; sourceTree = "<group>"; };
+		CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReferenceExtension.swift; sourceTree = "<group>"; };
+		CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecentrailizedUser.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 				CA1683E62B8D425A0086153A /* Chore.swift */,
 				CA1683EA2B8D45D80086153A /* User.swift */,
 				CACE2E842BA7CFDF007FD9F2 /* Household.swift */,
+				CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */,
 				CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */,
 				CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */,
+				CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -562,6 +568,7 @@
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
 				CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */,
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
+				CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */,
 				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
 				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserRepository.swift in Sources */,
@@ -591,6 +598,7 @@
 				CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */,
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */,
+				CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */,
 				CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */,
 				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,

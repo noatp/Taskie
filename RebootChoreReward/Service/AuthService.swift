@@ -26,7 +26,7 @@ protocol AuthService {
     var isUserLoggedIn: AnyPublisher<(Bool, Error?), Never> { get }
     var currentUserId: String? { get }
     func logIn(withEmail email: String?, password: String?)
-    func signUp(withEmail email: String, password: String, name: String)
+    func signUp(withEmail email: String?, password: String?, name: String?)
     func signOut()
     func silentLogIn()
 }
@@ -80,7 +80,16 @@ class AuthenticationService: AuthService {
         }
     }
     
-    func signUp(withEmail email: String, password: String, name: String) {
+    func signUp(withEmail email: String?, password: String?, name: String?) {
+        guard let email = email,
+              let password = password,
+              let name = name,
+              !name.isEmpty 
+        else {
+            self._isUserLoggedIn.send((false, AuthServiceError.missingInput))
+            return
+        }
+        
         auth.createUser(withEmail: email, password: password) { [weak self] _, error in
             guard let self = self else {
                 return
@@ -88,10 +97,14 @@ class AuthenticationService: AuthService {
             
             if let error = error {
                 self._isUserLoggedIn.send((false, error))
+                return
             }
             else {
                 self.checkCurentAuthSession { currentUserId in
-                    self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                    Task {
+                        await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                        self.userRepository.readUser(withId: currentUserId)
+                    }
                 }
             }
         }
@@ -154,7 +167,7 @@ class AuthMockService: AuthService {
     
     func logIn(withEmail email: String?, password: String?) {}
     
-    func signUp(withEmail email: String, password: String, name: String) {}
+    func signUp(withEmail email: String?, password: String?, name: String?) {}
     
     func silentLogIn() {}
     
