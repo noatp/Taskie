@@ -1,0 +1,28 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Taskie"
+  lane :distribute do
+    firebase_app_distribution(
+      app: "1:866486091483:ios:d7a7c7713af2f7baad96fe",
+      testers: "toan.chpham@gmail.com, kneevpham@gmail.com",
+      release_notes: "Lots of amazing new features to test out!",
+      ipa_path: "/Users/toanpham/Library/Developer/Xcode/Archives/2024-05-02/Taskee.ipa"
+    )
+  end
+end
