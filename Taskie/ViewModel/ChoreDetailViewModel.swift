@@ -8,29 +8,21 @@
 import Combine
 import FirebaseFirestoreInternal
 
-struct ChoreDetailForView {
-    static let empty = ChoreDetailForView(name: "", creatorName: "", description: "", rewardAmount: 0.0, imageUrls: [], createdDate: "")
-    let name: String
-    let creatorName: String
-    let description: String
-    let rewardAmount: Double
-    let imageUrls: [String]
-    let createdDate: String
-}
-
-
 class ChoreDetailViewModel: ObservableObject {
-    @Published var choreDetailForView: ChoreDetailForView = .empty
+    @Published var choreDetail: ChoreForDetailView = .empty
     private var cancellables: Set<AnyCancellable> = []
-    private var choreService: ChoreService
-    private var userService: UserService
+    private let choreService: ChoreService
+    private let userService: UserService
+    private let authService: AuthService
     
     init(
         choreService: ChoreService,
-        userService: UserService
+        userService: UserService,
+        authService: AuthService
     ) {
         self.choreService = choreService
         self.userService = userService
+        self.authService = authService
         subscribeToChoreFirestoreService()
     }
     
@@ -48,17 +40,26 @@ class ChoreDetailViewModel: ObservableObject {
     private func updateChoreDetail(chore: Chore) {
         Task {
             do {
-                guard let familyMember = try await getFamilyMember(withId: chore.creator) else {
+                
+                guard let requestor = try await userDetail(withId: chore.requestor),
+                      let actionButtonType = determineActionType(requestorId: chore.requestor, acceptorId: chore.acceptor)
+                else {
                     return
                 }
+                let acceptor = try await userDetail(withId: chore.acceptor)
+                   
                 DispatchQueue.main.async { [weak self] in
-                    self?.choreDetailForView = ChoreDetailForView(
+                    self?.choreDetail = ChoreForDetailView(
                         name: chore.name,
-                        creatorName: familyMember.name,
+                        requestorName: requestor.name,
+                        acceptorName: acceptor?.name,
                         description: chore.description,
                         rewardAmount: chore.rewardAmount,
                         imageUrls: chore.imageUrls,
-                        createdDate: chore.createdDate.toRelativeString())
+                        createdDate: chore.createdDate.toRelativeString(),
+                        finishedDate: chore.finishedDate?.toRelativeString(), 
+                        actionButtonType: actionButtonType
+                    )
                 }
             } catch {
                 LogUtil.log("Failed to fetch family member: \(error)")
@@ -66,14 +67,64 @@ class ChoreDetailViewModel: ObservableObject {
         }
     }
     
+    private func determineActionType(requestorId: String, acceptorId: String?) -> ChoreForDetailView.ActionButtonType? {
+        guard let currentUserId = authService.currentUserId else {
+            return nil
+        }
+        
+        if currentUserId == requestorId {
+            return .withdraw
+        }
+        else {
+            if let acceptorId = acceptorId {
+                if acceptorId == currentUserId {
+                    return .finish
+                }
+                else {
+                    return .nothing
+                }
+            }
+            else {
+                return .accept
+            }
+        }
+    }
     
-    func getFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {
-        return try await userService.readFamilyMember(withId: lookUpId)
+    func userDetail(withId lookUpId: String?) async throws -> DecentrailizedUser? {
+        guard let lookUpId = lookUpId,
+              let currentUserId = authService.currentUserId
+        else {
+            return nil
+        }
+        
+        var userDetail: DecentrailizedUser? = nil
+        
+        if let familyMember = try await userService.readFamilyMember(withId: lookUpId) {
+            if lookUpId == currentUserId {
+                userDetail = .init(id: familyMember.id, name: "You")
+            }
+            else {
+                userDetail = familyMember
+            }
+        }
+
+        return userDetail
+    }
+    
+    func acceptSelectedChore() {
+        guard let currentUserId = authService.currentUserId else {
+            return
+        }
+        choreService.acceptSelectedChore(acceptorId: currentUserId)
     }
 }
 
 extension Dependency.ViewModel {
     func choreDetailViewModel() -> ChoreDetailViewModel {
-        return ChoreDetailViewModel(choreService: service.choreService, userService: service.userService)
+        return ChoreDetailViewModel(
+            choreService: service.choreService,
+            userService: service.userService,
+            authService: service.authService
+        )
     }
 }

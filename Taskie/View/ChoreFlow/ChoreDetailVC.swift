@@ -13,6 +13,7 @@ class ChoreDetailVC: UIViewController, Themable {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
+    private var shouldShowActionButton = false
     
     private let choreNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline2)
@@ -50,12 +51,24 @@ class ChoreDetailVC: UIViewController, Themable {
     }()
     
     private let createdByLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Created by", fontScale: .caption)
+        let label = PDSLabel(withText: "Requested by", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let creatorLabel: PDSLabel = {
+    private let requestorLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let acceptedByLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Accepted by", fontScale: .caption)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let acceptorLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -65,6 +78,12 @@ class ChoreDetailVC: UIViewController, Themable {
         let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let actionButton: PDSPrimaryButton = {
+        let actionButton = PDSPrimaryButton()
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        return actionButton
     }()
     
     init(
@@ -88,15 +107,46 @@ class ChoreDetailVC: UIViewController, Themable {
     }
     
     private func bindViewModel() {
-        viewModel.$choreDetailForView
+        viewModel.$choreDetail
             .receive(on: RunLoop.main)
             .sink { [weak self] chore in
-                self?.choreNameLabel.text = chore.name
-                self?.descriptionDetailLabel.text = chore.description
-                self?.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
-                self?.swipableImageRowVC.imageUrls = chore.imageUrls
-                self?.creatorLabel.text = chore.creatorName
-                self?.createdDateLabel.text = chore.createdDate
+                guard let self = self else {
+                    return
+                }
+                
+                self.choreNameLabel.text = chore.name
+                self.descriptionDetailLabel.text = chore.description
+                self.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
+                self.swipableImageRowVC.imageUrls = chore.imageUrls
+                self.requestorLabel.text = chore.requestorName
+                self.createdDateLabel.text = chore.createdDate
+                
+                if let acceptorName = chore.acceptorName {
+                    self.acceptedByLabel.isHidden = false
+                    self.acceptorLabel.isHidden = false
+                    self.acceptorLabel.text = acceptorName
+                    self.actionButton.setTitle("Accept", for: .normal)
+                }
+                else {
+                    self.acceptedByLabel.isHidden = true
+                    self.acceptorLabel.isHidden = true
+                    self.actionButton.setTitle("Accept", for: .normal)
+                }
+                                
+                switch chore.actionButtonType {
+                    case .accept:
+                        shouldShowActionButton = true
+                        self.actionButton.setTitle("Accept", for: .normal)
+                        self.actionButton.addTarget(self, action: #selector(handleAccept), for: .touchUpInside)
+                    case .finish:
+                        shouldShowActionButton = true
+                        self.actionButton.setTitle("Finished", for: .normal)
+                    case .withdraw:
+                        shouldShowActionButton = true
+                        self.actionButton.setTitle("Withdraw", for: .normal)
+                    case .nothing:
+                        self.shouldShowActionButton = false
+                }
             }
             .store(in: &cancellables)
     }
@@ -110,37 +160,54 @@ class ChoreDetailVC: UIViewController, Themable {
         
         let vStack = UIStackView.vStack(arrangedSubviews: [
             choreNameLabel,
-            .createSpacerView(height: 10),
             rewardAmountLabel,
-            .createSpacerView(height: 10),
-            createdDateLabel,
             .createSpacerView(height: 20),
+            actionButton,
+            .createSpacerView(height: 20),
+            .createSeparatorView(),
+            .createSpacerView(height: 10),
             descriptionLabel,
-            .createSpacerView(height: 10),
             descriptionDetailLabel,
-            .createSpacerView(height: 20),
-            createdByLabel,
             .createSpacerView(height: 10),
-            creatorLabel
-        ], alignment: .leading)
-        
+            .createSeparatorView(),
+            .createSpacerView(height: 10),
+            createdByLabel,
+            requestorLabel,
+            createdDateLabel,
+            .createSpacerView(height: 10),
+            .createSeparatorView(),
+            .createSpacerView(height: 10),
+            acceptedByLabel,
+            acceptorLabel
+        ], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         swipableImageRow.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(swipableImageRow)
-        view.addSubview(vStack)
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(swipableImageRow)
+        scrollView.addSubview(vStack)
+        
+        view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
-            swipableImageRow.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            swipableImageRow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            swipableImageRow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            swipableImageRow.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            swipableImageRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            swipableImageRow.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             swipableImageRow.heightAnchor.constraint(equalToConstant: 300),
             
             vStack.topAnchor.constraint(equalTo: swipableImageRow.bottomAnchor, constant: 10),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            descriptionDetailLabel.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
+            vStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            vStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40)
         ])
     }
 
@@ -157,6 +224,10 @@ class ChoreDetailVC: UIViewController, Themable {
     
     @objc func handleBack() {
         self.dismiss(animated: true)
+    }
+    
+    @objc func handleAccept() {
+        viewModel.acceptSelectedChore()
     }
     
     deinit {

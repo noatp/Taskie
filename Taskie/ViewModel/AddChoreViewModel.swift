@@ -58,11 +58,13 @@ class AddChoreViewModel: ObservableObject {
                 try await choreService.createChore(from: Chore(
                     id: choreId,
                     name: choreName,
-                    creator: uid,
+                    requestor: uid,
+                    acceptor: nil,
                     description: choreDescription,
                     rewardAmount: choreRewardAmountDouble,
                     imageUrls: choreImageUrls,
-                    createdDate: .init()
+                    createdDate: .init(), 
+                    finishedDate: nil
                 ))
                 completion(nil)
             } catch {

@@ -222,6 +222,4 @@ class AuthMockService: AuthService {
     func signOut() {}
     
     var currentUserId: String? = ""
-    
-    
 }

@@ -26,6 +26,7 @@ protocol ChoreService {
     func createChore(from choreObject: Chore) async throws
     func readChores(inHousehold householdId: String)
     func readSelectedChore(choreId: String)
+    func acceptSelectedChore(acceptorId: String)
 }
 
 class ChoreFirestoreService: ChoreService {
@@ -66,6 +67,12 @@ class ChoreFirestoreService: ChoreService {
             receiveValue: { [weak self] chores in
                 LogUtil.log("From ChoreRepository -- chores -- \(chores)")
                 self?._chores.send(chores)
+                
+                if let selectedChoreId = self?._selectedChore.value?.id ,
+                   let selectedChoreNewData = chores?.first(where: { $0.id == selectedChoreId})
+                {
+                    self?._selectedChore.send(selectedChoreNewData)
+                }
             }
         )
         .store(in: &cancellables)
@@ -95,17 +102,6 @@ class ChoreFirestoreService: ChoreService {
         .store(in: &cancellables)
     }
     
-    //    private func subscribeToUserRepository() {
-    //        userRepository.userHouseholdId.sink { [weak self] householdId in
-    //            LogUtil.log("Received householdId: \(householdId)")
-    //            guard let householdId = householdId, !householdId.isEmpty else {
-    //                return
-    //            }
-    //            self?.readChores(inHousehold: householdId)
-    //        }
-    //        .store(in: &cancellables)
-    //    }
-    
     func createChore(from choreObject: Chore) async {
         guard let householdId = householdRepository.currentHouseholdId(), !householdId.isEmpty else {
             return
@@ -123,6 +119,15 @@ class ChoreFirestoreService: ChoreService {
         }
         else {
             _error.send(ChoreServiceError.choreNotFound)
+        }
+    }
+    
+    func acceptSelectedChore(acceptorId: String) {
+        Task {
+            guard let selectedChore = self._selectedChore.value else {
+                return
+            }
+            await choreRepository.updateChoreWithAcceptor(choreId: selectedChore.id, acceptorId: acceptorId)
         }
     }
 }
@@ -145,4 +150,6 @@ class ChoreMockService: ChoreService {
     func readChores(inHousehold householdId: String) {}
     
     func readSelectedChore(choreId: String) {}
+    
+    func acceptSelectedChore(acceptorId: String) {}
 }

@@ -118,48 +118,6 @@ class UserRepository {
         }
     }
     
-    //    func readUserForHouseholdId(userId: String) {
-    //        LogUtil.log("attaching listener for userId \(userId)")
-    //        userDocumentListener = db.collection("users")
-    //            .document(userId)
-    //            .addSnapshotListener { [weak self] documentSnapshot, error in
-    //                if let error = error {
-    //                    LogUtil.log("Error: \(error.localizedDescription)")
-    //                    self?._userHouseholdId.send(nil)
-    //                    return
-    //                }
-    //
-    //                guard let document = documentSnapshot else {
-    //                    LogUtil.log("Error fetching document")
-    //                    self?._userHouseholdId.send(nil)
-    //                    return
-    //                }
-    //
-    //                guard let data = document.data() else {
-    //                    LogUtil.log("Document data was empty")
-    //                    self?._userHouseholdId.send(nil)
-    //                    return
-    //                }
-    //
-    //                guard let householdId = data["householdId"] as? String else {
-    //                    LogUtil.log("Failed to get householdId as String")
-    //                    self?._userHouseholdId.send(nil)
-    //                    return
-    //                }
-    //
-    //                LogUtil.log("Got householdId \(householdId)")
-    //                self?._userHouseholdId.send(householdId)
-    //            }
-    //    }
-    
-    //    func currentHouseholdId() -> String? {
-    //        _userHouseholdId.value
-    //    }
-    
-    func currentUserId() -> String? {
-        _user.value?.id
-    }
-    
     func reset() {
         LogUtil.log("UserRepository -- resetting")
         householdMemberCollectionListener?.remove()

@@ -11,7 +11,8 @@ import Combine
 class ChoreRepository {
     private let db = Firestore.firestore()
     private var choreCollectionListener: ListenerRegistration?
-    
+    private var householdChoreCollectionRef: CollectionReference?
+     
     var chores: AnyPublisher<[Chore]?, Never> {
         _chores.eraseToAnyPublisher()
     }
@@ -35,7 +36,10 @@ class ChoreRepository {
     }
     
     func readChores(inHousehold householdId: String) {
-        let householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        householdChoreCollectionRef = db.collection("households").document(householdId).collection("chores")
+        guard let householdChoreCollectionRef = householdChoreCollectionRef else {
+            return
+        }
         self.choreCollectionListener = householdChoreCollectionRef
             .order(by: "createdDate", descending: true)
             .addSnapshotListener { [weak self] collectionSnapshot, error in
@@ -60,6 +64,22 @@ class ChoreRepository {
                 
                 self?._chores.send(chores)
             }
+    }
+    
+    func updateChoreWithAcceptor(choreId: String, acceptorId: String) async {
+        guard let householdChoreCollectionRef = householdChoreCollectionRef else {
+            return
+        }
+        
+        let choreDocRef = householdChoreCollectionRef.document(choreId)
+        
+        do {
+            try await choreDocRef.updateData(["acceptor": acceptorId])
+        }
+        catch {
+            LogUtil.log("Error writing chore to Firestore: \(error)")
+            self._error.send(error)
+        }
     }
     
     func reset() {
