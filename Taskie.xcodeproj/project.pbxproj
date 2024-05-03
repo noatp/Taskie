@@ -116,7 +116,7 @@
 		CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
 		CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CA26D0702BE01734002B5962 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
-		CA26D0722BE020A5002B5962 /* RebootChoreReward.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RebootChoreReward.entitlements; sourceTree = "<group>"; };
+		CA26D0722BE020A5002B5962 /* Taskie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Taskie.entitlements; sourceTree = "<group>"; };
 		CA3A69902BE062C7009D669F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrAddHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrAddHouseholdVC.swift; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
-		CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RebootChoreReward.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB772B840DE40056A0F1 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
@@ -395,7 +395,7 @@
 		CAEAEB672B840DE40056A0F1 = {
 			isa = PBXGroup;
 			children = (
-				CAEAEB722B840DE40056A0F1 /* RebootChoreReward */,
+				CAEAEB722B840DE40056A0F1 /* Taskie */,
 				CAEAEB712B840DE40056A0F1 /* Products */,
 				47344531631F00E0017BD9B3 /* Pods */,
 				166B97EC01F91784B968CA1C /* Frameworks */,
@@ -405,15 +405,15 @@
 		CAEAEB712B840DE40056A0F1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */,
+				CAEAEB702B840DE40056A0F1 /* Taskie.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CAEAEB722B840DE40056A0F1 /* RebootChoreReward */ = {
+		CAEAEB722B840DE40056A0F1 /* Taskie */ = {
 			isa = PBXGroup;
 			children = (
-				CA26D0722BE020A5002B5962 /* RebootChoreReward.entitlements */,
+				CA26D0722BE020A5002B5962 /* Taskie.entitlements */,
 				CA26D06F2BE016FC002B5962 /* UniversalLink */,
 				CACE2E982BAE1799007FD9F2 /* Extension */,
 				CA7C69C22B8C3734005B3CF2 /* Util */,
@@ -431,15 +431,15 @@
 				CA3A69902BE062C7009D669F /* GoogleService-Info.plist */,
 				CACE2E8F2BA9F5C9007FD9F2 /* Dependency.swift */,
 			);
-			path = RebootChoreReward;
+			path = Taskie;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CAEAEB6F2B840DE40056A0F1 /* RebootChoreReward */ = {
+		CAEAEB6F2B840DE40056A0F1 /* Taskie */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "RebootChoreReward" */;
+			buildConfigurationList = CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "Taskie" */;
 			buildPhases = (
 				01AD4B39E261BC1F18337D5F /* [CP] Check Pods Manifest.lock */,
 				CAEAEB6C2B840DE40056A0F1 /* Sources */,
@@ -451,9 +451,9 @@
 			);
 			dependencies = (
 			);
-			name = RebootChoreReward;
+			name = Taskie;
 			productName = RebootChoreReward;
-			productReference = CAEAEB702B840DE40056A0F1 /* RebootChoreReward.app */;
+			productReference = CAEAEB702B840DE40056A0F1 /* Taskie.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -484,7 +484,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CAEAEB6F2B840DE40056A0F1 /* RebootChoreReward */,
+				CAEAEB6F2B840DE40056A0F1 /* Taskie */,
 			);
 		};
 /* End PBXProject section */
@@ -767,7 +767,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = RebootChoreReward/RebootChoreReward.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -775,7 +775,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RebootChoreReward/Info.plist;
+				INFOPLIST_FILE = Taskie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Taskie;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -805,7 +805,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = RebootChoreReward/RebootChoreReward.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -813,7 +813,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RebootChoreReward/Info.plist;
+				INFOPLIST_FILE = Taskie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Taskie;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -849,7 +849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "RebootChoreReward" */ = {
+		CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "Taskie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAEAEB852B840DE50056A0F1 /* Debug */,

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CAEAEB6F2B840DE40056A0F1"
-               BuildableName = "RebootChoreReward.app"
-               BlueprintName = "RebootChoreReward"
+               BuildableName = "Taskie.app"
+               BlueprintName = "Taskie"
                ReferencedContainer = "container:Taskie.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,8 +44,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CAEAEB6F2B840DE40056A0F1"
-            BuildableName = "RebootChoreReward.app"
-            BlueprintName = "RebootChoreReward"
+            BuildableName = "Taskie.app"
+            BlueprintName = "Taskie"
             ReferencedContainer = "container:Taskie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CAEAEB6F2B840DE40056A0F1"
-            BuildableName = "RebootChoreReward.app"
-            BlueprintName = "RebootChoreReward"
+            BuildableName = "Taskie.app"
+            BlueprintName = "Taskie"
             ReferencedContainer = "container:Taskie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
