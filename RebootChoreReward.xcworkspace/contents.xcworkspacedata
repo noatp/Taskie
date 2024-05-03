@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:RebootChoreReward.xcodeproj">
+      location = "group:/Users/toanpham/Developer/iOS/RebootChoreReward/Taskie.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

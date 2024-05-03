@@ -100,15 +100,18 @@ class LandingVC: UIViewController, Themable {
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        let fullText = "Welcome to\nChore Reward"
+        let fullText = "Welcome to\nTaskie"
         let attributedString = NSMutableAttributedString(string: fullText)
         let normalAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.onBackground]
-        let choreAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.primaryColor]
-        let rewardAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: theme.color.secondaryColor]
+        let choreAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: theme.color.primaryColor,
+            .font: theme.typography.headline0
+        ]
+        
         
         attributedString.addAttributes(normalAttribute, range: (fullText as NSString).range(of: fullText))
-        attributedString.addAttributes(choreAttributes, range: (fullText as NSString).range(of: "Chore"))
-        attributedString.addAttributes(rewardAttributes, range: (fullText as NSString).range(of: "Reward"))
+        attributedString.addAttributes(choreAttributes, range: (fullText as NSString).range(of: "Taskie"))
+
         
         welcomeLabel.attributedText = attributedString
     }

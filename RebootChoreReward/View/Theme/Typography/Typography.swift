@@ -14,6 +14,7 @@ struct PDSTypography {
 //    var body = UIFont(name: "Fredoka-Regular", size: 17)
 //    var caption = UIFont(name: "Fredoka-Regular", size: 12)
 //    var button = UIFont(name: "Fredoka-Medium", size: 17)
+    var headline0: UIFont
     var headline1: UIFont
     var headline2: UIFont
     var body: UIFont
@@ -21,6 +22,7 @@ struct PDSTypography {
     var button: UIFont
     
     static let defaultTypography = PDSTypography(
+        headline0: UIFont(name: "Fredoka-Bold", size: 50) ?? UIFont.systemFont(ofSize: 50, weight: .bold),
         headline1: UIFont(name: "Fredoka-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold),
         headline2: UIFont(name: "Fredoka-SemiBold", size: 24) ?? UIFont.systemFont(ofSize: 24, weight: .bold),
         body: UIFont(name: "Fredoka-Regular", size: 17) ?? UIFont.systemFont(ofSize: 16, weight: .regular),
