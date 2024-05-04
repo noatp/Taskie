@@ -42,11 +42,16 @@ class ChoreDetailViewModel: ObservableObject {
             do {
                 
                 guard let requestor = try await userDetail(withId: chore.requestor),
-                      let actionButtonType = determineActionType(requestorId: chore.requestor, acceptorId: chore.acceptor)
+                      let actionButtonType = determineActionType(
+                        requestorId: chore.requestor,
+                        acceptorId: chore.acceptor,
+                        finishedDate: chore.finishedDate
+                      )
                 else {
                     return
                 }
                 let acceptor = try await userDetail(withId: chore.acceptor)
+                let choreStatus = self.determineChoreStatus(acceptorId: chore.acceptor, finishedDate: chore.finishedDate)
                    
                 DispatchQueue.main.async { [weak self] in
                     self?.choreDetail = ChoreForDetailView(
@@ -58,7 +63,8 @@ class ChoreDetailViewModel: ObservableObject {
                         imageUrls: chore.imageUrls,
                         createdDate: chore.createdDate.toRelativeString(),
                         finishedDate: chore.finishedDate?.toRelativeString(), 
-                        actionButtonType: actionButtonType
+                        actionButtonType: actionButtonType,
+                        choreStatus: choreStatus
                     )
                 }
             } catch {
@@ -67,26 +73,43 @@ class ChoreDetailViewModel: ObservableObject {
         }
     }
     
-    private func determineActionType(requestorId: String, acceptorId: String?) -> ChoreForDetailView.ActionButtonType? {
-        guard let currentUserId = authService.currentUserId else {
-            return nil
-        }
-        
-        if currentUserId == requestorId {
-            return .withdraw
+    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> ChoreForDetailView.actionButtonType? {
+        if let finishedDate = finishedDate {
+            return .nothing
         }
         else {
-            if let acceptorId = acceptorId {
-                if acceptorId == currentUserId {
-                    return .finish
-                }
-                else {
-                    return .nothing
-                }
+            guard let currentUserId = authService.currentUserId else {
+                return nil
+            }
+            
+            if currentUserId == requestorId {
+                return .withdraw
             }
             else {
-                return .accept
+                if let acceptorId = acceptorId {
+                    if acceptorId == currentUserId {
+                        return .finish
+                    }
+                    else {
+                        return .nothing
+                    }
+                }
+                else {
+                    return .accept
+                }
             }
+        }
+    }
+    
+    private func determineChoreStatus(acceptorId: String?, finishedDate: Timestamp?) -> String {
+        if let finishedDate = finishedDate {
+            return "Finished"
+        }
+        else if let acceptorId = acceptorId {
+            return "Pending"
+        }
+        else {
+            return ""
         }
     }
     
@@ -116,6 +139,10 @@ class ChoreDetailViewModel: ObservableObject {
             return
         }
         choreService.acceptSelectedChore(acceptorId: currentUserId)
+    }
+    
+    func finishedSelectedChore() {
+        choreService.finishedSelectedChore()
     }
 }
 

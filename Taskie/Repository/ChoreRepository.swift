@@ -82,6 +82,22 @@ class ChoreRepository {
         }
     }
     
+    func updateChoreWithFinishedDate(choreId: String) async {
+        guard let householdChoreCollectionRef = householdChoreCollectionRef else {
+            return
+        }
+        
+        let choreDocRef = householdChoreCollectionRef.document(choreId)
+        
+        do {
+            try await choreDocRef.updateData(["finishedDate": Timestamp.init()])
+        }
+        catch {
+            LogUtil.log("Error writing chore to Firestore: \(error)")
+            self._error.send(error)
+        }
+    }
+    
     func reset() {
         LogUtil.log("ChoreRepository -- resetting")
         choreCollectionListener?.remove()

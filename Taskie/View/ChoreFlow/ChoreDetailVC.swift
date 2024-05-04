@@ -80,11 +80,27 @@ class ChoreDetailVC: UIViewController, Themable {
         return label
     }()
     
+    private let finishedDateLabel: PDSLabel = {
+        let label = PDSLabel(withText: "", fontScale: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let actionButton: PDSPrimaryButton = {
         let actionButton = PDSPrimaryButton()
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         return actionButton
     }()
+    
+    private let choreStatusLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Pending", fontScale: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var actionButtonGroup: UIView = .init()
     
     init(
         viewModel: ChoreDetailViewModel
@@ -120,32 +136,39 @@ class ChoreDetailVC: UIViewController, Themable {
                 self.swipableImageRowVC.imageUrls = chore.imageUrls
                 self.requestorLabel.text = chore.requestorName
                 self.createdDateLabel.text = chore.createdDate
+                self.choreStatusLabel.text = chore.choreStatus
                 
                 if let acceptorName = chore.acceptorName {
                     self.acceptedByLabel.isHidden = false
                     self.acceptorLabel.isHidden = false
                     self.acceptorLabel.text = acceptorName
-                    self.actionButton.setTitle("Accept", for: .normal)
                 }
                 else {
                     self.acceptedByLabel.isHidden = true
                     self.acceptorLabel.isHidden = true
-                    self.actionButton.setTitle("Accept", for: .normal)
+                }
+                
+                if let finishedDate = chore.finishedDate {
+                    self.finishedDateLabel.text = "Finished " + finishedDate
                 }
                                 
                 switch chore.actionButtonType {
                     case .accept:
-                        shouldShowActionButton = true
+                        choreStatusLabel.text = ""
+                        actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Accept", for: .normal)
                         self.actionButton.addTarget(self, action: #selector(handleAccept), for: .touchUpInside)
                     case .finish:
-                        shouldShowActionButton = true
+                        choreStatusLabel.text = "Pending"
+                        actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Finished", for: .normal)
+                        self.actionButton.addTarget(self, action: #selector(handleFinished), for: .touchUpInside)
                     case .withdraw:
-                        shouldShowActionButton = true
+                        choreStatusLabel.text = ""
+                        actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Withdraw", for: .normal)
                     case .nothing:
-                        self.shouldShowActionButton = false
+                        actionButtonGroup.isHidden = true
                 }
             }
             .store(in: &cancellables)
@@ -158,12 +181,23 @@ class ChoreDetailVC: UIViewController, Themable {
             return
         }
         
-        let vStack = UIStackView.vStack(arrangedSubviews: [
-            choreNameLabel,
-            rewardAmountLabel,
-            .createSpacerView(height: 20),
+        actionButtonGroup = UIStackView.vStack(arrangedSubviews: [
+            .createSpacerView(height: 10),
             actionButton,
-            .createSpacerView(height: 20),
+            .createSpacerView(height: 20)
+        ], alignment: .leading, shouldExpandSubviewWidth: true)
+        actionButtonGroup.translatesAutoresizingMaskIntoConstraints = false
+        
+        let choreNameRow = UIView()
+        choreNameRow.addSubview(choreNameLabel)
+        choreNameRow.addSubview(choreStatusLabel)
+        choreNameRow.translatesAutoresizingMaskIntoConstraints = false
+        
+        let vStack = UIStackView.vStack(arrangedSubviews: [
+            choreNameRow,
+            rewardAmountLabel,
+            .createSpacerView(height: 10),
+            actionButtonGroup,
             .createSeparatorView(),
             .createSpacerView(height: 10),
             descriptionLabel,
@@ -178,7 +212,8 @@ class ChoreDetailVC: UIViewController, Themable {
             .createSeparatorView(),
             .createSpacerView(height: 10),
             acceptedByLabel,
-            acceptorLabel
+            acceptorLabel,
+            finishedDateLabel
         ], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         swipableImageRow.translatesAutoresizingMaskIntoConstraints = false
@@ -193,6 +228,14 @@ class ChoreDetailVC: UIViewController, Themable {
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
+            choreNameLabel.leadingAnchor.constraint(equalTo: choreNameRow.leadingAnchor),
+            choreNameLabel.centerYAnchor.constraint(equalTo: choreNameRow.centerYAnchor),
+            choreNameLabel.heightAnchor.constraint(equalTo: choreNameRow.heightAnchor),
+            
+            choreStatusLabel.leadingAnchor.constraint(equalTo: choreNameLabel.trailingAnchor, constant: 20),
+            choreStatusLabel.trailingAnchor.constraint(equalTo: choreNameRow.trailingAnchor),
+            choreStatusLabel.firstBaselineAnchor.constraint(equalTo: choreNameLabel.firstBaselineAnchor),
+            
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -228,6 +271,10 @@ class ChoreDetailVC: UIViewController, Themable {
     
     @objc func handleAccept() {
         viewModel.acceptSelectedChore()
+    }
+    
+    @objc func handleFinished() {
+        viewModel.finishedSelectedChore()
     }
     
     deinit {

@@ -27,6 +27,7 @@ protocol ChoreService {
     func readChores(inHousehold householdId: String)
     func readSelectedChore(choreId: String)
     func acceptSelectedChore(acceptorId: String)
+    func finishedSelectedChore()
 }
 
 class ChoreFirestoreService: ChoreService {
@@ -130,6 +131,15 @@ class ChoreFirestoreService: ChoreService {
             await choreRepository.updateChoreWithAcceptor(choreId: selectedChore.id, acceptorId: acceptorId)
         }
     }
+    
+    func finishedSelectedChore(){
+        Task {
+            guard let selectedChore = self._selectedChore.value else {
+                return
+            }
+            await choreRepository.updateChoreWithFinishedDate(choreId: selectedChore.id)
+        }
+    }
 }
 
 class ChoreMockService: ChoreService {
@@ -152,4 +162,6 @@ class ChoreMockService: ChoreService {
     func readSelectedChore(choreId: String) {}
     
     func acceptSelectedChore(acceptorId: String) {}
+    
+    func finishedSelectedChore() {}
 }

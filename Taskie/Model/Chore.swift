@@ -11,7 +11,7 @@ struct Chore: Codable {
     static let empty = Chore(id: "", name: "", requestor: "", acceptor: nil, description: "", rewardAmount: 0.0, imageUrls: [], createdDate: .init(date: .now), finishedDate: nil)
     static let mock = Chore(
         id: "some id",
-        name: "This is a chore",
+        name: "This is a chore with a long long long long long long long name",
         requestor: "some id",
         acceptor: "some other id",
         description: "This is a chore. It is a chore that need to be done. Please do it. You will be rewarded greatly. It is a chore that need to be done. Please do it. You will be rewarded greatly. It is a chore that need to be done. Please do it. You will be rewarded greatly.",
@@ -33,7 +33,7 @@ struct Chore: Codable {
 }
 
 struct ChoreForDetailView {
-    enum ActionButtonType {
+    enum actionButtonType {
         case accept
         case finish
         case withdraw
@@ -49,7 +49,8 @@ struct ChoreForDetailView {
         imageUrls: [],
         createdDate: "",
         finishedDate: nil,
-        actionButtonType: .accept
+        actionButtonType: .accept, 
+        choreStatus: "pending"
     
     )
     let name: String
@@ -60,5 +61,6 @@ struct ChoreForDetailView {
     let imageUrls: [String]
     let createdDate: String
     let finishedDate: String?
-    let actionButtonType: ActionButtonType
+    let actionButtonType: actionButtonType
+    let choreStatus: String
 }
