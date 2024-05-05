@@ -37,10 +37,8 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
         return label
     }()
     
-    private let cancelBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+    private let cancelBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "xmark")
         return button
     }()
     

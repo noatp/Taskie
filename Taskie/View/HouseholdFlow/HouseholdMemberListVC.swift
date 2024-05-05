@@ -21,16 +21,14 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
         return tableView
     }()
     
-    private let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+    private let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "chevron.left")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private let addBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+    private let addBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "plus")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

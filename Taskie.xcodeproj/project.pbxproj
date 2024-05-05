@@ -73,7 +73,7 @@
 		CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */; };
 		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
 		CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */; };
-		CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */; };
+		CACE2EA42BC381AC007FD9F2 /* PDSIconBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */; };
 		CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */; };
 		CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */; };
 		CACE2EB72BC4E11E007FD9F2 /* HouseholdMemberListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */; };
@@ -160,7 +160,7 @@
 		CACE2E992BAE17C9007FD9F2 /* TimestampExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExtension.swift; sourceTree = "<group>"; };
 		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
 		CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTitleWrapperVC.swift; sourceTree = "<group>"; };
-		CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTertiaryButton.swift; sourceTree = "<group>"; };
+		CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSIconBarButton.swift; sourceTree = "<group>"; };
 		CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSMenuCell.swift; sourceTree = "<group>"; };
 		CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListViewModel.swift; sourceTree = "<group>"; };
 		CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListVC.swift; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 			children = (
 				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
 				CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */,
-				CACE2EA32BC381AC007FD9F2 /* PDSTertiaryButton.swift */,
+				CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */,
 				CA7C69CA2B8C49E0005B3CF2 /* PDSTextField.swift */,
 				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
 				CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */,
@@ -563,7 +563,7 @@
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
 				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,
-				CACE2EA42BC381AC007FD9F2 /* PDSTertiaryButton.swift in Sources */,
+				CACE2EA42BC381AC007FD9F2 /* PDSIconBarButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdRepository.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,

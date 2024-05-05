@@ -22,17 +22,13 @@ class ChoreListVC: PDSTitleWrapperVC {
         return tableView
     }()
     
-    private let menuBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "line.3.horizontal"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+    private let menuBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "line.3.horizontal")
         return button
     }()
     
-    private let addBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+    private let addBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "plus", alignment: .trailing)
         return button
     }()
     
@@ -53,6 +49,7 @@ class ChoreListVC: PDSTitleWrapperVC {
         super.viewDidLoad()
         bindViewModel()
         setUpViews()
+        setUpBarButtons()
         setUpActions()
     }
     
@@ -75,15 +72,18 @@ class ChoreListVC: PDSTitleWrapperVC {
             tableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
     
     private func setUpActions() {
         menuBarButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         addBarButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addBarButton)
+    }
+    
+    private func setUpBarButtons() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: menuBarButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addBarButton)
     }
     
     @objc func addNewItem() {

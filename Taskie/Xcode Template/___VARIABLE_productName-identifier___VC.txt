@@ -7,8 +7,8 @@ class ___VARIABLE_viewName:identifier___VC: PDSTitleWrapperVC {
     private var viewModel: ___VARIABLE_viewName:identifier___ViewModel
     private let dependencyView: Dependency.View
 
-    private let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
+    private let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton()
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

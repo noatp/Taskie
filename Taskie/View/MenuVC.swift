@@ -21,9 +21,8 @@ class MenuVC: PDSTitleWrapperVC {
         return button
     }()
     
-    private let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+    private let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "chevron.left")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

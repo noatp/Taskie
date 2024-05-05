@@ -23,8 +23,8 @@ class ChoreDetailVC: UIViewController, Themable {
         return label
     }()
     
-    private let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
+    private let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "xmark")
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

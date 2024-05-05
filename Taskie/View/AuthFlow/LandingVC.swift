@@ -37,9 +37,8 @@ class LandingVC: UIViewController, Themable {
         return button
     }()
     
-    let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+    let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "chevron.left")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

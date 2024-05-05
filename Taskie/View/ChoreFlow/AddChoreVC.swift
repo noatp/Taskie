@@ -48,9 +48,8 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
-    private let cancelBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+    private let cancelBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "xmark")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

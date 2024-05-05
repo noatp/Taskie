@@ -23,6 +23,7 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
     
     private let tagTextField: PDSTextField = {
         let textField = PDSTextField(withPlaceholder: "Nickname", hasBorder: true, isCentered: true)
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -34,8 +35,8 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
-    private let backBarButton: PDSTertiaryButton = {
-        let button = PDSTertiaryButton()
+    private let backBarButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "chevron.left")
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
