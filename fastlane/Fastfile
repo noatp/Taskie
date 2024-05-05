@@ -22,7 +22,7 @@ platform :ios do
       app: "1:866486091483:ios:d7a7c7713af2f7baad96fe",
       testers: "toan.chpham@gmail.com, kneevpham@gmail.com, linhng.psych07@gmail.com",
       release_notes: "Lots of amazing new features to test out!",
-      ipa_path: "/Users/toanpham/Library/Developer/Xcode/Archives/2024-05-02/Taskie.ipa"
+      ipa_path: "/Users/toanpham/Library/Developer/Xcode/Archives/Taskie.ipa"
     )
   end
 end
