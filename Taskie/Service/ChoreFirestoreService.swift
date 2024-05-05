@@ -28,6 +28,7 @@ protocol ChoreService {
     func readSelectedChore(choreId: String)
     func acceptSelectedChore(acceptorId: String)
     func finishedSelectedChore()
+    func withdrawSelectedChore()
 }
 
 class ChoreFirestoreService: ChoreService {
@@ -73,6 +74,9 @@ class ChoreFirestoreService: ChoreService {
                    let selectedChoreNewData = chores?.first(where: { $0.id == selectedChoreId})
                 {
                     self?._selectedChore.send(selectedChoreNewData)
+                }
+                else {
+                    self?._selectedChore.send(nil)
                 }
             }
         )
@@ -140,6 +144,16 @@ class ChoreFirestoreService: ChoreService {
             await choreRepository.updateChoreWithFinishedDate(choreId: selectedChore.id)
         }
     }
+    
+    func withdrawSelectedChore() {
+        Task {
+            guard let selectedChore = self._selectedChore.value else {
+                return
+            }
+            
+            await choreRepository.removeChore(choreId: selectedChore.id)
+        }
+    }
 }
 
 class ChoreMockService: ChoreService {
@@ -164,4 +178,6 @@ class ChoreMockService: ChoreService {
     func acceptSelectedChore(acceptorId: String) {}
     
     func finishedSelectedChore() {}
+    
+    func withdrawSelectedChore() {}
 }

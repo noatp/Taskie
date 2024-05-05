@@ -9,7 +9,7 @@ import Combine
 import FirebaseFirestoreInternal
 
 class ChoreDetailViewModel: ObservableObject {
-    @Published var choreDetail: ChoreForDetailView = .empty
+    @Published var choreDetail: ChoreForDetailView? = .empty
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
@@ -29,15 +29,16 @@ class ChoreDetailViewModel: ObservableObject {
     private func subscribeToChoreFirestoreService() {
         choreService.selectedChore.sink { [weak self] chore in
             LogUtil.log("From ChoreService -- chore -- \(chore)")
-            guard let chore = chore else {
-                return
-            }
             self?.updateChoreDetail(chore: chore)
         }
         .store(in: &cancellables)
     }
     
-    private func updateChoreDetail(chore: Chore) {
+    private func updateChoreDetail(chore: Chore?) {
+        guard let chore = chore else {
+            self.choreDetail = nil
+            return
+        }
         Task {
             do {
                 
@@ -143,6 +144,10 @@ class ChoreDetailViewModel: ObservableObject {
     
     func finishedSelectedChore() {
         choreService.finishedSelectedChore()
+    }
+    
+    func withdrawSelectedChore() {
+        choreService.withdrawSelectedChore()
     }
 }
 

@@ -15,7 +15,7 @@ enum InvitationRepositoryError: Error {
 class InvitationRepository {
     private let db = Firestore.firestore()
     
-    func readInvitationForHouseholdId(withEmail email: String) async throws -> String {
+    func readInvitationForHouseholdId(withEmail email: String) async throws -> String? {
         let invitationDocRef = db.collection("invitations").document(email)
         
         let invitationDoc = try await invitationDocRef.getDocument()
@@ -25,6 +25,6 @@ class InvitationRepository {
         {
             return householdId
         }
-        throw InvitationRepositoryError.fetchingError
+        return nil
     }
 }

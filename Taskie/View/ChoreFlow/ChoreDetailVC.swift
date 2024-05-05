@@ -13,7 +13,7 @@ class ChoreDetailVC: UIViewController, Themable {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
-    private var shouldShowActionButton = false
+    private var actionButtonType: ChoreForDetailView.actionButtonType = .nothing
     
     private let choreNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline2)
@@ -130,6 +130,11 @@ class ChoreDetailVC: UIViewController, Themable {
                     return
                 }
                 
+                guard let chore = chore else {
+                    self.dismiss(animated: true)
+                    return
+                }
+                
                 self.choreNameLabel.text = chore.name
                 self.descriptionDetailLabel.text = chore.description
                 self.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
@@ -151,18 +156,17 @@ class ChoreDetailVC: UIViewController, Themable {
                 if let finishedDate = chore.finishedDate {
                     self.finishedDateLabel.text = "Finished " + finishedDate
                 }
-                                
+                
+                self.actionButtonType = chore.actionButtonType
                 switch chore.actionButtonType {
                     case .accept:
                         choreStatusLabel.text = ""
                         actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Accept", for: .normal)
-                        self.actionButton.addTarget(self, action: #selector(handleAccept), for: .touchUpInside)
                     case .finish:
                         choreStatusLabel.text = "Pending"
                         actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Finished", for: .normal)
-                        self.actionButton.addTarget(self, action: #selector(handleFinished), for: .touchUpInside)
                     case .withdraw:
                         choreStatusLabel.text = ""
                         actionButtonGroup.isHidden = false
@@ -256,6 +260,7 @@ class ChoreDetailVC: UIViewController, Themable {
 
     private func setUpActions() {
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
@@ -269,12 +274,17 @@ class ChoreDetailVC: UIViewController, Themable {
         self.dismiss(animated: true)
     }
     
-    @objc func handleAccept() {
-        viewModel.acceptSelectedChore()
-    }
-    
-    @objc func handleFinished() {
-        viewModel.finishedSelectedChore()
+    @objc func handleActionButton() {
+        switch self.actionButtonType {
+            case .accept:
+                viewModel.acceptSelectedChore()
+            case .finish:
+                viewModel.finishedSelectedChore()
+            case .withdraw:
+                viewModel.withdrawSelectedChore()
+            case .nothing:
+                break
+        }
     }
     
     deinit {

@@ -178,7 +178,8 @@ class AuthenticationService: AuthService {
         
         do {
             let householdIdFromInvitation = try await invitationRepository.readInvitationForHouseholdId(withEmail: email)
-            if !householdIdFromInvitation.isEmpty {
+            if let householdIdFromInvitation = householdIdFromInvitation,
+               !householdIdFromInvitation.isEmpty {
                 return householdIdFromInvitation
             }
             return nil

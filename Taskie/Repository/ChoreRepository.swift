@@ -98,6 +98,22 @@ class ChoreRepository {
         }
     }
     
+    func removeChore(choreId: String) async {
+        guard let hosueholdChoreCollectionRef = householdChoreCollectionRef else {
+            return
+        }
+        
+        let choreDocRef = householdChoreCollectionRef?.document(choreId)
+        
+        do {
+            try await choreDocRef?.delete()
+        }
+        catch {
+            LogUtil.log("Error deleting chore from Firestore: \(error)")
+            self._error.send(error)
+        }
+    }
+    
     func reset() {
         LogUtil.log("ChoreRepository -- resetting")
         choreCollectionListener?.remove()
