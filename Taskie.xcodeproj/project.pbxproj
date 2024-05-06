@@ -169,6 +169,7 @@
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
+		CADE8FF92BE8720F00035FE7 /* TaskieRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskieRelease.entitlements; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -413,6 +414,7 @@
 		CAEAEB722B840DE40056A0F1 /* Taskie */ = {
 			isa = PBXGroup;
 			children = (
+				CADE8FF92BE8720F00035FE7 /* TaskieRelease.entitlements */,
 				CA26D0722BE020A5002B5962 /* Taskie.entitlements */,
 				CA26D06F2BE016FC002B5962 /* UniversalLink */,
 				CACE2E982BAE1799007FD9F2 /* Extension */,
@@ -805,7 +807,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Taskie/TaskieRelease.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 3;

@@ -28,7 +28,7 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
     }()
     
     private let addBarButton: PDSIconBarButton = {
-        let button = PDSIconBarButton(systemName: "plus")
+        let button = PDSIconBarButton(systemName: "plus", alignment: .trailing)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -22,7 +22,7 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
     }()
     
     private let tagTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Nickname", hasBorder: true, isCentered: true)
+        let textField = PDSTextField(withPlaceholder: "Nickname", hasBorder: true)
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField

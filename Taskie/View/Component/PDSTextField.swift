@@ -13,21 +13,19 @@ class PDSTextField: UITextField, Themable {
     private var highlightedBorderColor = UIColor.systemBlue.cgColor
     
     private let normalBorderWidth: CGFloat = 1.0
-    private let highlightedBorderWidth: CGFloat = 3.0
+    private let highlightedBorderWidth: CGFloat = 2.0
     
-    private let placeholderText: String
     private let hasBorder: Bool
     private let maxChar: Int?
     private var textPadding = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     
-    init(withPlaceholder placeholderText: String, hasBorder: Bool = false, isCentered: Bool = false, maxChar: Int? = nil) {
-        self.placeholderText = placeholderText
+    init(withPlaceholder placeholderText: String, hasBorder: Bool = false, textAlignment: NSTextAlignment = .center, maxChar: Int? = nil) {
         self.hasBorder = hasBorder
         self.maxChar = maxChar
         super.init(frame: .zero)
-        if isCentered {
-            self.delegate = self
-        }
+        self.placeholder = placeholderText
+        self.textAlignment = textAlignment
+        self.delegate = self
         configureTextField()
     }
     
@@ -37,6 +35,8 @@ class PDSTextField: UITextField, Themable {
     
     private func configureTextField() {
         ThemeManager.shared.register(self)
+        keyboardAppearance = .dark
+        autocorrectionType = .no
     }
     
     override func becomeFirstResponder() -> Bool {
@@ -60,23 +60,20 @@ class PDSTextField: UITextField, Themable {
     // MARK: - Padding Overrides
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return hasBorder ? bounds.inset(by: textPadding) : bounds
+        return bounds.inset(by: textPadding)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return hasBorder ? bounds.inset(by: textPadding) : bounds
+        return bounds.inset(by: textPadding)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return hasBorder ? bounds.inset(by: textPadding) : bounds
+        return bounds.inset(by: textPadding)
     }
     
     func applyTheme(_ theme: PDSTheme) {
         font = theme.typography.body
-        placeholder = placeholderText
-        textAlignment = .center
-        keyboardAppearance = .dark
-        autocorrectionType = .no
+        
         if hasBorder {
             normalBorderColor = theme.color.darkenPrimaryColor.cgColor
             highlightedBorderColor = theme.color.primaryColor.cgColor
@@ -92,17 +89,10 @@ extension PDSTextField: UITextFieldDelegate {
         
         let currentText = textField.text ?? ""
         let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        textField.textAlignment = newText.isEmpty ? .left : .center
         if let maxChar = maxChar {
             return newText.count <= maxChar
         }
         return true
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.text?.isEmpty ?? true {
-            textField.textAlignment = .left
-        }
     }
 }
 

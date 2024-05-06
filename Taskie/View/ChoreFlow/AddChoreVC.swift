@@ -15,13 +15,13 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
         
     private let choreNameTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore name", isCentered: true)
+        let textField = PDSTextField(withPlaceholder: "Chore name")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private let choreDescriptionTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore description", isCentered: true)
+        let textField = PDSTextField(withPlaceholder: "Chore description")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
