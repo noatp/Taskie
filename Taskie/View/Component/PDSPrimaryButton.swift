@@ -40,7 +40,7 @@ class PDSPrimaryButton: UIButton, Themable {
             return outgoing
         }
         config.imagePadding = 10
-        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
         
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
             return self.isHighlighted ? theme.color.darkenPrimaryColor : theme.color.primaryColor

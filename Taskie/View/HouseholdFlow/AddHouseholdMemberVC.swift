@@ -22,19 +22,11 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
         return label
     }()
     
-    private let promptBulletsLabel: PDSLabel = {
-        let label = PDSLabel(withText: "\u{2022} have them download the app, and go through sign up process\n\u{2022} provide them with the following 6 digit invite code", fontScale: .body)
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let inviteCodeLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .headline2)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let inviteButton: PDSPrimaryButton = {
+        let button = PDSPrimaryButton()
+        button.setTitle("Invite", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let cancelBarButton: PDSIconBarButton = {
@@ -66,30 +58,48 @@ class AddHouseholdMemberVC: PDSTitleWrapperVC {
         setTitle("Add member")
         
         view.addSubview(promptLabel)
-        view.addSubview(promptBulletsLabel)
-        view.addSubview(inviteCodeLabel)
+        view.addSubview(inviteButton)
         
         NSLayoutConstraint.activate([
             promptLabel.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             promptLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             promptLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            promptBulletsLabel.topAnchor.constraint(equalTo: promptLabel.bottomAnchor),
-            promptBulletsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            promptBulletsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            inviteCodeLabel.topAnchor.constraint(equalTo: promptBulletsLabel.bottomAnchor, constant: 40),
-            inviteCodeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            inviteButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            inviteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 
     private func setUpActions() {
         cancelBarButton.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelBarButton)
+        inviteButton.addTarget(self, action: #selector(handleInvite), for: .touchUpInside)
     }
     
     @objc func handleCancel() {
         dismiss(animated: true)
+    }
+    
+    @objc func handleInvite() {
+        shareInviteLink()
+    }
+    
+    func shareInviteLink() {
+        guard let inviteLink = viewModel.getInviteLink() else {
+            return
+        }
+        let text = "Use this invite link to download Taskie and join the household: \(inviteLink)"
+        let items = [text]
+        
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(activityViewController, animated: true)
     }
     
     override func applyTheme(_ theme: PDSTheme) {

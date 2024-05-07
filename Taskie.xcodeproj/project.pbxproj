@@ -37,7 +37,7 @@
 		CA3A69B12BE2F1FC009D669F /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */; };
 		CA3A69B22BE2F1FC009D669F /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
-		CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */; };
+		CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
@@ -123,7 +123,7 @@
 		CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
-		CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreVC.swift; sourceTree = "<group>"; };
+		CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
 		CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "___VARIABLE_viewName-identifier___ViewModel.txt"; sourceTree = "<group>"; };
 		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
@@ -169,7 +169,6 @@
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
-		CADE8FF92BE8720F00035FE7 /* TaskieRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskieRelease.entitlements; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -269,7 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */,
-				CA48864A2B9EB3E1003F22C8 /* AddChoreVC.swift */,
+				CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */,
 				CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */,
 			);
 			path = ChoreFlow;
@@ -414,7 +413,6 @@
 		CAEAEB722B840DE40056A0F1 /* Taskie */ = {
 			isa = PBXGroup;
 			children = (
-				CADE8FF92BE8720F00035FE7 /* TaskieRelease.entitlements */,
 				CA26D0722BE020A5002B5962 /* Taskie.entitlements */,
 				CA26D06F2BE016FC002B5962 /* UniversalLink */,
 				CACE2E982BAE1799007FD9F2 /* Extension */,
@@ -586,7 +584,7 @@
 				CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
-				CA48864C2B9EB3E1003F22C8 /* AddChoreVC.swift in Sources */,
+				CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */,
 				CA3A69A62BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreRepository.swift in Sources */,
@@ -807,7 +805,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Taskie/TaskieRelease.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 3;

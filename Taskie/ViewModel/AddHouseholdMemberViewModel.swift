@@ -9,10 +9,10 @@ import Combine
 import Foundation
 
 class AddHouseholdMemberViewModel: ObservableObject {
-    @Published var shouldShowRetryButton: Bool = false
-     
     private var cancellables: Set<AnyCancellable> = []
     private var householdService: HouseholdService
+    
+    private var currentHouseholdId: String? = nil
     
     init(
         householdService: HouseholdService
@@ -24,8 +24,17 @@ class AddHouseholdMemberViewModel: ObservableObject {
     private func subscribeToHouseholdService() {
         householdService.household.sink { [weak self] household in
             LogUtil.log("From HouseholdService -- household -- \(household)")
+            self?.currentHouseholdId = household?.id
         }
         .store(in: &cancellables)
+    }
+    
+    func getInviteLink() -> String? {
+        guard let currentHouseholdId = currentHouseholdId else {
+            return nil
+        }
+        
+        return "https://get-taskie.app/invite/\(currentHouseholdId)"
     }
 }
 

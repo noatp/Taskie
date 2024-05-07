@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:get-taskie.app</string>
+		<string>webcredentials:get-taskie.app</string>
 	</array>
 </dict>
 </plist>

@@ -9,19 +9,19 @@ import SwiftUI
 import UIKit
 import Combine
 
-class AddChoreVC: PDSResizeWithKeyboardVC {
+class CreateChoreVC: PDSResizeWithKeyboardVC {
     private var viewModel: AddChoreViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
         
     private let choreNameTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore name")
+        let textField = PDSTextField(withPlaceholder: "Task name")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private let choreDescriptionTextField: PDSTextField = {
-        let textField = PDSTextField(withPlaceholder: "Chore description")
+        let textField = PDSTextField(withPlaceholder: "Task description")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -82,7 +82,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     }
     
     private func setUpViews() {
-        setTitle("Create chore")
+        setTitle("Create Task")
         
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
@@ -191,7 +191,7 @@ class AddChoreVC: PDSResizeWithKeyboardVC {
     }
 }
 
-extension AddChoreVC: UIImagePickerControllerDelegate {
+extension CreateChoreVC: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[.editedImage] as? UIImage {
             viewModel.add(image: pickedImage)
@@ -205,7 +205,7 @@ extension AddChoreVC: UIImagePickerControllerDelegate {
     }
 }
 
-extension AddChoreVC: UINavigationControllerDelegate {}
+extension CreateChoreVC: UINavigationControllerDelegate {}
 
 struct AddChoreVC_Previews: PreviewProvider {
     static var previews: some View {
@@ -223,8 +223,8 @@ struct AddChoreVC_Previews: PreviewProvider {
 }
 
 extension Dependency.View {
-    func addChoreVC() -> AddChoreVC {
-        return AddChoreVC(viewModel: viewModel.addChoreViewModel())
+    func addChoreVC() -> CreateChoreVC {
+        return CreateChoreVC(viewModel: viewModel.addChoreViewModel())
     }
 }
 

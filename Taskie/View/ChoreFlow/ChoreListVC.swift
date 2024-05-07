@@ -63,7 +63,7 @@ class ChoreListVC: PDSTitleWrapperVC {
     }
     
     private func setUpViews() {
-        setTitle("Chores")
+        setTitle("Tasks")
         tableView.dataSource = self
         tableView.delegate = self
         

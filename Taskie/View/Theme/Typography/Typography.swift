@@ -25,7 +25,7 @@ struct PDSTypography {
         headline0: UIFont(name: "Fredoka-Bold", size: 50) ?? UIFont.systemFont(ofSize: 50, weight: .bold),
         headline1: UIFont(name: "Fredoka-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold),
         headline2: UIFont(name: "Fredoka-SemiBold", size: 24) ?? UIFont.systemFont(ofSize: 24, weight: .bold),
-        body: UIFont(name: "Fredoka-Regular", size: 17) ?? UIFont.systemFont(ofSize: 16, weight: .regular),
+        body: UIFont(name: "Fredoka-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .regular),
         caption: UIFont(name: "Fredoka-SemiBold", size: 17) ?? UIFont.systemFont(ofSize: 16, weight: .regular),
         button: UIFont(name: "Fredoka-Medium", size: 17) ?? UIFont.systemFont(ofSize: 14, weight: .medium)
     )
