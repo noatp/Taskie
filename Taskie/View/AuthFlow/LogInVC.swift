@@ -55,8 +55,7 @@ class LogInVC: PDSResizeWithKeyboardVC {
     }
     
     private func setUpViews() {
-        setTitle("Log in")
-                
+        setTitle("Log in")                
         let vStack = UIStackView.vStack(arrangedSubviews: [
             emailTextField,
             .createSpacerView(height: 20),
@@ -65,15 +64,14 @@ class LogInVC: PDSResizeWithKeyboardVC {
             logInButton
         ], alignment: .center, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
-        keyboardAdjustmentConstraint = vStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         
         view.addSubview(vStack)
         
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
-            keyboardAdjustmentConstraint,
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            constraintViewToKeyboard(vStack)
         ])
     }
     

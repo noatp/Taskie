@@ -9,13 +9,18 @@ import UIKit
 
 // inherit this UIViewController to has the ability to resize view when keyboard shows
 class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
-    var keyboardAdjustmentConstraint: NSLayoutConstraint = .init()
-    var bottomConstraintValue: CGFloat = 0
-    var bottomConstraintOffset: CGFloat = 0
+    private var keyboardAdjustmentConstraint: NSLayoutConstraint = .init()
+    private var bottomConstraintValue: CGFloat = 0
+    private let bottomConstraintOffset: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardObservers()
+    }
+    
+    func constraintViewToKeyboard(_ bottomView: UIView) -> NSLayoutConstraint {
+        keyboardAdjustmentConstraint = bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: bottomConstraintValue)
+        return keyboardAdjustmentConstraint
     }
     
     func addKeyboardObservers() {
@@ -30,15 +35,19 @@ class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        bottomConstraintValue = -keyboardSize.height - bottomConstraintOffset
+        bottomConstraintValue = -keyboardSize.height
         keyboardAdjustmentConstraint.constant = bottomConstraintValue
-        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+        self.view.layoutIfNeeded()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        bottomConstraintValue = -100
+        bottomConstraintValue = -bottomConstraintOffset
         keyboardAdjustmentConstraint.constant = bottomConstraintValue
-        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+        self.view.layoutIfNeeded()
+    }
+    
+    func getBottomConstraintValue() -> CGFloat {
+        return bottomConstraintValue
     }
     
     deinit {

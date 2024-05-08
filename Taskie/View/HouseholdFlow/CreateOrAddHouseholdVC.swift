@@ -63,6 +63,10 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
         setUpActions()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        hideLoadingIndicator()
+    }
+    
     private func setUpViews() {
         setTitle("Let's get started!")
         

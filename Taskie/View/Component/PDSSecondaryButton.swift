@@ -45,11 +45,6 @@ class PDSSecondaryButton: UIButton, Themable {
         config.background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in
             return self.isHighlighted ? theme.color.darkenSecondaryColor : theme.color.secondaryColor
         }
-
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.shadowRadius = 3
-        layer.shadowOpacity = 0.4
         
         layer.cornerRadius = theme.styling.cornerRadius
         

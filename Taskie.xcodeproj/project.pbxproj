@@ -41,13 +41,14 @@
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
-		CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */; };
 		CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */; };
 		CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */; };
 		CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */; };
 		CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5537202BE4431C0053131C /* InvitationRepository.swift */; };
+		CA7AA9682BEB2772004B1267 /* PickPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7AA9672BEB2772004B1267 /* PickPasswordVC.swift */; };
+		CA7AA96A2BEB3352004B1267 /* EnterNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7AA9692BEB3352004B1267 /* EnterNameVC.swift */; };
 		CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B62B8456D0005B3CF2 /* AuthService.swift */; };
-		CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* SignUpVC.swift */; };
+		CA7C69B92B846236005B3CF2 /* PickEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69B82B846236005B3CF2 /* PickEmailVC.swift */; };
 		CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BA2B846843005B3CF2 /* LogInVC.swift */; };
 		CA7C69BF2B8C2FCD005B3CF2 /* ChoreListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */; };
 		CA7C69C12B8C2FDD005B3CF2 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */; };
@@ -128,13 +129,14 @@
 		CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "___VARIABLE_viewName-identifier___ViewModel.txt"; sourceTree = "<group>"; };
 		CA4886532B9EB5A9003F22C8 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
-		CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSModalVC.swift; sourceTree = "<group>"; };
 		CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLoadingIndicator.swift; sourceTree = "<group>"; };
 		CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReferenceExtension.swift; sourceTree = "<group>"; };
 		CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecentrailizedUser.swift; sourceTree = "<group>"; };
 		CA5537202BE4431C0053131C /* InvitationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationRepository.swift; sourceTree = "<group>"; };
+		CA7AA9672BEB2772004B1267 /* PickPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPasswordVC.swift; sourceTree = "<group>"; };
+		CA7AA9692BEB3352004B1267 /* EnterNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameVC.swift; sourceTree = "<group>"; };
 		CA7C69B62B8456D0005B3CF2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		CA7C69B82B846236005B3CF2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		CA7C69B82B846236005B3CF2 /* PickEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickEmailVC.swift; sourceTree = "<group>"; };
 		CA7C69BA2B846843005B3CF2 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreListVC.swift; sourceTree = "<group>"; };
 		CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
@@ -257,8 +259,8 @@
 		CA3A69A82BE2F0F0009D669F /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				CA7AA9662BEB274F004B1267 /* SignUp */,
 				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
-				CA7C69B82B846236005B3CF2 /* SignUpVC.swift */,
 				CA7C69BA2B846843005B3CF2 /* LogInVC.swift */,
 			);
 			path = AuthFlow;
@@ -294,6 +296,16 @@
 				CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */,
 			);
 			path = "Xcode Template";
+			sourceTree = "<group>";
+		};
+		CA7AA9662BEB274F004B1267 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69B82B846236005B3CF2 /* PickEmailVC.swift */,
+				CA7AA9672BEB2772004B1267 /* PickPasswordVC.swift */,
+				CA7AA9692BEB3352004B1267 /* EnterNameVC.swift */,
+			);
+			path = SignUp;
 			sourceTree = "<group>";
 		};
 		CA7C69B42B8456A5005B3CF2 /* View */ = {
@@ -345,7 +357,6 @@
 				CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */,
 				CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */,
 				CA1683E12B8D2ED70086153A /* PDSLabel.swift */,
-				CA4886572B9EBC0A003F22C8 /* PDSModalVC.swift */,
 				CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */,
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
@@ -575,6 +586,7 @@
 				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
 				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserRepository.swift in Sources */,
+				CA7AA96A2BEB3352004B1267 /* EnterNameVC.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
 				CA7C69C12B8C2FDD005B3CF2 /* MenuVC.swift in Sources */,
 				CA1683E92B8D45A70086153A /* HouseholdFirestoreService.swift in Sources */,
@@ -588,9 +600,10 @@
 				CA3A69A62BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreRepository.swift in Sources */,
+				CA7AA9682BEB2772004B1267 /* PickPasswordVC.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
 				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
-				CA7C69B92B846236005B3CF2 /* SignUpVC.swift in Sources */,
+				CA7C69B92B846236005B3CF2 /* PickEmailVC.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
 				CA3A69A72BE2E55E009D669F /* CreateOrAddHouseholdVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
@@ -604,7 +617,6 @@
 				CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */,
 				CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */,
 				CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */,
-				CA4886582B9EBC0A003F22C8 /* PDSModalVC.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,
 				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
@@ -770,7 +782,7 @@
 				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -808,7 +820,7 @@
 				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

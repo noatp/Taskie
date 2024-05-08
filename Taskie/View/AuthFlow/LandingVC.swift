@@ -89,7 +89,7 @@ class LandingVC: UIViewController, Themable {
     }
     
     @objc func navigateToSignUp() {
-        let signUpVC = self.dependencyView.signUpVC()
+        let signUpVC = self.dependencyView.pickEmailVC()
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     

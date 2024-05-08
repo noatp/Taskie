@@ -67,9 +67,7 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
         view.addSubview(promptLabel)
         view.addSubview(tagTextField)
         view.addSubview(createHouseholdButton)
-        
-        keyboardAdjustmentConstraint = createHouseholdButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
-        
+                
         NSLayoutConstraint.activate([
             promptLabel.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             promptLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -79,9 +77,10 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
             tagTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             tagTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            keyboardAdjustmentConstraint,
             createHouseholdButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            createHouseholdButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            createHouseholdButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            constraintViewToKeyboard(createHouseholdButton)
         ])
     }
 

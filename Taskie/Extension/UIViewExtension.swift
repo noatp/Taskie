@@ -8,16 +8,6 @@
 import UIKit
 
 extension UIView {
-    func roundTopCorners(cornerRadius: CGFloat) {
-        let maskLayer = CAShapeLayer()
-        
-        maskLayer.path = UIBezierPath(roundedRect: bounds,
-                                      byRoundingCorners: [.topLeft, .topRight],
-                                      cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
-        
-        layer.mask = maskLayer
-    }
-    
     static func createSpacerView(height: CGFloat? = nil, width: CGFloat? = nil) -> UIView {
         let spacerView = UIView()
         spacerView.backgroundColor = .clear
@@ -25,9 +15,9 @@ extension UIView {
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         
         if height == nil && width == nil {
-            let heightConstraint = spacerView.heightAnchor.constraint(equalToConstant: 0)
-            heightConstraint.priority = UILayoutPriority(1)
-            heightConstraint.isActive = true
+//            let heightConstraint = spacerView.heightAnchor.constraint(equalToConstant: 0)
+//            heightConstraint.priority = UILayoutPriority(1)
+//            heightConstraint.isActive = true
             return spacerView
         }
         

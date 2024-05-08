@@ -9,15 +9,16 @@ import Foundation
 import FirebaseAuth
 import Combine
 
-enum AuthServiceError: Error {
+enum AuthServiceError: Error, LocalizedError {
     case missingInput
+    case invalidEmailAddress
     
-    var localizedDescription: String {
+    var errorDescription: String? {
         switch self {
-        case .missingInput:
-            return "Please enter all required fields."
-        default:
-            return "Please try again later."
+            case .missingInput:
+                return "Please enter all required fields."
+            case .invalidEmailAddress:
+                return "Please enter a valid email address."
         }
     }
 }
@@ -27,11 +28,14 @@ protocol AuthService {
     var error: AnyPublisher<Error?, Never> { get }
     var currentUserId: String? { get }
     func logIn(withEmail email: String?, password: String?)
-    func signUp(withEmail email: String?, password: String?, name: String?)
+    func signUp()
     func signOut()
     func silentLogIn()
     func readInvitationForHouseholdId(withEmail email: String) async -> String?
     func setHouseholdIdFromUniversalLink(householdId: String)
+    func cacheEmailAddressForSignUp(_ email: String)
+    func cachePassowrdForSignUp(_ password: String)
+    func cacheNameForSignUp(_ name: String)
 }
 
 class AuthenticationService: AuthService {
@@ -42,6 +46,9 @@ class AuthenticationService: AuthService {
     private let invitationRepository: InvitationRepository
     
     private var householdIdFromUniversalLink: String?
+    private var emailAddressForSignUp: String?
+    private var passwordForSignUp: String?
+    private var nameForSignUp: String?
     
     var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
@@ -93,11 +100,11 @@ class AuthenticationService: AuthService {
         }
     }
     
-    func signUp(withEmail email: String?, password: String?, name: String?) {
-        guard let email = email,
-              let password = password,
-              let name = name,
-              !name.isEmpty 
+    func signUp() {
+        guard let email = emailAddressForSignUp,
+              let password = passwordForSignUp,
+              let name = nameForSignUp,
+              !name.isEmpty
         else {
             self._error.send(AuthServiceError.missingInput)
             return
@@ -160,7 +167,6 @@ class AuthenticationService: AuthService {
         afterAuthenticated(currentUserId)
     }
     
-    
     func signOut() {
         do {
             try auth.signOut()
@@ -194,12 +200,26 @@ class AuthenticationService: AuthService {
         self.householdIdFromUniversalLink = householdId
     }
     
+    func cacheEmailAddressForSignUp(_ email: String) {
+        self.emailAddressForSignUp = email
+    }
+    
+    func cachePassowrdForSignUp(_ password: String) {
+        self.passwordForSignUp = password
+    }
+    
+    func cacheNameForSignUp(_ name: String) {
+        self.nameForSignUp = name
+    }
+    
     func resetUserRepository() {
         userRepository.reset()
     }
 }
 
 class AuthMockService: AuthService {
+    
+    
     var error: AnyPublisher<Error?, Never> {
         Just(nil).eraseToAnyPublisher()
     }
@@ -216,11 +236,17 @@ class AuthMockService: AuthService {
     
     func logIn(withEmail email: String?, password: String?) {}
     
-    func signUp(withEmail email: String?, password: String?, name: String?) {}
+    func signUp() {}
     
     func silentLogIn() {}
     
     func signOut() {}
+    
+    func cacheEmailAddressForSignUp(_ email: String) {}
+    
+    func cachePassowrdForSignUp(_ password: String) {}
+    
+    func cacheNameForSignUp(_ name: String) {}
     
     var currentUserId: String? = ""
 }

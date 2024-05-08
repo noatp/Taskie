@@ -42,7 +42,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Create"
-        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -156,14 +156,14 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
     
     override func keyboardWillShow(notification: NSNotification) {
         super.keyboardWillShow(notification: notification)
-        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: -self.bottomConstraintValue + 20, trailing: 20)
-        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: -self.getBottomConstraintValue() + 20, trailing: 20)
+        self.view.layoutIfNeeded()
     }
     
     override func keyboardWillHide(notification: NSNotification) {
         super.keyboardWillHide(notification: notification)
-        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
-        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
+        self.view.layoutIfNeeded()
     }
     
     override func applyTheme(_ theme: PDSTheme) {
