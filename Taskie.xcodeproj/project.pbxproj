@@ -83,6 +83,7 @@
 		CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */; };
 		CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */; };
 		CACE2EC52BD9CE30007FD9F2 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */; };
+		CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -171,6 +172,7 @@
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
+		CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorVC.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				CA7C69B82B846236005B3CF2 /* PickEmailVC.swift */,
 				CA7AA9672BEB2772004B1267 /* PickPasswordVC.swift */,
 				CA7AA9692BEB3352004B1267 /* EnterNameVC.swift */,
+				CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */,
 				CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */,
 				CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */,
+				CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */,
 				CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */,
 				CA1683EB2B8D45D80086153A /* User.swift in Sources */,
 			);
