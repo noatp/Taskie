@@ -9,10 +9,21 @@ import UIKit
 import SwiftUI
 
 class PDSAlertVC: UIViewController {
+    private let alertTitle: String
     private let alertMessage: String
+    private let buttonTitle: String?
+    private let buttonAction: (() -> ())?
     
-    init(alertMessage: String) {
+    init(
+        alertTitle: String,
+        alertMessage: String,
+        buttonTitle: String,
+        buttonAction: (() -> ())?
+    ) {
         self.alertMessage = alertMessage
+        self.alertTitle = alertTitle
+        self.buttonTitle = buttonTitle
+        self.buttonAction = buttonAction
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,16 +54,15 @@ class PDSAlertVC: UIViewController {
     }()
     
     private let titleLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Error", fontScale: .headline2)
+        let label = PDSLabel(withText: "", fontScale: .headline2)
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let dismissButton: PDSPrimaryButton = {
+    private let actionButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
-        button.setTitle("Dismiss", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -66,13 +76,15 @@ class PDSAlertVC: UIViewController {
     private func setUpViews() {
         ThemeManager.shared.register(self)
         
+        titleLabel.text = alertTitle
         messageLabel.text = alertMessage
+        actionButton.setTitle(buttonTitle, for: .normal)
         
         view.addSubview(backgroundView)
         view.addSubview(alertView)
         view.addSubview(titleLabel)
         view.addSubview(messageLabel)
-        view.addSubview(dismissButton)
+        view.addSubview(actionButton)
         
         // Apply constraints or frame-based layout
         NSLayoutConstraint.activate([
@@ -89,22 +101,27 @@ class PDSAlertVC: UIViewController {
             titleLabel.centerXAnchor.constraint(equalTo: alertView.centerXAnchor),
             
             messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            messageLabel.bottomAnchor.constraint(equalTo: dismissButton.topAnchor, constant: -40),
+            messageLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -40),
             messageLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
             
-            dismissButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
-            dismissButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
-            dismissButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -20)
+            actionButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
+            actionButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
+            actionButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -20)
         ])
     }
     
     private func setUpActions(){
-        dismissButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(handleButtonAction), for: .touchUpInside)
     }
     
-    @objc func dismissAlert() {
-        self.dismiss(animated: true, completion: nil)
+    @objc func handleButtonAction() {
+        DispatchQueue.main.async { [weak self] in
+            if let buttonAction = self?.buttonAction {
+                buttonAction()
+            }
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -120,7 +137,12 @@ extension PDSAlertVC: Themable {
 struct AlertVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            PDSAlertVC(alertMessage: "This is a custom alert message. This is a long text to test text wrapping.")
+            PDSAlertVC(
+                alertTitle: "Something went wrong",
+                alertMessage: "This is a custom alert message. This is a long text to test text wrapping.",
+                buttonTitle: "Dismiss",
+                buttonAction: nil
+            )
         }
     }
 }

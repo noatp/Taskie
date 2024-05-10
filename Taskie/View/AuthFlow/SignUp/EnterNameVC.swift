@@ -82,9 +82,8 @@ class EnterNameVC: PDSResizeWithKeyboardVC {
                         break
                     case .checked:
                         self.viewModel.signUp()
-                        showLoadingIndicator()
                     case .invalid(errorMessage: let errorMessage):
-                        showAlert(withMessage: errorMessage)
+                        showAlert(alertMessage: errorMessage)
                 }
             }
             .store(in: &cancellables)

@@ -89,7 +89,7 @@ class PickEmailVC: PDSResizeWithKeyboardVC {
                     case .checked:
                         self.navigateToPickPassword()
                     case .invalid(errorMessage: let errorMessage):
-                        showAlert(withMessage: errorMessage)
+                        showAlert(alertMessage: errorMessage)
                 }
             }
             .store(in: &cancellables)

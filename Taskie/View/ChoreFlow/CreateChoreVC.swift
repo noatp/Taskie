@@ -10,7 +10,7 @@ import UIKit
 import Combine
 
 class CreateChoreVC: PDSResizeWithKeyboardVC {
-    private var viewModel: AddChoreViewModel
+    private var viewModel: CreateChoreViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let imageSelectionRowVC = PDSImageSelectionRowVC()
         
@@ -54,7 +54,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
-    init(viewModel: AddChoreViewModel) {
+    init(viewModel: CreateChoreViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -137,7 +137,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
             DispatchQueue.main.async {
                 if let errorMessage = errorMessage {
                     self?.hideLoadingIndicator {
-                        self?.showAlert(withMessage: errorMessage)
+                        self?.showAlert(alertMessage: errorMessage)
                     }
                 }
                 else {

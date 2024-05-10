@@ -79,10 +79,37 @@ class RootVC: UIViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] errorMessage in
                 LogUtil.log("from RootViewModel -- errorMessage -- \(errorMessage)")
-                
                 if let errorMessage = errorMessage {
-                    DispatchQueue.main.async {
-                        self?.showAlert(withMessage: errorMessage)
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self = self else {
+                            return
+                        }
+                        
+                        hideLoadingIndicator {
+                            if errorMessage == AuthServiceError.emailAlreadyInUse.localizedDescription {
+                                guard let topMostVC = self.current.topViewController else {
+                                    return
+                                }
+                                print(topMostVC)
+                                
+                                topMostVC.showAlert(
+                                    withTitle: "Email already in use",
+                                    alertMessage: errorMessage,
+                                    buttonTitle: "Log in",
+                                    buttonAction: {
+                                        print(self.current.viewControllers)
+                                        self.current.popToRootViewController(animated: false)
+                                        print(self.current.viewControllers)
+                                        if let landingVC = self.current.viewControllers.first as? LandingVC {
+                                            landingVC.navigateToLogIn()
+                                        }
+                                    }
+                                )
+                            }
+                            else {
+                                self.showAlert(alertMessage: errorMessage)
+                            }
+                        }
                     }
                 }
             }
@@ -118,6 +145,15 @@ class RootVC: UIViewController {
             childView.topAnchor.constraint(equalTo: view.topAnchor),
             childView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+extension RootVC {
+    func getTopVC() -> UIViewController? {
+        if let topController = current.topViewController {
+            return topController
+        }
+        return nil
     }
 }
 

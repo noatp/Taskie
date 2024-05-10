@@ -8,8 +8,13 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert(withMessage alertMessage: String) {
-        let alertVC = PDSAlertVC(alertMessage: alertMessage)
+    func showAlert(
+        withTitle alertTitle: String = "Something went wrong",
+        alertMessage: String,
+        buttonTitle: String = "Dismiss",
+        buttonAction: (() -> Void)? = nil
+    ) {
+        let alertVC = PDSAlertVC(alertTitle: alertTitle, alertMessage: alertMessage, buttonTitle: buttonTitle, buttonAction: buttonAction)
         alertVC.modalPresentationStyle = .overCurrentContext
         alertVC.modalTransitionStyle = .crossDissolve
         present(alertVC, animated: true, completion: nil)
@@ -24,7 +29,7 @@ extension UIViewController {
     }
     
     func hideLoadingIndicator(completion: (() -> Void)? = nil) {
-        if let loadingIndicatorVC = presentedViewController as? PDSLoadingIndicator {
+        if let _ = presentedViewController as? PDSLoadingIndicator {
             dismiss(animated: false, completion: completion)
         }
         else {

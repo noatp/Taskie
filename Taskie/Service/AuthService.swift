@@ -12,6 +12,7 @@ import Combine
 enum AuthServiceError: Error, LocalizedError {
     case missingInput
     case invalidEmailAddress
+    case emailAlreadyInUse
     
     var errorDescription: String? {
         switch self {
@@ -19,6 +20,8 @@ enum AuthServiceError: Error, LocalizedError {
                 return "Please enter all required fields."
             case .invalidEmailAddress:
                 return "Please enter a valid email address."
+            case .emailAlreadyInUse:
+                return "This email is associated with an existing Taskie account. If you already have an account, please log in."
         }
     }
 }
@@ -115,7 +118,13 @@ class AuthenticationService: AuthService {
                 return
             }
             
-            if let error = error {
+            if let error = error as NSError? {
+                if error.domain == AuthErrorDomain {
+                    if error.code == AuthErrorCode.emailAlreadyInUse.rawValue {
+                        self._error.send(AuthServiceError.emailAlreadyInUse)
+                        return
+                    }
+                }
                 self._error.send(error)
                 return
             }

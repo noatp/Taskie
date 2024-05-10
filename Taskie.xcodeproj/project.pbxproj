@@ -36,7 +36,7 @@
 		CA3A69A72BE2E55E009D669F /* CreateOrAddHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */; };
 		CA3A69B12BE2F1FC009D669F /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */; };
 		CA3A69B22BE2F1FC009D669F /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */; };
-		CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */; };
+		CA48864B2B9EB3E1003F22C8 /* CreateChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
 		CA4886542B9EB5A9003F22C8 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886532B9EB5A9003F22C8 /* readme.txt */; };
@@ -123,7 +123,7 @@
 		CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrAddHouseholdVC.swift; sourceTree = "<group>"; };
 		CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
-		CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChoreViewModel.swift; sourceTree = "<group>"; };
+		CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
 		CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "___VARIABLE_viewName-identifier___ViewModel.txt"; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
 				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
 				CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */,
-				CA4886492B9EB3E1003F22C8 /* AddChoreViewModel.swift */,
+				CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */,
 				CA1683EF2B9D305D0086153A /* ChoreListViewModel.swift */,
 				CA1683F12B9E70D50086153A /* LogInViewModel.swift */,
 				CA1683F32B9E73330086153A /* SignUpViewModel.swift */,
@@ -619,7 +619,7 @@
 				CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,
-				CA48864B2B9EB3E1003F22C8 /* AddChoreViewModel.swift in Sources */,
+				CA48864B2B9EB3E1003F22C8 /* CreateChoreViewModel.swift in Sources */,
 				CACE2E902BA9F5C9007FD9F2 /* Dependency.swift in Sources */,
 				CACE2E942BACA88A007FD9F2 /* ChoreDetailVC.swift in Sources */,
 				CACE2EB72BC4E11E007FD9F2 /* HouseholdMemberListVC.swift in Sources */,
@@ -782,7 +782,7 @@
 				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -820,7 +820,7 @@
 				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = ZRF6QZUXP5;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

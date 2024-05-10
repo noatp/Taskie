@@ -23,7 +23,7 @@ protocol ChoreService {
     var chores: AnyPublisher<[Chore]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     var selectedChore: AnyPublisher<Chore?, Never> { get }
-    func createChore(from choreObject: Chore) async throws
+    func createChore(from choreObject: Chore) async
     func readChores(inHousehold householdId: String)
     func readSelectedChore(choreId: String)
     func acceptSelectedChore(acceptorId: String)
@@ -169,7 +169,7 @@ class ChoreMockService: ChoreService {
         Just([.mock,.mock]).eraseToAnyPublisher()
     }
     
-    func createChore(from choreObject: Chore) async throws {}
+    func createChore(from choreObject: Chore) async {}
     
     func readChores(inHousehold householdId: String) {}
     

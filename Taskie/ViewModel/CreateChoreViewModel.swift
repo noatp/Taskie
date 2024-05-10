@@ -9,7 +9,7 @@ import Combine
 import UIKit
 import FirebaseFirestore
 
-class AddChoreViewModel: ObservableObject {
+class CreateChoreViewModel: ObservableObject {
     @Published var images: [UIImage?] = [nil]
     var choreName: String?
     var choreDescription: String?
@@ -50,26 +50,21 @@ class AddChoreViewModel: ObservableObject {
         }
         
         Task {
-            do {
-                let imageURLs = try await storageService.uploadImages(images.compactMap{$0})
-                let choreImageUrls = imageURLs.map { $0.absoluteString }
-                let choreId = UUID().uuidString
-                
-                try await choreService.createChore(from: Chore(
-                    id: choreId,
-                    name: choreName,
-                    requestor: uid,
-                    acceptor: nil,
-                    description: choreDescription,
-                    rewardAmount: choreRewardAmountDouble,
-                    imageUrls: choreImageUrls,
-                    createdDate: .init(), 
-                    finishedDate: nil
-                ))
-                completion(nil)
-            } catch {
-                completion("Error creating chore: \(error)")
-            }
+            let imageURLs = try await storageService.uploadImages(images.compactMap{$0})
+            let choreImageUrls = imageURLs.map { $0.absoluteString }
+            let choreId = UUID().uuidString
+            
+            await choreService.createChore(from: Chore(
+                id: choreId,
+                name: choreName,
+                requestor: uid,
+                acceptor: nil,
+                description: choreDescription,
+                rewardAmount: choreRewardAmountDouble,
+                imageUrls: choreImageUrls,
+                createdDate: .init(),
+                finishedDate: nil
+            ))
         }
     }
     
@@ -79,8 +74,8 @@ class AddChoreViewModel: ObservableObject {
 }
 
 extension Dependency.ViewModel {
-    func addChoreViewModel() -> AddChoreViewModel {
-        return AddChoreViewModel(
+    func addChoreViewModel() -> CreateChoreViewModel {
+        return CreateChoreViewModel(
             authService: service.authService,
             storageService: service.storageService,
             choreService: service.choreService
