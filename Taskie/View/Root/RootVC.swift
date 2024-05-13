@@ -47,8 +47,12 @@ class RootVC: UIViewController {
     private func bindViewModel() {
         viewModel.$hasUserData
             .combineLatest(viewModel.$hasHouseholdData)
+            .combineLatest(viewModel.$hasUserName)
+            .combineLatest(viewModel.$hasProfileColor)
             .receive(on: RunLoop.main)
-            .sink { [weak self] hasUserData, hasHouseholdData in
+            .sink { [weak self] (arg0, hasProfileColor) in
+                
+                let ((hasUserData, hasHouseholdData), hasUserName) = arg0
                 LogUtil.log("From RootViewModel -- hasUserData -- \(hasUserData)")
 
                 guard let self = self else {
@@ -56,7 +60,17 @@ class RootVC: UIViewController {
                 }
                 
                 if hasUserData {
-                    if hasHouseholdData {
+                    if !hasUserName {
+                        let enterNameVC = self.dependencyView.enterNameVC()
+                        let navVC = UINavigationController(rootViewController: enterNameVC)
+                        self.switchToViewController(navVC)
+                    }
+                    else if !hasProfileColor {
+                        let pickProfileColorVC = self.dependencyView.pickProfileColorVC()
+                        let navVC = UINavigationController(rootViewController: pickProfileColorVC)
+                        self.switchToViewController(navVC)
+                    }
+                    else if hasHouseholdData {
                         let choreListVC = self.dependencyView.choreListVC()
                         let navVC = UINavigationController(rootViewController: choreListVC)
                         self.switchToViewController(navVC)
@@ -85,30 +99,25 @@ class RootVC: UIViewController {
                             return
                         }
                         
-                        hideLoadingIndicator {
-                            if errorMessage == AuthServiceError.emailAlreadyInUse.localizedDescription {
-                                guard let topMostVC = self.current.topViewController else {
-                                    return
-                                }
-                                print(topMostVC)
-                                
-                                topMostVC.showAlert(
-                                    withTitle: "Email already in use",
-                                    alertMessage: errorMessage,
-                                    buttonTitle: "Log in",
-                                    buttonAction: {
-                                        print(self.current.viewControllers)
-                                        self.current.popToRootViewController(animated: false)
-                                        print(self.current.viewControllers)
-                                        if let landingVC = self.current.viewControllers.first as? LandingVC {
-                                            landingVC.navigateToLogIn()
-                                        }
+                        if errorMessage == AuthServiceError.emailAlreadyInUse.localizedDescription {
+                            guard let topMostVC = self.current.topViewController else {
+                                return
+                            }
+                            
+                            topMostVC.showAlert(
+                                withTitle: "Email already in use",
+                                alertMessage: errorMessage,
+                                buttonTitle: "Log in",
+                                buttonAction: {
+                                    self.current.popToRootViewController(animated: false)
+                                    if let landingVC = self.current.viewControllers.first as? LandingVC {
+                                        landingVC.navigateToLogIn()
                                     }
-                                )
-                            }
-                            else {
-                                self.showAlert(alertMessage: errorMessage)
-                            }
+                                }
+                            )
+                        }
+                        else {
+                            self.showAlert(alertMessage: errorMessage)
                         }
                     }
                 }

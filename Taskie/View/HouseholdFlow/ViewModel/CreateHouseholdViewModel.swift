@@ -37,7 +37,7 @@ class CreateHouseholdViewModel: ObservableObject {
         guard let currentUser = curentUser else {
             return
         }
-        let decentralizedUser = DecentrailizedUser(id: currentUser.id, name: currentUser.name)
+        let decentralizedUser = DecentrailizedUser(id: currentUser.id, name: currentUser.name, profileColor: currentUser.profileColor)
         householdService.createHousehold(forUser: decentralizedUser, withHouseholdTag: tag)
     }
 }

@@ -17,7 +17,7 @@ import SwiftUI
 import Combine
 
 class PickProfileColorVC: PDSTitleWrapperVC {
-    private let viewModel: SignUpViewModel
+    private let viewModel: PickProfileColorViewModel
     private var cancellables: Set<AnyCancellable> = []
     
     private lazy var emailPrompt: PDSLabel = {
@@ -31,7 +31,7 @@ class PickProfileColorVC: PDSTitleWrapperVC {
     private lazy var smileyFace: UIImageView = {
         let image = UIImage(named: "smileyFace")
         let imageView = UIImageView(image: image)
-        imageView.backgroundColor = .orange
+        imageView.backgroundColor = .gray
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,13 +52,7 @@ class PickProfileColorVC: PDSTitleWrapperVC {
         return button
     }()
     
-    private lazy var backBarButton: PDSIconBarButton = {
-        let button = PDSIconBarButton(systemName: "chevron.left")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    init(viewModel: SignUpViewModel) {
+    init(viewModel: PickProfileColorViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -86,7 +80,7 @@ class PickProfileColorVC: PDSTitleWrapperVC {
                     case .notChecked:
                         break
                     case .checked:
-                        self.viewModel.signUp()
+                        break
                     case .invalid(errorMessage: let errorMessage):
                         showAlert(alertMessage: errorMessage)
                 }
@@ -131,11 +125,11 @@ class PickProfileColorVC: PDSTitleWrapperVC {
     
     private func setUpActions() {
         pickColorButton.addTarget(self, action: #selector(presentColorPicker), for: .touchUpInside)
-        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
+        continueButton.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
     }
     
     @objc func handleContinue() {
+        viewModel.updateUserWithProfileColor(smileyFace.backgroundColor?.hexString)
     }
     
     @objc func handleBack() {
@@ -176,7 +170,7 @@ struct PickProfileColorVC_Previews: PreviewProvider {
 extension Dependency.View {
     func pickProfileColorVC() -> PickProfileColorVC {
         return PickProfileColorVC(
-            viewModel: viewModel.signUpViewModel()
+            viewModel: viewModel.pickProfileColorViewModel()
         )
     }
 }

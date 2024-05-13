@@ -26,4 +26,16 @@ extension UIColor {
 
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
+    
+    var hexString: String? {
+        guard let components = cgColor.components, components.count >= 3 else {
+            return nil
+        }
+        let r = Float(components[0])
+        let g = Float(components[1])
+        let b = Float(components[2])
+        let a = components.count >= 4 ? Float(components[3]) : 1.0
+        return String(format: "#%02lX%02lX%02lX%02lX",
+                      lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
+    }
 }

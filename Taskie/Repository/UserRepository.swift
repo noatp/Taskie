@@ -118,6 +118,28 @@ class UserRepository {
         }
     }
     
+    func updateUser(atUserId userId: String, withName name: String) async {
+        let userDocRef = db.collection("users").document(userId)
+        
+        do {
+            try await userDocRef.updateData(["name": name])
+        } catch {
+            LogUtil.log("Error updating user name: \(error.localizedDescription)")
+            self._error.send(error)
+        }
+    }
+    
+    func updateUser(atUserId userId: String, withProfileColor profileColor: String) async {
+        let userDocRef = db.collection("users").document(userId)
+        
+        do {
+            try await userDocRef.updateData(["profileColor": profileColor])
+        } catch {
+            LogUtil.log("Error updating user profileColor: \(error.localizedDescription)")
+            self._error.send(error)
+        }
+    }
+    
     func reset() {
         LogUtil.log("UserRepository -- resetting")
         householdMemberCollectionListener?.remove()

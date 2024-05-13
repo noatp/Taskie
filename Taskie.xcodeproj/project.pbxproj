@@ -84,6 +84,8 @@
 		CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */; };
 		CACE2EC52BD9CE30007FD9F2 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */; };
 		CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */; };
+		CADCE5052BEDD2E40026AC9E /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */; };
+		CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -173,6 +175,8 @@
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
 		CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorVC.swift; sourceTree = "<group>"; };
+		CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
+		CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorViewModel.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,25 +235,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CA1683EE2B9D301A0086153A /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */,
-				CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */,
-				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
-				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
-				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
-				CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */,
-				CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */,
-				CA1683EF2B9D305D0086153A /* ChoreListViewModel.swift */,
-				CA1683F12B9E70D50086153A /* LogInViewModel.swift */,
-				CA1683F32B9E73330086153A /* SignUpViewModel.swift */,
-				CA1683F52B9E74D60086153A /* RootViewModel.swift */,
-				CA1683F72B9E80910086153A /* MenuViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		CA26D06F2BE016FC002B5962 /* UniversalLink */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,9 +246,9 @@
 		CA3A69A82BE2F0F0009D669F /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE50C2BEDD88E0026AC9E /* Landing */,
+				CADCE50A2BEDD86F0026AC9E /* LogIn */,
 				CA7AA9662BEB274F004B1267 /* SignUp */,
-				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
-				CA7C69BA2B846843005B3CF2 /* LogInVC.swift */,
 			);
 			path = AuthFlow;
 			sourceTree = "<group>";
@@ -271,6 +256,7 @@
 		CA3A69A92BE2F102009D669F /* ChoreFlow */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE50D2BEDD8A50026AC9E /* ViewModel */,
 				CA7C69BE2B8C2FCD005B3CF2 /* ChoreListVC.swift */,
 				CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */,
 				CACE2E922BACA88A007FD9F2 /* ChoreDetailVC.swift */,
@@ -281,6 +267,7 @@
 		CA3A69AA2BE2F14C009D669F /* HouseholdFlow */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE5062BEDD7800026AC9E /* ViewModel */,
 				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
 				CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */,
 				CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */,
@@ -303,6 +290,7 @@
 		CA7AA9662BEB274F004B1267 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE5072BEDD7A80026AC9E /* ViewModel */,
 				CA7C69B82B846236005B3CF2 /* PickEmailVC.swift */,
 				CA7AA9672BEB2772004B1267 /* PickPasswordVC.swift */,
 				CA7AA9692BEB3352004B1267 /* EnterNameVC.swift */,
@@ -314,13 +302,13 @@
 		CA7C69B42B8456A5005B3CF2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE50E2BEDD8C80026AC9E /* Root */,
+				CADCE50F2BEDD8DA0026AC9E /* Menu */,
 				CA3A69AA2BE2F14C009D669F /* HouseholdFlow */,
 				CA3A69A92BE2F102009D669F /* ChoreFlow */,
 				CA3A69A82BE2F0F0009D669F /* AuthFlow */,
 				CA7E33032B8CEF8200CA7B20 /* Theme */,
 				CA7C69C52B8C3E4D005B3CF2 /* Component */,
-				CAEAEB772B840DE40056A0F1 /* RootVC.swift */,
-				CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -406,6 +394,73 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		CADCE5062BEDD7800026AC9E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */,
+				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
+				CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */,
+				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CADCE5072BEDD7A80026AC9E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */,
+				CA1683F32B9E73330086153A /* SignUpViewModel.swift */,
+				CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CADCE50A2BEDD86F0026AC9E /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				CA1683F12B9E70D50086153A /* LogInViewModel.swift */,
+				CA7C69BA2B846843005B3CF2 /* LogInVC.swift */,
+			);
+			path = LogIn;
+			sourceTree = "<group>";
+		};
+		CADCE50C2BEDD88E0026AC9E /* Landing */ = {
+			isa = PBXGroup;
+			children = (
+				CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */,
+				CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */,
+			);
+			path = Landing;
+			sourceTree = "<group>";
+		};
+		CADCE50D2BEDD8A50026AC9E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CA1683EF2B9D305D0086153A /* ChoreListViewModel.swift */,
+				CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */,
+				CACE2E912BACA88A007FD9F2 /* ChoreDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CADCE50E2BEDD8C80026AC9E /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				CAEAEB772B840DE40056A0F1 /* RootVC.swift */,
+				CA1683F52B9E74D60086153A /* RootViewModel.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		CADCE50F2BEDD8DA0026AC9E /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C69C02B8C2FDD005B3CF2 /* MenuVC.swift */,
+				CA1683F72B9E80910086153A /* MenuViewModel.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		CAEAEB672B840DE40056A0F1 = {
 			isa = PBXGroup;
 			children = (
@@ -435,7 +490,6 @@
 				CA7C69B52B8456B9005B3CF2 /* Service */,
 				CA1683E52B8D42500086153A /* Model */,
 				CA48864E2B9EB483003F22C8 /* Xcode Template */,
-				CA1683EE2B9D301A0086153A /* ViewModel */,
 				CA7C69B42B8456A5005B3CF2 /* View */,
 				CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */,
 				CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */,
@@ -580,6 +634,7 @@
 				CACE2EA42BC381AC007FD9F2 /* PDSIconBarButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdRepository.swift in Sources */,
 				CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */,
+				CADCE5052BEDD2E40026AC9E /* EnterNameViewModel.swift in Sources */,
 				CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */,
 				CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */,
 				CA7C69CB2B8C49E0005B3CF2 /* PDSTextField.swift in Sources */,
@@ -616,6 +671,7 @@
 				CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */,
 				CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */,
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
+				CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */,
 				CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */,
 				CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */,
 				CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */,

@@ -57,7 +57,7 @@ class ChoreDetailViewModel: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     self?.choreDetail = ChoreForDetailView(
                         name: chore.name,
-                        requestorName: requestor.name,
+                        requestorName: requestor.name ?? "",
                         acceptorName: acceptor?.name,
                         description: chore.description,
                         rewardAmount: chore.rewardAmount,
@@ -75,7 +75,7 @@ class ChoreDetailViewModel: ObservableObject {
     }
     
     private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> ChoreForDetailView.actionButtonType? {
-        if let finishedDate = finishedDate {
+        if finishedDate != nil {
             return .nothing
         }
         else {

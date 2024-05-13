@@ -83,16 +83,7 @@ class SignUpViewModel: ObservableObject {
         }
         
         authService.cachePassowrdForSignUp(password)
-        self.infoState = .checked
-    }
-    
-    func checkNameForSignUp(_ name: String?) {
-        guard let name = name, !name.isEmpty else {
-            self.infoState = .invalid(errorMessage: "Please enter your name.")
-            return
-        }
-        
-        authService.cacheNameForSignUp(name)
+        self.signUp()
         self.infoState = .checked
     }
     

@@ -38,7 +38,6 @@ protocol AuthService {
     func setHouseholdIdFromUniversalLink(householdId: String)
     func cacheEmailAddressForSignUp(_ email: String)
     func cachePassowrdForSignUp(_ password: String)
-    func cacheNameForSignUp(_ name: String)
 }
 
 class AuthenticationService: AuthService {
@@ -51,7 +50,6 @@ class AuthenticationService: AuthService {
     private var householdIdFromUniversalLink: String?
     private var emailAddressForSignUp: String?
     private var passwordForSignUp: String?
-    private var nameForSignUp: String?
     
     var isUserLoggedIn: AnyPublisher<Bool, Never> {
         _isUserLoggedIn.eraseToAnyPublisher()
@@ -105,9 +103,7 @@ class AuthenticationService: AuthService {
     
     func signUp() {
         guard let email = emailAddressForSignUp,
-              let password = passwordForSignUp,
-              let name = nameForSignUp,
-              !name.isEmpty
+              let password = passwordForSignUp
         else {
             self._error.send(AuthServiceError.missingInput)
             return
@@ -132,11 +128,11 @@ class AuthenticationService: AuthService {
                 self.checkCurentAuthSession { currentUserId in
                     Task {
                         if let householdId = await self.readInvitationForHouseholdId(withEmail: email) {
-                            await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: householdId, role: .parent))
-                            await self.userRepository.createUserInHouseholdSub(householdId: householdId, withUser: .init(id: currentUserId, name: name))
+                            await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: householdId, role: .parent, profileColor: nil))
+                            await self.userRepository.createUserInHouseholdSub(householdId: householdId, withUser: .init(id: currentUserId, name: nil))
                         }
                         else {
-                            await self.userRepository.createUser(from: User(name: name, id: currentUserId, householdId: nil, role: .parent))
+                            await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil))
                         }
                         self.userRepository.readUser(withId: currentUserId)
                     }
@@ -217,10 +213,6 @@ class AuthenticationService: AuthService {
         self.passwordForSignUp = password
     }
     
-    func cacheNameForSignUp(_ name: String) {
-        self.nameForSignUp = name
-    }
-    
     func resetUserRepository() {
         userRepository.reset()
     }
@@ -254,8 +246,6 @@ class AuthMockService: AuthService {
     func cacheEmailAddressForSignUp(_ email: String) {}
     
     func cachePassowrdForSignUp(_ password: String) {}
-    
-    func cacheNameForSignUp(_ name: String) {}
-    
+        
     var currentUserId: String? = ""
 }

@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 class EnterNameVC: PDSResizeWithKeyboardVC {
-    private let viewModel: SignUpViewModel
+    private let viewModel: EnterNameViewModel
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var emailPrompt: PDSLabel = {
@@ -43,13 +43,7 @@ class EnterNameVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
-    private lazy var backBarButton: PDSIconBarButton = {
-        let button = PDSIconBarButton(systemName: "chevron.left")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    init(viewModel: SignUpViewModel) {
+    init(viewModel: EnterNameViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -81,7 +75,7 @@ class EnterNameVC: PDSResizeWithKeyboardVC {
                     case .notChecked:
                         break
                     case .checked:
-                        self.viewModel.signUp()
+                        break
                     case .invalid(errorMessage: let errorMessage):
                         showAlert(alertMessage: errorMessage)
                 }
@@ -118,8 +112,6 @@ class EnterNameVC: PDSResizeWithKeyboardVC {
     
     private func setUpActions() {
         continueButton.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
-        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleContinue() {
@@ -146,7 +138,7 @@ struct EnterNameVC_Previews: PreviewProvider {
 extension Dependency.View {
     func enterNameVC() -> EnterNameVC {
         return EnterNameVC(
-            viewModel: viewModel.signUpViewModel()
+            viewModel: viewModel.enterNameViewModel()
         )
     }
 }

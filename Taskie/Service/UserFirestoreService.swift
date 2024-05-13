@@ -24,6 +24,8 @@ protocol UserService {
     var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser?
+    func updateUserWithName(_ name: String)
+    func updateUserWithProfileColor(_ profileColor: String)
 }
 
 class UserFirestoreService: UserService {
@@ -100,6 +102,24 @@ class UserFirestoreService: UserService {
     func readFamilyMembersInHousehold(withHouseholdId householdId: String) {
         userRepository.readMembers(inHousehold: householdId)
     }
+    
+    func updateUserWithName(_ name: String) {
+        Task {
+            guard let currentUserId = _user.value?.id else {
+                return
+            }
+            await userRepository.updateUser(atUserId: currentUserId, withName: name)
+        }
+    }
+    
+    func updateUserWithProfileColor(_ profileColor: String) {
+        Task {
+            guard let currentUserId = _user.value?.id else {
+                return
+            }
+            await userRepository.updateUser(atUserId: currentUserId, withProfileColor: profileColor)
+        }
+    }
 }
 
 class UserMockService: UserService {
@@ -119,4 +139,10 @@ class UserMockService: UserService {
     }
     
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {return .mock}
+    
+    func updateUserWithName(_ name: String) {}
+    
+    func updateUserWithProfileColor(_ profileColor: String) {}
+    
+    
 }

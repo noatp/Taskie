@@ -89,8 +89,7 @@ class PickPasswordVC: PDSResizeWithKeyboardVC {
                     case .notChecked:
                         break
                     case .checked:
-                        self.navigateToEnterName()
-                    
+                        break
                     case .invalid(errorMessage: let errorMessage):
                         self.showAlert(alertMessage: errorMessage)
                 }
@@ -131,10 +130,10 @@ class PickPasswordVC: PDSResizeWithKeyboardVC {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
-    private func navigateToEnterName() {
-        let enterNameVC = dependencyView.enterNameVC()
-        navigationController?.pushViewController(enterNameVC, animated: true)
-    }
+//    private func navigateToEnterName() {
+//        let enterNameVC = dependencyView.enterNameVC()
+//        navigationController?.pushViewController(enterNameVC, animated: true)
+//    }
     
     @objc func handleContinue() {
         viewModel.checkPasswordForSignUp(passwordTextField.text)

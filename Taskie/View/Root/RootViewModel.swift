@@ -11,6 +11,8 @@ import Combine
 class RootViewModel: ObservableObject {
     @Published var hasHouseholdData: Bool = false
     @Published var hasUserData: Bool = false
+    @Published var hasUserName: Bool = false
+    @Published var hasProfileColor: Bool = false
     @Published var errorMessage: String? = nil
     
     private var cancellables: Set<AnyCancellable> = []
@@ -51,6 +53,20 @@ class RootViewModel: ObservableObject {
             LogUtil.log("From UserService -- user -- \(user)")
             if let user = user {
                 self?.hasUserData = true
+                
+                if let userName = user.name {
+                    self?.hasUserName = true
+                }
+                else {
+                    self?.hasUserName = false
+                }
+                
+                if let userProfileColor = user.profileColor {
+                    self?.hasProfileColor = true
+                }
+                else {
+                    self?.hasProfileColor = false
+                }
             }
             else {
                 self?.hasUserData = false
