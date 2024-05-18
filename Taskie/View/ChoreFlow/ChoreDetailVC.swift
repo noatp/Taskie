@@ -299,7 +299,7 @@ struct ChoreDetailVC_Previews: PreviewProvider {
             let choreDetailVC = Dependency.preview.view.choreDetailVC()
             let navVC = UINavigationController(rootViewController: choreDetailVC)
             DispatchQueue.main.async {
-                baseVC.present(navVC, animated: true, completion: nil)
+                baseVC.present(navVC, animated: true)
             }
             
             return baseVC

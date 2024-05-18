@@ -108,7 +108,7 @@ class PDSAlertVC: UIViewController {
             if let buttonAction = self?.buttonAction {
                 buttonAction()
             }
-            self?.dismiss(animated: true, completion: nil)
+            self?.dismiss(animated: true)
         }
     }
 }

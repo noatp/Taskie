@@ -79,6 +79,25 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
                 self?.imageSelectionRowVC.images = images
             }
             .store(in: &cancellables)
+        
+        viewModel.$createChoreResult
+            .receive(on: RunLoop.main)
+            .sink { [weak self] createChoreResult in
+                guard let createChoreResult = createChoreResult else {
+                    return
+                }
+                switch createChoreResult {
+                    case .success():
+                        self?.hideLoadingIndicator {
+                            self?.dismiss(animated: true)
+                        }
+                    case .failure(let error):
+                        self?.hideLoadingIndicator {
+                            self?.showAlert(alertMessage: error.localizedDescription)
+                        }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func setUpViews() {
@@ -133,21 +152,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
         viewModel.choreDescription = choreDescriptionTextField.text
         viewModel.choreRewardAmount = choreRewardAmountTextField.text
         
-        viewModel.createChore { [weak self] errorMessage in
-            DispatchQueue.main.async {
-                if let errorMessage = errorMessage {
-                    self?.hideLoadingIndicator {
-                        self?.showAlert(alertMessage: errorMessage)
-                    }
-                }
-                else {
-                    self?.hideLoadingIndicator {
-                        self?.dismiss(animated: true)
-                    }
-                    
-                }
-            }
-        }
+        viewModel.createChore()
     }
     
     @objc func handleCancel() {
@@ -201,7 +206,7 @@ extension CreateChoreVC: UIImagePickerControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Handle cancellation
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
 }
 
@@ -214,7 +219,7 @@ struct AddChoreVC_Previews: PreviewProvider {
             let addChoreVC = Dependency.preview.view.addChoreVC()
             let navVC = UINavigationController(rootViewController: addChoreVC)
             DispatchQueue.main.async {
-                baseVC.present(navVC, animated: true, completion: nil)
+                baseVC.present(navVC, animated: true)
             }
             
             return baseVC

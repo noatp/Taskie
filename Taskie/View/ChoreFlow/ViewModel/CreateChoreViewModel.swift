@@ -9,8 +9,30 @@ import Combine
 import UIKit
 import FirebaseFirestore
 
+enum CreateChoreViewModelError: Error, LocalizedError {
+    case missingName
+    case invalidAmount
+    case missingDescription
+    case noCurrentUser
+    
+    var errorDescription: String? {
+        switch self {
+            case .missingName:
+                return "Please enter a name for this task."
+            case .invalidAmount:
+                return "Please enter a valid reward amount for this task."
+            case .missingDescription:
+                return "Please enter a description for this task."
+            case .noCurrentUser:
+                return "Something went wrong. Please try again later!"
+        }
+    }
+}
+
 class CreateChoreViewModel: ObservableObject {
     @Published var images: [UIImage?] = [nil]
+    @Published var createChoreResult: Result<Void, Error>?
+    
     var choreName: String?
     var choreDescription: String?
     var choreRewardAmount: String?
@@ -28,24 +50,23 @@ class CreateChoreViewModel: ObservableObject {
         self.choreService = choreService
     }
     
-    func createChore(completion: @escaping (_ errorMessage: String?) -> Void) {
+    func createChore() {
+        guard let uid = authService.currentUserId else {
+            createChoreResult = .failure(CreateChoreViewModelError.noCurrentUser)
+            return
+        }
         guard let choreName = choreName, !choreName.isEmpty else {
-            completion("Please enter a name for this chore.")
+            createChoreResult = .failure(CreateChoreViewModelError.missingName)
             return
         }
         guard let choreRewardAmount = choreRewardAmount?.stripDollarSign(),
               choreRewardAmount != StringConstant.emptyString,
               let choreRewardAmountDouble = Double(choreRewardAmount.stripDollarSign()) else {
-            completion("Please enter a valid reward amount for this chore.")
+            createChoreResult = .failure(CreateChoreViewModelError.invalidAmount)
             return
         }
-        guard let choreDescription = choreDescription else {
-            completion(StringConstant.emptyString)
-            return
-        }
-        
-        guard let uid = authService.currentUserId else {
-            completion("Something went wrong. Please try again later!")
+        guard let choreDescription = choreDescription, !choreDescription.isEmpty else {
+            createChoreResult = .failure(CreateChoreViewModelError.missingDescription)
             return
         }
         
@@ -66,7 +87,7 @@ class CreateChoreViewModel: ObservableObject {
                 finishedDate: nil
             ))
             
-            completion(nil)
+            createChoreResult = .success(())
         }
     }
     

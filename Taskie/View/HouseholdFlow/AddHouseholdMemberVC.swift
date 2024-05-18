@@ -119,7 +119,7 @@ struct AddHouseholdMemberVC_Previews: PreviewProvider {
             let addHouseholdMemberVC = Dependency.preview.view.addHouseholdMemberVC()
             let navVC = UINavigationController(rootViewController: addHouseholdMemberVC)
             DispatchQueue.main.async {
-                baseVC.present(navVC, animated: true, completion: nil)
+                baseVC.present(navVC, animated: true)
             }
             
             return baseVC
