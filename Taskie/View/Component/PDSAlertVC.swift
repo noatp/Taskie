@@ -9,26 +9,18 @@ import UIKit
 import SwiftUI
 
 class PDSAlertVC: UIViewController {
-    private let alertTitle: String
-    private let alertMessage: String
-    private let buttonTitle: String?
-    private let buttonAction: (() -> ())?
+    private var buttonAction: (() -> ())? = nil
     
-    init(
+    func configureAlert(
         alertTitle: String,
         alertMessage: String,
         buttonTitle: String,
-        buttonAction: (() -> ())?
+        buttonAction: @escaping (() -> ())
     ) {
-        self.alertMessage = alertMessage
-        self.alertTitle = alertTitle
-        self.buttonTitle = buttonTitle
+        titleLabel.text = alertTitle
+        messageLabel.text = alertMessage
+        actionButton.setTitle(buttonTitle, for: .normal)
         self.buttonAction = buttonAction
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private let backgroundView: UIView = {
@@ -75,10 +67,6 @@ class PDSAlertVC: UIViewController {
     
     private func setUpViews() {
         ThemeManager.shared.register(self)
-        
-        titleLabel.text = alertTitle
-        messageLabel.text = alertMessage
-        actionButton.setTitle(buttonTitle, for: .normal)
         
         view.addSubview(backgroundView)
         view.addSubview(alertView)
@@ -137,12 +125,7 @@ extension PDSAlertVC: Themable {
 struct AlertVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
-            PDSAlertVC(
-                alertTitle: "Something went wrong",
-                alertMessage: "This is a custom alert message. This is a long text to test text wrapping.",
-                buttonTitle: "Dismiss",
-                buttonAction: nil
-            )
+            PDSAlertVC()
         }
     }
 }

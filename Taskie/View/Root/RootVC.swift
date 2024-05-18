@@ -98,14 +98,14 @@ class RootVC: UIViewController {
                         guard let self = self else {
                             return
                         }
-                        
+                        hideLoadingIndicator()
                         if errorMessage == AuthServiceError.emailAlreadyInUse.localizedDescription {
                             guard let topMostVC = self.current.topViewController else {
                                 return
                             }
                             
-                            topMostVC.showAlert(
-                                withTitle: "Email already in use",
+                            ErrorWindow.shared.showError(
+                                alertTitle: "Email already in use",
                                 alertMessage: errorMessage,
                                 buttonTitle: "Log in",
                                 buttonAction: {
@@ -117,7 +117,7 @@ class RootVC: UIViewController {
                             )
                         }
                         else {
-                            self.showAlert(alertMessage: errorMessage)
+                            ErrorWindow.shared.showError(alertMessage: errorMessage)
                         }
                     }
                 }

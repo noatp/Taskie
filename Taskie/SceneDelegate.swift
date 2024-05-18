@@ -24,6 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = rootViewController
         self.window = window
         window.makeKeyAndVisible()
+        
+        ErrorWindow.shared.windowScene = windowScene
+        ErrorWindow.shared.isHidden = true
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
