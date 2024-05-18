@@ -42,17 +42,17 @@ class ChoreDetailViewModel: ObservableObject {
         Task {
             do {
                 
-                guard let requestor = try await userDetail(withId: chore.requestor),
+                guard let requestor = try await userDetail(withId: chore.requestorID),
                       let actionButtonType = determineActionType(
-                        requestorId: chore.requestor,
-                        acceptorId: chore.acceptor,
+                        requestorId: chore.requestorID,
+                        acceptorId: chore.acceptorID,
                         finishedDate: chore.finishedDate
                       )
                 else {
                     return
                 }
-                let acceptor = try await userDetail(withId: chore.acceptor)
-                let choreStatus = self.determineChoreStatus(acceptorId: chore.acceptor, finishedDate: chore.finishedDate)
+                let acceptor = try await userDetail(withId: chore.acceptorID)
+                let choreStatus = self.determineChoreStatus(acceptorId: chore.acceptorID, finishedDate: chore.finishedDate)
                    
                 DispatchQueue.main.async { [weak self] in
                     self?.choreDetail = ChoreForDetailView(
@@ -125,7 +125,7 @@ class ChoreDetailViewModel: ObservableObject {
         
         if let familyMember = try await userService.readFamilyMember(withId: lookUpId) {
             if lookUpId == currentUserId {
-                userDetail = .init(id: familyMember.id, name: "You")
+                userDetail = .init(id: familyMember.id, name: "You", profileColor: familyMember.profileColor)
             }
             else {
                 userDetail = familyMember

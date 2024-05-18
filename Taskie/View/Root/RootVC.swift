@@ -95,34 +95,25 @@ class RootVC: UIViewController {
                 LogUtil.log("from RootViewModel -- errorMessage -- \(errorMessage)")
                 if let errorMessage = errorMessage {
                     DispatchQueue.main.async { [weak self] in
-                        guard let self = self else {
-                            return
-                        }
-                        hideLoadingIndicator()
-                        if errorMessage == AuthServiceError.emailAlreadyInUse.localizedDescription {
-                            guard let topMostVC = self.current.topViewController else {
-                                return
-                            }
-                            
-                            ErrorWindow.shared.showError(
-                                alertTitle: "Email already in use",
-                                alertMessage: errorMessage,
-                                buttonTitle: "Log in",
-                                buttonAction: {
-                                    self.current.popToRootViewController(animated: false)
-                                    if let landingVC = self.current.viewControllers.first as? LandingVC {
-                                        landingVC.navigateToLogIn()
-                                    }
-                                }
-                            )
-                        }
-                        else {
-                            ErrorWindow.shared.showError(alertMessage: errorMessage)
-                        }
+                        self?.displayErrorMessage(errorMessage)
                     }
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    private func displayErrorMessage(_ errorMessage: String) {
+        switch errorMessage {
+            case AuthServiceError.emailAlreadyInUse.localizedDescription:
+                self.showAlert(withTitle: "Email already in use", alertMessage: errorMessage, buttonTitle: "Log in"){
+                    self.current.popToRootViewController(animated: false)
+                    if let landingVC = self.current.viewControllers.first as? LandingVC {
+                        landingVC.navigateToLogIn()
+                    }
+                }
+            default:
+                ErrorWindow.shared.showAlert(alertMessage: errorMessage)
+        }
     }
     
     private func switchToViewController(_ newVC: UINavigationController) {

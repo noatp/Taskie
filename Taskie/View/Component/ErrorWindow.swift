@@ -25,7 +25,7 @@ class ErrorWindow: UIWindow {
         rootViewController = PDSAlertVC()
     }
     
-    func showError(alertTitle: String = "", alertMessage: String, buttonTitle: String = "Dismiss", buttonAction: (() -> ())? = nil) {
+    func showAlert(alertTitle: String = "", alertMessage: String, buttonTitle: String = "Dismiss", buttonAction: (() -> ())? = nil) {
         guard let alertVC = rootViewController as? PDSAlertVC else {
             return
         }

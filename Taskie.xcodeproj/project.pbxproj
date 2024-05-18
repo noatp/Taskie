@@ -86,6 +86,7 @@
 		CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */; };
 		CADCE5052BEDD2E40026AC9E /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */; };
 		CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */; };
+		CADCE5132BF852AC0026AC9E /* ErrorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5122BF852AC0026AC9E /* ErrorWindow.swift */; };
 		CAEAEB742B840DE40056A0F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */; };
 		CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */; };
 		CAEAEB782B840DE40056A0F1 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEAEB772B840DE40056A0F1 /* RootVC.swift */; };
@@ -177,6 +178,7 @@
 		CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorVC.swift; sourceTree = "<group>"; };
 		CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
 		CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorViewModel.swift; sourceTree = "<group>"; };
+		CADCE5122BF852AC0026AC9E /* ErrorWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorWindow.swift; sourceTree = "<group>"; };
 		CAEAEB702B840DE40056A0F1 /* Taskie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEAEB732B840DE40056A0F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEAEB752B840DE40056A0F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 		CA7C69C52B8C3E4D005B3CF2 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				CADCE5122BF852AC0026AC9E /* ErrorWindow.swift */,
 				CA7C69C62B8C3E96005B3CF2 /* PDSPrimaryButton.swift */,
 				CA7E32FF2B8C580300CA7B20 /* PDSSecondaryButton.swift */,
 				CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */,
@@ -660,6 +663,7 @@
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreRepository.swift in Sources */,
 				CA7AA9682BEB2772004B1267 /* PickPasswordVC.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
+				CADCE5132BF852AC0026AC9E /* ErrorWindow.swift in Sources */,
 				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* PickEmailVC.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,

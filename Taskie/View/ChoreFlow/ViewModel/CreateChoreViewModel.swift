@@ -36,7 +36,7 @@ class CreateChoreViewModel: ObservableObject {
         guard let choreRewardAmount = choreRewardAmount?.stripDollarSign(),
               choreRewardAmount != StringConstant.emptyString,
               let choreRewardAmountDouble = Double(choreRewardAmount.stripDollarSign()) else {
-            completion("Please enter a reward amount for this chore.")
+            completion("Please enter a valid reward amount for this chore.")
             return
         }
         guard let choreDescription = choreDescription else {
@@ -57,14 +57,16 @@ class CreateChoreViewModel: ObservableObject {
             await choreService.createChore(from: Chore(
                 id: choreId,
                 name: choreName,
-                requestor: uid,
-                acceptor: nil,
+                requestorID: uid,
+                acceptorID: nil,
                 description: choreDescription,
                 rewardAmount: choreRewardAmountDouble,
                 imageUrls: choreImageUrls,
                 createdDate: .init(),
                 finishedDate: nil
             ))
+            
+            completion(nil)
         }
     }
     
