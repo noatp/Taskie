@@ -31,7 +31,7 @@ enum CreateChoreViewModelError: Error, LocalizedError {
 
 class CreateChoreViewModel: ObservableObject {
     @Published var images: [UIImage?] = [nil]
-    @Published var createChoreResult: Result<Void, Error>?
+    @Published var createChoreResult: Result<Void, CreateChoreViewModelError>?
     
     var choreName: String?
     var choreDescription: String?
@@ -52,21 +52,21 @@ class CreateChoreViewModel: ObservableObject {
     
     func createChore() {
         guard let uid = authService.currentUserId else {
-            createChoreResult = .failure(CreateChoreViewModelError.noCurrentUser)
+            createChoreResult = .failure(.noCurrentUser)
             return
         }
         guard let choreName = choreName, !choreName.isEmpty else {
-            createChoreResult = .failure(CreateChoreViewModelError.missingName)
+            createChoreResult = .failure(.missingName)
             return
         }
         guard let choreRewardAmount = choreRewardAmount?.stripDollarSign(),
               choreRewardAmount != StringConstant.emptyString,
               let choreRewardAmountDouble = Double(choreRewardAmount.stripDollarSign()) else {
-            createChoreResult = .failure(CreateChoreViewModelError.invalidAmount)
+            createChoreResult = .failure(.invalidAmount)
             return
         }
         guard let choreDescription = choreDescription, !choreDescription.isEmpty else {
-            createChoreResult = .failure(CreateChoreViewModelError.missingDescription)
+            createChoreResult = .failure(.missingDescription)
             return
         }
         
