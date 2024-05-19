@@ -53,12 +53,13 @@ class ChoreDetailViewModel: ObservableObject {
                 }
                 let acceptor = try await userDetail(withId: chore.acceptorID)
                 let choreStatus = self.determineChoreStatus(acceptorId: chore.acceptorID, finishedDate: chore.finishedDate)
-                   
                 DispatchQueue.main.async { [weak self] in
                     self?.choreDetail = ChoreForDetailView(
                         name: chore.name,
                         requestorName: requestor.name ?? "",
+                        requestorProfileColor: requestor.profileColor ?? "",
                         acceptorName: acceptor?.name,
+                        acceptorProfileColor: acceptor?.profileColor,
                         description: chore.description,
                         rewardAmount: chore.rewardAmount,
                         imageUrls: chore.imageUrls,

@@ -54,7 +54,9 @@ struct ChoreForDetailView {
     static let empty: ChoreForDetailView = .init(
         name: "",
         requestorName: "",
+        requestorProfileColor: "",
         acceptorName: "",
+        acceptorProfileColor: nil,
         description: "",
         rewardAmount: 0.0,
         imageUrls: [],
@@ -66,7 +68,9 @@ struct ChoreForDetailView {
     )
     let name: String
     let requestorName: String
+    let requestorProfileColor: String
     let acceptorName: String?
+    let acceptorProfileColor: String?
     let description: String
     let rewardAmount: Double
     let imageUrls: [String]

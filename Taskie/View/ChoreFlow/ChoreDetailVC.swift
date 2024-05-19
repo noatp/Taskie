@@ -56,10 +56,10 @@ class ChoreDetailVC: UIViewController, Themable {
         return label
     }()
     
-    private let requestorLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let requestorCard: UserCard = {
+        let userCard = UserCard()
+        userCard.translatesAutoresizingMaskIntoConstraints = false
+        return userCard
     }()
     
     private let acceptedByLabel: PDSLabel = {
@@ -68,10 +68,10 @@ class ChoreDetailVC: UIViewController, Themable {
         return label
     }()
     
-    private let acceptorLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let acceptorCard: UserCard = {
+        let userCard = UserCard()
+        userCard.translatesAutoresizingMaskIntoConstraints = false
+        return userCard
     }()
     
     private let createdDateLabel: PDSLabel = {
@@ -139,18 +139,23 @@ class ChoreDetailVC: UIViewController, Themable {
                 self.descriptionDetailLabel.text = chore.description
                 self.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self.swipableImageRowVC.imageUrls = chore.imageUrls
-                self.requestorLabel.text = chore.requestorName
+                self.requestorCard.configure(
+                    withUserName: chore.requestorName,
+                    profileColor: .init(hex: chore.requestorProfileColor)
+                )
                 self.createdDateLabel.text = chore.createdDate
                 self.choreStatusLabel.text = chore.choreStatus
                 
-                if let acceptorName = chore.acceptorName {
+                if let acceptorName = chore.acceptorName,
+                   let acceptorProfileColor = chore.acceptorProfileColor
+                {
                     self.acceptedByLabel.isHidden = false
-                    self.acceptorLabel.isHidden = false
-                    self.acceptorLabel.text = acceptorName
+                    self.acceptorCard.isHidden = false
+                    self.acceptorCard.configure(withUserName: acceptorName, profileColor: .init(hex: acceptorProfileColor))
                 }
                 else {
                     self.acceptedByLabel.isHidden = true
-                    self.acceptorLabel.isHidden = true
+                    self.acceptorCard.isHidden = true
                 }
                 
                 if let finishedDate = chore.finishedDate {
@@ -210,15 +215,16 @@ class ChoreDetailVC: UIViewController, Themable {
             .createSeparatorView(),
             .createSpacerView(height: 10),
             createdByLabel,
-            requestorLabel,
+            requestorCard,
             createdDateLabel,
             .createSpacerView(height: 10),
             .createSeparatorView(),
             .createSpacerView(height: 10),
             acceptedByLabel,
-            acceptorLabel,
+            acceptorCard,
             finishedDateLabel
         ], alignment: .leading, shouldExpandSubviewWidth: true)
+        vStack.spacing = 10
         vStack.translatesAutoresizingMaskIntoConstraints = false
         swipableImageRow.translatesAutoresizingMaskIntoConstraints = false
         
