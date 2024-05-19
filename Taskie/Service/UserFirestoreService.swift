@@ -26,6 +26,7 @@ protocol UserService {
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser?
     func updateUserWithName(_ name: String)
     func updateUserWithProfileColor(_ profileColor: String)
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser)
 }
 
 class UserFirestoreService: UserService {
@@ -66,8 +67,26 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
         
         userRepository.members.sink { [weak self] members in
+            guard let self = self else {
+                return
+            }
             LogUtil.log("From UserRepository -- members -- \(members)")
-            self?._familyMembers.send(members)
+            self._familyMembers.send(members)
+            
+            if let members = members,
+               let currentUser = self._user.value,
+               !members.contains(where: { $0.id == currentUser.id }),
+               let householdId = currentUser.householdId, !householdId.isEmpty
+            {
+                self.createUserInHouseholdSub(
+                    householdId: householdId,
+                    withUser: .init(
+                        id: currentUser.id,
+                        name: currentUser.name,
+                        profileColor: currentUser.profileColor
+                    )
+                )
+            }
         }
         .store(in: &cancellables)
         
@@ -88,6 +107,12 @@ class UserFirestoreService: UserService {
             }
         }
         .store(in: &cancellables)
+    }
+    
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {
+        Task {
+            await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: decentralizedUserObject)
+        }
     }
     
     func readFamilyMember(withId lookUpId: String) throws -> DecentrailizedUser? {
@@ -123,6 +148,8 @@ class UserFirestoreService: UserService {
 }
 
 class UserMockService: UserService {
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {}
+    
     var error: AnyPublisher<Error?, Never> {
         Just(nil).eraseToAnyPublisher()
     }

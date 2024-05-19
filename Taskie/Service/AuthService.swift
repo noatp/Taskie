@@ -129,7 +129,6 @@ class AuthenticationService: AuthService {
                     Task {
                         if let householdId = await self.readInvitationForHouseholdId(withEmail: email) {
                             await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: householdId, role: .parent, profileColor: nil))
-                            await self.userRepository.createUserInHouseholdSub(householdId: householdId, withUser: .init(id: currentUserId, name: nil, profileColor: nil))
                         }
                         else {
                             await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil))

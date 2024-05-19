@@ -74,7 +74,7 @@ class ChoreRepository {
         let choreDocRef = householdChoreCollectionRef.document(choreId)
         
         do {
-            try await choreDocRef.updateData(["acceptor": acceptorId])
+            try await choreDocRef.updateData(["acceptorID": acceptorId])
         }
         catch {
             LogUtil.log("Error writing chore to Firestore: \(error)")
