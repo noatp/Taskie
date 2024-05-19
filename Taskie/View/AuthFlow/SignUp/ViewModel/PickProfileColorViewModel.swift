@@ -8,8 +8,19 @@
 import Foundation
 import Combine
 
+enum PickProfileColorViewModelError: Error, LocalizedError {
+    case missingProfileColor
+    
+    var errorDescription: String? {
+        switch self {
+            case .missingProfileColor:
+                return "Please pick a color for your profile."
+        }
+    }
+}
+
 class PickProfileColorViewModel: ObservableObject {
-    @Published var infoState: SignUpInfoState = .notChecked
+    @Published var colorCheckResult: Result<Void, PickProfileColorViewModelError>?
     
     private var userService: UserService
     private var cancellables: Set<AnyCancellable> = []
@@ -23,11 +34,11 @@ class PickProfileColorViewModel: ObservableObject {
     
     func updateUserWithProfileColor(_ profileColor: String?) {
         guard let profileColor = profileColor, !profileColor.isEmpty else {
-            self.infoState = .invalid(errorMessage: "Please pick a color for your profile.")
+            self.colorCheckResult = .failure(.missingProfileColor)
             return
         }
         userService.updateUserWithProfileColor(profileColor)
-        self.infoState = .checked
+        self.colorCheckResult = .success(())
     }
     
     

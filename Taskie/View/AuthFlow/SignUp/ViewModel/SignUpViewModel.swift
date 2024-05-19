@@ -8,14 +8,31 @@
 import Foundation
 import Combine
 
-enum SignUpInfoState {
-    case notChecked
-    case checked
-    case invalid(errorMessage: String)
+enum SignUpViewModelError: Error, LocalizedError {
+    case invalidEmailAddress
+    case invalidPassword
+    case invalidPasswordLessThanEight
+    case invalidPasswordUpperCase
+    case invalidPasswordLowerCase
+    
+    var errorDescription: String? {
+        switch self {
+            case .invalidEmailAddress:
+                return "Please enter a valid email address."
+            case .invalidPassword:
+                return "Please enter a valid password."
+            case .invalidPasswordLessThanEight:
+                return "Password must be at least 8 characters."
+            case .invalidPasswordUpperCase:
+                return "Password must have at least one uppercase letter."
+            case .invalidPasswordLowerCase:
+                return "Password must have at least one lowercase letter."
+        }
+    }
 }
 
 class SignUpViewModel: ObservableObject {
-    @Published var infoState: SignUpInfoState = .notChecked
+    @Published var signUpResult: Result<Void, SignUpViewModelError>?
         
     private var authService: AuthService
     private var householdService: HouseholdService
@@ -45,7 +62,7 @@ class SignUpViewModel: ObservableObject {
     
     func checkEmailForSignUp(_ email: String?){
         guard let email = email, !email.isEmpty else {
-            self.infoState = .invalid(errorMessage: "Please enter a valid email address.")
+            self.signUpResult = .failure(.invalidEmailAddress)
             return
         }
         let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
@@ -54,37 +71,37 @@ class SignUpViewModel: ObservableObject {
         
         if isValid {
             authService.cacheEmailAddressForSignUp(email)
-            self.infoState = .checked
+            self.signUpResult = .success(())
         }
         else {
-            self.infoState = .invalid(errorMessage: "Please enter a valid email address.")
+            self.signUpResult = .failure(.invalidEmailAddress)
         }
     }
     
     func checkPasswordForSignUp(_ password: String?) {
         guard let password = password, !password.isEmpty else {
-            self.infoState = .invalid(errorMessage: "Please enter a valid password.")
+            self.signUpResult = .failure(.invalidPassword)
             return
         }
         
         guard password.count >= 8 else {
-            self.infoState = .invalid(errorMessage: "Password must be at least 8 characters.")
+            self.signUpResult = .failure(.invalidPasswordLessThanEight)
             return
         }
         
         guard password.range(of: "[A-Z]", options: .regularExpression) != nil else {
-            self.infoState = .invalid(errorMessage: "Password must have at least one uppercase letter.")
+            self.signUpResult = .failure(.invalidPasswordUpperCase)
             return
         }
         
         guard password.range(of: "[a-z]", options: .regularExpression) != nil else {
-            self.infoState = .invalid(errorMessage: "Password must have at least one lowercase letter.")
+            self.signUpResult = .failure(.invalidPasswordLowerCase)
             return
         }
         
         authService.cachePassowrdForSignUp(password)
         self.signUp()
-        self.infoState = .checked
+        self.signUpResult = .success(())
     }
     
     func signUp() {

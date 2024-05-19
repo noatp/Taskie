@@ -76,20 +76,20 @@ class PickEmailVC: PDSResizeWithKeyboardVC {
     }
     
     private func bindViewModel() {
-        viewModel.$infoState
+        viewModel.$signUpResult
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] infoState in
-                guard let self = self else {
+            .sink { [weak self] signUpResult in
+                guard let self = self,
+                      let signUpResult = signUpResult
+                else {
                     return
                 }
                 
-                switch infoState {
-                    case .notChecked:
-                        break
-                    case .checked:
+                switch signUpResult {
+                    case .success():
                         self.navigateToPickPassword()
-                    case .invalid(errorMessage: let errorMessage):
-                        showAlert(alertMessage: errorMessage)
+                    case .failure(let error):
+                        showAlert(alertMessage: error.localizedDescription)
                 }
             }
             .store(in: &cancellables)

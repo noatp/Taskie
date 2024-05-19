@@ -8,8 +8,19 @@
 import Foundation
 import Combine
 
+enum EnterNameViewModelError: Error, LocalizedError {
+    case missingName
+    
+    var errorDescription: String? {
+        switch self {
+            case .missingName:
+                return "Please enter your name."
+        }
+    }
+}
+
 class EnterNameViewModel: ObservableObject {
-    @Published var infoState: SignUpInfoState = .notChecked
+    @Published var nameCheckResult: Result<Void, EnterNameViewModelError>?
     
     private var userService: UserService
     private var cancellables: Set<AnyCancellable> = []
@@ -23,11 +34,11 @@ class EnterNameViewModel: ObservableObject {
     
     func checkNameForSignUp(_ name: String?) {
         guard let name = name, !name.isEmpty else {
-            self.infoState = .invalid(errorMessage: "Please enter your name.")
+            self.nameCheckResult = .failure(.missingName)
             return
         }
         userService.updateUserWithName(name)
-        self.infoState = .checked
+        self.nameCheckResult = .success(())
     }
     
     

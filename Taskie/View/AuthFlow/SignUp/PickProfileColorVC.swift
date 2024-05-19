@@ -69,20 +69,20 @@ class PickProfileColorVC: PDSTitleWrapperVC {
     }
     
     private func bindViewModel() {
-        viewModel.$infoState
+        viewModel.$colorCheckResult
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] infoState in
-                guard let self = self else {
+            .sink { [weak self] colorCheckResult in
+                guard let self = self,
+                      let colorCheckResult = colorCheckResult
+                else {
                     return
                 }
                 
-                switch infoState {
-                    case .notChecked:
+                switch colorCheckResult {
+                    case .success():
                         break
-                    case .checked:
-                        break
-                    case .invalid(errorMessage: let errorMessage):
-                        showAlert(alertMessage: errorMessage)
+                    case .failure(let error):
+                        showAlert(alertMessage: error.localizedDescription)
                 }
             }
             .store(in: &cancellables)

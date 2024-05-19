@@ -64,20 +64,20 @@ class EnterNameVC: PDSResizeWithKeyboardVC {
     }
     
     private func bindViewModel() {
-        viewModel.$infoState
+        viewModel.$nameCheckResult
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] infoState in
-                guard let self = self else {
+            .sink { [weak self] nameCheckResult in
+                guard let self = self,
+                      let nameCheckResult = nameCheckResult
+                else {
                     return
                 }
                 
-                switch infoState {
-                    case .notChecked:
+                switch nameCheckResult {
+                    case .success():
                         break
-                    case .checked:
-                        break
-                    case .invalid(errorMessage: let errorMessage):
-                        showAlert(alertMessage: errorMessage)
+                    case .failure(let error):
+                        showAlert(alertMessage: error.localizedDescription)
                 }
             }
             .store(in: &cancellables)
