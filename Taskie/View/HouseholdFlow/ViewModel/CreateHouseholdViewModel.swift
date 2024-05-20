@@ -6,8 +6,24 @@
 //
 
 import Combine
+import Foundation
+
+enum CreateHouseholdViewModelError: Error, LocalizedError {
+    case missingTag
+    case noCurrentUser
+    
+    var errorDescription: String? {
+        switch self {
+            case .missingTag:
+                return "Please enter a tag name for your new household."
+            case .noCurrentUser:
+                return "Something went wrong. Please try again later!"
+        }
+    }
+}
 
 class CreateHouseholdViewModel: ObservableObject {
+    @Published var tagCheckResult: Result<Void, CreateHouseholdViewModelError>?
     var tag: String?
     
     private let householdService: HouseholdService
@@ -35,8 +51,15 @@ class CreateHouseholdViewModel: ObservableObject {
     
     func createHousehold() {
         guard let currentUser = curentUser else {
+            self.tagCheckResult = .failure(.noCurrentUser)
             return
         }
+        
+        guard let tag = tag, !tag.isEmpty else {
+            self.tagCheckResult = .failure(.missingTag)
+            return
+        }
+        
         let decentralizedUser = DecentrailizedUser(id: currentUser.id, name: currentUser.name, profileColor: currentUser.profileColor)
         householdService.createHousehold(forUser: decentralizedUser, withHouseholdTag: tag)
     }

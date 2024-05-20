@@ -23,10 +23,12 @@ protocol UserService {
     var user: AnyPublisher<User?, Never> { get }
     var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser)
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser?
     func updateUserWithName(_ name: String)
     func updateUserWithProfileColor(_ profileColor: String)
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser)
+    func updateUserWithHouseholdId(_ householdId: String)
+    func getCurrentUser() -> User?
 }
 
 class UserFirestoreService: UserService {
@@ -67,26 +69,8 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
         
         userRepository.members.sink { [weak self] members in
-            guard let self = self else {
-                return
-            }
             LogUtil.log("From UserRepository -- members -- \(members)")
-            self._familyMembers.send(members)
-            
-            if let members = members,
-               let currentUser = self._user.value,
-               !members.contains(where: { $0.id == currentUser.id }),
-               let householdId = currentUser.householdId, !householdId.isEmpty
-            {
-                self.createUserInHouseholdSub(
-                    householdId: householdId,
-                    withUser: .init(
-                        id: currentUser.id,
-                        name: currentUser.name,
-                        profileColor: currentUser.profileColor
-                    )
-                )
-            }
+            self?._familyMembers.send(members)
         }
         .store(in: &cancellables)
         
@@ -145,31 +129,38 @@ class UserFirestoreService: UserService {
             await userRepository.updateUser(atUserId: currentUserId, withProfileColor: profileColor)
         }
     }
+    
+    func updateUserWithHouseholdId(_ householdId: String){
+        Task {
+            guard let currentUserId = _user.value?.id else {
+                return
+            }
+            await userRepository.updateUser(atUserId: currentUserId, withHouseholdId: householdId)
+        }
+    }
+    
+    func getCurrentUser() -> User? {
+        _user.value
+    }
 }
 
 class UserMockService: UserService {
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {}
-    
     var error: AnyPublisher<Error?, Never> {
         Just(nil).eraseToAnyPublisher()
     }
-    
     var user: AnyPublisher<User?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
-    
     var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> {
         Just (
             [.mock, .mock, .mock]
         )
         .eraseToAnyPublisher()
     }
-    
+    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {}
     func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {return .mock}
-    
     func updateUserWithName(_ name: String) {}
-    
     func updateUserWithProfileColor(_ profileColor: String) {}
-    
-    
+    func updateUserWithHouseholdId(_ householdId: String) {}
+    func getCurrentUser() -> User? { return nil }
 }

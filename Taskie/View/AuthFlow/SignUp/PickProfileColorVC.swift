@@ -5,13 +5,6 @@
 //  Created by Toan Pham on 5/9/24.
 //
 
-//
-//  EnterNameVC.swift
-//  Taskie
-//
-//  Created by Toan Pham on 5/7/24.
-//
-
 import UIKit
 import SwiftUI
 import Combine

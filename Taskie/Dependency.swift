@@ -60,7 +60,8 @@ class Dependency {
                 )
                 self.householdService = HouseholdFirestoreService(
                     householdRepository: repository.householdRepository,
-                    userRepository: repository.userRepository
+                    userRepository: repository.userRepository, 
+                    invitationRepository: repository.invitationRepository
                 )
                 self.storageService = StorageService()
                 self.authService = AuthenticationService(

@@ -7,11 +7,13 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
     private var viewModel: CreateOrAddHouseholdViewModel
     private let dependencyView: Dependency.View
-    
+    private var cancellables: Set<AnyCancellable> = []
+
     private let promptCreateHouseholdLabel: PDSLabel = {
         let label = PDSLabel(withText: "If this is your first time you and your family is using Taskie, please create a Household.", fontScale: .caption)
         label.numberOfLines = 0
@@ -43,6 +45,24 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+        
+    private let invitedLabel: PDSLabel = {
+        let label = PDSLabel(withText: "You are invited to join an existing household.", fontScale: .headline2)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let joinButton: PDSPrimaryButton = {
+        let button = PDSPrimaryButton()
+        button.setTitle("Join", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private var noInviteStackView = UIStackView()
     
     init(
         viewModel: CreateOrAddHouseholdViewModel,
@@ -61,6 +81,29 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
         super.viewDidLoad()
         setUpViews()
         setUpActions()
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$hasInvite
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] hasInvite in
+                guard let self = self else {
+                    return
+                }
+                
+                if hasInvite {
+                    invitedLabel.isHidden = false
+                    joinButton.isHidden = false
+                    noInviteStackView.isHidden = true
+                }
+                else {
+                    invitedLabel.isHidden = true
+                    joinButton.isHidden = true
+                    noInviteStackView.isHidden = false
+                }
+            }
+            .store(in: &cancellables)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,7 +113,7 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
     private func setUpViews() {
         setTitle("Let's get started!")
         
-        let vStack = UIStackView.vStack(
+        noInviteStackView = UIStackView.vStack(
             arrangedSubviews: [
                 promptCreateHouseholdLabel,
                 UIView.createSpacerView(height: 20),
@@ -85,24 +128,39 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
             alignment: .center,
             shouldExpandSubviewWidth: true
         )
-        vStack.translatesAutoresizingMaskIntoConstraints = false
+        noInviteStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(vStack)
+        view.addSubview(noInviteStackView)
+        view.addSubview(invitedLabel)
+        view.addSubview(joinButton)
         
         NSLayoutConstraint.activate([
-            vStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            noInviteStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noInviteStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            noInviteStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            invitedLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -10),
+            invitedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            invitedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            joinButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            joinButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            joinButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 10)
         ])
     }
     
     private func setUpActions() {
         createNewHouseholdButton.addTarget(self, action: #selector(handleCreateNewHousehold), for: .touchUpInside)
+        joinButton.addTarget(self, action: #selector(handleJoinHousehold), for: .touchUpInside)
     }
     
     @objc private func handleCreateNewHousehold() {
         let createHouseholdVC = self.dependencyView.createHouseholdVC()
         navigationController?.pushViewController(createHouseholdVC, animated: true)
+    }
+    
+    @objc private func handleJoinHousehold() {
+        viewModel.joinHouseholdFromInvite()
     }
 }
 

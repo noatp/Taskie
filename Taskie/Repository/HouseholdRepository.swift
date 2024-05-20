@@ -74,17 +74,17 @@ class HouseholdRepository {
         }
     }
     
-    func readHouseholdIdFromInvitation(withEmail email: String) async throws -> String? {
-        let docRef = db.collection("invitations").document(email)
-        let document = try await docRef.getDocument()
-        if let data = document.data(),
-           let householdId = data["householdId"] as? String {
-            return householdId
-        }
-        else {
-            return nil
-        }
-    }
+//    func readHouseholdIdFromInvitation(withEmail email: String) async throws -> String? {
+//        let docRef = db.collection("invitations").document(email)
+//        let document = try await docRef.getDocument()
+//        if let data = document.data(),
+//           let householdId = data["householdId"] as? String {
+//            return householdId
+//        }
+//        else {
+//            return nil
+//        }
+//    }
     
     func currentHouseholdId() -> String? {
         _household.value?.id

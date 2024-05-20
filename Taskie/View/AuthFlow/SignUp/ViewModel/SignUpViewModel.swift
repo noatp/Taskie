@@ -35,29 +35,16 @@ class SignUpViewModel: ObservableObject {
     @Published var signUpResult: Result<Void, SignUpViewModelError>?
         
     private var authService: AuthService
-    private var householdService: HouseholdService
     private var userService: UserService
-    private var householdIdFromUniversalLink: String?
     private var cancellables: Set<AnyCancellable> = []
     
     init(
         authService: AuthService,
-        householdService: HouseholdService,
         userService: UserService
         
     ) {
         self.authService = authService
-        self.householdService = householdService
         self.userService = userService
-        subscribeToHouseholdService()
-    }
-    
-    private func subscribeToHouseholdService() {
-        householdService.householdIdReceivedFromLink.sink { [weak self] householdId in
-            LogUtil.log("From HouseholdService -- householdId -- \(householdId)")
-            self?.householdIdFromUniversalLink = householdId
-        }
-        .store(in: &cancellables)
     }
     
     func checkEmailForSignUp(_ email: String?){
@@ -117,7 +104,6 @@ extension Dependency.ViewModel {
     func signUpViewModel() -> SignUpViewModel {
         return SignUpViewModel(
             authService: service.authService,
-            householdService: service.householdService,
             userService: service.userService
         )
     }

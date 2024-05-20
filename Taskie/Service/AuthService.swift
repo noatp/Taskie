@@ -34,10 +34,9 @@ protocol AuthService {
     func signUp()
     func signOut()
     func silentLogIn()
-    func readInvitationForHouseholdId(withEmail email: String) async -> String?
-    func setHouseholdIdFromUniversalLink(householdId: String)
     func cacheEmailAddressForSignUp(_ email: String)
     func cachePassowrdForSignUp(_ password: String)
+    func getCurrentUserEmail() -> String?
 }
 
 class AuthenticationService: AuthService {
@@ -127,12 +126,7 @@ class AuthenticationService: AuthService {
             else {
                 self.checkCurentAuthSession { currentUserId in
                     Task {
-                        if let householdId = await self.readInvitationForHouseholdId(withEmail: email) {
-                            await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: householdId, role: .parent, profileColor: nil))
-                        }
-                        else {
-                            await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil))
-                        }
+                        await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil))
                         self.userRepository.readUser(withId: currentUserId)
                     }
                 }
@@ -181,29 +175,6 @@ class AuthenticationService: AuthService {
         }
     }
     
-    func readInvitationForHouseholdId(withEmail email: String) async -> String? {
-        if let householdIdFromUniversalLink = householdIdFromUniversalLink {
-            return householdIdFromUniversalLink
-        }
-        
-        do {
-            let householdIdFromInvitation = try await invitationRepository.readInvitationForHouseholdId(withEmail: email)
-            if let householdIdFromInvitation = householdIdFromInvitation,
-               !householdIdFromInvitation.isEmpty {
-                return householdIdFromInvitation
-            }
-            return nil
-        }
-        catch {
-            self._error.send(error)
-            return nil
-        }
-    }
-    
-    func setHouseholdIdFromUniversalLink(householdId: String) {
-        self.householdIdFromUniversalLink = householdId
-    }
-    
     func cacheEmailAddressForSignUp(_ email: String) {
         self.emailAddressForSignUp = email
     }
@@ -215,18 +186,16 @@ class AuthenticationService: AuthService {
     func resetUserRepository() {
         userRepository.reset()
     }
+    
+    func getCurrentUserEmail() -> String? {
+        return auth.currentUser?.email
+    }
 }
 
 class AuthMockService: AuthService {
-    
-    
     var error: AnyPublisher<Error?, Never> {
         Just(nil).eraseToAnyPublisher()
     }
-    
-    func readInvitationForHouseholdId(withEmail email: String) async -> String? { nil }
-    
-    func setHouseholdIdFromUniversalLink(householdId: String) {}
     
     func signUpWithExistingHousehold(householdId: String, withEmail email: String?, password: String?, name: String?) {}
     
@@ -247,4 +216,6 @@ class AuthMockService: AuthService {
     func cachePassowrdForSignUp(_ password: String) {}
         
     var currentUserId: String? = ""
+    
+    func getCurrentUserEmail() -> String? { return nil }
 }

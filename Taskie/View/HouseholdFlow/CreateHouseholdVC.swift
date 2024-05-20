@@ -7,13 +7,15 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class CreateHouseholdVC: PDSResizeWithKeyboardVC {
     private var viewModel: CreateHouseholdViewModel
     private let dependencyView: Dependency.View
+    private var cancellables: Set<AnyCancellable> = []
 
     private let promptLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Enter a nickname for your Household. Your household can be found using this nickname.", fontScale: .caption)
+        let label = PDSLabel(withText: "Enter a tag name for your new Household. Your household can be found using this tag name.", fontScale: .caption)
         label.numberOfLines = 0
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
@@ -59,6 +61,27 @@ class CreateHouseholdVC: PDSResizeWithKeyboardVC {
         super.viewDidLoad()
         setUpViews()
         setUpActions()
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$tagCheckResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] tagCheckResult in
+                guard let self = self,
+                      let tagCheckResult = tagCheckResult
+                else {
+                    return
+                }
+                
+                switch tagCheckResult {
+                    case .success():
+                        break
+                    case .failure(let error):
+                        showAlert(alertMessage: error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func setUpViews() {

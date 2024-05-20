@@ -26,24 +26,20 @@ enum HouseholdServiceError: Error, LocalizedError {
 
 protocol HouseholdService {
     var household: AnyPublisher<Household?, Never> { get }
-    var householdIdReceivedFromLink: AnyPublisher<String?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?)
     func readHousehold(withId householdId: String)
-    func sendHouseholdIdReceivedFromLink(householdId: String)
-    func resetHouseholdIdReceivedFromLink()
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?
+    func readHouseholdIdFromUniversalLink() -> String?
+    func setHouseholdIdFromUniversalLink(householdId: String)
 }
 
 class HouseholdFirestoreService: HouseholdService {
+    private var householdIdFromUniversalLink: String?
     private var cancellables: Set<AnyCancellable> = []
-    private var householdRepository: HouseholdRepository
-    private var userRepository: UserRepository
-    
-    var householdIdReceivedFromLink: AnyPublisher<String?, Never> {
-        _householdIdReceivedFromLink.eraseToAnyPublisher()
-    }
-    private let _householdIdReceivedFromLink = CurrentValueSubject<String?, Never>(nil)
+    private let householdRepository: HouseholdRepository
+    private let userRepository: UserRepository
+    private let invitationRepository: InvitationRepository
     
     var household: AnyPublisher<Household?, Never> {
         _household.eraseToAnyPublisher()
@@ -57,10 +53,12 @@ class HouseholdFirestoreService: HouseholdService {
     
     init(
         householdRepository: HouseholdRepository,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        invitationRepository: InvitationRepository
     ) {
         self.householdRepository = householdRepository
         self.userRepository = userRepository
+        self.invitationRepository = invitationRepository
         subscribeToHouseholdRepository()
         subscribeToUserRepository()
     }
@@ -97,6 +95,7 @@ class HouseholdFirestoreService: HouseholdService {
         .store(in: &cancellables)
     }
     
+    
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {
         guard let tag = tag, !tag.isEmpty else {
             self._error.send(HouseholdServiceError.missingInput)
@@ -127,29 +126,39 @@ class HouseholdFirestoreService: HouseholdService {
         householdRepository.readHousehold(withId: householdId)
     }
     
-    func sendHouseholdIdReceivedFromLink(householdId: String) {
-        self._householdIdReceivedFromLink.send(householdId)
-    }
-    
-    func resetHouseholdIdReceivedFromLink() {
-        self._householdIdReceivedFromLink.send(nil)
-    }
-    
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String? {
         do {
-            let householdId = try await householdRepository.readHouseholdIdFromInvitation(withEmail: email)
-            return householdId
-        }
-        catch {
-            LogUtil.log(error.localizedDescription)
+            let householdIdFromInvitation = try await invitationRepository.readInvitationForHouseholdId(withEmail: email)
+            if let householdIdFromInvitation = householdIdFromInvitation,
+               !householdIdFromInvitation.isEmpty {
+                return householdIdFromInvitation
+            }
             return nil
         }
+        catch {
+            self._error.send(error)
+            return nil
+        }
+    }
+    
+    func readHouseholdIdFromUniversalLink() -> String? {
+        return householdIdFromUniversalLink
+    }
+    
+    func setHouseholdIdFromUniversalLink(householdId: String) {
+        self.householdIdFromUniversalLink = householdId
+    }
+    
+    func getCurrentHousehold() -> Household? {
+        _household.value
     }
 }
 
 class HouseholdMockService: HouseholdService {
+    func readHouseholdIdFromUniversalLink() -> String? { return nil }
     
-    
+    func setHouseholdIdFromUniversalLink(householdId: String) {}
+
     var error: AnyPublisher<Error?, Never> {
         Just(nil).eraseToAnyPublisher()
     }
@@ -157,15 +166,7 @@ class HouseholdMockService: HouseholdService {
     func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {}
     
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?{ return nil }
-    
-    func sendHouseholdIdReceivedFromLink(householdId: String) {}
-    
-    var householdIdReceivedFromLink: AnyPublisher<String?, Never> {
-        Just("").eraseToAnyPublisher()
-    }
-    
-    func resetHouseholdIdReceivedFromLink() {}
-    
+        
     var household: AnyPublisher<Household?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
