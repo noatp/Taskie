@@ -29,7 +29,6 @@ enum AuthServiceError: Error, LocalizedError {
 protocol AuthService {
     var isUserLoggedIn: AnyPublisher<Bool, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
-    var currentUserId: String? { get }
     func logIn(withEmail email: String?, password: String?)
     func signUp()
     func signOut()
@@ -59,10 +58,6 @@ class AuthenticationService: AuthService {
         _error.eraseToAnyPublisher()
     }
     private let _error = CurrentValueSubject<Error?, Never>(nil)
-    
-    var currentUserId: String? {
-        auth.currentUser?.uid
-    }
     
     init(
         userRepository: UserRepository,
@@ -154,7 +149,7 @@ class AuthenticationService: AuthService {
     }
     
     private func checkCurentAuthSession(afterAuthenticated: (_ currentUserId: String) -> Void) {
-        guard let currentUserId = currentUserId else {
+        guard let currentUserId = auth.currentUser?.uid else {
             _isUserLoggedIn.send(false)
             LogUtil.log("currentUserId: nil -- resetting UserRepository")
             resetUserRepository()
@@ -169,7 +164,7 @@ class AuthenticationService: AuthService {
         do {
             try auth.signOut()
             LogUtil.log("Signing out")
-            checkCurentAuthSession { currentUserId in}
+            checkCurentAuthSession { currentUserId in }
         } catch {
             LogUtil.log("Error signing out \(error)")
         }
@@ -214,8 +209,6 @@ class AuthMockService: AuthService {
     func cacheEmailAddressForSignUp(_ email: String) {}
     
     func cachePassowrdForSignUp(_ password: String) {}
-        
-    var currentUserId: String? = ""
-    
+            
     func getCurrentUserEmail() -> String? { return nil }
 }

@@ -36,22 +36,22 @@ class CreateChoreViewModel: ObservableObject {
     var choreName: String?
     var choreDescription: String?
     var choreRewardAmount: String?
-    private var authService: AuthService
+    private var userService: UserService
     private var storageService: StorageService
     private var choreService: ChoreService
     
     init(
-        authService: AuthService,
+        userService: UserService,
         storageService: StorageService,
         choreService: ChoreService
     ) {
-        self.authService = authService
+        self.userService = userService
         self.storageService = storageService
         self.choreService = choreService
     }
     
     func createChore() {
-        guard let uid = authService.currentUserId else {
+        guard let uid = userService.getCurrentUser()?.id else {
             createChoreResult = .failure(.noCurrentUser)
             return
         }
@@ -99,7 +99,7 @@ class CreateChoreViewModel: ObservableObject {
 extension Dependency.ViewModel {
     func addChoreViewModel() -> CreateChoreViewModel {
         return CreateChoreViewModel(
-            authService: service.authService,
+            userService: service.userService,
             storageService: service.storageService,
             choreService: service.choreService
         )

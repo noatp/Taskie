@@ -13,16 +13,13 @@ class ChoreDetailViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
-    private let authService: AuthService
     
     init(
         choreService: ChoreService,
-        userService: UserService,
-        authService: AuthService
+        userService: UserService
     ) {
         self.choreService = choreService
         self.userService = userService
-        self.authService = authService
         subscribeToChoreFirestoreService()
     }
     
@@ -80,7 +77,7 @@ class ChoreDetailViewModel: ObservableObject {
             return .nothing
         }
         else {
-            guard let currentUserId = authService.currentUserId else {
+            guard let currentUserId = userService.getCurrentUser()?.id else {
                 return nil
             }
             
@@ -117,7 +114,7 @@ class ChoreDetailViewModel: ObservableObject {
     
     func userDetail(withId lookUpId: String?) async throws -> DecentrailizedUser? {
         guard let lookUpId = lookUpId,
-              let currentUserId = authService.currentUserId
+              let currentUserId = userService.getCurrentUser()?.id
         else {
             return nil
         }
@@ -137,7 +134,7 @@ class ChoreDetailViewModel: ObservableObject {
     }
     
     func acceptSelectedChore() {
-        guard let currentUserId = authService.currentUserId else {
+        guard let currentUserId = userService.getCurrentUser()?.id else {
             return
         }
         choreService.acceptSelectedChore(acceptorId: currentUserId)
@@ -156,8 +153,7 @@ extension Dependency.ViewModel {
     func choreDetailViewModel() -> ChoreDetailViewModel {
         return ChoreDetailViewModel(
             choreService: service.choreService,
-            userService: service.userService,
-            authService: service.authService
+            userService: service.userService
         )
     }
 }
