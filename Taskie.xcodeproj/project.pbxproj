@@ -32,8 +32,8 @@
 		CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */; };
 		CA26D0712BE01734002B5962 /* apple-app-site-association in Resources */ = {isa = PBXBuildFile; fileRef = CA26D0702BE01734002B5962 /* apple-app-site-association */; };
 		CA3A69912BE062C7009D669F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA3A69902BE062C7009D669F /* GoogleService-Info.plist */; };
-		CA3A69A62BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */; };
-		CA3A69A72BE2E55E009D669F /* CreateOrAddHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */; };
+		CA3A69A62BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A42BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift */; };
+		CA3A69A72BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */; };
 		CA3A69B12BE2F1FC009D669F /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */; };
 		CA3A69B22BE2F1FC009D669F /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* CreateChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */; };
@@ -78,8 +78,6 @@
 		CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */; };
 		CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */; };
 		CACE2EB72BC4E11E007FD9F2 /* HouseholdMemberListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */; };
-		CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */; };
-		CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */; };
 		CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */; };
 		CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */; };
 		CACE2EC52BD9CE30007FD9F2 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */; };
@@ -124,8 +122,8 @@
 		CA26D0702BE01734002B5962 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		CA26D0722BE020A5002B5962 /* Taskie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Taskie.entitlements; sourceTree = "<group>"; };
 		CA3A69902BE062C7009D669F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrAddHouseholdViewModel.swift; sourceTree = "<group>"; };
-		CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrAddHouseholdVC.swift; sourceTree = "<group>"; };
+		CA3A69A42BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrJoinHouseholdViewModel.swift; sourceTree = "<group>"; };
+		CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrJoinHouseholdVC.swift; sourceTree = "<group>"; };
 		CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreViewModel.swift; sourceTree = "<group>"; };
@@ -171,8 +169,6 @@
 		CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSMenuCell.swift; sourceTree = "<group>"; };
 		CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListViewModel.swift; sourceTree = "<group>"; };
 		CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListVC.swift; sourceTree = "<group>"; };
-		CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberViewModel.swift; sourceTree = "<group>"; };
-		CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHouseholdMemberVC.swift; sourceTree = "<group>"; };
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
 		CACE2EC22BD9CE30007FD9F2 /* LandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewModel.swift; sourceTree = "<group>"; };
 		CACE2EC32BD9CE30007FD9F2 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
@@ -272,8 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				CADCE5062BEDD7800026AC9E /* ViewModel */,
-				CACE2EB92BCC781C007FD9F2 /* AddHouseholdMemberVC.swift */,
-				CA3A69A52BE2E55E009D669F /* CreateOrAddHouseholdVC.swift */,
+				CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */,
 				CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */,
 				CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */,
 			);
@@ -405,8 +400,7 @@
 			children = (
 				CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */,
 				CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */,
-				CA3A69A42BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift */,
-				CACE2EB82BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift */,
+				CA3A69A42BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -662,16 +656,15 @@
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
 				CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */,
-				CA3A69A62BE2E55E009D669F /* CreateOrAddHouseholdViewModel.swift in Sources */,
+				CA3A69A62BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreRepository.swift in Sources */,
 				CA7AA9682BEB2772004B1267 /* PickPasswordVC.swift in Sources */,
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
 				CADCE5132BF852AC0026AC9E /* ErrorWindow.swift in Sources */,
-				CACE2EBA2BCC781C007FD9F2 /* AddHouseholdMemberViewModel.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* PickEmailVC.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
-				CA3A69A72BE2E55E009D669F /* CreateOrAddHouseholdVC.swift in Sources */,
+				CA3A69A72BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */,
 				CA1683E72B8D425A0086153A /* Chore.swift in Sources */,
@@ -700,7 +693,6 @@
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
 				CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */,
-				CACE2EBB2BCC781C007FD9F2 /* AddHouseholdMemberVC.swift in Sources */,
 				CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */,
 				CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */,
 				CACE2EC42BD9CE30007FD9F2 /* LandingViewModel.swift in Sources */,

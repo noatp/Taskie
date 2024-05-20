@@ -80,7 +80,7 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
 
     private func setUpActions() {
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
-        addBarButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
+        addBarButton.addTarget(self, action: #selector(handleInvite), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addBarButton)
     }
@@ -89,10 +89,26 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func addNewItem() {
-        let addHouseholdMemberVC = depedencyView.addHouseholdMemberVC()
-        let navVC = UINavigationController(rootViewController: addHouseholdMemberVC)
-        self.present(navVC, animated: true)
+    @objc func handleInvite() {
+        shareInviteLink()
+    }
+    
+    func shareInviteLink() {
+        guard let inviteLink = viewModel.getInviteLink() else {
+            return
+        }
+        let text = "Use this invite link to download Taskie and join the household: \(inviteLink)"
+        let items = [text]
+        
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(activityViewController, animated: true)
     }
     
     deinit {

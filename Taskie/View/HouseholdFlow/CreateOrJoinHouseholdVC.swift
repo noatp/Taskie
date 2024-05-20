@@ -9,8 +9,8 @@ import SwiftUI
 import UIKit
 import Combine
 
-class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
-    private var viewModel: CreateOrAddHouseholdViewModel
+class CreateOrJoinHouseholdVC: PDSTitleWrapperVC {
+    private var viewModel: CreateOrJoinHouseholdViewModel
     private let dependencyView: Dependency.View
     private var cancellables: Set<AnyCancellable> = []
 
@@ -65,7 +65,7 @@ class CreateOrAddHouseholdVC: PDSTitleWrapperVC {
     private var noInviteStackView = UIStackView()
     
     init(
-        viewModel: CreateOrAddHouseholdViewModel,
+        viewModel: CreateOrJoinHouseholdViewModel,
         dependencyView: Dependency.View
     ) {
         self.viewModel = viewModel
@@ -173,8 +173,8 @@ struct CreateOrAddHouseholdVC_Previews: PreviewProvider {
 }
 
 extension Dependency.View {
-    func createOrAddHouseholdVC() -> CreateOrAddHouseholdVC {
-        return CreateOrAddHouseholdVC(
+    func createOrAddHouseholdVC() -> CreateOrJoinHouseholdVC {
+        return CreateOrJoinHouseholdVC(
             viewModel: viewModel.createOrAddHouseholdViewModel(),
             dependencyView: self
         )

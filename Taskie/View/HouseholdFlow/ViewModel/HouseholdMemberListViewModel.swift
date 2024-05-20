@@ -10,10 +10,15 @@ import Combine
 class HouseholdMemberListViewModel: ObservableObject {
     @Published var familyMembers: [DecentrailizedUser] = []
     private var cancellables: Set<AnyCancellable> = []
-    private var userService: UserService
+    private let userService: UserService
+    private let householdService: HouseholdService
     
-    init(userService: UserService) {
+    init(
+        userService: UserService,
+        householdService: HouseholdService
+    ) {
         self.userService = userService
+        self.householdService = householdService
         subscribeToUserFirestoreService()
     }
     
@@ -28,11 +33,20 @@ class HouseholdMemberListViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
-    
+    func getInviteLink() -> String? {
+        guard let currentHouseholdId = householdService.getCurrentHousehold()?.id else {
+            return nil
+        }
+        
+        return "https://get-taskie.app/invite/\(currentHouseholdId)"
+    }
 }
 
 extension Dependency.ViewModel {
     func householdMemberListViewModel() -> HouseholdMemberListViewModel {
-        return HouseholdMemberListViewModel(userService: service.userService)
+        return HouseholdMemberListViewModel(
+            userService: service.userService,
+            householdService: service.householdService
+        )
     }
 }

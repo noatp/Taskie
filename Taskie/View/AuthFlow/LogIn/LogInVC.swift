@@ -84,6 +84,11 @@ class LogInVC: PDSResizeWithKeyboardVC {
     @objc func handleLogIn() {
         viewModel.email = emailTextField.text
         viewModel.password = passwordTextField.text
+        
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        showLoadingIndicator()
+        
         viewModel.logIn()
     }
     

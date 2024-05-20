@@ -7,7 +7,7 @@
 
 import Combine
 
-class CreateOrAddHouseholdViewModel: ObservableObject {
+class CreateOrJoinHouseholdViewModel: ObservableObject {
     @Published var hasInvite: Bool = false
     private var householdIdFromInvite: String? = nil
     
@@ -65,8 +65,8 @@ class CreateOrAddHouseholdViewModel: ObservableObject {
 }
 
 extension Dependency.ViewModel {
-    func createOrAddHouseholdViewModel() -> CreateOrAddHouseholdViewModel {
-        return CreateOrAddHouseholdViewModel(
+    func createOrAddHouseholdViewModel() -> CreateOrJoinHouseholdViewModel {
+        return CreateOrJoinHouseholdViewModel(
             userService: service.userService,
             householdService: service.householdService,
             authService: service.authService
