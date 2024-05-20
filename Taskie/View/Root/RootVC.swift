@@ -12,12 +12,12 @@ class RootVC: UIViewController {
     private var viewModel: RootViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var dependencyView: Dependency.View
-    private var current: UINavigationController
+    private var currentChildNavController: UINavigationController
     
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.current = UINavigationController(rootViewController: dependencyView.landingVC())
+        self.currentChildNavController = UINavigationController(rootViewController: dependencyView.landingVC())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,15 +28,15 @@ class RootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        addChild(current)
-        current.didMove(toParent: self)
+        addChild(currentChildNavController)
+        currentChildNavController.didMove(toParent: self)
         setUpViews()
     }
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
         
-        guard let childView = current.view else {
+        guard let childView = currentChildNavController.view else {
             return
         }
         childView.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +95,7 @@ class RootVC: UIViewController {
                 LogUtil.log("from RootViewModel -- errorMessage -- \(errorMessage)")
                 if let errorMessage = errorMessage {
                     DispatchQueue.main.async { [weak self] in
+                        self?.currentChildNavController.hideLoadingIndicator()
                         self?.displayErrorMessage(errorMessage)
                     }
                 }
@@ -106,8 +107,8 @@ class RootVC: UIViewController {
         switch errorMessage {
             case AuthServiceError.emailAlreadyInUse.localizedDescription:
                 self.showAlert(withTitle: "Email already in use", alertMessage: errorMessage, buttonTitle: "Log in"){
-                    self.current.popToRootViewController(animated: false)
-                    if let landingVC = self.current.viewControllers.first as? LandingVC {
+                    self.currentChildNavController.popToRootViewController(animated: false)
+                    if let landingVC = self.currentChildNavController.viewControllers.first as? LandingVC {
                         landingVC.navigateToLogIn()
                     }
                 }
@@ -118,12 +119,12 @@ class RootVC: UIViewController {
     
     private func switchToViewController(_ newVC: UINavigationController) {
         guard let newRoot = newVC.viewControllers.first,
-              let oldRoot = current.viewControllers.first,
+              let oldRoot = currentChildNavController.viewControllers.first,
               type(of: newRoot) != type(of: oldRoot) 
         else{
             return
         }
-        let oldVC = current
+        let oldVC = currentChildNavController
         // Prepare the new view controller
         addChild(newVC)
         newVC.view.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +136,7 @@ class RootVC: UIViewController {
         oldVC.removeFromParent()
         
         // Update the current view controller reference
-        current = newVC
+        currentChildNavController = newVC
     }
     
     private func setupConstraints(for childView: UIView) {
@@ -150,7 +151,7 @@ class RootVC: UIViewController {
 
 extension RootVC {
     func getTopVC() -> UIViewController? {
-        if let topController = current.topViewController {
+        if let topController = currentChildNavController.topViewController {
             return topController
         }
         return nil

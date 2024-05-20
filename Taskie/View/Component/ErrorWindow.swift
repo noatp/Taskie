@@ -31,7 +31,12 @@ class ErrorWindow: UIWindow {
         }
         
         if let buttonAction = buttonAction {
-            alertVC.configureAlert(alertTitle: alertTitle, alertMessage: alertMessage, buttonTitle: buttonTitle, buttonAction: buttonAction)
+            alertVC.configureAlert(alertTitle: alertTitle, alertMessage: alertMessage, buttonTitle: buttonTitle) {
+                DispatchQueue.main.async { [weak self] in
+                    self?.isHidden = true
+                    buttonAction()
+                }
+            }
         }
         else {
             alertVC.configureAlert(alertTitle: alertTitle, alertMessage: alertMessage, buttonTitle: buttonTitle) {

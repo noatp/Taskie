@@ -130,12 +130,9 @@ class PickPasswordVC: PDSResizeWithKeyboardVC {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
-//    private func navigateToEnterName() {
-//        let enterNameVC = dependencyView.enterNameVC()
-//        navigationController?.pushViewController(enterNameVC, animated: true)
-//    }
-    
     @objc func handleContinue() {
+        passwordTextField.resignFirstResponder()
+        showLoadingIndicator()
         viewModel.checkPasswordForSignUp(passwordTextField.text)
     }
     
