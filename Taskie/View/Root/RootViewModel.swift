@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 class RootViewModel: ObservableObject {
-    @Published var hasHouseholdData: Bool = false
-    @Published var hasUserData: Bool = false
-    @Published var hasUserName: Bool = false
-    @Published var hasProfileColor: Bool = false
-    @Published var errorMessage: String? = nil
+    @Published var hasHouseholdData: Bool?
+    @Published var hasUserData: Bool?
+    @Published var hasUserName: Bool?
+    @Published var hasProfileColor: Bool?
+    @Published var errorMessage: String?
     
     private var cancellables: Set<AnyCancellable> = []
     private var authService: AuthService
@@ -31,11 +31,11 @@ class RootViewModel: ObservableObject {
         self.userService = userService
         self.householdService = householdService
         self.choreService = choreService
-        authService.silentLogIn()
-        subscribeToUserService()
         subscribeToAuthService()
+        subscribeToUserService()
         subscribeToHouseholdService()
         subscribeToChoreService()
+//        authService.silentLogIn()
     }
     
     private func subscribeToAuthService() {
@@ -49,7 +49,8 @@ class RootViewModel: ObservableObject {
     }
     
     private func subscribeToUserService() {
-        userService.user.sink { [weak self] user in
+        userService.user
+            .sink { [weak self] user in
             LogUtil.log("From UserService -- user -- \(user)")
             if let user = user {
                 self?.hasUserData = true
@@ -83,7 +84,9 @@ class RootViewModel: ObservableObject {
     }
     
     private func subscribeToHouseholdService() {
-        householdService.household.sink { [weak self] household in
+        householdService.household
+            .dropFirst()
+            .sink { [weak self] household in
             if let household = household {
                 self?.hasHouseholdData = true
             }

@@ -60,8 +60,24 @@ class ChoreFirestoreService: ChoreService {
         self.choreRepository = choreRepository
         self.userRepository = userRepository
         self.householdRepository = householdRepository
-        subscribeToChoreRepository()
         subscribeToHouseholdRepository()
+        subscribeToChoreRepository()
+    }
+    
+    private func subscribeToHouseholdRepository() {
+        householdRepository.household.sink { [weak self] household in
+            if let household = household,
+               !household.id.isEmpty
+            {
+                LogUtil.log("From HouseholdRepository -- household -- \(household), reading chores")
+                self?.choreRepository.readChores(inHousehold: household.id)
+            }
+            else {
+                LogUtil.log("From HouseholdRepository -- household -- nil, resetting ChoreRepository")
+                self?.choreRepository.reset()
+            }
+        }
+        .store(in: &cancellables)
     }
     
     private func subscribeToChoreRepository() {
@@ -85,24 +101,6 @@ class ChoreFirestoreService: ChoreService {
         choreRepository.error.sink { [weak self] error in
             LogUtil.log("From ChoreRepository -- error -- \(error)")
             self?._error.send(error)
-        }
-        .store(in: &cancellables)
-    }
-    
-    private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] household in
-            LogUtil.log("From HouseholdRepository -- household -- \(household)")
-            
-            if let household = household,
-               !household.id.isEmpty
-            {
-                LogUtil.log("Received valid household, reading chores")
-                self?.choreRepository.readChores(inHousehold: household.id)
-            }
-            else {
-                LogUtil.log("Received invalid householdId, resetting ChoreRepository")
-                self?.choreRepository.reset()
-            }
         }
         .store(in: &cancellables)
     }

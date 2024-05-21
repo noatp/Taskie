@@ -32,6 +32,7 @@ protocol HouseholdService {
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?
     func readHouseholdIdFromUniversalLink() -> String?
     func setHouseholdIdFromUniversalLink(householdId: String)
+    func getCurrentHousehold() -> Household?
 }
 
 class HouseholdFirestoreService: HouseholdService {
@@ -59,8 +60,8 @@ class HouseholdFirestoreService: HouseholdService {
         self.householdRepository = householdRepository
         self.userRepository = userRepository
         self.invitationRepository = invitationRepository
-        subscribeToHouseholdRepository()
         subscribeToUserRepository()
+        subscribeToHouseholdRepository()
     }
     
     private func subscribeToHouseholdRepository() {
@@ -79,16 +80,15 @@ class HouseholdFirestoreService: HouseholdService {
     
     private func subscribeToUserRepository() {
         userRepository.user.sink { [weak self] user in
-            LogUtil.log("From UserRepository -- user -- \(user)")
             if let user = user,
                let householdId = user.householdId,
                !householdId.isEmpty
             {
-                LogUtil.log("Received valid user, reading household")
+                LogUtil.log("From UserRepository -- user -- \(user), reading household")
                 self?.readHousehold(withId: householdId)
             }
             else {
-                LogUtil.log("Received invalid householdId, resetting HouseholdRepository")
+                LogUtil.log("From UserRepository -- user -- nil, resetting HouseholdRepository")
                 self?.householdRepository.reset()
             }
         }
@@ -172,4 +172,5 @@ class HouseholdMockService: HouseholdService {
     }
     
     func readHousehold(withId householdId: String) {}
+    func getCurrentHousehold() -> Household? { return nil }
 }

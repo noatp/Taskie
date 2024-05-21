@@ -82,11 +82,9 @@ class UserFirestoreService: UserService {
     }
     
     private func subscribeToHouseholdRepository() {
-        householdRepository.household.sink { [weak self] household in
-            LogUtil.log("From HouseholdRepository -- household -- \(household)")
-            
+        householdRepository.household.sink { [weak self] household in            
             if let household = household, !household.id.isEmpty {
-                LogUtil.log("Received valid household, reading members")
+                LogUtil.log("From HouseholdRepository -- household -- \(household), reading members")
                 self?.readFamilyMembersInHousehold(withHouseholdId: household.id)
             }
         }

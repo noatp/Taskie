@@ -17,7 +17,7 @@ class RootVC: UIViewController {
     init(viewModel: RootViewModel, dependencyView: Dependency.View) {
         self.viewModel = viewModel
         self.dependencyView = dependencyView
-        self.currentChildNavController = UINavigationController(rootViewController: dependencyView.landingVC())
+        self.currentChildNavController = UINavigationController(rootViewController: UIViewController())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,20 +28,11 @@ class RootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        addChild(currentChildNavController)
-        currentChildNavController.didMove(toParent: self)
         setUpViews()
     }
     
     private func setUpViews() {
         view.backgroundColor = .systemBackground
-        
-        guard let childView = currentChildNavController.view else {
-            return
-        }
-        childView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(childView)
-        setupConstraints(for: childView)
     }
     
     private func bindViewModel() {
@@ -51,15 +42,23 @@ class RootVC: UIViewController {
             .combineLatest(viewModel.$hasProfileColor)
             .receive(on: RunLoop.main)
             .sink { [weak self] (arg0, hasProfileColor) in
-                
                 let ((hasUserData, hasHouseholdData), hasUserName) = arg0
-                LogUtil.log("From RootViewModel -- hasUserData -- \(hasUserData)")
+                LogUtil.log("From RootViewModel -- hasUserData, hasHouseholdData, hasUserName, hasProfileColor -- \(hasUserData), \(hasHouseholdData), \(hasUserName), \(hasProfileColor)")
 
-                guard let self = self else {
+                guard let self = self,
+                      let hasUserData = hasUserData
+                else {
                     return
                 }
                 
                 if hasUserData {
+                    guard let hasUserName = hasUserName,
+                          let hasProfileColor = hasProfileColor,
+                          let hasHouseholdData = hasHouseholdData
+                    else {
+                        return
+                    }
+                    
                     if !hasUserName {
                         let enterNameVC = self.dependencyView.enterNameVC()
                         let navVC = UINavigationController(rootViewController: enterNameVC)
@@ -70,14 +69,14 @@ class RootVC: UIViewController {
                         let navVC = UINavigationController(rootViewController: pickProfileColorVC)
                         self.switchToViewController(navVC)
                     }
-                    else if hasHouseholdData {
-                        let choreListVC = self.dependencyView.choreListVC()
-                        let navVC = UINavigationController(rootViewController: choreListVC)
+                    else if !hasHouseholdData {
+                        let createOrAddHouseholdVC = self.dependencyView.createOrAddHouseholdVC()
+                        let navVC = UINavigationController(rootViewController: createOrAddHouseholdVC)
                         self.switchToViewController(navVC)
                     }
                     else {
-                        let createOrAddHouseholdVC = self.dependencyView.createOrAddHouseholdVC()
-                        let navVC = UINavigationController(rootViewController: createOrAddHouseholdVC)
+                        let choreListVC = self.dependencyView.choreListVC()
+                        let navVC = UINavigationController(rootViewController: choreListVC)
                         self.switchToViewController(navVC)
                     }
                 }
@@ -125,6 +124,7 @@ class RootVC: UIViewController {
             return
         }
         let oldVC = currentChildNavController
+        oldVC.hideLoadingIndicator()
         // Prepare the new view controller
         addChild(newVC)
         newVC.view.translatesAutoresizingMaskIntoConstraints = false

@@ -52,24 +52,25 @@ class Dependency {
                 self.storageService = StorageService()
                 self.authService = AuthMockService()
             } else {
-                self.userService = UserFirestoreService(userRepository: repository.userRepository, householdRepository: repository.householdRepository)
-                self.choreService = ChoreFirestoreService(
-                    choreRepository: repository.choreRepository,
-                    userRepository: repository.userRepository,
-                    householdRepository: repository.householdRepository
-                )
-                self.householdService = HouseholdFirestoreService(
-                    householdRepository: repository.householdRepository,
-                    userRepository: repository.userRepository, 
-                    invitationRepository: repository.invitationRepository
-                )
-                self.storageService = StorageService()
                 self.authService = AuthenticationService(
                     userRepository: repository.userRepository,
                     choreRepository: repository.choreRepository,
                     householdRepository: repository.householdRepository,
                     invitationRepository: repository.invitationRepository
                 )
+                self.userService = UserFirestoreService(userRepository: repository.userRepository, householdRepository: repository.householdRepository)
+                self.householdService = HouseholdFirestoreService(
+                    householdRepository: repository.householdRepository,
+                    userRepository: repository.userRepository,
+                    invitationRepository: repository.invitationRepository
+                )
+                self.choreService = ChoreFirestoreService(
+                    choreRepository: repository.choreRepository,
+                    userRepository: repository.userRepository,
+                    householdRepository: repository.householdRepository
+                )
+                self.storageService = StorageService()
+                
             }
         }
     }

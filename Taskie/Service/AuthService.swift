@@ -69,6 +69,7 @@ class AuthenticationService: AuthService {
         self.choreRepository = choreRepository
         self.householdRepository = householdRepository
         self.invitationRepository = invitationRepository
+        self.silentLogIn()
     }
     
     func logIn(withEmail email: String?, password: String?) {
@@ -130,22 +131,28 @@ class AuthenticationService: AuthService {
     }
     
     func silentLogIn() {
-        LogUtil.log("Performing silent login")
-        auth.currentUser?.getIDTokenForcingRefresh(true){ [weak self] _, error in
-            guard let self = self else {
-                return
-            }
-            
-            if let error = error {
-                self.signOut()
-                LogUtil.log("\(error)")
-            }
-            else {
-                self.checkCurentAuthSession { currentUserId in
-                    self.userRepository.readUser(withId: currentUserId)
+        LogUtil.log("Performing silent login for \(auth.currentUser)")
+        if let currentUser = auth.currentUser {
+            currentUser.getIDTokenForcingRefresh(true){ [weak self] _, error in
+                guard let self = self else {
+                    return
+                }
+                
+                if let error = error {
+                    self.signOut()
+                    LogUtil.log("\(error)")
+                }
+                else {
+                    self.checkCurentAuthSession { currentUserId in
+                        self.userRepository.readUser(withId: currentUserId)
+                    }
                 }
             }
         }
+        else {
+            self.checkCurentAuthSession { currentUserId in }
+        }
+        
     }
     
     private func checkCurentAuthSession(afterAuthenticated: (_ currentUserId: String) -> Void) {
