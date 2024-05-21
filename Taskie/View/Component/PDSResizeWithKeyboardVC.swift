@@ -37,13 +37,17 @@ class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         bottomConstraintValue = -keyboardSize.height
         keyboardAdjustmentConstraint.constant = bottomConstraintValue
-        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         bottomConstraintValue = -bottomConstraintOffset
         keyboardAdjustmentConstraint.constant = bottomConstraintValue
-        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     func getBottomConstraintValue() -> CGFloat {
