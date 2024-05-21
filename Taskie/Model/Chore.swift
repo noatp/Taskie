@@ -63,7 +63,7 @@ struct ChoreForDetailView {
         createdDate: "",
         finishedDate: nil,
         actionButtonType: .accept, 
-        choreStatus: "pending"
+        choreStatus: "Pending"
     
     )
     let name: String

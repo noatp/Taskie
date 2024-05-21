@@ -160,5 +160,5 @@ class UserMockService: UserService {
     func updateUserWithName(_ name: String) {}
     func updateUserWithProfileColor(_ profileColor: String) {}
     func updateUserWithHouseholdId(_ householdId: String) {}
-    func getCurrentUser() -> User? { return nil }
+    func getCurrentUser() -> User? { return .mock }
 }

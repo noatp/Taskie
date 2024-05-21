@@ -36,6 +36,7 @@
 		CA3A69A72BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */; };
 		CA3A69B12BE2F1FC009D669F /* CreateHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */; };
 		CA3A69B22BE2F1FC009D669F /* CreateHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */; };
+		CA460C412BFC21810016C0D4 /* HouseholdMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA460C402BFC21810016C0D4 /* HouseholdMemberCell.swift */; };
 		CA48864B2B9EB3E1003F22C8 /* CreateChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */; };
 		CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */; };
 		CA4886522B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886512B9EB572003F22C8 /* ___VARIABLE_viewName-identifier___ViewModel.txt */; };
@@ -60,7 +61,7 @@
 		CA7E33022B8C651F00CA7B20 /* PDSAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */; };
 		CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */; };
 		CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */; };
-		CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */; };
+		CACE2E812BA3FD7A007FD9F2 /* ChoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */; };
 		CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */; };
 		CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E842BA7CFDF007FD9F2 /* Household.swift */; };
 		CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E862BA7E923007FD9F2 /* UserFirestoreService.swift */; };
@@ -75,7 +76,7 @@
 		CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */; };
 		CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */; };
 		CACE2EA42BC381AC007FD9F2 /* PDSIconBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */; };
-		CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */; };
+		CACE2EA62BC3A09A007FD9F2 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EA52BC3A09A007FD9F2 /* MenuCell.swift */; };
 		CACE2EB62BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */; };
 		CACE2EB72BC4E11E007FD9F2 /* HouseholdMemberListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */; };
 		CACE2EBF2BCDEB65007FD9F2 /* CodableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */; };
@@ -126,6 +127,7 @@
 		CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrJoinHouseholdVC.swift; sourceTree = "<group>"; };
 		CA3A69AF2BE2F1FC009D669F /* CreateHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69B02BE2F1FC009D669F /* CreateHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHouseholdVC.swift; sourceTree = "<group>"; };
+		CA460C402BFC21810016C0D4 /* HouseholdMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberCell.swift; sourceTree = "<group>"; };
 		CA4886492B9EB3E1003F22C8 /* CreateChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreViewModel.swift; sourceTree = "<group>"; };
 		CA48864A2B9EB3E1003F22C8 /* CreateChoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreVC.swift; sourceTree = "<group>"; };
 		CA48864F2B9EB4A3003F22C8 /* ___VARIABLE_productName-identifier___VC.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "___VARIABLE_productName-identifier___VC.txt"; sourceTree = "<group>"; };
@@ -151,7 +153,7 @@
 		CA7E33012B8C651F00CA7B20 /* PDSAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSAlertVC.swift; sourceTree = "<group>"; };
 		CA7E33042B8CEFA200CA7B20 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSChoreCell.swift; sourceTree = "<group>"; };
+		CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreCell.swift; sourceTree = "<group>"; };
 		CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		CACE2E842BA7CFDF007FD9F2 /* Household.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Household.swift; sourceTree = "<group>"; };
 		CACE2E862BA7E923007FD9F2 /* UserFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirestoreService.swift; sourceTree = "<group>"; };
@@ -166,7 +168,7 @@
 		CACE2E9B2BB25AA6007FD9F2 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
 		CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSTitleWrapperVC.swift; sourceTree = "<group>"; };
 		CACE2EA32BC381AC007FD9F2 /* PDSIconBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSIconBarButton.swift; sourceTree = "<group>"; };
-		CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSMenuCell.swift; sourceTree = "<group>"; };
+		CACE2EA52BC3A09A007FD9F2 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		CACE2EB42BC4E11E007FD9F2 /* HouseholdMemberListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListViewModel.swift; sourceTree = "<group>"; };
 		CACE2EB52BC4E11E007FD9F2 /* HouseholdMemberListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdMemberListVC.swift; sourceTree = "<group>"; };
 		CACE2EBE2BCDEB65007FD9F2 /* CodableUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableUtil.swift; sourceTree = "<group>"; };
@@ -351,11 +353,12 @@
 				CA20AFDC2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift */,
 				CA20AFE02BA0A99700BE9C18 /* PDSCurrencyTextField.swift */,
 				CA20AFE92BA2552900BE9C18 /* PDSImageRowSelectionVC.swift */,
-				CACE2E802BA3FD7A007FD9F2 /* PDSChoreCell.swift */,
-				CACE2EA52BC3A09A007FD9F2 /* PDSMenuCell.swift */,
+				CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */,
+				CACE2EA52BC3A09A007FD9F2 /* MenuCell.swift */,
 				CACE2E962BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift */,
 				CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */,
 				CADCE5142BF9833B0026AC9E /* UserCard.swift */,
+				CA460C402BFC21810016C0D4 /* HouseholdMemberCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -643,7 +646,7 @@
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
 				CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */,
 				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
-				CACE2E812BA3FD7A007FD9F2 /* PDSChoreCell.swift in Sources */,
+				CACE2E812BA3FD7A007FD9F2 /* ChoreCell.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserRepository.swift in Sources */,
 				CA7AA96A2BEB3352004B1267 /* EnterNameVC.swift in Sources */,
 				CA7E33002B8C580300CA7B20 /* PDSSecondaryButton.swift in Sources */,
@@ -657,6 +660,7 @@
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
 				CA48864C2B9EB3E1003F22C8 /* CreateChoreVC.swift in Sources */,
 				CA3A69A62BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift in Sources */,
+				CA460C412BFC21810016C0D4 /* HouseholdMemberCell.swift in Sources */,
 				CA1683ED2B8D9B980086153A /* LogUtil.swift in Sources */,
 				CACE2E8A2BA8FDF9007FD9F2 /* ChoreRepository.swift in Sources */,
 				CA7AA9682BEB2772004B1267 /* PickPasswordVC.swift in Sources */,
@@ -675,7 +679,7 @@
 				CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */,
 				CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */,
 				CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */,
-				CACE2EA62BC3A09A007FD9F2 /* PDSMenuCell.swift in Sources */,
+				CACE2EA62BC3A09A007FD9F2 /* MenuCell.swift in Sources */,
 				CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,
 				CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */,

@@ -50,7 +50,7 @@ class ChoreDetailVC: UIViewController, Themable {
         return label
     }()
     
-    private let createdByLabel: PDSLabel = {
+    private let requestedByLabel: PDSLabel = {
         let label = PDSLabel(withText: "Requested by", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -69,12 +69,12 @@ class ChoreDetailVC: UIViewController, Themable {
     }()
     
     private let acceptorCard: UserCard = {
-        let userCard = UserCard()
+        let userCard = UserCard(reversed: true)
         userCard.translatesAutoresizingMaskIntoConstraints = false
         return userCard
     }()
     
-    private let createdDateLabel: PDSLabel = {
+    private let requestDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -98,6 +98,20 @@ class ChoreDetailVC: UIViewController, Themable {
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let requestIcon: UIImageView = {
+        let icon = UIImage(systemName: "exclamationmark.bubble.fill")
+        let iconView = UIImageView(image: icon)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        return iconView
+    }()
+    
+    private let acceptIcon: UIImageView = {
+        let icon = UIImage(systemName: "checkmark.bubble.fill")
+        let iconView = UIImageView(image: icon)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        return iconView
     }()
     
     private var actionButtonGroup: UIView = .init()
@@ -143,37 +157,43 @@ class ChoreDetailVC: UIViewController, Themable {
                     withUserName: chore.requestorName,
                     profileColor: .init(hex: chore.requestorProfileColor)
                 )
-                self.createdDateLabel.text = chore.createdDate
+                self.requestDateLabel.text = chore.createdDate
                 self.choreStatusLabel.text = chore.choreStatus
+                
+                if chore.choreStatus == "Finished" {
+                    self.acceptedByLabel.text = "Finished by"
+                }
+                else {
+                    self.acceptedByLabel.text = "Accepted by"
+                }
                 
                 if let acceptorName = chore.acceptorName,
                    let acceptorProfileColor = chore.acceptorProfileColor
                 {
                     self.acceptedByLabel.isHidden = false
+                    self.acceptIcon.isHidden = false
                     self.acceptorCard.isHidden = false
                     self.acceptorCard.configure(withUserName: acceptorName, profileColor: .init(hex: acceptorProfileColor))
                 }
                 else {
                     self.acceptedByLabel.isHidden = true
+                    self.acceptIcon.isHidden = true
                     self.acceptorCard.isHidden = true
                 }
                 
                 if let finishedDate = chore.finishedDate {
-                    self.finishedDateLabel.text = "Finished " + finishedDate
+                    self.finishedDateLabel.text = finishedDate
                 }
                 
                 self.actionButtonType = chore.actionButtonType
                 switch chore.actionButtonType {
                     case .accept:
-                        choreStatusLabel.text = ""
                         actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Accept", for: .normal)
                     case .finish:
-                        choreStatusLabel.text = "Pending"
                         actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Finished", for: .normal)
                     case .withdraw:
-                        choreStatusLabel.text = ""
                         actionButtonGroup.isHidden = false
                         self.actionButton.setTitle("Withdraw", for: .normal)
                     case .nothing:
@@ -202,6 +222,39 @@ class ChoreDetailVC: UIViewController, Themable {
         choreNameRow.addSubview(choreStatusLabel)
         choreNameRow.translatesAutoresizingMaskIntoConstraints = false
         
+        let iconAndLabelRow = UIStackView.hStack(
+            arrangedSubviews: [
+                requestIcon,
+                requestedByLabel,
+                acceptedByLabel,
+                acceptIcon
+            ],
+            alignment: .center,
+            shouldExpandSubviewHeight: true
+        )
+        iconAndLabelRow.spacing = 10
+        iconAndLabelRow.translatesAutoresizingMaskIntoConstraints = false
+        
+        let userCardRow = UIStackView.hStack(
+            arrangedSubviews: [
+                requestorCard,
+                acceptorCard,
+            ],
+            alignment: .center,
+            shouldExpandSubviewHeight: true
+        )
+        userCardRow.translatesAutoresizingMaskIntoConstraints = false
+        
+        let timeRow = UIStackView.hStack(
+            arrangedSubviews: [
+                requestDateLabel,
+                finishedDateLabel
+            ],
+            alignment: .center,
+            shouldExpandSubviewHeight: true
+        )
+        timeRow.translatesAutoresizingMaskIntoConstraints = false
+        
         let vStack = UIStackView.vStack(arrangedSubviews: [
             choreNameRow,
             rewardAmountLabel,
@@ -210,13 +263,10 @@ class ChoreDetailVC: UIViewController, Themable {
             descriptionLabel,
             descriptionDetailLabel,
             .createSeparatorView(),
-            createdByLabel,
-            requestorCard,
-            createdDateLabel,
+            iconAndLabelRow,
+            userCardRow,
+            timeRow,
             .createSeparatorView(),
-            acceptedByLabel,
-            acceptorCard,
-            finishedDateLabel
         ], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.spacing = 10
         vStack.translatesAutoresizingMaskIntoConstraints = false
@@ -232,6 +282,13 @@ class ChoreDetailVC: UIViewController, Themable {
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
+            acceptIcon.heightAnchor.constraint(equalToConstant: 40),
+            acceptIcon.widthAnchor.constraint(equalTo: acceptIcon.heightAnchor, multiplier: 1),
+            
+            requestIcon.heightAnchor.constraint(equalToConstant: 40),
+            requestIcon.widthAnchor.constraint(equalTo: requestIcon.heightAnchor, multiplier: 1),
+
+            
             choreNameLabel.leadingAnchor.constraint(equalTo: choreNameRow.leadingAnchor),
             choreNameLabel.centerYAnchor.constraint(equalTo: choreNameRow.centerYAnchor),
             choreNameLabel.heightAnchor.constraint(equalTo: choreNameRow.heightAnchor),
@@ -268,6 +325,8 @@ class ChoreDetailVC: UIViewController, Themable {
         view.backgroundColor = theme.color.surfaceColor
         choreNameLabel.textColor = theme.color.primaryColor
         rewardAmountLabel.textColor = theme.color.secondaryColor
+        requestIcon.tintColor = theme.color.primaryColor
+        acceptIcon.tintColor = theme.color.primaryColor
     }
     
     @objc func handleBack() {

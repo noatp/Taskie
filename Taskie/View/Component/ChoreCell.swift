@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PDSChoreCell: UITableViewCell, Themable {
+class ChoreCell: UITableViewCell, Themable {
     private var task: URLSessionDataTask?
     
     private let choreImageView: UIImageView = {

@@ -12,7 +12,8 @@ class MenuVC: PDSTitleWrapperVC {
     private var viewModel: MenuViewModel
     private let dependencyView: Dependency.View
     
-    private let menuOptions = ["Household", "Profile"]
+    private let menuOptions = [("Household", "Household, Invite members"),
+                               ("Profile", "Your profile details")]
     
     private let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
@@ -29,7 +30,7 @@ class MenuVC: PDSTitleWrapperVC {
     
     private let menuOptionTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PDSMenuCell.self, forCellReuseIdentifier: PDSMenuCell.className)
+        tableView.register(MenuCell.self, forCellReuseIdentifier: MenuCell.className)
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -110,10 +111,11 @@ extension MenuVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PDSMenuCell.className, for: indexPath) as? PDSMenuCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.className, for: indexPath) as? MenuCell else {
             return UITableViewCell()
         }
-        cell.configureCell(withOption: menuOptions[indexPath.row])
+        let menuOption = menuOptions[indexPath.row]
+        cell.configureCell(withOption: menuOption.0, optionDescription: menuOption.1)
         return cell
     }
     

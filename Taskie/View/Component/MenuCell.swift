@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PDSMenuCell: UITableViewCell, Themable {
+class MenuCell: UITableViewCell, Themable {
 
     private let optionTitleLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .caption)
@@ -60,9 +60,9 @@ class PDSMenuCell: UITableViewCell, Themable {
         ])
     }
     
-    func configureCell(withOption option: String){
-        optionTitleLabel.text = option
-        optionDescriptionLabel.text = "This is a description."
+    func configureCell(withOption optionName: String, optionDescription: String){
+        optionTitleLabel.text = optionName
+        optionDescriptionLabel.text = optionDescription
     }
     
     func applyTheme(_ theme: PDSTheme) {

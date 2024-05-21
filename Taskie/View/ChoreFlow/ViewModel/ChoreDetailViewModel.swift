@@ -38,7 +38,6 @@ class ChoreDetailViewModel: ObservableObject {
         }
         Task {
             do {
-                
                 guard let requestor = try await userDetail(withId: chore.requestorID),
                       let actionButtonType = determineActionType(
                         requestorId: chore.requestorID,
@@ -118,7 +117,6 @@ class ChoreDetailViewModel: ObservableObject {
         else {
             return nil
         }
-        
         var userDetail: DecentrailizedUser? = nil
         
         if let familyMember = try await userService.readFamilyMember(withId: lookUpId) {

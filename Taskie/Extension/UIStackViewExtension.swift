@@ -21,4 +21,18 @@ extension UIStackView {
         }
         return stackView
     }
+    
+    static func hStack(arrangedSubviews: [UIView], alignment: Alignment, shouldExpandSubviewHeight: Bool = false) -> UIStackView{
+        let stackView = UIStackView(arrangedSubviews: arrangedSubviews)
+        stackView.axis = .horizontal
+        stackView.alignment = alignment
+        stackView.spacing = 0
+        
+        if shouldExpandSubviewHeight {
+            for subview in arrangedSubviews {
+                subview.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 1).isActive = true
+            }
+        }
+        return stackView
+    }
 }

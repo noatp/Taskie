@@ -9,7 +9,10 @@ import UIKit
 import SwiftUI
 
 class UserCard: UIView {
-    init() {
+    private let reversed: Bool
+    
+    init(reversed: Bool = false) {
+        self.reversed = reversed
         super.init(frame: .zero)
         setUpViews()
     }
@@ -38,18 +41,33 @@ class UserCard: UIView {
     private func setUpViews() {
         addSubview(smileyFace)
         addSubview(userNameLabel)
-        
-        NSLayoutConstraint.activate([
-            smileyFace.leadingAnchor.constraint(equalTo: leadingAnchor),
-            smileyFace.topAnchor.constraint(equalTo: topAnchor),
-            smileyFace.bottomAnchor.constraint(equalTo: bottomAnchor),
-            smileyFace.heightAnchor.constraint(equalToConstant: 40),
-            smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
-            
-            userNameLabel.leadingAnchor.constraint(equalTo: smileyFace.trailingAnchor, constant: 10),
-            userNameLabel.centerYAnchor.constraint(equalTo: smileyFace.centerYAnchor),
-            userNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
+        if reversed {
+            NSLayoutConstraint.activate([
+                userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+                userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+                userNameLabel.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10),
+                
+                smileyFace.topAnchor.constraint(equalTo: topAnchor),
+                smileyFace.bottomAnchor.constraint(equalTo: bottomAnchor),
+                smileyFace.heightAnchor.constraint(equalToConstant: 40),
+                smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
+                smileyFace.trailingAnchor.constraint(equalTo: trailingAnchor)
+                
+            ])
+        }
+        else {
+            NSLayoutConstraint.activate([
+                smileyFace.leadingAnchor.constraint(equalTo: leadingAnchor),
+                smileyFace.topAnchor.constraint(equalTo: topAnchor),
+                smileyFace.bottomAnchor.constraint(equalTo: bottomAnchor),
+                smileyFace.heightAnchor.constraint(equalToConstant: 40),
+                smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
+                
+                userNameLabel.leadingAnchor.constraint(equalTo: smileyFace.trailingAnchor, constant: 10),
+                userNameLabel.centerYAnchor.constraint(equalTo: smileyFace.centerYAnchor),
+                userNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+        }
     }
     
     func configure(withUserName userName: String, profileColor: UIColor) {

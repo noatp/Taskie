@@ -18,7 +18,7 @@ class ChoreListVC: PDSTitleWrapperVC {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        tableView.register(PDSChoreCell.self, forCellReuseIdentifier: PDSChoreCell.className)
+        tableView.register(ChoreCell.self, forCellReuseIdentifier: ChoreCell.className)
         return tableView
     }()
     
@@ -122,7 +122,7 @@ extension ChoreListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PDSChoreCell.className, for: indexPath) as? PDSChoreCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChoreCell.className, for: indexPath) as? ChoreCell else {
             return UITableViewCell()
         }
         cell.configureCell(withChore: viewModel.chores[indexPath.row])

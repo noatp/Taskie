@@ -16,7 +16,7 @@ class HouseholdMemberListVC: PDSTitleWrapperVC {
     
     private let tableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(HouseholdMemberCell.self, forCellReuseIdentifier: HouseholdMemberCell.className)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -126,8 +126,11 @@ extension HouseholdMemberListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = viewModel.familyMembers[indexPath.row].name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HouseholdMemberCell.className, for: indexPath) as? HouseholdMemberCell else {
+            return UITableViewCell()
+        }
+        let member = viewModel.familyMembers[indexPath.row]
+        cell.configureCell(withName: member.name ?? "", profileColor: member.profileColor ?? "")
         return cell
     }
     
