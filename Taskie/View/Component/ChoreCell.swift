@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ChoreCell: UITableViewCell, Themable {
     private var task: URLSessionDataTask?
@@ -20,12 +21,23 @@ class ChoreCell: UITableViewCell, Themable {
     
     private let choreNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .caption)
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let choreRewardLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let choreStatusLabel: PDSLabel = {
+        let label = PDSLabel(withText: "Pending", fontScale: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -44,6 +56,13 @@ class ChoreCell: UITableViewCell, Themable {
         contentView.addSubview(choreImageView)
         contentView.addSubview(choreNameLabel)
         contentView.addSubview(choreRewardLabel)
+        contentView.addSubview(choreStatusLabel)
+        
+        choreNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        choreNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        
+        choreRewardLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        choreRewardLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         NSLayoutConstraint.activate([
             choreImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -52,13 +71,18 @@ class ChoreCell: UITableViewCell, Themable {
             choreImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             choreImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
-            choreNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            choreNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             choreNameLabel.leadingAnchor.constraint(equalTo: choreImageView.trailingAnchor, constant: 10),
-            choreNameLabel.trailingAnchor.constraint(equalTo: choreRewardLabel.leadingAnchor, constant: -10),
+            choreNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: choreRewardLabel.leadingAnchor, constant: -10),
             
-            choreRewardLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            choreRewardLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            choreRewardLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            choreRewardLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            choreStatusLabel.leadingAnchor.constraint(equalTo: choreImageView.trailingAnchor, constant: 10),
+            choreStatusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
+        
+        
     }
     
     func configureCell(withChore chore: Chore){
@@ -82,5 +106,22 @@ class ChoreCell: UITableViewCell, Themable {
         choreNameLabel.textColor = theme.color.onSurface
         choreRewardLabel.textColor = theme.color.onSurface
         choreImageView.layer.cornerRadius = theme.styling.cornerRadius
+    }
+}
+
+struct ChoreCellPreview: PreviewProvider {
+    static var previews: some View {
+        // Using UIViewPreviewWrapper to create a view
+        UIViewPreviewWrapper {
+            // Configure the UITableViewCell here
+            let cell = ChoreCell(style: .default, reuseIdentifier: "ChoreCell")
+            // Setup dummy data for better preview
+            let chore = Chore.mock
+            // Replace with actual data structure
+            cell.configureCell(withChore: chore)
+            return cell
+        }
+        .previewLayout(.fixed(width: 375, height: 120)) // Adjust size according to the expected cell size
+        .padding(10) // Optional padding for better visibility in preview
     }
 }

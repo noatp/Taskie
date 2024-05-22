@@ -101,14 +101,14 @@ class ChoreDetailVC: UIViewController, Themable {
     }()
     
     private let requestIcon: UIImageView = {
-        let icon = UIImage(systemName: "exclamationmark.bubble.fill")
+        let icon = UIImage(systemName: "exclamationmark.bubble")
         let iconView = UIImageView(image: icon)
         iconView.translatesAutoresizingMaskIntoConstraints = false
         return iconView
     }()
     
     private let acceptIcon: UIImageView = {
-        let icon = UIImage(systemName: "checkmark.bubble.fill")
+        let icon = UIImage(systemName: "checkmark.bubble")
         let iconView = UIImageView(image: icon)
         iconView.translatesAutoresizingMaskIntoConstraints = false
         return iconView
