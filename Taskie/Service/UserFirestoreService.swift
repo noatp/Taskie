@@ -21,10 +21,10 @@ enum UserServiceError: Error, LocalizedError {
 
 protocol UserService {
     var user: AnyPublisher<User?, Never> { get }
-    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
+    var familyMembers: AnyPublisher<[DenormalizedUser]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser)
-    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser?
+    func createUserInHouseholdSub(householdId: String, withUser denormalizedUser: DenormalizedUser)
+    func readFamilyMember(withId lookUpId: String) -> DenormalizedUser?
     func updateUserWithName(_ name: String)
     func updateUserWithProfileColor(_ profileColor: String)
     func updateUserWithHouseholdId(_ householdId: String)
@@ -41,10 +41,10 @@ class UserFirestoreService: UserService {
     }
     private let _user = CurrentValueSubject<User?, Never>(nil)
     
-    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> {
+    var familyMembers: AnyPublisher<[DenormalizedUser]?, Never> {
         _familyMembers.eraseToAnyPublisher()
     }
-    private let _familyMembers = CurrentValueSubject<[DecentrailizedUser]?, Never>(nil)
+    private let _familyMembers = CurrentValueSubject<[DenormalizedUser]?, Never>(nil)
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()
@@ -91,13 +91,13 @@ class UserFirestoreService: UserService {
         .store(in: &cancellables)
     }
     
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {
+    func createUserInHouseholdSub(householdId: String, withUser denormalizedUser: DenormalizedUser) {
         Task {
-            await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: decentralizedUserObject)
+            await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: denormalizedUser)
         }
     }
     
-    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser? {
+    func readFamilyMember(withId lookUpId: String) -> DenormalizedUser? {
         if let familyMember = _familyMembers.value?.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
@@ -149,14 +149,14 @@ class UserMockService: UserService {
     var user: AnyPublisher<User?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
-    var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> {
+    var familyMembers: AnyPublisher<[DenormalizedUser]?, Never> {
         Just (
             [.mock, .mock, .mock]
         )
         .eraseToAnyPublisher()
     }
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {}
-    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser? { return .mock }
+    func createUserInHouseholdSub(householdId: String, withUser denormalizedUser: DenormalizedUser) {}
+    func readFamilyMember(withId lookUpId: String) -> DenormalizedUser? { return .mock }
     func updateUserWithName(_ name: String) {}
     func updateUserWithProfileColor(_ profileColor: String) {}
     func updateUserWithHouseholdId(_ householdId: String) {}

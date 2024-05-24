@@ -70,7 +70,7 @@ class UserCard: UIView {
         }
     }
     
-    func configure(for denormUser: DecentrailizedUser) {
+    func configure(for denormUser: DenormalizedUser) {
         userNameLabel.text = denormUser.name
         smileyFace.backgroundColor = .init(hex: denormUser.profileColor)
     }

@@ -73,7 +73,7 @@ class CreateChoreViewModel: ObservableObject {
             return
         }
         
-        let currentUserDenorm = DecentrailizedUser(
+        let currentUserDenorm = DenormalizedUser(
             id: currentUser.id,
             name: currentUser.name,
             profileColor: currentUser.profileColor
@@ -106,13 +106,13 @@ class CreateChoreViewModel: ObservableObject {
         }
     }
     
-    private func userDetail(withId lookUpId: String?) -> DecentrailizedUser? {
+    private func userDetail(withId lookUpId: String?) -> DenormalizedUser? {
         guard let lookUpId = lookUpId,
               let currentUserId = userService.getCurrentUser()?.id
         else {
             return nil
         }
-        var userDetail: DecentrailizedUser? = nil
+        var userDetail: DenormalizedUser? = nil
         
         if let familyMember = userService.readFamilyMember(withId: lookUpId) {
             if lookUpId == currentUserId {

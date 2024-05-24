@@ -27,7 +27,7 @@ enum HouseholdServiceError: Error, LocalizedError {
 protocol HouseholdService {
     var household: AnyPublisher<Household?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
-    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?)
+    func createHousehold(forUser denormalizedUser: DenormalizedUser, withHouseholdTag tag: String?)
     func readHousehold(withId householdId: String)
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?
     func readHouseholdIdFromUniversalLink() -> String?
@@ -96,7 +96,7 @@ class HouseholdFirestoreService: HouseholdService {
     }
     
     
-    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {
+    func createHousehold(forUser denormalizedUser: DenormalizedUser, withHouseholdTag tag: String?) {
         guard let tag = tag, !tag.isEmpty else {
             self._error.send(HouseholdServiceError.missingInput)
             return
@@ -113,8 +113,8 @@ class HouseholdFirestoreService: HouseholdService {
                 let householdObject = Household(id: householdId, tag: tag)
                 
                 await householdRepository.createHousehold(from: householdObject)
-                await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: decentralizedUserObject)
-                await userRepository.updateUser(atUserId: decentralizedUserObject.id, withHouseholdId: householdId)
+                await userRepository.createUserInHouseholdSub(householdId: householdId, withUser: denormalizedUser)
+                await userRepository.updateUser(atUserId: denormalizedUser.id, withHouseholdId: householdId)
             }
             catch {
                 self._error.send(error)
@@ -163,7 +163,7 @@ class HouseholdMockService: HouseholdService {
         Just(nil).eraseToAnyPublisher()
     }
     
-    func createHousehold(forUser decentralizedUserObject: DecentrailizedUser, withHouseholdTag tag: String?) {}
+    func createHousehold(forUser denormalizedUser: DenormalizedUser, withHouseholdTag tag: String?) {}
     
     func readHouseholdIdFromInvitation(withEmail email: String) async -> String?{ return nil }
         

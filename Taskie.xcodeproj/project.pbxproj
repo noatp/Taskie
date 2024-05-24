@@ -44,7 +44,7 @@
 		CA4886562B9EB5F5003F22C8 /* TemplateInfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */; };
 		CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */; };
 		CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */; };
-		CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */; };
+		CA55371D2BE33DB50053131C /* DenormalizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55371C2BE33DB50053131C /* DenormalizedUser.swift */; };
 		CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5537202BE4431C0053131C /* InvitationRepository.swift */; };
 		CA5CB9D32BFD7A4800DD4FED /* ChoreMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5CB9D22BFD7A4800DD4FED /* ChoreMapper.swift */; };
 		CA5CB9D52C00116C00DD4FED /* Chore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5CB9D42C00116C00DD4FED /* Chore.swift */; };
@@ -138,7 +138,7 @@
 		CA4886552B9EB5F5003F22C8 /* TemplateInfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TemplateInfo.txt; sourceTree = "<group>"; };
 		CA5535562BDE2CD900A5B2BC /* PDSLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLoadingIndicator.swift; sourceTree = "<group>"; };
 		CA55371A2BE2FCCE0053131C /* DocumentReferenceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReferenceExtension.swift; sourceTree = "<group>"; };
-		CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecentrailizedUser.swift; sourceTree = "<group>"; };
+		CA55371C2BE33DB50053131C /* DenormalizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenormalizedUser.swift; sourceTree = "<group>"; };
 		CA5537202BE4431C0053131C /* InvitationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationRepository.swift; sourceTree = "<group>"; };
 		CA5CB9D22BFD7A4800DD4FED /* ChoreMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreMapper.swift; sourceTree = "<group>"; };
 		CA5CB9D42C00116C00DD4FED /* Chore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chore.swift; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 				CA1683E62B8D425A0086153A /* ChoreDTO.swift */,
 				CA1683EA2B8D45D80086153A /* User.swift */,
 				CACE2E842BA7CFDF007FD9F2 /* Household.swift */,
-				CA55371C2BE33DB50053131C /* DecentrailizedUser.swift */,
+				CA55371C2BE33DB50053131C /* DenormalizedUser.swift */,
 				CA5CB9D42C00116C00DD4FED /* Chore.swift */,
 			);
 			path = Model;
@@ -693,7 +693,7 @@
 				CA20AFDF2BA000AF00BE9C18 /* UIViewExtension.swift in Sources */,
 				CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */,
 				CACE2E872BA7E923007FD9F2 /* UserFirestoreService.swift in Sources */,
-				CA55371D2BE33DB50053131C /* DecentrailizedUser.swift in Sources */,
+				CA55371D2BE33DB50053131C /* DenormalizedUser.swift in Sources */,
 				CACE2EA62BC3A09A007FD9F2 /* MenuCell.swift in Sources */,
 				CA5537212BE4431C0053131C /* InvitationRepository.swift in Sources */,
 				CA1683F62B9E74D60086153A /* RootViewModel.swift in Sources */,

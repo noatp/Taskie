@@ -1,5 +1,5 @@
 //
-//  DecentrailizedUser.swift
+//  DenormalizedUser.swift
 //  RebootChoreReward
 //
 //  Created by Toan Pham on 5/1/24.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct DecentrailizedUser: Codable {
-    static let empty = DecentrailizedUser(id: "", name: nil, profileColor: nil)
-    static let mock = DecentrailizedUser(
+struct DenormalizedUser: Codable {
+    static let empty = DenormalizedUser(id: "", name: nil, profileColor: nil)
+    static let mock = DenormalizedUser(
         id: "some id",
         name: "some name", 
         profileColor: "#FDFB67FF"

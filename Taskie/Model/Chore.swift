@@ -30,8 +30,8 @@ struct Chore {
     
     
     let name: String
-    let requestor: DecentrailizedUser
-    let acceptor: DecentrailizedUser?
+    let requestor: DenormalizedUser
+    let acceptor: DenormalizedUser?
     let description: String
     let rewardAmount: Double
     let imageUrls: [String]

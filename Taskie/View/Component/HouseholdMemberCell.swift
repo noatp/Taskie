@@ -51,7 +51,7 @@ class HouseholdMemberCell: UITableViewCell, Themable {
         ])
     }
     
-    func configureCell(for denormUser: DecentrailizedUser){
+    func configureCell(for denormUser: DenormalizedUser){
         userCard.configure(for: denormUser)
     }
     

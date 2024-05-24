@@ -8,7 +8,7 @@
 import Combine
 
 class HouseholdMemberListViewModel: ObservableObject {
-    @Published var familyMembers: [DecentrailizedUser] = []
+    @Published var familyMembers: [DenormalizedUser] = []
     private var cancellables: Set<AnyCancellable> = []
     private let userService: UserService
     private let householdService: HouseholdService

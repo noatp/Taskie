@@ -22,10 +22,10 @@ class UserRepository {
     private var householdMemberCollectionListener: ListenerRegistration?
     private var userDocumentListener: ListenerRegistration?
     
-    var members: AnyPublisher<[DecentrailizedUser]?, Never> {
+    var members: AnyPublisher<[DenormalizedUser]?, Never> {
         _members.eraseToAnyPublisher()
     }
-    private let _members = CurrentValueSubject<[DecentrailizedUser]?, Never>(nil)
+    private let _members = CurrentValueSubject<[DenormalizedUser]?, Never>(nil)
     
     var user: AnyPublisher<User?, Never> {
         _user.eraseToAnyPublisher()
@@ -48,11 +48,11 @@ class UserRepository {
         }
     }
     
-    func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) async {
-        let userDocRef = db.collection("households").document(householdId).collection("users").document(decentralizedUserObject.id)
+    func createUserInHouseholdSub(householdId: String, withUser denormalizedUserObject: DenormalizedUser) async {
+        let userDocRef = db.collection("households").document(householdId).collection("users").document(denormalizedUserObject.id)
         
         do {
-            try await userDocRef.setDataAsync(from: decentralizedUserObject)
+            try await userDocRef.setDataAsync(from: denormalizedUserObject)
         }
         catch {
             LogUtil.log("Error creating user: \(error.localizedDescription)")
@@ -94,7 +94,7 @@ class UserRepository {
                 
                 let members = collectionSnapshot.documents.compactMap { documentSnapshot in
                     do {
-                        return try documentSnapshot.data(as: DecentrailizedUser.self)
+                        return try documentSnapshot.data(as: DenormalizedUser.self)
                     }
                     catch {
                         LogUtil.log("\(error)")
