@@ -8,15 +8,6 @@
 import FirebaseFirestore
 import Combine
 
-enum UserRepositoryError: Error {
-    case userNotFound
-    case encodingError
-    case fetchingError
-    case decodingError
-    case creatingError
-    case updatingError
-}
-
 class UserRepository {
     private let db = Firestore.firestore()
     private var householdMemberCollectionListener: ListenerRegistration?

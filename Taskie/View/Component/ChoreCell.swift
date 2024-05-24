@@ -35,7 +35,7 @@ class ChoreCell: UITableViewCell, Themable {
     }()
     
     private let choreStatusLabel: PDSLabel = {
-        let label = PDSLabel(withText: "Pending", fontScale: .body)
+        let label = PDSLabel(withText: "", fontScale: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -85,9 +85,10 @@ class ChoreCell: UITableViewCell, Themable {
         
     }
     
-    func configureCell(withChore chore: ChoreDTO){
+    func configureCell(withChore chore: Chore){
         choreNameLabel.text = chore.name
         choreRewardLabel.text = String(format: "$%.2f", chore.rewardAmount)
+        choreStatusLabel.text = chore.choreStatus
         guard let imageUrl = URL(string: chore.imageUrls.first ?? "") else {
             return
         }
@@ -116,7 +117,7 @@ struct ChoreCellPreview: PreviewProvider {
             // Configure the UITableViewCell here
             let cell = ChoreCell(style: .default, reuseIdentifier: "ChoreCell")
             // Setup dummy data for better preview
-            let chore = ChoreDTO.mock
+            let chore = Chore.empty
             // Replace with actual data structure
             cell.configureCell(withChore: chore)
             return cell

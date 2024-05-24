@@ -84,6 +84,7 @@ class CreateChoreViewModel: ObservableObject {
             let choreImageUrls = imageURLs.map { $0.absoluteString }
             
             let chore = Chore(
+                id: UUID().uuidString,
                 name: choreName,
                 requestor: currentUserDenorm,
                 acceptor: nil,

@@ -16,6 +16,7 @@ struct Chore {
     }
     
     static let empty: Chore = .init(
+        id: "",
         name: "",
         requestor: .empty,
         acceptor: nil,
@@ -28,7 +29,7 @@ struct Chore {
         choreStatus: "Pending"
     )
     
-    
+    let id: String
     let name: String
     let requestor: DenormalizedUser
     let acceptor: DenormalizedUser?

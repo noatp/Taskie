@@ -32,6 +32,7 @@ class ChoreMapper {
         )
         
         return Chore(
+            id: dto.id,
             name: dto.name,
             requestor: requestor,
             acceptor: acceptor,
@@ -46,11 +47,8 @@ class ChoreMapper {
     }
     
     func getChoreDTOFrom(_ chore: Chore) -> ChoreDTO? {
-        guard let currentUser = userService.getCurrentUser() else {
-            return nil
-        }
         return ChoreDTO(
-            id: UUID().uuidString,
+            id: chore.id,
             name: chore.name,
             requestorID: chore.requestor.id,
             acceptorID: chore.acceptor?.id,
