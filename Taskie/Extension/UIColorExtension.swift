@@ -8,15 +8,20 @@
 import UIKit
 
 extension UIColor {
-    convenience init(hex: String, alpha: CGFloat? = nil) {
+    convenience init(hex: String?, alpha: CGFloat? = nil) {
         
         var nonEmptyHex = ""
         
-        if hex.isEmpty {
-            nonEmptyHex = "#D3D3D3"
+        if let hex = hex {
+            if hex.isEmpty  {
+                nonEmptyHex = "#D3D3D3"
+            }
+            else {
+                nonEmptyHex = hex
+            }
         }
         else {
-            nonEmptyHex = hex
+            nonEmptyHex = "#D3D3D3"
         }
         
         var hexFormatted: String = nonEmptyHex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

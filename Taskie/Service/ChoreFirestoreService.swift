@@ -20,10 +20,10 @@ enum ChoreServiceError: Error, LocalizedError {
 }
 
 protocol ChoreService {
-    var chores: AnyPublisher<[Chore]?, Never> { get }
+    var chores: AnyPublisher<[ChoreDTO]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
-    var selectedChore: AnyPublisher<Chore?, Never> { get }
-    func createChore(from choreObject: Chore) async
+    var selectedChore: AnyPublisher<ChoreDTO?, Never> { get }
+    func createChore(from choreObject: ChoreDTO) async
     func readChores(inHousehold householdId: String)
     func readSelectedChore(choreId: String)
     func acceptSelectedChore(acceptorId: String)
@@ -37,15 +37,15 @@ class ChoreFirestoreService: ChoreService {
     private let userRepository: UserRepository
     private let householdRepository: HouseholdRepository
     
-    var chores: AnyPublisher<[Chore]?, Never> {
+    var chores: AnyPublisher<[ChoreDTO]?, Never> {
         _chores.eraseToAnyPublisher()
     }
-    private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
+    private let _chores = CurrentValueSubject<[ChoreDTO]?, Never>(nil)
     
-    var selectedChore: AnyPublisher<Chore?, Never> {
+    var selectedChore: AnyPublisher<ChoreDTO?, Never> {
         _selectedChore.eraseToAnyPublisher()
     }
-    private let _selectedChore = CurrentValueSubject<Chore?, Never>(nil)
+    private let _selectedChore = CurrentValueSubject<ChoreDTO?, Never>(nil)
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()
@@ -105,7 +105,7 @@ class ChoreFirestoreService: ChoreService {
         .store(in: &cancellables)
     }
     
-    func createChore(from choreObject: Chore) async {
+    func createChore(from choreObject: ChoreDTO) async {
         guard let householdId = householdRepository.currentHouseholdId(), !householdId.isEmpty else {
             return
         }
@@ -159,15 +159,15 @@ class ChoreMockService: ChoreService {
         Just(nil).eraseToAnyPublisher()
     }
     
-    var selectedChore: AnyPublisher<Chore?, Never> {
+    var selectedChore: AnyPublisher<ChoreDTO?, Never> {
         Just(.mock).eraseToAnyPublisher()
     }
     
-    var chores: AnyPublisher<[Chore]?, Never> {
+    var chores: AnyPublisher<[ChoreDTO]?, Never> {
         Just([.mock,.mock]).eraseToAnyPublisher()
     }
     
-    func createChore(from choreObject: Chore) async {}
+    func createChore(from choreObject: ChoreDTO) async {}
     
     func readChores(inHousehold householdId: String) {}
     

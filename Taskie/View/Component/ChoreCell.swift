@@ -85,7 +85,7 @@ class ChoreCell: UITableViewCell, Themable {
         
     }
     
-    func configureCell(withChore chore: Chore){
+    func configureCell(withChore chore: ChoreDTO){
         choreNameLabel.text = chore.name
         choreRewardLabel.text = String(format: "$%.2f", chore.rewardAmount)
         guard let imageUrl = URL(string: chore.imageUrls.first ?? "") else {
@@ -116,7 +116,7 @@ struct ChoreCellPreview: PreviewProvider {
             // Configure the UITableViewCell here
             let cell = ChoreCell(style: .default, reuseIdentifier: "ChoreCell")
             // Setup dummy data for better preview
-            let chore = Chore.mock
+            let chore = ChoreDTO.mock
             // Replace with actual data structure
             cell.configureCell(withChore: chore)
             return cell

@@ -51,11 +51,8 @@ class HouseholdMemberCell: UITableViewCell, Themable {
         ])
     }
     
-    func configureCell(withName name: String, profileColor: String){
-        userCard.configure(
-            withUserName: name,
-            profileColor: .init(hex: profileColor)
-        )
+    func configureCell(for denormUser: DecentrailizedUser){
+        userCard.configure(for: denormUser)
     }
     
     func applyTheme(_ theme: PDSTheme) {

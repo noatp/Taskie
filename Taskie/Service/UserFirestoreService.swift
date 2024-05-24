@@ -24,7 +24,7 @@ protocol UserService {
     var familyMembers: AnyPublisher<[DecentrailizedUser]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser)
-    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser?
+    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser?
     func updateUserWithName(_ name: String)
     func updateUserWithProfileColor(_ profileColor: String)
     func updateUserWithHouseholdId(_ householdId: String)
@@ -97,7 +97,7 @@ class UserFirestoreService: UserService {
         }
     }
     
-    func readFamilyMember(withId lookUpId: String) throws -> DecentrailizedUser? {
+    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser? {
         if let familyMember = _familyMembers.value?.first(where: { $0.id == lookUpId }) {
             return familyMember
         } else {
@@ -156,7 +156,7 @@ class UserMockService: UserService {
         .eraseToAnyPublisher()
     }
     func createUserInHouseholdSub(householdId: String, withUser decentralizedUserObject: DecentrailizedUser) {}
-    func readFamilyMember(withId lookUpId: String) async throws -> DecentrailizedUser? {return .mock}
+    func readFamilyMember(withId lookUpId: String) -> DecentrailizedUser? { return .mock }
     func updateUserWithName(_ name: String) {}
     func updateUserWithProfileColor(_ profileColor: String) {}
     func updateUserWithHouseholdId(_ householdId: String) {}

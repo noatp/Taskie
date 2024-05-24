@@ -130,7 +130,7 @@ extension HouseholdMemberListVC: UITableViewDataSource {
             return UITableViewCell()
         }
         let member = viewModel.familyMembers[indexPath.row]
-        cell.configureCell(withName: member.name ?? "", profileColor: member.profileColor ?? "")
+        cell.configureCell(for: member)
         return cell
     }
     

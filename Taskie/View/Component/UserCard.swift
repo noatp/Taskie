@@ -70,9 +70,9 @@ class UserCard: UIView {
         }
     }
     
-    func configure(withUserName userName: String, profileColor: UIColor) {
-        userNameLabel.text = userName
-        smileyFace.backgroundColor = profileColor
+    func configure(for denormUser: DecentrailizedUser) {
+        userNameLabel.text = denormUser.name
+        smileyFace.backgroundColor = .init(hex: denormUser.profileColor)
     }
 }
 
@@ -80,7 +80,7 @@ struct UserCard_Previews: PreviewProvider {
     static var previews: some View {
         UIViewPreviewWrapper {
             let userCard = UserCard()
-            userCard.configure(withUserName: "Some name", profileColor: .green)
+            userCard.configure(for: .init(id: "some id", name: "some name", profileColor: "#00FF00"))
             return userCard
         }
         .fixedSize()

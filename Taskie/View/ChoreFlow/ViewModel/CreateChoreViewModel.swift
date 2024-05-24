@@ -36,22 +36,25 @@ class CreateChoreViewModel: ObservableObject {
     var choreName: String?
     var choreDescription: String?
     var choreRewardAmount: String?
-    private var userService: UserService
-    private var storageService: StorageService
-    private var choreService: ChoreService
+    private let userService: UserService
+    private let storageService: StorageService
+    private let choreService: ChoreService
+    private let choreMapper: ChoreMapper
     
     init(
         userService: UserService,
         storageService: StorageService,
-        choreService: ChoreService
+        choreService: ChoreService,
+        choreMapper: ChoreMapper
     ) {
         self.userService = userService
         self.storageService = storageService
         self.choreService = choreService
+        self.choreMapper = choreMapper
     }
     
     func createChore() {
-        guard let uid = userService.getCurrentUser()?.id else {
+        guard let currentUser = userService.getCurrentUser() else {
             createChoreResult = .failure(.noCurrentUser)
             return
         }
@@ -70,25 +73,57 @@ class CreateChoreViewModel: ObservableObject {
             return
         }
         
+        let currentUserDenorm = DecentrailizedUser(
+            id: currentUser.id,
+            name: currentUser.name,
+            profileColor: currentUser.profileColor
+        )
+        
         Task {
             let imageURLs = try await storageService.uploadImages(images.compactMap{$0})
             let choreImageUrls = imageURLs.map { $0.absoluteString }
-            let choreId = UUID().uuidString
             
-            await choreService.createChore(from: Chore(
-                id: choreId,
+            let chore = Chore(
                 name: choreName,
-                requestorID: uid,
-                acceptorID: nil,
+                requestor: currentUserDenorm,
+                acceptor: nil,
                 description: choreDescription,
                 rewardAmount: choreRewardAmountDouble,
                 imageUrls: choreImageUrls,
-                createdDate: .init(),
-                finishedDate: nil
-            ))
+                createdDate: "",
+                finishedDate: nil,
+                actionButtonType: .nothing,
+                choreStatus: ""
+            )
+            
+            guard let choreDto = choreMapper.getChoreDTOFrom(chore) else {
+                return
+            }
+            
+            await choreService.createChore(from: choreDto)
             
             createChoreResult = .success(())
         }
+    }
+    
+    private func userDetail(withId lookUpId: String?) -> DecentrailizedUser? {
+        guard let lookUpId = lookUpId,
+              let currentUserId = userService.getCurrentUser()?.id
+        else {
+            return nil
+        }
+        var userDetail: DecentrailizedUser? = nil
+        
+        if let familyMember = userService.readFamilyMember(withId: lookUpId) {
+            if lookUpId == currentUserId {
+                userDetail = .init(id: familyMember.id, name: "You", profileColor: familyMember.profileColor)
+            }
+            else {
+                userDetail = familyMember
+            }
+        }
+        
+        return userDetail
     }
     
     func add(image: UIImage) {
@@ -101,7 +136,8 @@ extension Dependency.ViewModel {
         return CreateChoreViewModel(
             userService: service.userService,
             storageService: service.storageService,
-            choreService: service.choreService
+            choreService: service.choreService,
+            choreMapper: mapper.choreMapper
         )
     }
 }

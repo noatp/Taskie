@@ -13,17 +13,17 @@ class ChoreRepository {
     private var choreCollectionListener: ListenerRegistration?
     private var householdChoreCollectionRef: CollectionReference?
      
-    var chores: AnyPublisher<[Chore]?, Never> {
+    var chores: AnyPublisher<[ChoreDTO]?, Never> {
         _chores.eraseToAnyPublisher()
     }
-    private let _chores = CurrentValueSubject<[Chore]?, Never>(nil)
+    private let _chores = CurrentValueSubject<[ChoreDTO]?, Never>(nil)
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()
     }
     private let _error = CurrentValueSubject<Error?, Never>(nil)
         
-    func createChore(from choreObject: Chore, inHousehold householdId: String) async {
+    func createChore(from choreObject: ChoreDTO, inHousehold householdId: String) async {
         let choreDocRef = db.collection("households").document(householdId).collection("chores").document(choreObject.id)
         
         do {
@@ -53,7 +53,7 @@ class ChoreRepository {
                 
                 let chores = collectionSnapshot.documents.compactMap { documentSnapshot in
                     do {
-                        return try documentSnapshot.data(as: Chore.self)
+                        return try documentSnapshot.data(as: ChoreDTO.self)
                     }
                     catch {
                         LogUtil.log("\(error)")

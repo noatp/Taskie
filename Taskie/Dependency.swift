@@ -77,9 +77,21 @@ class Dependency {
     
     class ViewModel {
         let service: Service
+        let mapper: ModelMapper
         
-        init(service: Service) {
+        init(
+            service: Service
+        ) {
             self.service = service
+            self.mapper = ModelMapper(service: service)
+        }
+        
+        class ModelMapper {
+            let choreMapper: ChoreMapper
+            
+            init(service: Service) {
+                self.choreMapper = ChoreMapper(userService: service.userService)
+            }
         }
     }
     

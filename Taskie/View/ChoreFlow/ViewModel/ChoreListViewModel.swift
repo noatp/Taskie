@@ -8,7 +8,7 @@
 import Combine
 
 class ChoreListViewModel: ObservableObject {
-    @Published var chores: [Chore] = []
+    @Published var chores: [ChoreDTO] = []
     private var cancellables: Set<AnyCancellable> = []
     private var choreService: ChoreService
     

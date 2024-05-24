@@ -13,7 +13,7 @@ class ChoreDetailVC: UIViewController, Themable {
     private var viewModel: ChoreDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
-    private var actionButtonType: ChoreForDetailView.actionButtonType = .nothing
+    private var actionButtonType: Chore.actionButtonType = .nothing
     
     private let choreNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline2)
@@ -153,10 +153,7 @@ class ChoreDetailVC: UIViewController, Themable {
                 self.descriptionDetailLabel.text = chore.description
                 self.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
                 self.swipableImageRowVC.imageUrls = chore.imageUrls
-                self.requestorCard.configure(
-                    withUserName: chore.requestorName,
-                    profileColor: .init(hex: chore.requestorProfileColor)
-                )
+                self.requestorCard.configure(for: chore.requestor)
                 self.requestDateLabel.text = chore.createdDate
                 self.choreStatusLabel.text = chore.choreStatus
                 
@@ -167,13 +164,12 @@ class ChoreDetailVC: UIViewController, Themable {
                     self.acceptedByLabel.text = "Accepted by"
                 }
                 
-                if let acceptorName = chore.acceptorName,
-                   let acceptorProfileColor = chore.acceptorProfileColor
+                if let acceptor = chore.acceptor
                 {
                     self.acceptedByLabel.isHidden = false
                     self.acceptIcon.isHidden = false
                     self.acceptorCard.isHidden = false
-                    self.acceptorCard.configure(withUserName: acceptorName, profileColor: .init(hex: acceptorProfileColor))
+                    self.acceptorCard.configure(for: acceptor)
                 }
                 else {
                     self.acceptedByLabel.isHidden = true
