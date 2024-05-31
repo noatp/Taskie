@@ -122,7 +122,7 @@ class AuthenticationService: AuthService {
             else {
                 self.checkCurentAuthSession { currentUserId in
                     Task {
-                        await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil))
+                        await self.userRepository.createUser(from: User(name: nil, id: currentUserId, householdId: nil, role: .parent, profileColor: nil, balance: 0.0))
                         self.userRepository.readUser(withId: currentUserId)
                     }
                 }

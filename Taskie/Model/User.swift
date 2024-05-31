@@ -16,14 +16,16 @@ struct User: Codable {
         id: "",
         householdId: nil,
         role: .parent,
-        profileColor: nil
+        profileColor: nil, 
+        balance: 0.0
     )
     static let mock = User(
         name: "some name",
         id: "some id",
         householdId: "some id",
         role: .parent, 
-        profileColor: "ffffff"
+        profileColor: "ffffff", 
+        balance: 2.0
     )
     
     let name: String?
@@ -31,6 +33,7 @@ struct User: Codable {
     let householdId: String?
     let role: Role
     let profileColor: String?
+    let balance: Float
 }
 
 
