@@ -16,6 +16,10 @@ class SubmitChoreViewModel: ObservableObject {
     init() {
         
     }
+    
+    func add(image: UIImage) {
+        images.insert(image, at: 0)
+    }
 }
 
 extension Dependency.ViewModel {

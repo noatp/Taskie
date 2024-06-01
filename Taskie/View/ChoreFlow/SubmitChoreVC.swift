@@ -60,6 +60,8 @@ class SubmitChoreVC: PDSTitleWrapperVC {
     }
 
     private func setUpViews() {
+        setTitle("Submit Task")
+        
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
         }
@@ -73,7 +75,7 @@ class SubmitChoreVC: PDSTitleWrapperVC {
         
         view.addSubview(vStack)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
@@ -92,6 +94,22 @@ class SubmitChoreVC: PDSTitleWrapperVC {
         navigationController?.popViewController(animated: true)
     }
 }
+
+extension SubmitChoreVC: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[.editedImage] as? UIImage {
+            viewModel.add(image: pickedImage)
+        }
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // Handle cancellation
+        picker.dismiss(animated: true)
+    }
+}
+
+extension SubmitChoreVC: UINavigationControllerDelegate {}
 
 struct SubmitChoreVC_Previews: PreviewProvider {
     static var previews: some View {

@@ -61,6 +61,8 @@ class PDSImageRowCell: UICollectionViewCell, Themable {
     func applyTheme(_ theme: PDSTheme) {
         contentView.backgroundColor = theme.color.backgroundColor
         contentView.layer.cornerRadius = theme.styling.cornerRadius
+        contentView.layer.borderColor = theme.color.dividerColor.cgColor
+        contentView.layer.borderWidth = 1
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true

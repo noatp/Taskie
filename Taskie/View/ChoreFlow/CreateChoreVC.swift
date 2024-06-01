@@ -188,7 +188,6 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
             }
             return self.createChoreButton.isHighlighted ? theme.color.darkenPrimaryColor : theme.color.primaryColor
         }
-        view.backgroundColor = theme.color.surfaceColor
     }
     
     deinit {
