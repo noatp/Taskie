@@ -107,8 +107,7 @@ extension ChoreListVC: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
         let choreDetailVC = depedencyView.choreDetailVC()
-        let navVC = UINavigationController(rootViewController: choreDetailVC)
-        present(navVC, animated: true)
+        self.navigationController?.pushViewController(choreDetailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

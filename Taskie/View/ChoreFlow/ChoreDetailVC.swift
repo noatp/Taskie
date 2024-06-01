@@ -9,8 +9,9 @@ import SwiftUI
 import UIKit
 import Combine
 
-class ChoreDetailVC: UIViewController, Themable {
+class ChoreDetailVC: PDSTitleWrapperVC {
     private var viewModel: ChoreDetailViewModel
+    private let dependencyView: Dependency.View
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
     private var actionButtonType: Chore.actionButtonType = .nothing
@@ -24,9 +25,7 @@ class ChoreDetailVC: UIViewController, Themable {
     }()
     
     private let backBarButton: PDSIconBarButton = {
-        let button = PDSIconBarButton(systemName: "xmark")
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = PDSIconBarButton(systemName: "chevron.left")
         return button
     }()
     
@@ -117,9 +116,11 @@ class ChoreDetailVC: UIViewController, Themable {
     private var actionButtonGroup: UIView = .init()
     
     init(
-        viewModel: ChoreDetailViewModel
+        viewModel: ChoreDetailViewModel,
+        dependencyView: Dependency.View
     ) {
         self.viewModel = viewModel
+        self.dependencyView = dependencyView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -200,8 +201,7 @@ class ChoreDetailVC: UIViewController, Themable {
     }
 
     private func setUpViews() {
-        ThemeManager.shared.register(self)
-        
+        setTitle("Details")
         guard let swipableImageRow = swipableImageRowVC.view else {
             return
         }
@@ -295,7 +295,7 @@ class ChoreDetailVC: UIViewController, Themable {
             
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             swipableImageRow.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -317,8 +317,8 @@ class ChoreDetailVC: UIViewController, Themable {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
-    func applyTheme(_ theme: PDSTheme) {
-        view.backgroundColor = theme.color.surfaceColor
+    override func applyTheme(_ theme: PDSTheme) {
+        super.applyTheme(theme)
         choreNameLabel.textColor = theme.color.primaryColor
         rewardAmountLabel.textColor = theme.color.secondaryColor
         requestIcon.tintColor = theme.color.primaryColor
@@ -326,7 +326,7 @@ class ChoreDetailVC: UIViewController, Themable {
     }
     
     @objc func handleBack() {
-        self.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func handleActionButton() {
@@ -334,7 +334,9 @@ class ChoreDetailVC: UIViewController, Themable {
             case .accept:
                 viewModel.acceptSelectedChore()
             case .finish:
-                viewModel.finishedSelectedChore()
+//                viewModel.finishedSelectedChore()
+                let submitChoreVC = dependencyView.submitChoreVC()
+                self.navigationController?.pushViewController(submitChoreVC, animated: true)
             case .withdraw:
                 viewModel.withdrawSelectedChore()
             case .nothing:
@@ -364,7 +366,7 @@ struct ChoreDetailVC_Previews: PreviewProvider {
 
 extension Dependency.View {
     func choreDetailVC() -> ChoreDetailVC {
-        return ChoreDetailVC(viewModel: viewModel.choreDetailViewModel())
+        return ChoreDetailVC(viewModel: viewModel.choreDetailViewModel(), dependencyView: self)
     }
 }
  
