@@ -39,17 +39,20 @@ class CreateChoreViewModel: ObservableObject {
     private let userService: UserService
     private let storageService: StorageService
     private let choreService: ChoreService
+    private let chatMessageService: ChatMessageService
     private let choreMapper: ChoreMapper
     
     init(
         userService: UserService,
         storageService: StorageService,
         choreService: ChoreService,
+        chatMessageService: ChatMessageService,
         choreMapper: ChoreMapper
     ) {
         self.userService = userService
         self.storageService = storageService
         self.choreService = choreService
+        self.chatMessageService = chatMessageService
         self.choreMapper = choreMapper
     }
     
@@ -102,7 +105,7 @@ class CreateChoreViewModel: ObservableObject {
             }
             
             await choreService.createChore(from: choreDto)
-            
+            await chatMessageService.createInitialRequestMessage(from: choreDto, byUserId: currentUser.id)
             createChoreResult = .success(())
         }
     }
@@ -138,6 +141,7 @@ extension Dependency.ViewModel {
             userService: service.userService,
             storageService: service.storageService,
             choreService: service.choreService,
+            chatMessageService: service.chatMessageService,
             choreMapper: mapper.choreMapper
         )
     }

@@ -7,11 +7,23 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 class TaskChatVC: PDSTitleWrapperVC {
     private var viewModel: TaskChatViewModel
     private let dependencyView: Dependency.View
+    private var cancellables: Set<AnyCancellable> = []
 
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.register(ChatMessageCell.self, forCellReuseIdentifier: ChatMessageCell.className)
+        return tableView
+    }()
+    
     private let backBarButton: PDSIconBarButton = {
         let button = PDSIconBarButton(systemName: "chevron.left")
         return button
@@ -32,12 +44,32 @@ class TaskChatVC: PDSTitleWrapperVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
         setUpViews()
         setUpActions()
     }
+    
+    private func bindViewModel() {
+        viewModel.$chatMessages
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
 
     private func setUpViews() {
-        setTitle("Title")
+        setTitle("Details")
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
 
     private func setUpActions() {
@@ -47,6 +79,27 @@ class TaskChatVC: PDSTitleWrapperVC {
     
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension TaskChatVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}
+
+extension TaskChatVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.chatMessages.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatMessageCell.className, for: indexPath) as? ChatMessageCell else {
+            return UITableViewCell()
+        }
+        let chatMessage = viewModel.chatMessages[indexPath.row]
+        cell.configureCell(with: chatMessage)
+        return cell
     }
 }
 

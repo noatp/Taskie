@@ -32,6 +32,7 @@ class Dependency {
         lazy var householdRepository: HouseholdRepository = HouseholdRepository()
         lazy var choreRepository: ChoreRepository = ChoreRepository()
         lazy var invitationRepository: InvitationRepository = InvitationRepository()
+        lazy var chatMessageRepository: ChatMessageRepository = ChatMessageRepository()
     }
     
     class Service {
@@ -42,6 +43,7 @@ class Dependency {
         var userService: UserService
         var householdService: HouseholdService
         var choreService: ChoreService
+        var chatMessageService: ChatMessageService
         
         init(repository: Repository, isPreview: Bool = false) {
             self.repository = repository
@@ -51,6 +53,7 @@ class Dependency {
                 self.householdService = HouseholdMockService()
                 self.storageService = StorageService()
                 self.authService = AuthMockService()
+                self.chatMessageService = ChatMessageMockService()
             } else {
                 self.authService = AuthenticationService(
                     userRepository: repository.userRepository,
@@ -70,6 +73,10 @@ class Dependency {
                     householdRepository: repository.householdRepository
                 )
                 self.storageService = StorageService()
+                self.chatMessageService = ChatMessageFirestoreService(
+                    choreRepository: repository.choreRepository,
+                    chatMessageRepository: repository.chatMessageRepository
+                )
                 
             }
         }

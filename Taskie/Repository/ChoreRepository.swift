@@ -114,6 +114,10 @@ class ChoreRepository {
         }
     }
     
+    func getChoreCollectionRef() -> CollectionReference? {
+        return householdChoreCollectionRef
+    }
+    
     func reset() {
         LogUtil.log("ChoreRepository -- resetting")
         choreCollectionListener?.remove()

@@ -7,8 +7,6 @@
 
 import FirebaseFirestore
 import Combine
-import FirebaseFunctions
-import FirebaseAuth
 
 enum HouseholdServiceError: Error, LocalizedError {
     case missingInput
