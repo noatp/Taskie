@@ -13,10 +13,10 @@ class ChatMessageRepository {
     private var chatMessageCollectionListener: ListenerRegistration?
     private var chatMessageCollectionRef: CollectionReference?
     
-    var chatMessages: AnyPublisher<[ChatMessage]?, Never> {
+    var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
         _chatMessages.eraseToAnyPublisher()
     }
-    private let _chatMessages = CurrentValueSubject<[ChatMessage]?, Never>(nil)
+    private let _chatMessages = CurrentValueSubject<[ChatMessageDTO]?, Never>(nil)
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()
@@ -24,7 +24,7 @@ class ChatMessageRepository {
     private let _error = CurrentValueSubject<Error?, Never>(nil)
     
     func createChatMessage(
-        from chatMessageObject: ChatMessage,
+        from chatMessageObject: ChatMessageDTO,
         forChoreId choreId: String,
         inChoreCollectionRef choreCollectionRef: CollectionReference
     ) async {
@@ -60,7 +60,7 @@ class ChatMessageRepository {
                 
                 let chatMessages = collectionSnapshot.documents.compactMap { documentSnapshot in
                     do {
-                        return try documentSnapshot.data(as: ChatMessage.self)
+                        return try documentSnapshot.data(as: ChatMessageDTO.self)
                     }
                     catch {
                         LogUtil.log("\(error)")

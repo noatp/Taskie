@@ -23,7 +23,7 @@ enum ChatMessageServiceError: Error, LocalizedError {
 }
 
 protocol ChatMessageService {
-    var chatMessages: AnyPublisher<[ChatMessage]?, Never> { get }
+    var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     func createInitialRequestMessage(from choreObject: ChoreDTO, byUserId currentUserId: String) async
     func readChatMessages(ofChore choreId: String)
@@ -34,10 +34,10 @@ class ChatMessageFirestoreService: ChatMessageService {
     private let choreRepository: ChoreRepository
     private let chatMessageRepository: ChatMessageRepository
     
-    var chatMessages: AnyPublisher<[ChatMessage]?, Never> {
+    var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
         _chatMessages.eraseToAnyPublisher()
     }
-    private let _chatMessages = CurrentValueSubject<[ChatMessage]?, Never>(nil)
+    private let _chatMessages = CurrentValueSubject<[ChatMessageDTO]?, Never>(nil)
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()
@@ -66,9 +66,9 @@ class ChatMessageFirestoreService: ChatMessageService {
             return
         }
         await chatMessageRepository.createChatMessage(
-            from: ChatMessage(
+            from: ChatMessageDTO(
                 id: UUID().uuidString,
-                message: "Please help me finish this task: \(choreObject.name)",
+                message: "Please help me with \(choreObject.name)\nTask description: \(choreObject.description).\nYou will be rewarded $\(choreObject.rewardAmount) upon finishing this task.",
                 senderId: currentUserId,
                 imageUrls: choreObject.imageUrls,
                 sendDate: choreObject.createdDate
@@ -88,7 +88,7 @@ class ChatMessageFirestoreService: ChatMessageService {
 }
 
 class ChatMessageMockService: ChatMessageService {
-    var chatMessages: AnyPublisher<[ChatMessage]?, Never> {
+    var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
         Just([.mock, .mock]).eraseToAnyPublisher()
     }
     

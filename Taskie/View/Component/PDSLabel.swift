@@ -14,6 +14,7 @@ enum LabelFontScale {
     case body
     case caption
     case button
+    case footnote
 }
 
 class PDSLabel: UILabel, Themable {
@@ -41,16 +42,18 @@ class PDSLabel: UILabel, Themable {
         text = labelText
         textColor = labelTextColor == nil ? theme.color.onSurface : labelTextColor
         switch labelFontScale {
-        case .headline1:
-            font = theme.typography.headline1
-        case .headline2:
-            font = theme.typography.headline2
-        case .body:
-            font = theme.typography.body
-        case .caption:
-            font = theme.typography.caption
-        case .button:
-            font = theme.typography.button
+            case .headline1:
+                font = theme.typography.headline1
+            case .headline2:
+                font = theme.typography.headline2
+            case .body:
+                font = theme.typography.body
+            case .caption:
+                font = theme.typography.caption
+            case .button:
+                font = theme.typography.button
+            case .footnote:
+                font = theme.typography.footnote
         }
     }
 }

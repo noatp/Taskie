@@ -89,9 +89,11 @@
 		CAD443B12C0BC354006EBD26 /* TaskChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443AF2C0BC354006EBD26 /* TaskChatViewModel.swift */; };
 		CAD443B22C0BC354006EBD26 /* TaskChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B02C0BC354006EBD26 /* TaskChatVC.swift */; };
 		CAD443B42C0BCC36006EBD26 /* ChatMessageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B32C0BCC36006EBD26 /* ChatMessageRepository.swift */; };
-		CAD443B62C0BCCEB006EBD26 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B52C0BCCEB006EBD26 /* ChatMessage.swift */; };
+		CAD443B62C0BCCEB006EBD26 /* ChatMessageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B52C0BCCEB006EBD26 /* ChatMessageDTO.swift */; };
 		CAD443B82C0BE291006EBD26 /* ChatMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B72C0BE291006EBD26 /* ChatMessageService.swift */; };
 		CAD443BB2C0C18F1006EBD26 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443BA2C0C18F1006EBD26 /* ChatMessageCell.swift */; };
+		CAD443BF2C0C2123006EBD26 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443BE2C0C2123006EBD26 /* ChatMessage.swift */; };
+		CAD443C22C0C226F006EBD26 /* ChatMessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443C12C0C226F006EBD26 /* ChatMessageMapper.swift */; };
 		CADCE5032BEDB6680026AC9E /* PickProfileColorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */; };
 		CADCE5052BEDD2E40026AC9E /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */; };
 		CADCE5092BEDD7DB0026AC9E /* PickProfileColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */; };
@@ -191,9 +193,11 @@
 		CAD443AF2C0BC354006EBD26 /* TaskChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskChatViewModel.swift; sourceTree = "<group>"; };
 		CAD443B02C0BC354006EBD26 /* TaskChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskChatVC.swift; sourceTree = "<group>"; };
 		CAD443B32C0BCC36006EBD26 /* ChatMessageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageRepository.swift; sourceTree = "<group>"; };
-		CAD443B52C0BCCEB006EBD26 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		CAD443B52C0BCCEB006EBD26 /* ChatMessageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageDTO.swift; sourceTree = "<group>"; };
 		CAD443B72C0BE291006EBD26 /* ChatMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageService.swift; sourceTree = "<group>"; };
 		CAD443BA2C0C18F1006EBD26 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		CAD443BE2C0C2123006EBD26 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		CAD443C12C0C226F006EBD26 /* ChatMessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageMapper.swift; sourceTree = "<group>"; };
 		CADCE5022BEDB6680026AC9E /* PickProfileColorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorVC.swift; sourceTree = "<group>"; };
 		CADCE5042BEDD2E40026AC9E /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
 		CADCE5082BEDD7DB0026AC9E /* PickProfileColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfileColorViewModel.swift; sourceTree = "<group>"; };
@@ -249,12 +253,12 @@
 		CA1683E52B8D42500086153A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CA1683E62B8D425A0086153A /* ChoreDTO.swift */,
+				CAD443BC2C0C20FF006EBD26 /* DTO */,
 				CA1683EA2B8D45D80086153A /* User.swift */,
 				CACE2E842BA7CFDF007FD9F2 /* Household.swift */,
 				CA55371C2BE33DB50053131C /* DenormalizedUser.swift */,
 				CA5CB9D42C00116C00DD4FED /* Chore.swift */,
-				CAD443B52C0BCCEB006EBD26 /* ChatMessage.swift */,
+				CAD443BE2C0C2123006EBD26 /* ChatMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -318,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				CA5CB9D22BFD7A4800DD4FED /* ChoreMapper.swift */,
+				CAD443C12C0C226F006EBD26 /* ChatMessageMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -442,6 +447,15 @@
 				CAD443BA2C0C18F1006EBD26 /* ChatMessageCell.swift */,
 			);
 			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		CAD443BC2C0C20FF006EBD26 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CAD443B52C0BCCEB006EBD26 /* ChatMessageDTO.swift */,
+				CA1683E62B8D425A0086153A /* ChoreDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		CADCE5062BEDD7800026AC9E /* ViewModel */ = {
@@ -683,7 +697,7 @@
 				CA1683F82B9E80910086153A /* MenuViewModel.swift in Sources */,
 				CA7C69C72B8C3E96005B3CF2 /* PDSPrimaryButton.swift in Sources */,
 				CA1683E42B8D419A0086153A /* ChoreFirestoreService.swift in Sources */,
-				CAD443B62C0BCCEB006EBD26 /* ChatMessage.swift in Sources */,
+				CAD443B62C0BCCEB006EBD26 /* ChatMessageDTO.swift in Sources */,
 				CACE2E9C2BB25AA6007FD9F2 /* UIStackViewExtension.swift in Sources */,
 				CACE2EA42BC381AC007FD9F2 /* PDSIconBarButton.swift in Sources */,
 				CACE2E8E2BA92D32007FD9F2 /* HouseholdRepository.swift in Sources */,
@@ -747,8 +761,10 @@
 				CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */,
 				CA20AFDD2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift in Sources */,
 				CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */,
+				CAD443C22C0C226F006EBD26 /* ChatMessageMapper.swift in Sources */,
 				CA20AFEB2BA2552900BE9C18 /* PDSImageRowSelectionVC.swift in Sources */,
 				CA1683E02B8D24940086153A /* Typography.swift in Sources */,
+				CAD443BF2C0C2123006EBD26 /* ChatMessage.swift in Sources */,
 				CA7C69B72B8456D0005B3CF2 /* AuthService.swift in Sources */,
 				CA1683F02B9D305D0086153A /* ChoreListViewModel.swift in Sources */,
 				CA1683F22B9E70D50086153A /* LogInViewModel.swift in Sources */,

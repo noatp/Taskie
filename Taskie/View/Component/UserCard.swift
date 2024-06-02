@@ -10,9 +10,11 @@ import SwiftUI
 
 class UserCard: UIView {
     private let reversed: Bool
+    private let vertical: Bool
     
-    init(reversed: Bool = false) {
+    init(reversed: Bool = false, vertical: Bool = false) {
         self.reversed = reversed
+        self.vertical = vertical
         super.init(frame: .zero)
         setUpViews()
     }
@@ -41,6 +43,22 @@ class UserCard: UIView {
     private func setUpViews() {
         addSubview(smileyFace)
         addSubview(userNameLabel)
+        if vertical {
+            NSLayoutConstraint.activate([
+                userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+                userNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+                userNameLabel.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10),
+                userNameLabel.topAnchor.constraint(equalTo: smileyFace.bottomAnchor, constant: 10),
+                userNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+                
+                smileyFace.topAnchor.constraint(equalTo: topAnchor),
+                smileyFace.heightAnchor.constraint(equalToConstant: 40),
+                smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
+                smileyFace.centerXAnchor.constraint(equalTo: centerXAnchor)
+                
+            ])
+            return
+        }
         if reversed {
             NSLayoutConstraint.activate([
                 userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

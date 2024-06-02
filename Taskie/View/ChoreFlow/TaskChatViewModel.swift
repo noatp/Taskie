@@ -13,13 +13,16 @@ class TaskChatViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let chatMessageService: ChatMessageService
+    private let chatMessageMapper: ChatMessageMapper
     
     init(
         choreService: ChoreService,
-        chatMessageService: ChatMessageService
+        chatMessageService: ChatMessageService,
+        chatMessageMapper: ChatMessageMapper
     ) {
         self.choreService = choreService
         self.chatMessageService = chatMessageService
+        self.chatMessageMapper = chatMessageMapper
         subscribeToChoreService()
         subscribeToChatMessageService()
     }
@@ -36,12 +39,14 @@ class TaskChatViewModel: ObservableObject {
     }
     
     private func subscribeToChatMessageService() {
-        chatMessageService.chatMessages.sink { [weak self] chatMessages in
-            guard let chatMessages = chatMessages else {
+        chatMessageService.chatMessages.sink { [weak self] chatMessagesDto in
+            guard let chatMessagesDto = chatMessagesDto,
+                  let self = self
+            else {
                 return
             }
-            LogUtil.log("From ChatMessageService -- chatMessages -- \(chatMessages)")
-            self?.chatMessages = chatMessages
+            LogUtil.log("From ChatMessageService -- chatMessages -- \(chatMessagesDto)")
+            self.chatMessages = chatMessagesDto.compactMap { self.chatMessageMapper.getChatMessageFrom($0) }
         }
         .store(in: &cancellables)
     }
@@ -49,6 +54,10 @@ class TaskChatViewModel: ObservableObject {
 
 extension Dependency.ViewModel {
     func taskChatViewModel() -> TaskChatViewModel {
-        return TaskChatViewModel(choreService: service.choreService, chatMessageService: service.chatMessageService)
+        return TaskChatViewModel(
+            choreService: service.choreService,
+            chatMessageService: service.chatMessageService,
+            chatMessageMapper: mapper.chatMessageMapper
+        )
     }
 }

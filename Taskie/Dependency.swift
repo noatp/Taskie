@@ -95,9 +95,11 @@ class Dependency {
         
         class ModelMapper {
             let choreMapper: ChoreMapper
+            let chatMessageMapper: ChatMessageMapper
             
             init(service: Service) {
                 self.choreMapper = ChoreMapper(userService: service.userService)
+                self.chatMessageMapper = ChatMessageMapper(userService: service.userService)
             }
         }
     }
