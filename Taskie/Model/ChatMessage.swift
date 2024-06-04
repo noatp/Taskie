@@ -14,7 +14,8 @@ struct ChatMessage: Codable {
         sender: .init(id: "", name: "", profileColor: ""),
         isFromCurrentUser: false,
         imageUrls: [],
-        sendDate: ""
+        sendDate: "", 
+        type: .normal
     )
     
     static let mock = ChatMessage(
@@ -23,7 +24,8 @@ struct ChatMessage: Codable {
         sender: .init(id: "some id", name: "some name", profileColor: "#FF00FF"), 
         isFromCurrentUser: false,
         imageUrls: [],
-        sendDate: "0 seconds ago"
+        sendDate: "0 seconds ago", 
+        type: .normal
     )
     
     let id: String
@@ -32,4 +34,5 @@ struct ChatMessage: Codable {
     let isFromCurrentUser: Bool
     let imageUrls: [String]
     let sendDate: String
+    let type: MessageType
 }

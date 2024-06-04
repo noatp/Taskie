@@ -152,7 +152,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
                 
                 self.choreNameLabel.text = chore.name
                 self.descriptionDetailLabel.text = chore.description
-                self.rewardAmountLabel.text = String(format: "$%.2f", chore.rewardAmount)
+                self.rewardAmountLabel.text = chore.rewardAmount.formattedToTwoDecimalPlaces()
                 self.swipableImageRowVC.imageUrls = chore.imageUrls
                 self.requestorCard.configure(for: chore.requestor)
                 self.requestDateLabel.text = chore.createdDate

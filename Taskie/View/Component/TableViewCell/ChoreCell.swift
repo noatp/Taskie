@@ -87,7 +87,7 @@ class ChoreCell: UITableViewCell, Themable {
     
     func configureCell(withChore chore: Chore){
         choreNameLabel.text = chore.name
-        choreRewardLabel.text = String(format: "$%.2f", chore.rewardAmount)
+        choreRewardLabel.text = chore.rewardAmount.formattedToTwoDecimalPlaces()
         choreStatusLabel.text = chore.choreStatus
         guard let imageUrl = URL(string: chore.imageUrls.first ?? "") else {
             return

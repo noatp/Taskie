@@ -28,7 +28,8 @@ class ChatMessageMapper {
             sender: sender,
             isFromCurrentUser: sender.id == currentUserId,
             imageUrls: dto.imageUrls,
-            sendDate: dto.sendDate.toRelativeString()
+            sendDate: dto.sendDate.toRelativeString(),
+            type: dto.type
         )
     }
     
@@ -38,7 +39,8 @@ class ChatMessageMapper {
             message: chatMessage.message,
             senderId: chatMessage.sender.id,
             imageUrls: chatMessage.imageUrls,
-            sendDate: Timestamp()
+            sendDate: Timestamp(),
+            type: chatMessage.type
         )
     }
     

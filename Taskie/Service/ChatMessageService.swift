@@ -68,10 +68,13 @@ class ChatMessageFirestoreService: ChatMessageService {
         await chatMessageRepository.createChatMessage(
             from: ChatMessageDTO(
                 id: UUID().uuidString,
-                message: "Please help me with \(choreObject.name)\nTask description: \(choreObject.description).\nYou will be rewarded $\(choreObject.rewardAmount) upon finishing this task.",
+                message: "Please help me with \(choreObject.name)\n\n" +
+                    "Task description: \(choreObject.description).\n\n" +
+                    "You will be rewarded $\(choreObject.rewardAmount.formattedToTwoDecimalPlaces()) upon finishing this task.",
                 senderId: currentUserId,
                 imageUrls: choreObject.imageUrls,
-                sendDate: choreObject.createdDate
+                sendDate: choreObject.createdDate,
+                type: .request
             ),
             forChoreId: choreObject.id,
             inChoreCollectionRef: choreCollectionRef
