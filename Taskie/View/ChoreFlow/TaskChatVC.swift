@@ -9,10 +9,22 @@ import SwiftUI
 import UIKit
 import Combine
 
-class TaskChatVC: PDSTitleWrapperVC {
+class TaskChatVC: PDSResizeWithKeyboardVC {
     private var viewModel: TaskChatViewModel
     private let dependencyView: Dependency.View
     private var cancellables: Set<AnyCancellable> = []
+    
+    var chatTextViewHeightConstraint: NSLayoutConstraint!
+    var chatTextViewMaxHeight: CGFloat!
+    
+    private let chatTextView: PDSTextView = {
+        let textView = PDSTextView()
+        textView.isEditable = true
+        textView.isScrollEnabled = false
+        textView.placeholder = "Message"
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
 
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -56,6 +68,13 @@ class TaskChatVC: PDSTitleWrapperVC {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+        
+        viewModel.$choreDetail
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                
+            }
+            .store(in: &cancellables)
     }
 
     private func setUpViews() {
@@ -63,12 +82,26 @@ class TaskChatVC: PDSTitleWrapperVC {
         tableView.dataSource = self
         tableView.delegate = self
         
+        chatTextView.delegate = self
+        
+        let lineHeight = chatTextView.font?.lineHeight ?? 0
+        chatTextViewMaxHeight = lineHeight * CGFloat(4)
+        
         view.addSubview(tableView)
+        view.addSubview(chatTextView)
+        
+        chatTextViewHeightConstraint = chatTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 37)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
+            chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            chatTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            chatTextViewHeightConstraint,
+            constraintViewToKeyboard(chatTextView)
         ])
     }
 
@@ -100,6 +133,14 @@ extension TaskChatVC: UITableViewDataSource {
         let chatMessage = viewModel.chatMessages[indexPath.row]
         cell.configureCell(with: chatMessage)
         return cell
+    }
+}
+
+extension TaskChatVC: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let size = chatTextView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+        chatTextViewHeightConstraint.constant = min(size.height, chatTextViewMaxHeight)
+        chatTextView.isScrollEnabled = size.height > chatTextViewMaxHeight
     }
 }
 

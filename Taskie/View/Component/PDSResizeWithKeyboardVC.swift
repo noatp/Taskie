@@ -11,7 +11,7 @@ import UIKit
 class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
     private var keyboardAdjustmentConstraint: NSLayoutConstraint = .init()
     private var bottomConstraintValue: CGFloat = 0
-    private let bottomConstraintOffset: CGFloat = 20
+    private let bottomConstraintOffset: CGFloat = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
