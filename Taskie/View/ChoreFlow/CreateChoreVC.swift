@@ -42,7 +42,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Create"
-        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20)
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -167,7 +167,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
     
     override func keyboardWillHide(notification: NSNotification) {
         super.keyboardWillHide(notification: notification)
-        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20)
         self.view.layoutIfNeeded()
     }
     
@@ -211,12 +211,12 @@ extension CreateChoreVC: UIImagePickerControllerDelegate {
 
 extension CreateChoreVC: UINavigationControllerDelegate {}
 
-struct AddChoreVC_Previews: PreviewProvider {
+struct CreateChoreVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
             let baseVC = UIViewController()
-            let addChoreVC = Dependency.preview.view.addChoreVC()
-            let navVC = UINavigationController(rootViewController: addChoreVC)
+            let createChoreVC = Dependency.preview.view.createChoreVC()
+            let navVC = UINavigationController(rootViewController: createChoreVC)
             DispatchQueue.main.async {
                 baseVC.present(navVC, animated: true)
             }
@@ -227,7 +227,7 @@ struct AddChoreVC_Previews: PreviewProvider {
 }
 
 extension Dependency.View {
-    func addChoreVC() -> CreateChoreVC {
+    func createChoreVC() -> CreateChoreVC {
         return CreateChoreVC(viewModel: viewModel.addChoreViewModel())
     }
 }

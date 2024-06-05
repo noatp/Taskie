@@ -87,7 +87,7 @@ class ChoreListVC: PDSTitleWrapperVC {
     }
     
     @objc func addNewItem() {
-        let addChoreVC = depedencyView.addChoreVC()
+        let addChoreVC = depedencyView.createChoreVC()
         let navVC = UINavigationController(rootViewController: addChoreVC)
         self.present(navVC, animated: true)
     }
