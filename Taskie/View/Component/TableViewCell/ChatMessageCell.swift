@@ -78,6 +78,7 @@ class ChatMessageCell: UITableViewCell, Themable {
     
     private func setUpViews() {
         ThemeManager.shared.register(self)
+        selectionStyle = .none
         
         contentView.addSubview(sendDateLabel)
         contentView.addSubview(bubbleView)
@@ -102,12 +103,12 @@ class ChatMessageCell: UITableViewCell, Themable {
             smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
             
             bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor, constant: 0),
-            bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
             
             sendDateLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor),
             sendDateLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor),
             sendDateLabel.topAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: 5),
+            sendDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
             userNameLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
             userNameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor,constant: 20),
@@ -154,8 +155,5 @@ class ChatMessageCell: UITableViewCell, Themable {
         outgoingBackgroundColor = theme.color.primaryColor
         incomingTextColor = theme.color.onSurface
         outgoingTextColor = theme.color.onPrimary
-//        optionTitleLabel.textColor = theme.color.onSurface
-//        optionDescriptionLabel.textColor = theme.color.onSurface
-//        accessoryImageView.tintColor = theme.color.secondaryColor
     }
 }

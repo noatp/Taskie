@@ -11,7 +11,7 @@ import UIKit
 class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
     private var keyboardAdjustmentConstraint: NSLayoutConstraint = .init()
     private var bottomConstraintValue: CGFloat = 0
-    private let bottomConstraintOffset: CGFloat = 10
+    private let bottomConstraintOffset: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class PDSResizeWithKeyboardVC: PDSTitleWrapperVC {
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         bottomConstraintValue = -keyboardSize.height
-        keyboardAdjustmentConstraint.constant = bottomConstraintValue
+        keyboardAdjustmentConstraint.constant = bottomConstraintValue + 20
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
         }

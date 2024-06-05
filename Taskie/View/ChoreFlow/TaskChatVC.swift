@@ -139,8 +139,11 @@ extension TaskChatVC: UITableViewDataSource {
 extension TaskChatVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = chatTextView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-        chatTextViewHeightConstraint.constant = min(size.height, chatTextViewMaxHeight)
         chatTextView.isScrollEnabled = size.height > chatTextViewMaxHeight
+        self.chatTextViewHeightConstraint.constant = min(size.height, self.chatTextViewMaxHeight)
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
