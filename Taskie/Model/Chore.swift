@@ -8,7 +8,7 @@
 import Foundation
 
 struct Chore {
-    enum actionButtonType {
+    enum ActionButtonType {
         case accept
         case finish
         case withdraw
@@ -38,6 +38,6 @@ struct Chore {
     let imageUrls: [String]
     let createdDate: String
     let finishedDate: String?
-    let actionButtonType: actionButtonType
+    let actionButtonType: ActionButtonType
     let choreStatus: String
 }

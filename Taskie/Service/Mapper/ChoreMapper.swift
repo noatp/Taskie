@@ -80,7 +80,7 @@ class ChoreMapper {
         return userDetail
     }
     
-    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> Chore.actionButtonType? {
+    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> Chore.ActionButtonType? {
         if finishedDate != nil {
             return .nothing
         }

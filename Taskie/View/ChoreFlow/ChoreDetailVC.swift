@@ -14,7 +14,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
     private let dependencyView: Dependency.View
     private var cancellables: Set<AnyCancellable> = []
     private let swipableImageRowVC = PDSSwipableImageRowVC()
-    private var actionButtonType: Chore.actionButtonType = .nothing
+    private var actionButtonType: Chore.ActionButtonType = .nothing
     
     private let choreNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .headline2)

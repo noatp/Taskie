@@ -16,11 +16,18 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     
     var chatTextViewHeightConstraint: NSLayoutConstraint!
     var chatTextViewMaxHeight: CGFloat!
+    var isEditingChatTextView: Bool = false
     
     private let sendButton: UIButton = {
         let button = UIButton()
         let sendImage = UIImage(systemName: "paperplane.fill")
         button.setImage(sendImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let actionButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -88,6 +95,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
                     return
                 }
                 setTitle(chore.name)
+                updateActionButton(for: chore.actionButtonType)
             }
             .store(in: &cancellables)
     }
@@ -104,6 +112,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         view.addSubview(tableView)
         view.addSubview(chatTextView)
         view.addSubview(sendButton)
+        view.addSubview(actionButton)
         
         chatTextViewHeightConstraint = chatTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 37)
         
@@ -112,8 +121,11 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            actionButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
+            
             chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
-            chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            chatTextView.leadingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 10),
             chatTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -20),
             chatTextViewHeightConstraint,
             constraintViewToKeyboard(chatTextView),
@@ -124,6 +136,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     }
 
     private func setUpActions() {
+        actionButton.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(submitMessage), for: .touchUpInside)
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
@@ -136,6 +149,32 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     @objc func submitMessage() {
         viewModel.createNewMessage(chatTextView.text)
         chatTextView.text = ""
+        revertActionButton()
+    }
+    
+    @objc func handleActionButton() {
+        if let chore = viewModel.choreDetail {
+            if isEditingChatTextView {
+                revertActionButton()
+                return
+            }
+            
+            switch chore.actionButtonType {
+                case .accept:
+                    break
+//                    viewModel.acceptSelectedChore()
+                case .finish:
+                    //                viewModel.finishedSelectedChore()
+//                    let submitChoreVC = dependencyView.submitChoreVC()
+//                    self.navigationController?.pushViewController(submitChoreVC, animated: true)
+                    break
+                case .withdraw:
+                    break
+//                    viewModel.withdrawSelectedChore()
+                case .nothing:
+                    break
+            }
+        }
     }
     
     func scrollToBottom(animated: Bool) {
@@ -147,9 +186,49 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         }
     }
     
+    private func updateActionButtonForEditing() {
+        isEditingChatTextView = true
+        actionButton.setTitle("", for: .normal)
+        actionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    private func revertActionButton() {
+        isEditingChatTextView = false
+        if let chore = viewModel.choreDetail {
+            updateActionButton(for: chore.actionButtonType)
+        }
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    private func updateActionButton(for type: Chore.ActionButtonType) {
+        switch type {
+            case .accept:
+                actionButton.isHidden = false
+                actionButton.setTitle("Accept", for: .normal)
+                actionButton.setImage(nil, for: .normal)
+            case .finish:
+                actionButton.isHidden = false
+                actionButton.setTitle("Finished", for: .normal)
+                actionButton.setImage(nil, for: .normal)
+            case .withdraw:
+                actionButton.isHidden = false
+                actionButton.setTitle("Withdraw", for: .normal)
+                actionButton.setImage(nil, for: .normal)
+            case .nothing:
+                actionButton.isHidden = true
+        }
+    }
+    
     override func applyTheme(_ theme: PDSTheme) {
         super.applyTheme(theme)
         sendButton.tintColor = theme.color.primaryColor
+        actionButton.setTitleColor(theme.color.primaryColor, for: .normal)
+        actionButton.tintColor = theme.color.primaryColor
     }
 }
 
@@ -186,12 +265,20 @@ extension TaskChatVC: UITableViewDataSource {
 }
 
 extension TaskChatVC: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        revertActionButton()
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
+        if !isEditingChatTextView {
+            updateActionButtonForEditing()
+        }
+
         let size = chatTextView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
         chatTextView.isScrollEnabled = size.height > chatTextViewMaxHeight
         self.chatTextViewHeightConstraint.constant = min(size.height, self.chatTextViewMaxHeight)
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
 }
