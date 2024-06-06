@@ -87,7 +87,7 @@ class OutoingChatMessageCell: UITableViewCell, Themable {
             smileyFace.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor, constant: 0),
-            bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.7),
             bubbleView.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10),
             
             decoMarkWidthConstraint,

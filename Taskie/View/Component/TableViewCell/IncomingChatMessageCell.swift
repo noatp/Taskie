@@ -12,7 +12,6 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
     
     private let sendDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .footnote)
-        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -86,7 +85,7 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
             smileyFace.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor, constant: 0),
-            bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.7),
             bubbleView.leadingAnchor.constraint(equalTo: smileyFace.trailingAnchor, constant: 10),
             
             decoMarkWidthConstraint,
