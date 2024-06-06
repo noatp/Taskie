@@ -56,9 +56,10 @@ class TaskChatViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
-    private func createNewMessage(_ message: String) {
+    func createNewMessage(_ message: String) {
         guard let currentUserId = userService.getCurrentUser()?.id,
-              let currentChoreId = choreDetail?.id
+              let currentChoreId = choreDetail?.id,
+              !message.isEmpty
         else {
             return
         }

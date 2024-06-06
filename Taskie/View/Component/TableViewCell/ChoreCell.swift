@@ -81,8 +81,6 @@ class ChoreCell: UITableViewCell, Themable {
             choreStatusLabel.leadingAnchor.constraint(equalTo: choreImageView.trailingAnchor, constant: 10),
             choreStatusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
-        
-        
     }
     
     func configureCell(withChore chore: Chore){

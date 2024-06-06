@@ -43,12 +43,9 @@ class ChatMessageRepository {
         forChore choreId: String,
         inChoreCollectionRef choreCollectionRef: CollectionReference
     ) {
-        chatMessageCollectionRef = choreCollectionRef.document(choreId).collection("chatMessages")
-        guard let chatMessageCollectionRef = chatMessageCollectionRef else {
-            return
-        }
+        let chatMessageCollectionRef = choreCollectionRef.document(choreId).collection("chatMessages")
+        
         self.chatMessageCollectionListener = chatMessageCollectionRef
-            .order(by: "sendDate", descending: true)
             .addSnapshotListener { [weak self] collectionSnapshot, error in
                 guard let collectionSnapshot = collectionSnapshot else {
                     if let error = error {
@@ -61,21 +58,23 @@ class ChatMessageRepository {
                 let chatMessages = collectionSnapshot.documents.compactMap { documentSnapshot in
                     do {
                         return try documentSnapshot.data(as: ChatMessageDTO.self)
-                    }
-                    catch {
+                    } catch {
                         LogUtil.log("\(error)")
                         self?._error.send(error)
                         return nil
                     }
+                }.sorted(by: { $0.sendDate.dateValue() < $1.sendDate.dateValue() })
+                
+                // Print the sendDate of each message to debug the order
+                chatMessages.forEach { message in
+                    print("Message ID: \(message.id), sendDate: \(message.sendDate.dateValue())")
                 }
                 
                 self?._chatMessages.send(chatMessages)
             }
     }
-    
-    
-    
-    
+
+
     
     func removeChatMessage(chatMessageId: String) async {
         guard let hosueholdChatMessageCollectionRef = chatMessageCollectionRef else {

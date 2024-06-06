@@ -1,21 +1,18 @@
 //
-//  ChatMessageCell.swift
+//  IncomingChatMessage.swift
 //  Taskie
 //
-//  Created by Toan Pham on 6/1/24.
+//  Created by Toan Pham on 6/5/24.
 //
 
-import Foundation
 import UIKit
 
-class ChatMessageCell: UITableViewCell, Themable {
-    private var incomingBackgroundColor: UIColor = .clear
-    private var outgoingBackgroundColor: UIColor = .clear
-    private var incomingTextColor: UIColor = .clear
-    private var outgoingTextColor: UIColor = .clear
+class IncomingChatMessageCell: UITableViewCell, Themable {
+    private var decoMarkWidthConstraint: NSLayoutConstraint!
     
     private let sendDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .footnote)
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,7 +35,7 @@ class ChatMessageCell: UITableViewCell, Themable {
     }()
     
     private let userNameLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body)
+        let label = PDSLabel(withText: "", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,19 +50,12 @@ class ChatMessageCell: UITableViewCell, Themable {
     }()
     
     private let decoMark: UIImageView = {
-        let image = UIImage(named: "exclamation-mark")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
-    var bubbleViewLeadingConstraint: NSLayoutConstraint!
-    var bubbleViewTrailingConstraint: NSLayoutConstraint!
-    var senderCardLeadingConstraint: NSLayoutConstraint!
-    var senderCardTrailingConstraint: NSLayoutConstraint!
-    var decoMarkCenterXConstraint: NSLayoutConstraint!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -87,23 +77,23 @@ class ChatMessageCell: UITableViewCell, Themable {
         contentView.addSubview(userNameLabel)
         contentView.addSubview(decoMark)
         
-        bubbleViewLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: smileyFace.trailingAnchor, constant: 10)
-        bubbleViewTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10)
+        decoMarkWidthConstraint = decoMark.widthAnchor.constraint(equalToConstant: 50)
         
-        senderCardLeadingConstraint = smileyFace.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
-        senderCardTrailingConstraint = smileyFace.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
-                
         NSLayoutConstraint.activate([
-            decoMark.widthAnchor.constraint(equalToConstant: 50),
-            decoMark.heightAnchor.constraint(equalTo: decoMark.widthAnchor, multiplier: 1.5),
-            decoMark.topAnchor.constraint(equalTo: contentView.topAnchor),
-            
             smileyFace.topAnchor.constraint(equalTo: bubbleView.topAnchor),
             smileyFace.heightAnchor.constraint(equalToConstant: 40),
             smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor, multiplier: 1),
+            smileyFace.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor, constant: 0),
             bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            bubbleView.leadingAnchor.constraint(equalTo: smileyFace.trailingAnchor, constant: 10),
+            
+            decoMarkWidthConstraint,
+            decoMark.heightAnchor.constraint(equalTo: decoMark.widthAnchor, multiplier: 1.5),
+            decoMark.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            decoMark.centerXAnchor.constraint(equalTo: bubbleView.trailingAnchor),
+            decoMark.centerYAnchor.constraint(equalTo: bubbleView.topAnchor),
             
             sendDateLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor),
             sendDateLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor),
@@ -113,8 +103,8 @@ class ChatMessageCell: UITableViewCell, Themable {
             userNameLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
             userNameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor,constant: 20),
             userNameLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
-
-            messageLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 10),
+            
+            messageLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 5),
             messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
@@ -127,33 +117,25 @@ class ChatMessageCell: UITableViewCell, Themable {
         userNameLabel.text = chatMessage.sender.name
         sendDateLabel.text = chatMessage.sendDate
         
-        if chatMessage.isFromCurrentUser {
-            decoMarkCenterXConstraint = decoMark.centerXAnchor.constraint(equalTo: bubbleView.leadingAnchor)
-            decoMarkCenterXConstraint.isActive = true
-            bubbleViewTrailingConstraint.isActive = true
-            senderCardTrailingConstraint.isActive = true
-            bubbleView.backgroundColor = outgoingBackgroundColor
-            messageLabel.textColor = outgoingTextColor
-            userNameLabel.textColor = outgoingTextColor
-            userNameLabel.textAlignment = .right
-            sendDateLabel.textAlignment = .right
-        }
-        else {
-            decoMarkCenterXConstraint = decoMark.centerXAnchor.constraint(equalTo: bubbleView.trailingAnchor)
-            decoMarkCenterXConstraint.isActive = true
-            bubbleViewLeadingConstraint.isActive = true
-            senderCardLeadingConstraint.isActive = true
-            bubbleView.backgroundColor = incomingBackgroundColor
-            messageLabel.textColor = incomingTextColor
-            userNameLabel.textColor = incomingTextColor
+        switch chatMessage.type {
+            case .normal:
+                decoMark.isHidden = true
+                decoMarkWidthConstraint.constant = 10
+            case .request:
+                decoMark.isHidden = false
+                decoMarkWidthConstraint.constant = 50
+                decoMark.image = UIImage(named: "question-mark")
+            case .accept:
+                decoMark.isHidden = false
+                decoMarkWidthConstraint.constant = 50
+                decoMark.image = UIImage(named: "exclamation-mark")
         }
     }
     
     func applyTheme(_ theme: PDSTheme) {
         bubbleView.layer.cornerRadius = theme.styling.cornerRadius
-        incomingBackgroundColor = theme.color.dividerColor
-        outgoingBackgroundColor = theme.color.primaryColor
-        incomingTextColor = theme.color.onSurface
-        outgoingTextColor = theme.color.onPrimary
+        bubbleView.backgroundColor = theme.color.dividerColor
+        messageLabel.textColor = theme.color.onSurface
+        userNameLabel.textColor = theme.color.onSurface
     }
 }

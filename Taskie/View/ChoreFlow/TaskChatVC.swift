@@ -17,6 +17,14 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     var chatTextViewHeightConstraint: NSLayoutConstraint!
     var chatTextViewMaxHeight: CGFloat!
     
+    private let sendButton: UIButton = {
+        let button = UIButton()
+        let sendImage = UIImage(systemName: "paperplane.fill")
+        button.setImage(sendImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let chatTextView: PDSTextView = {
         let textView = PDSTextView()
         textView.isEditable = true
@@ -32,7 +40,8 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-        tableView.register(ChatMessageCell.self, forCellReuseIdentifier: ChatMessageCell.className)
+        tableView.register(OutoingChatMessageCell.self, forCellReuseIdentifier: OutoingChatMessageCell.className)
+        tableView.register(IncomingChatMessageCell.self, forCellReuseIdentifier: IncomingChatMessageCell.className)
         return tableView
     }()
     
@@ -66,6 +75,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
+                self?.scrollToBottom(animated: false)
             }
             .store(in: &cancellables)
         
@@ -89,6 +99,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         
         view.addSubview(tableView)
         view.addSubview(chatTextView)
+        view.addSubview(sendButton)
         
         chatTextViewHeightConstraint = chatTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 37)
         
@@ -99,19 +110,42 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             
             chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
             chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            chatTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            chatTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -20),
             chatTextViewHeightConstraint,
-            constraintViewToKeyboard(chatTextView)
+            constraintViewToKeyboard(chatTextView),
+            
+            sendButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
+            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 
     private func setUpActions() {
+        sendButton.addTarget(self, action: #selector(submitMessage), for: .touchUpInside)
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
     }
     
     @objc func handleBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func submitMessage() {
+        viewModel.createNewMessage(chatTextView.text)
+        chatTextView.text = ""
+    }
+    
+    func scrollToBottom(animated: Bool) {
+        let numberOfSections = tableView.numberOfSections
+        let numberOfRows = tableView.numberOfRows(inSection: numberOfSections - 1)
+        if numberOfRows > 0 {
+            let indexPath = IndexPath(row: numberOfRows - 1, section: numberOfSections - 1)
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+        }
+    }
+    
+    override func applyTheme(_ theme: PDSTheme) {
+        super.applyTheme(theme)
+        sendButton.tintColor = theme.color.primaryColor
     }
 }
 
@@ -127,12 +161,23 @@ extension TaskChatVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatMessageCell.className, for: indexPath) as? ChatMessageCell else {
-            return UITableViewCell()
-        }
         let chatMessage = viewModel.chatMessages[indexPath.row]
-        cell.configureCell(with: chatMessage)
-        return cell
+        
+        if chatMessage.isFromCurrentUser {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OutoingChatMessageCell.className, for: indexPath) as? OutoingChatMessageCell else {
+                return UITableViewCell()
+            }
+            cell.configureCell(with: chatMessage)
+            return cell
+        }
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: IncomingChatMessageCell.className, for: indexPath) as? IncomingChatMessageCell else {
+                return UITableViewCell()
+            }
+            cell.configureCell(with: chatMessage)
+            return cell
+        }
+        
     }
 }
 
