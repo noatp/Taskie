@@ -81,14 +81,18 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         
         viewModel.$choreDetail
             .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                
+            .sink { [weak self] chore in
+                guard let chore = chore,
+                      let self = self
+                else {
+                    return
+                }
+                setTitle(chore.name)
             }
             .store(in: &cancellables)
     }
 
     private func setUpViews() {
-        setTitle("Details")
         tableView.dataSource = self
         tableView.delegate = self
         

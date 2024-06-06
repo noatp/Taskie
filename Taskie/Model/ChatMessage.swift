@@ -15,7 +15,9 @@ struct ChatMessage: Codable {
         isFromCurrentUser: false,
         imageUrls: [],
         sendDate: "", 
-        type: .normal
+        type: .normal,
+        isFirstInSequence: true,
+        isLastInSequence: true
     )
     
     static let mock = ChatMessage(
@@ -25,7 +27,9 @@ struct ChatMessage: Codable {
         isFromCurrentUser: false,
         imageUrls: [],
         sendDate: "0 seconds ago", 
-        type: .normal
+        type: .normal,
+        isFirstInSequence: true,
+        isLastInSequence: true
     )
     
     let id: String
@@ -35,4 +39,6 @@ struct ChatMessage: Codable {
     let imageUrls: [String]
     let sendDate: String
     let type: MessageType
+    var isFirstInSequence: Bool
+    var isLastInSequence: Bool
 }

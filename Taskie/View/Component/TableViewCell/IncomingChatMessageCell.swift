@@ -9,6 +9,12 @@ import UIKit
 
 class IncomingChatMessageCell: UITableViewCell, Themable {
     private var decoMarkWidthConstraint: NSLayoutConstraint!
+    private var sendDateLabelConstraints: [NSLayoutConstraint] = []
+    private var userNameLabelConstraints: [NSLayoutConstraint] = []
+    private var bubbleViewBottomConstraintToSendDateLabel: NSLayoutConstraint!
+    private var bubbleViewBottomConstraintToContentView: NSLayoutConstraint!
+    private var messageLabelTopConstraintToBubbleView: NSLayoutConstraint!
+    private var messageLabelTopConstraintToUserNameLabel: NSLayoutConstraint!
     
     private let sendDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .footnote)
@@ -69,14 +75,17 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
         ThemeManager.shared.register(self)
         selectionStyle = .none
         
-        contentView.addSubview(sendDateLabel)
         contentView.addSubview(bubbleView)
         contentView.addSubview(messageLabel)
         contentView.addSubview(smileyFace)
-        contentView.addSubview(userNameLabel)
         contentView.addSubview(decoMark)
         
         decoMarkWidthConstraint = decoMark.widthAnchor.constraint(equalToConstant: 50)
+        bubbleViewBottomConstraintToSendDateLabel = bubbleView.bottomAnchor.constraint(equalTo: sendDateLabel.topAnchor, constant: -5)
+        bubbleViewBottomConstraintToContentView = bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        messageLabelTopConstraintToBubbleView = messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10)
+        messageLabelTopConstraintToUserNameLabel = messageLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 5)
+
         
         NSLayoutConstraint.activate([
             smileyFace.topAnchor.constraint(equalTo: bubbleView.topAnchor),
@@ -90,36 +99,23 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
             
             decoMarkWidthConstraint,
             decoMark.heightAnchor.constraint(equalTo: decoMark.widthAnchor, multiplier: 1.5),
-            decoMark.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            decoMark.topAnchor.constraint(equalTo: contentView.topAnchor),
             decoMark.centerXAnchor.constraint(equalTo: bubbleView.trailingAnchor),
             decoMark.centerYAnchor.constraint(equalTo: bubbleView.topAnchor),
             
-            sendDateLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor),
-            sendDateLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor),
-            sendDateLabel.topAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: 5),
-            sendDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            
-            userNameLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
-            userNameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor,constant: 20),
-            userNameLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
-            
-            messageLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 5),
             messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
         ])
     }
     
-    func configureCell(with chatMessage: ChatMessage){
+    func configureCell(with chatMessage: ChatMessage) {
         messageLabel.text = chatMessage.message
-        smileyFace.backgroundColor = .init(hex: chatMessage.sender.profileColor)
-        userNameLabel.text = chatMessage.sender.name
-        sendDateLabel.text = chatMessage.sendDate
         
         switch chatMessage.type {
             case .normal:
                 decoMark.isHidden = true
-                decoMarkWidthConstraint.constant = 10
+                decoMarkWidthConstraint.constant = 5
             case .request:
                 decoMark.isHidden = false
                 decoMarkWidthConstraint.constant = 50
@@ -128,6 +124,63 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
                 decoMark.isHidden = false
                 decoMarkWidthConstraint.constant = 50
                 decoMark.image = UIImage(named: "exclamation-mark")
+        }
+        
+        checkIsLastInSequence(chatMessage)
+        
+        checkIsFirstInSequence(chatMessage)
+    }
+    
+    private func checkIsFirstInSequence(_ chatMessage: ChatMessage) {
+        if chatMessage.isFirstInSequence {
+            userNameLabel.text = chatMessage.sender.name
+            smileyFace.backgroundColor = .init(hex: chatMessage.sender.profileColor)
+            smileyFace.isHidden = false
+            
+            if userNameLabel.superview == nil {
+                contentView.addSubview(userNameLabel)
+                userNameLabelConstraints = [
+                    userNameLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
+                    userNameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor,constant: 20),
+                    userNameLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
+                    messageLabelTopConstraintToUserNameLabel
+                ]
+                NSLayoutConstraint.activate(userNameLabelConstraints)
+            }
+            messageLabelTopConstraintToBubbleView.isActive = false
+        }
+        else {
+            smileyFace.isHidden = true
+            
+            if userNameLabel.superview != nil {
+                NSLayoutConstraint.deactivate(userNameLabelConstraints)
+                userNameLabel.removeFromSuperview()
+            }
+            messageLabelTopConstraintToBubbleView.isActive = true
+        }
+    }
+    
+    private func checkIsLastInSequence(_ chatMessage: ChatMessage) {
+        if chatMessage.isLastInSequence {
+            sendDateLabel.text = chatMessage.sendDate
+            
+            if sendDateLabel.superview == nil {
+                contentView.addSubview(sendDateLabel)
+                sendDateLabelConstraints = [
+                    sendDateLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor),
+                    sendDateLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor),
+                    bubbleViewBottomConstraintToSendDateLabel,
+                    sendDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+                ]
+                NSLayoutConstraint.activate(sendDateLabelConstraints)
+            }
+            bubbleViewBottomConstraintToContentView.isActive = false
+        } else {
+            if sendDateLabel.superview != nil {
+                NSLayoutConstraint.deactivate(sendDateLabelConstraints)
+                sendDateLabel.removeFromSuperview()
+            }
+            bubbleViewBottomConstraintToContentView.isActive = true
         }
     }
     

@@ -51,7 +51,11 @@ class TaskChatViewModel: ObservableObject {
             else {
                 return
             }
-            self.chatMessages = chatMessagesDto.compactMap { self.chatMessageMapper.getChatMessageFrom($0) }
+            let chatMessages = chatMessagesDto.compactMap { 
+                self.chatMessageMapper.getChatMessageFrom($0)
+            }
+            self.chatMessages = groupChatMessages(chatMessages)
+            
         }
         .store(in: &cancellables)
     }
@@ -71,6 +75,27 @@ class TaskChatViewModel: ObservableObject {
                 atChoreId: currentChoreId
             )
         }
+    }
+    
+    private func groupChatMessages(_ chatMessages: [ChatMessage]) -> [ChatMessage] {
+        var groupedChatMessages = chatMessages
+        let count = chatMessages.count
+        
+        for (index, message) in chatMessages.enumerated() {
+            if index == 0 || chatMessages[index - 1].sender.id != message.sender.id {
+                groupedChatMessages[index].isFirstInSequence = true
+            } else {
+                groupedChatMessages[index].isFirstInSequence = false
+            }
+            
+            if index == count - 1 || chatMessages[index + 1].sender.id != message.sender.id {
+                groupedChatMessages[index].isLastInSequence = true
+            } else {
+                groupedChatMessages[index].isLastInSequence = false
+            }
+        }
+        
+        return groupedChatMessages
     }
 }
 

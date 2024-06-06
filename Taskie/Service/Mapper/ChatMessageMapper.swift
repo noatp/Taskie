@@ -29,7 +29,9 @@ class ChatMessageMapper {
             isFromCurrentUser: sender.id == currentUserId,
             imageUrls: dto.imageUrls,
             sendDate: dto.sendDate.toRelativeString(),
-            type: dto.type
+            type: dto.type,
+            isFirstInSequence: true,
+            isLastInSequence: true
         )
     }
     
