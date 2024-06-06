@@ -65,11 +65,6 @@ class ChatMessageRepository {
                     }
                 }.sorted(by: { $0.sendDate.dateValue() < $1.sendDate.dateValue() })
                 
-                // Print the sendDate of each message to debug the order
-                chatMessages.forEach { message in
-                    print("Message ID: \(message.id), sendDate: \(message.sendDate.dateValue())")
-                }
-                
                 self?._chatMessages.send(chatMessages)
             }
     }

@@ -38,7 +38,7 @@ class ChatMessageFirestoreService: ChatMessageService {
     var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
         _chatMessages.eraseToAnyPublisher()
     }
-    private let _chatMessages = CurrentValueSubject<[ChatMessageDTO]?, Never>(nil)
+    private let _chatMessages = PassthroughSubject<[ChatMessageDTO]?, Never>()
     
     var error: AnyPublisher<Error?, Never> {
         _error.eraseToAnyPublisher()

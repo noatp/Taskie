@@ -18,10 +18,8 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     var chatTextViewMaxHeight: CGFloat!
     var isEditingChatTextView: Bool = false
     
-    private let sendButton: UIButton = {
-        let button = UIButton()
-        let sendImage = UIImage(systemName: "paperplane.fill")
-        button.setImage(sendImage, for: .normal)
+    private let sendButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "paperplane.fill", alignment: .center)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -121,18 +119,23 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
+            actionButton.heightAnchor.constraint(equalToConstant: 44),
+            actionButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 44),
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             actionButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
             
             chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
             chatTextView.leadingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 10),
-            chatTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -20),
+            chatTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
             chatTextViewHeightConstraint,
             constraintViewToKeyboard(chatTextView),
             
             sendButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
-            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
+        
+        actionButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        actionButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 
     private func setUpActions() {
@@ -178,13 +181,19 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     }
     
     func scrollToBottom(animated: Bool) {
-        let numberOfSections = tableView.numberOfSections
-        let numberOfRows = tableView.numberOfRows(inSection: numberOfSections - 1)
-        if numberOfRows > 0 {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let numberOfSections = self.tableView.numberOfSections
+            let numberOfRows = self.tableView.numberOfRows(inSection: numberOfSections - 1)
+            
+            guard numberOfSections > 0, numberOfRows > 0 else {
+                return
+            }
+            
             let indexPath = IndexPath(row: numberOfRows - 1, section: numberOfSections - 1)
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
     }
+
     
     private func updateActionButtonForEditing() {
         isEditingChatTextView = true
@@ -230,6 +239,10 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         actionButton.setTitleColor(theme.color.primaryColor, for: .normal)
         actionButton.tintColor = theme.color.primaryColor
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 extension TaskChatVC: UITableViewDelegate {
@@ -265,6 +278,10 @@ extension TaskChatVC: UITableViewDataSource {
 }
 
 extension TaskChatVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        scrollToBottom(animated: true)
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         revertActionButton()
     }

@@ -97,6 +97,10 @@ class TaskChatViewModel: ObservableObject {
         
         return groupedChatMessages
     }
+    
+    deinit {
+        LogUtil.log("deinit")
+    }
 }
 
 extension Dependency.ViewModel {
