@@ -14,13 +14,19 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
     private var vStack: UIStackView!
     private var hStack: UIStackView!
     
-    private let sendDateLabel: PDSLabel = {
+    private var imageUrls: [String] = [] {
+        didSet {
+            imageCollectionView.reloadData()
+        }
+    }
+    
+    private lazy var sendDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .footnote)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let bubbleView: UIView = {
+    private lazy var bubbleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -37,13 +43,13 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         return imageView
     }()
     
-    private let userNameLabel: PDSLabel = {
+    private lazy var userNameLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let messageLabel: PDSLabel = {
+    private lazy var messageLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .body)
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -52,12 +58,25 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         return label
     }()
     
-    private let decoMark: UIImageView = {
+    private lazy var decoMark: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    private lazy var imageCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.className)
+        return collectionView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,6 +91,8 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
     private func setUpViews() {
         ThemeManager.shared.register(self)
         selectionStyle = .none
+        imageCollectionView.delegate = self
+        imageCollectionView.dataSource = self
         
         vStack = UIStackView.vStack(arrangedSubviews: [messageLabel], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +133,8 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
             vStack.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
             vStack.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
+            
+            imageCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300)
         ])
     }
     
@@ -133,6 +156,8 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         }
         
         checkIsFirstInSequence(chatMessage)
+        
+        handleImages(imageUrls: chatMessage.imageUrls)
     }
     
     private func checkIsFirstInSequence(_ chatMessage: ChatMessage) {
@@ -158,11 +183,54 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         }
     }
     
+    private func handleImages(imageUrls: [String]) {
+        guard !imageUrls.isEmpty else {
+            if imageCollectionView.superview != nil {
+                vStack.removeArrangedSubview(imageCollectionView)
+                imageCollectionView.removeFromSuperview()
+            }
+            return
+        }
+        
+        if imageCollectionView.superview == nil {
+            vStack.addArrangedSubview(imageCollectionView)
+        }
+        self.imageUrls = imageUrls
+    }
+    
     func applyTheme(_ theme: PDSTheme) {
         bubbleView.layer.cornerRadius = theme.styling.cornerRadius
         bubbleView.backgroundColor = theme.color.primaryColor
         messageLabel.textColor = theme.color.onPrimary
         userNameLabel.textColor = theme.color.onPrimary
         sendDateLabel.textColor = theme.color.onPrimary
+    }
+}
+
+extension OutgoingChatMessageCell: UICollectionViewDelegateFlowLayout {
+    
+}
+
+extension OutgoingChatMessageCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print (imageUrls.count)
+        return imageUrls.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.className, for: indexPath) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.configureCell(imageUrl: imageUrls[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfItemPerRow: CGFloat = 3
+        let spacing: CGFloat = 8
+        let totalSpacing = (numberOfItemPerRow - 1) * spacing
+        let itemWidth = (collectionView.frame.width - totalSpacing) / numberOfItemPerRow
+        print(itemWidth)
+        return CGSize(width: itemWidth, height: itemWidth)
     }
 }
