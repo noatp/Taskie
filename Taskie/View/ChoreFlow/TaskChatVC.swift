@@ -24,8 +24,8 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
-    private let actionButton: UIButton = {
-        let button = UIButton()
+    private let actionButton: PDSPrimaryButton = {
+        let button = PDSPrimaryButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -128,10 +128,10 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             actionButton.heightAnchor.constraint(equalToConstant: 44),
-            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             actionButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
             
-            chevronButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 10),
+            chevronButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 5),
             chevronButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
             
             chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
@@ -233,25 +233,15 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             case .accept:
                 actionButton.isHidden = false
                 actionButton.setTitle("Accept", for: .normal)
-                actionButton.setImage(nil, for: .normal)
             case .finish:
                 actionButton.isHidden = false
                 actionButton.setTitle("Finished", for: .normal)
-                actionButton.setImage(nil, for: .normal)
             case .withdraw:
                 actionButton.isHidden = false
                 actionButton.setTitle("Withdraw", for: .normal)
-                actionButton.setImage(nil, for: .normal)
             case .nothing:
                 actionButton.isHidden = true
         }
-    }
-    
-    override func applyTheme(_ theme: PDSTheme) {
-        super.applyTheme(theme)
-        sendButton.tintColor = theme.color.primaryColor
-        actionButton.setTitleColor(theme.color.primaryColor, for: .normal)
-        actionButton.tintColor = theme.color.primaryColor
     }
     
     deinit {
