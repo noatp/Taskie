@@ -59,6 +59,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         tableView.tableFooterView = footerView
         tableView.register(OutgoingChatMessageCell.self, forCellReuseIdentifier: OutgoingChatMessageCell.className)
         tableView.register(IncomingChatMessageCell.self, forCellReuseIdentifier: IncomingChatMessageCell.className)
+        tableView.register(OutgoingChatMessageCellWithImage.self, forCellReuseIdentifier: OutgoingChatMessageCellWithImage.className)
         return tableView
     }()
     
@@ -281,11 +282,20 @@ extension TaskChatVC: UITableViewDataSource {
         let chatMessage = viewModel.chatMessages[indexPath.row]
         
         if chatMessage.isFromCurrentUser {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingChatMessageCell.className, for: indexPath) as? OutgoingChatMessageCell else {
-                return UITableViewCell()
+            if chatMessage.imageUrls.isEmpty {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingChatMessageCell.className, for: indexPath) as? OutgoingChatMessageCell else {
+                    return UITableViewCell()
+                }
+                cell.configureCell(with: chatMessage)
+                return cell
             }
-            cell.configureCell(with: chatMessage)
-            return cell
+            else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingChatMessageCellWithImage.className, for: indexPath) as? OutgoingChatMessageCellWithImage else {
+                    return UITableViewCell()
+                }
+                cell.configureCell(with: chatMessage)
+                return cell
+            }
         }
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: IncomingChatMessageCell.className, for: indexPath) as? IncomingChatMessageCell else {

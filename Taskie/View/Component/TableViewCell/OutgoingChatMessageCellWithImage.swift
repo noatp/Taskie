@@ -1,17 +1,31 @@
 //
-//  ChatMessageCell.swift
+//  OutgoingChatMessageCellWithImage.swift
 //  Taskie
 //
-//  Created by Toan Pham on 6/1/24.
+//  Created by Toan Pham on 6/8/24.
 //
 
 import UIKit
 
-class OutgoingChatMessageCell: UITableViewCell, Themable {
+class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
     private var decoMarkWidthConstraint: NSLayoutConstraint!
+    private var imageCollectionViewHeightConstraint: NSLayoutConstraint!
     
     private var vStack: UIStackView!
     private var hStack: UIStackView!
+    
+    private var imageUrls: [String] = [] {
+        didSet {
+            imageCollectionView.reloadData()
+            updateImageCollectionViewHeight()
+        }
+    }
+    
+    private var imageCellHeight: CGFloat = 0 {
+        didSet {
+            updateImageCollectionViewHeight()
+        }
+    }
     
     private lazy var sendDateLabel: PDSLabel = {
         let label = PDSLabel(withText: "", fontScale: .footnote)
@@ -59,6 +73,19 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         return imageView
     }()
     
+    private let imageCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.className)
+        return collectionView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpViews()
@@ -72,7 +99,10 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         ThemeManager.shared.register(self)
         selectionStyle = .none
         
-        vStack = UIStackView.vStack(arrangedSubviews: [messageLabel], alignment: .leading, shouldExpandSubviewWidth: true)
+        imageCollectionView.delegate = self
+        imageCollectionView.dataSource = self
+        
+        vStack = UIStackView.vStack(arrangedSubviews: [messageLabel, imageCollectionView], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         hStack = UIStackView.hStack(
@@ -89,6 +119,7 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         contentView.addSubview(decoMark)
         
         decoMarkWidthConstraint = decoMark.widthAnchor.constraint(equalToConstant: 50)
+        imageCollectionViewHeightConstraint = imageCollectionView.heightAnchor.constraint(equalToConstant: 100)
         
         NSLayoutConstraint.activate([
             smileyFace.topAnchor.constraint(equalTo: bubbleView.topAnchor),
@@ -111,11 +142,14 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
             vStack.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
             vStack.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
+            
+            imageCollectionViewHeightConstraint
         ])
     }
     
     func configureCell(with chatMessage: ChatMessage) {
         messageLabel.text = chatMessage.message
+        imageUrls = chatMessage.imageUrls
         
         switch chatMessage.type {
             case .normal:
@@ -157,11 +191,52 @@ class OutgoingChatMessageCell: UITableViewCell, Themable {
         }
     }
     
+    private func updateImageCollectionViewHeight() {
+        // Trigger layout to get the correct width
+        layoutIfNeeded()
+        
+        // Calculate item size
+        let numberOfItemsPerRow: CGFloat = 2
+        let spacing: CGFloat = 8
+        let totalSpacing = (numberOfItemsPerRow - 1) * spacing
+        let itemWidth = (imageCollectionView.frame.width - totalSpacing) / numberOfItemsPerRow
+        let itemHeight = itemWidth // Since height is equal to width
+        
+        // Calculate total height
+        let rows = ceil(CGFloat(imageUrls.count) / numberOfItemsPerRow)
+        let totalHeight = rows * itemHeight + (rows - 1) * spacing
+        
+        // Update height constraint
+        imageCollectionViewHeightConstraint.constant = totalHeight
+        layoutIfNeeded()
+    }
+    
     func applyTheme(_ theme: PDSTheme) {
         bubbleView.layer.cornerRadius = theme.styling.cornerRadius
         bubbleView.backgroundColor = theme.color.primaryColor
         messageLabel.textColor = theme.color.onPrimary
         userNameLabel.textColor = theme.color.onPrimary
         sendDateLabel.textColor = theme.color.onPrimary
+    }
+}
+
+extension OutgoingChatMessageCellWithImage: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageUrls.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.className, for: indexPath) as! ImageCollectionViewCell
+        cell.configureCell(imageUrl: imageUrls[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfItemsPerRow: CGFloat = 2
+        let spacing: CGFloat = 8
+        let totalSpacing = (numberOfItemsPerRow - 1) * spacing
+        let itemWidth = (collectionView.frame.width - totalSpacing) / numberOfItemsPerRow
+//        self.imageCellHeight = itemWidth
+        return CGSize(width: itemWidth, height: itemWidth)
     }
 }
