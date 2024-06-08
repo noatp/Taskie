@@ -51,8 +51,13 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100
-        tableView.register(OutoingChatMessageCell.self, forCellReuseIdentifier: OutoingChatMessageCell.className)
+        
+        let footerView = UIView()
+        footerView.backgroundColor = tableView.backgroundColor
+        footerView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20)
+
+        tableView.tableFooterView = footerView
+        tableView.register(OutgoingChatMessageCell.self, forCellReuseIdentifier: OutgoingChatMessageCell.className)
         tableView.register(IncomingChatMessageCell.self, forCellReuseIdentifier: IncomingChatMessageCell.className)
         return tableView
     }()
@@ -192,7 +197,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     }
     
     func scrollToBottom(animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let numberOfSections = self.tableView.numberOfSections
             let numberOfRows = self.tableView.numberOfRows(inSection: numberOfSections - 1)
             
@@ -200,10 +205,22 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
                 return
             }
             
+            // Scroll to the last row
             let indexPath = IndexPath(row: numberOfRows - 1, section: numberOfSections - 1)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+            
+            // Scroll to the bottom to include footer view
+            if let footerView = self.tableView.tableFooterView {
+                let contentHeight = self.tableView.contentSize.height
+                let frameHeight = self.tableView.frame.height
+                if contentHeight > frameHeight {
+                    let bottomOffset = CGPoint(x: 0, y: contentHeight - frameHeight)
+                    self.tableView.setContentOffset(bottomOffset, animated: animated)
+                }
+            }
         }
     }
+
 
     
     private func updateActionButtonForEditing() {
@@ -264,7 +281,7 @@ extension TaskChatVC: UITableViewDataSource {
         let chatMessage = viewModel.chatMessages[indexPath.row]
         
         if chatMessage.isFromCurrentUser {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: OutoingChatMessageCell.className, for: indexPath) as? OutoingChatMessageCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingChatMessageCell.className, for: indexPath) as? OutgoingChatMessageCell else {
                 return UITableViewCell()
             }
             cell.configureCell(with: chatMessage)

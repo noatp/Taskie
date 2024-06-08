@@ -91,7 +91,7 @@
 		CAD443B42C0BCC36006EBD26 /* ChatMessageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B32C0BCC36006EBD26 /* ChatMessageRepository.swift */; };
 		CAD443B62C0BCCEB006EBD26 /* ChatMessageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B52C0BCCEB006EBD26 /* ChatMessageDTO.swift */; };
 		CAD443B82C0BE291006EBD26 /* ChatMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443B72C0BE291006EBD26 /* ChatMessageService.swift */; };
-		CAD443BB2C0C18F1006EBD26 /* OutoingChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443BA2C0C18F1006EBD26 /* OutoingChatMessageCell.swift */; };
+		CAD443BB2C0C18F1006EBD26 /* OutgoingChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443BA2C0C18F1006EBD26 /* OutgoingChatMessageCell.swift */; };
 		CAD443BF2C0C2123006EBD26 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443BE2C0C2123006EBD26 /* ChatMessage.swift */; };
 		CAD443C22C0C226F006EBD26 /* ChatMessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443C12C0C226F006EBD26 /* ChatMessageMapper.swift */; };
 		CAD443C42C0EB823006EBD26 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD443C32C0EB823006EBD26 /* DoubleExtension.swift */; };
@@ -198,7 +198,7 @@
 		CAD443B32C0BCC36006EBD26 /* ChatMessageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageRepository.swift; sourceTree = "<group>"; };
 		CAD443B52C0BCCEB006EBD26 /* ChatMessageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageDTO.swift; sourceTree = "<group>"; };
 		CAD443B72C0BE291006EBD26 /* ChatMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageService.swift; sourceTree = "<group>"; };
-		CAD443BA2C0C18F1006EBD26 /* OutoingChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutoingChatMessageCell.swift; sourceTree = "<group>"; };
+		CAD443BA2C0C18F1006EBD26 /* OutgoingChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingChatMessageCell.swift; sourceTree = "<group>"; };
 		CAD443BE2C0C2123006EBD26 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		CAD443C12C0C226F006EBD26 /* ChatMessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageMapper.swift; sourceTree = "<group>"; };
 		CAD443C32C0EB823006EBD26 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
@@ -452,7 +452,7 @@
 			children = (
 				CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */,
 				CACE2EA52BC3A09A007FD9F2 /* MenuCell.swift */,
-				CAD443BA2C0C18F1006EBD26 /* OutoingChatMessageCell.swift */,
+				CAD443BA2C0C18F1006EBD26 /* OutgoingChatMessageCell.swift */,
 				CAE6B1722C11333E00303551 /* IncomingChatMessageCell.swift */,
 			);
 			path = TableViewCell;
@@ -750,7 +750,7 @@
 				CA3A69A72BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift in Sources */,
 				CA7C69C92B8C4274005B3CF2 /* UIViewPreviewWrapper.swift in Sources */,
 				CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */,
-				CAD443BB2C0C18F1006EBD26 /* OutoingChatMessageCell.swift in Sources */,
+				CAD443BB2C0C18F1006EBD26 /* OutgoingChatMessageCell.swift in Sources */,
 				CA1683E72B8D425A0086153A /* ChoreDTO.swift in Sources */,
 				CACE2E972BAD01F7007FD9F2 /* PDSSwipableImageRowVC.swift in Sources */,
 				CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */,

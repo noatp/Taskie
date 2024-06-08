@@ -46,4 +46,11 @@ extension UIView {
         
         return separatorView
     }
+    
+    func checkAmbiguity() {
+        if self.hasAmbiguousLayout {
+            print("\(self) has ambiguous layout")
+        }
+        subviews.forEach { $0.checkAmbiguity() }
+    }
 }
