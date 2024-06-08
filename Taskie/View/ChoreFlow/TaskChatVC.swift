@@ -30,6 +30,13 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         return button
     }()
     
+    private let chevronButton: PDSIconBarButton = {
+        let button = PDSIconBarButton(systemName: "chevron.right", alignment: .center)
+        button.isHidden = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let chatTextView: PDSTextView = {
         let textView = PDSTextView()
         textView.isEditable = true
@@ -111,6 +118,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         view.addSubview(chatTextView)
         view.addSubview(sendButton)
         view.addSubview(actionButton)
+        view.addSubview(chevronButton)
         
         chatTextViewHeightConstraint = chatTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 37)
         
@@ -120,18 +128,21 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             actionButton.heightAnchor.constraint(equalToConstant: 44),
-            actionButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 44),
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             actionButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
             
+            chevronButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 10),
+            chevronButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
+            
             chatTextView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10),
             chatTextView.leadingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 10),
+            chatTextView.leadingAnchor.constraint(equalTo: chevronButton.trailingAnchor, constant: 5),
             chatTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
             chatTextViewHeightConstraint,
             constraintViewToKeyboard(chatTextView),
             
             sendButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
-            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
         ])
         
         actionButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -139,6 +150,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     }
 
     private func setUpActions() {
+        chevronButton.addTarget(self, action: #selector(handleChevronButton), for: .touchUpInside)
         actionButton.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(submitMessage), for: .touchUpInside)
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
@@ -155,13 +167,12 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         revertActionButton()
     }
     
+    @objc func handleChevronButton() {
+        revertActionButton()
+    }
+    
     @objc func handleActionButton() {
         if let chore = viewModel.choreDetail {
-            if isEditingChatTextView {
-                revertActionButton()
-                return
-            }
-            
             switch chore.actionButtonType {
                 case .accept:
                     break
@@ -198,7 +209,8 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     private func updateActionButtonForEditing() {
         isEditingChatTextView = true
         actionButton.setTitle("", for: .normal)
-        actionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        actionButton.isHidden = true
+        chevronButton.isHidden = false
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.view.layoutIfNeeded()
         }
@@ -206,6 +218,8 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     
     private func revertActionButton() {
         isEditingChatTextView = false
+        actionButton.isHidden = false
+        chevronButton.isHidden = true
         if let chore = viewModel.choreDetail {
             updateActionButton(for: chore.actionButtonType)
         }
