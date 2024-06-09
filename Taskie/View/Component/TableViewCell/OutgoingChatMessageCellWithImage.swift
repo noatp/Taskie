@@ -8,21 +8,20 @@
 import UIKit
 
 class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
-    private var decoMarkWidthConstraint: NSLayoutConstraint!
+    private var decoMarkHeightConstraint: NSLayoutConstraint!
     private var imageCollectionViewHeightConstraint: NSLayoutConstraint!
     
     private var vStack: UIStackView!
     private var hStack: UIStackView!
     
+    private var imageCellHeight: CGFloat = 0
+    private let imageCellSpacing: CGFloat = 8
+    private var numberOfCellPerRow: CGFloat = 0
+    
     private var imageUrls: [String] = [] {
         didSet {
             imageCollectionView.reloadData()
-            updateImageCollectionViewHeight()
-        }
-    }
-    
-    private var imageCellHeight: CGFloat = 0 {
-        didSet {
+            numberOfCellPerRow = imageUrls.count > 1 ? 2 : 1
             updateImageCollectionViewHeight()
         }
     }
@@ -51,13 +50,13 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
     }()
     
     private lazy var userNameLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .caption)
+        let label = PDSLabel(withText: "something", fontScale: .caption)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var messageLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .body)
+        let label = PDSLabel(withText: "something", fontScale: .body)
         label.numberOfLines = 0
         label.textAlignment = .left
         label.lineBreakMode = .byWordWrapping
@@ -102,7 +101,7 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         
-        vStack = UIStackView.vStack(arrangedSubviews: [messageLabel, imageCollectionView], alignment: .leading, shouldExpandSubviewWidth: true)
+        vStack = UIStackView.vStack(arrangedSubviews: [messageLabel], alignment: .leading, shouldExpandSubviewWidth: true)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         hStack = UIStackView.hStack(
@@ -117,9 +116,11 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
         contentView.addSubview(vStack)
         contentView.addSubview(smileyFace)
         contentView.addSubview(decoMark)
+        contentView.addSubview(imageCollectionView)
         
-        decoMarkWidthConstraint = decoMark.widthAnchor.constraint(equalToConstant: 50)
-        imageCollectionViewHeightConstraint = imageCollectionView.heightAnchor.constraint(equalToConstant: 100)
+        decoMarkHeightConstraint = decoMark.heightAnchor.constraint(equalToConstant: 50)
+//        decoMarkHeightConstraint.priority = .defaultHigh
+        imageCollectionViewHeightConstraint = imageCollectionView.heightAnchor.constraint(equalToConstant: 261)
         
         NSLayoutConstraint.activate([
             smileyFace.topAnchor.constraint(equalTo: bubbleView.topAnchor),
@@ -128,12 +129,12 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
             smileyFace.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor),
-            bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.7),
+            bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
             bubbleView.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10),
             bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            decoMarkWidthConstraint,
-            decoMark.heightAnchor.constraint(equalTo: decoMark.widthAnchor, multiplier: 1.5),
+            decoMarkHeightConstraint,
+            decoMark.widthAnchor.constraint(equalTo: decoMark.heightAnchor, multiplier: 0.67),
             decoMark.topAnchor.constraint(equalTo: contentView.topAnchor),
             decoMark.centerXAnchor.constraint(equalTo: bubbleView.leadingAnchor),
             decoMark.centerYAnchor.constraint(equalTo: bubbleView.topAnchor),
@@ -141,8 +142,11 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
             vStack.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
             vStack.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
             vStack.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
-            vStack.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
             
+            imageCollectionView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
+            imageCollectionView.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
+            imageCollectionView.topAnchor.constraint(equalTo: vStack.bottomAnchor, constant: 10),
+            imageCollectionView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
             imageCollectionViewHeightConstraint
         ])
     }
@@ -154,14 +158,14 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
         switch chatMessage.type {
             case .normal:
                 decoMark.isHidden = true
-                decoMarkWidthConstraint.constant = 5
+                decoMarkHeightConstraint.constant = 0
             case .request:
                 decoMark.isHidden = false
-                decoMarkWidthConstraint.constant = 50
+                decoMarkHeightConstraint.constant = 100
                 decoMark.image = UIImage(named: "question-mark")
             case .accept:
                 decoMark.isHidden = false
-                decoMarkWidthConstraint.constant = 50
+                decoMarkHeightConstraint.constant = 100
                 decoMark.image = UIImage(named: "exclamation-mark")
         }
         
@@ -170,8 +174,8 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
     
     private func checkIsFirstInSequence(_ chatMessage: ChatMessage) {
         if chatMessage.isFirstInSequence {
-            if decoMarkWidthConstraint.constant == 5 {
-                decoMarkWidthConstraint.constant = 20
+            if decoMarkHeightConstraint.constant == 5 {
+                decoMarkHeightConstraint.constant = 20
             }
             userNameLabel.text = chatMessage.sender.name
             sendDateLabel.text = chatMessage.sendDate
@@ -192,19 +196,13 @@ class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
     }
     
     private func updateImageCollectionViewHeight() {
-        // Trigger layout to get the correct width
-        layoutIfNeeded()
+        layoutIfNeeded()  // Trigger layout to get the correct width
         
-        // Calculate item size
-        let numberOfItemsPerRow: CGFloat = 2
-        let spacing: CGFloat = 8
-        let totalSpacing = (numberOfItemsPerRow - 1) * spacing
-        let itemWidth = (imageCollectionView.frame.width - totalSpacing) / numberOfItemsPerRow
-        let itemHeight = itemWidth // Since height is equal to width
-        
+        let totalSpacing = (numberOfCellPerRow - 1) * imageCellSpacing
+       
         // Calculate total height
-        let rows = ceil(CGFloat(imageUrls.count) / numberOfItemsPerRow)
-        let totalHeight = rows * itemHeight + (rows - 1) * spacing
+        let rows = ceil(CGFloat(imageUrls.count) / numberOfCellPerRow)
+        let totalHeight = rows * self.imageCellHeight + (rows - 1) * imageCellSpacing
         
         // Update height constraint
         imageCollectionViewHeightConstraint.constant = totalHeight
@@ -232,11 +230,10 @@ extension OutgoingChatMessageCellWithImage: UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfItemsPerRow: CGFloat = 2
-        let spacing: CGFloat = 8
-        let totalSpacing = (numberOfItemsPerRow - 1) * spacing
-        let itemWidth = (collectionView.frame.width - totalSpacing) / numberOfItemsPerRow
-//        self.imageCellHeight = itemWidth
+        let totalSpacing = (numberOfCellPerRow - 1) * imageCellSpacing
+        let bubbleViewWidth = UIScreen.main.bounds.width * 0.7
+        let itemWidth = (bubbleViewWidth - 40 - totalSpacing) / numberOfCellPerRow
+        self.imageCellHeight = itemWidth
         return CGSize(width: itemWidth, height: itemWidth)
     }
 }

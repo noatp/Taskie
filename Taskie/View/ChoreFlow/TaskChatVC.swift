@@ -45,17 +45,18 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 500
         
         let footerView = UIView()
         footerView.backgroundColor = tableView.backgroundColor
         footerView.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20)
-
+        
         tableView.tableFooterView = footerView
         tableView.register(OutgoingChatMessageCell.self, forCellReuseIdentifier: OutgoingChatMessageCell.className)
         tableView.register(IncomingChatMessageCell.self, forCellReuseIdentifier: IncomingChatMessageCell.className)
@@ -80,7 +81,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
@@ -110,7 +111,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             }
             .store(in: &cancellables)
     }
-
+    
     private func setUpViews() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -154,7 +155,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         actionButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         actionButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-
+    
     private func setUpActions() {
         chevronButton.addTarget(self, action: #selector(handleChevronButton), for: .touchUpInside)
         actionButton.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
@@ -182,15 +183,10 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             switch chore.actionButtonType {
                 case .accept:
                     break
-//                    viewModel.acceptSelectedChore()
                 case .finish:
-                    //                viewModel.finishedSelectedChore()
-//                    let submitChoreVC = dependencyView.submitChoreVC()
-//                    self.navigationController?.pushViewController(submitChoreVC, animated: true)
                     break
                 case .withdraw:
                     break
-//                    viewModel.withdrawSelectedChore()
                 case .nothing:
                     break
             }
@@ -221,8 +217,6 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             }
         }
     }
-
-
     
     private func updateActionButtonForEditing() {
         isEditingChatTextView = true
@@ -269,7 +263,6 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
 
 extension TaskChatVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }
 
@@ -288,23 +281,20 @@ extension TaskChatVC: UITableViewDataSource {
                 }
                 cell.configureCell(with: chatMessage)
                 return cell
-            }
-            else {
+            } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingChatMessageCellWithImage.className, for: indexPath) as? OutgoingChatMessageCellWithImage else {
                     return UITableViewCell()
                 }
                 cell.configureCell(with: chatMessage)
                 return cell
             }
-        }
-        else {
+        } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: IncomingChatMessageCell.className, for: indexPath) as? IncomingChatMessageCell else {
                 return UITableViewCell()
             }
             cell.configureCell(with: chatMessage)
             return cell
         }
-        
     }
 }
 
@@ -321,7 +311,7 @@ extension TaskChatVC: UITextViewDelegate {
         if !isEditingChatTextView {
             updateActionButtonForEditing()
         }
-
+        
         let size = chatTextView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
         chatTextView.isScrollEnabled = size.height > chatTextViewMaxHeight
         self.chatTextViewHeightConstraint.constant = min(size.height, self.chatTextViewMaxHeight)
@@ -330,6 +320,7 @@ extension TaskChatVC: UITextViewDelegate {
         }
     }
 }
+
 
 struct TaskChatVC_Previews: PreviewProvider {
     static var previews: some View {
