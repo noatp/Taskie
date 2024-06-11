@@ -36,6 +36,8 @@ class PDSTitleWrapperVC: UIViewController, Themable {
             vcTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vcTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+        
+        vcTitleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     func setTitle(_ title: String){

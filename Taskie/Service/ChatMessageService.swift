@@ -113,7 +113,7 @@ class ChatMessageMockService: ChatMessageService {
     func createNewMessage(_ message: String, byUserId currentUserId: String, atChoreId choreId: String) async {}
     
     var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
-        Just([.mock, .mock]).eraseToAnyPublisher()
+        Just([.mockFromCurrentUserTop, .mockNotFromCurrentUserTop, .mockFromCurrentUserTop, .mockFromCurrentUserTop, .mockNotFromCurrentUserTop]).eraseToAnyPublisher()
     }
     
     var error: AnyPublisher<Error?, Never> {

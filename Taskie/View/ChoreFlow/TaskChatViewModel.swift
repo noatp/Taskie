@@ -45,20 +45,24 @@ class TaskChatViewModel: ObservableObject {
     }
     
     private func subscribeToChatMessageService() {
-        chatMessageService.chatMessages.sink { [weak self] chatMessagesDto in
-            guard let chatMessagesDto = chatMessagesDto,
-                  let self = self
-            else {
-                return
+        chatMessageService.chatMessages
+            .sink { [weak self] chatMessagesDto in
+                guard let chatMessagesDto = chatMessagesDto,
+                      let self = self else {
+                    return
+                }
+                print("Received chat messages: \(chatMessagesDto)")
+                let chatMessages = chatMessagesDto.compactMap {
+                    self.chatMessageMapper.getChatMessageFrom($0)
+                }
+                print("Transformed chat messages: \(chatMessages)")
+                self.chatMessages = self.groupChatMessages(chatMessages)
+                print("Updated chat messages in view model: \(self.chatMessages)")
             }
-            let chatMessages = chatMessagesDto.compactMap { 
-                self.chatMessageMapper.getChatMessageFrom($0)
-            }
-            self.chatMessages = groupChatMessages(chatMessages)
-            
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
     }
+
+
     
     func createNewMessage(_ message: String) {
         guard let currentUserId = userService.getCurrentUser()?.id,

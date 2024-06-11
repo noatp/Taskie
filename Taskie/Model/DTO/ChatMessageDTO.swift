@@ -16,7 +16,8 @@ enum MessageType: String, Codable {
 struct ChatMessageDTO: Codable {
     static let empty = ChatMessageDTO(id: "some id", message: "", senderId: "", imageUrls: [], sendDate: .init(), type: .normal)
     
-    static let mock = ChatMessageDTO(id: "some id", message: "this is a message", senderId: "some id", imageUrls: [], sendDate: .init(), type: .normal)
+    static let mockFromCurrentUserTop = ChatMessageDTO(id: "some id", message: "this is a message", senderId: "some id", imageUrls: [], sendDate: .init(), type: .normal)
+    static let mockNotFromCurrentUserTop = ChatMessageDTO(id: "some id", message: "this is a longer message. Yes it is longer indeed", senderId: "some other id", imageUrls: [], sendDate: .init(), type: .normal)
     let id: String
     let message: String
     let senderId: String

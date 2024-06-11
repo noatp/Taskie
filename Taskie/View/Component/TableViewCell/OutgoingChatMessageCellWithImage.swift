@@ -7,233 +7,166 @@
 
 import UIKit
 
-class OutgoingChatMessageCellWithImage: UITableViewCell, Themable {
-    private var decoMarkHeightConstraint: NSLayoutConstraint!
-    private var imageCollectionViewHeightConstraint: NSLayoutConstraint!
-    
-    private var vStack: UIStackView!
-    private var hStack: UIStackView!
-    
-    private var imageCellHeight: CGFloat = 0
-    private let imageCellSpacing: CGFloat = 8
-    private var numberOfCellPerRow: CGFloat = 0
-    
-    private var imageUrls: [String] = [] {
-        didSet {
-            imageCollectionView.reloadData()
-            numberOfCellPerRow = imageUrls.count > 1 ? 2 : 1
-            updateImageCollectionViewHeight()
-        }
-    }
-    
-    private lazy var sendDateLabel: PDSLabel = {
-        let label = PDSLabel(withText: "", fontScale: .footnote)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var bubbleView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var smileyFace: UIImageView = {
-        let image = UIImage(named: "smileyFace")
-        let imageView = UIImageView(image: image)
-        imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private lazy var userNameLabel: PDSLabel = {
-        let label = PDSLabel(withText: "something", fontScale: .caption)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var messageLabel: PDSLabel = {
-        let label = PDSLabel(withText: "something", fontScale: .body)
-        label.numberOfLines = 0
-        label.textAlignment = .left
-        label.lineBreakMode = .byWordWrapping
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var decoMark: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let imageCollectionView: UICollectionView = {
+class OutgoingChatMessageCellWithImage: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // UI Elements
+    private let messageLabel = UILabel()
+    private let senderLabel = UILabel()
+    private let timestampLabel = UILabel()
+    private let questionMarkImageView = UIImageView()
+    private let smileyFaceImageView = UIImageView()
+    private var imageUrls: [String] = []
+    private lazy var imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 8
-        
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .clear
-        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.className)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
+    // Constraints
+    private var messageTopConstraint: NSLayoutConstraint!
+    private var imageCollectionViewTopConstraint: NSLayoutConstraint!
+    
+    // Initialize UI elements and layout
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpViews()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupUI()
     }
     
-    private func setUpViews() {
-        ThemeManager.shared.register(self)
-        selectionStyle = .none
-        
-        imageCollectionView.delegate = self
-        imageCollectionView.dataSource = self
-        
-        vStack = UIStackView.vStack(arrangedSubviews: [messageLabel], alignment: .leading, shouldExpandSubviewWidth: true)
-        vStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        hStack = UIStackView.hStack(
-            arrangedSubviews: [userNameLabel, sendDateLabel],
-            alignment: .leading,
-            shouldExpandSubviewHeight: true
-        )
-        hStack.spacing = 10
-        hStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(bubbleView)
-        contentView.addSubview(vStack)
-        contentView.addSubview(smileyFace)
-        contentView.addSubview(decoMark)
+    private func setupUI() {
+        // Add subviews and setup constraints
+        contentView.addSubview(messageLabel)
+        contentView.addSubview(senderLabel)
+        contentView.addSubview(timestampLabel)
+        contentView.addSubview(questionMarkImageView)
+        contentView.addSubview(smileyFaceImageView)
         contentView.addSubview(imageCollectionView)
         
-        decoMarkHeightConstraint = decoMark.heightAnchor.constraint(equalToConstant: 50)
-//        decoMarkHeightConstraint.priority = .defaultHigh
-        imageCollectionViewHeightConstraint = imageCollectionView.heightAnchor.constraint(equalToConstant: 261)
+        // Set up UI element properties
+        questionMarkImageView.image = UIImage(systemName: "questionmark.circle")
+        smileyFaceImageView.image = UIImage(systemName: "smiley")
+        
+        // Example constraints (adjust as needed)
+        // Use Auto Layout to position elements correctly
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        senderLabel.translatesAutoresizingMaskIntoConstraints = false
+        timestampLabel.translatesAutoresizingMaskIntoConstraints = false
+        questionMarkImageView.translatesAutoresizingMaskIntoConstraints = false
+        smileyFaceImageView.translatesAutoresizingMaskIntoConstraints = false
+        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            smileyFace.topAnchor.constraint(equalTo: bubbleView.topAnchor),
-            smileyFace.heightAnchor.constraint(equalToConstant: 40),
-            smileyFace.widthAnchor.constraint(equalTo: smileyFace.heightAnchor),
-            smileyFace.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            smileyFaceImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            smileyFaceImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            smileyFaceImageView.widthAnchor.constraint(equalToConstant: 24),
+            smileyFaceImageView.heightAnchor.constraint(equalToConstant: 24),
             
-            bubbleView.topAnchor.constraint(equalTo: decoMark.centerYAnchor),
-            bubbleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
-            bubbleView.trailingAnchor.constraint(equalTo: smileyFace.leadingAnchor, constant: -10),
-            bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            senderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            senderLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            senderLabel.trailingAnchor.constraint(equalTo: smileyFaceImageView.leadingAnchor, constant: -8),
             
-            decoMarkHeightConstraint,
-            decoMark.widthAnchor.constraint(equalTo: decoMark.heightAnchor, multiplier: 0.67),
-            decoMark.topAnchor.constraint(equalTo: contentView.topAnchor),
-            decoMark.centerXAnchor.constraint(equalTo: bubbleView.leadingAnchor),
-            decoMark.centerYAnchor.constraint(equalTo: bubbleView.topAnchor),
+            timestampLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            timestampLabel.topAnchor.constraint(equalTo: senderLabel.bottomAnchor, constant: 4),
+            timestampLabel.trailingAnchor.constraint(equalTo: smileyFaceImageView.leadingAnchor, constant: -8),
             
-            vStack.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
-            vStack.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
+            messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            imageCollectionView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 20),
-            imageCollectionView.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
-            imageCollectionView.topAnchor.constraint(equalTo: vStack.bottomAnchor, constant: 10),
-            imageCollectionView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
-            imageCollectionViewHeightConstraint
+            questionMarkImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            questionMarkImageView.widthAnchor.constraint(equalToConstant: 24),
+            questionMarkImageView.heightAnchor.constraint(equalToConstant: 24),
+            
+            imageCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            imageCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            imageCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        ])
+        
+        // Dynamic constraints
+        messageTopConstraint = messageLabel.topAnchor.constraint(equalTo: timestampLabel.bottomAnchor, constant: 4)
+        imageCollectionViewTopConstraint = imageCollectionView.topAnchor.constraint(equalTo: questionMarkImageView.bottomAnchor, constant: 4)
+        
+        NSLayoutConstraint.activate([
+            messageTopConstraint,
+            imageCollectionViewTopConstraint
         ])
     }
     
     func configureCell(with chatMessage: ChatMessage) {
         messageLabel.text = chatMessage.message
-        imageUrls = chatMessage.imageUrls
+        senderLabel.text = chatMessage.isFromCurrentUser ? "You" : chatMessage.sender.name
+        timestampLabel.text = chatMessage.sendDate
         
-        switch chatMessage.type {
-            case .normal:
-                decoMark.isHidden = true
-                decoMarkHeightConstraint.constant = 0
-            case .request:
-                decoMark.isHidden = false
-                decoMarkHeightConstraint.constant = 100
-                decoMark.image = UIImage(named: "question-mark")
-            case .accept:
-                decoMark.isHidden = false
-                decoMarkHeightConstraint.constant = 100
-                decoMark.image = UIImage(named: "exclamation-mark")
-        }
-        
-        checkIsFirstInSequence(chatMessage)
-    }
-    
-    private func checkIsFirstInSequence(_ chatMessage: ChatMessage) {
-        if chatMessage.isFirstInSequence {
-            if decoMarkHeightConstraint.constant == 5 {
-                decoMarkHeightConstraint.constant = 20
-            }
-            userNameLabel.text = chatMessage.sender.name
-            sendDateLabel.text = chatMessage.sendDate
-            smileyFace.backgroundColor = .init(hex: chatMessage.sender.profileColor)
-            smileyFace.isHidden = false
-            
-            if hStack.superview == nil {
-                vStack.insertArrangedSubview(hStack, at: 0)
-            }
+        if chatMessage.type == .request {
+            questionMarkImageView.isHidden = false
+            imageCollectionViewTopConstraint.constant = 4
         } else {
-            smileyFace.isHidden = true
-            
-            if hStack.superview != nil {
-                vStack.removeArrangedSubview(hStack)
-                hStack.removeFromSuperview()
-            }
+            questionMarkImageView.isHidden = true
+            imageCollectionViewTopConstraint.constant = 0
+        }
+        
+        if chatMessage.isFirstInSequence {
+            smileyFaceImageView.isHidden = false
+            senderLabel.isHidden = false
+            timestampLabel.isHidden = false
+            messageTopConstraint.constant = 4
+        } else {
+            smileyFaceImageView.isHidden = true
+            senderLabel.isHidden = true
+            timestampLabel.isHidden = true
+            messageTopConstraint.constant = 8
+        }
+        
+        imageUrls = chatMessage.imageUrls
+        imageCollectionView.reloadData()
+        
+        if imageUrls.isEmpty {
+            imageCollectionView.isHidden = true
+        } else {
+            imageCollectionView.isHidden = false
         }
     }
     
-    private func updateImageCollectionViewHeight() {
-        layoutIfNeeded()  // Trigger layout to get the correct width
-        
-        let totalSpacing = (numberOfCellPerRow - 1) * imageCellSpacing
-       
-        // Calculate total height
-        let rows = ceil(CGFloat(imageUrls.count) / numberOfCellPerRow)
-        let totalHeight = rows * self.imageCellHeight + (rows - 1) * imageCellSpacing
-        
-        // Update height constraint
-        imageCollectionViewHeightConstraint.constant = totalHeight
-        layoutIfNeeded()
-    }
-    
-    func applyTheme(_ theme: PDSTheme) {
-        bubbleView.layer.cornerRadius = theme.styling.cornerRadius
-        bubbleView.backgroundColor = theme.color.primaryColor
-        messageLabel.textColor = theme.color.onPrimary
-        userNameLabel.textColor = theme.color.onPrimary
-        sendDateLabel.textColor = theme.color.onPrimary
-    }
-}
-
-extension OutgoingChatMessageCellWithImage: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // UICollectionViewDataSource methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageUrls.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.className, for: indexPath) as! ImageCollectionViewCell
-        cell.configureCell(imageUrl: imageUrls[indexPath.row])
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath)
+        
+        // Configure image view in cell
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        // Load image from URL (use a library like SDWebImage)
+        // imageView.sd_setImage(with: URL(string: imageUrls[indexPath.item]))
+        
+        cell.contentView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
+        ])
+        
         return cell
     }
     
+    // UICollectionViewDelegateFlowLayout method
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let totalSpacing = (numberOfCellPerRow - 1) * imageCellSpacing
-        let bubbleViewWidth = UIScreen.main.bounds.width * 0.7
-        let itemWidth = (bubbleViewWidth - 40 - totalSpacing) / numberOfCellPerRow
-        self.imageCellHeight = itemWidth
-        return CGSize(width: itemWidth, height: itemWidth)
+        let totalSpacing: CGFloat = 8 * 2 + 4 * 2 // 8 is leading/trailing padding, 4 is minimum interitem spacing
+        let width = (collectionView.bounds.width - totalSpacing) / 3
+        return CGSize(width: width, height: width)
     }
 }
