@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0563CE059FE62C6CBCEA6879 /* Pods_RebootChoreReward.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */; };
+		69F9DD7051B491B85DAC0BC2 /* Pods_Taskie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE6A7135AF1F49BB351D6D8 /* Pods_Taskie.framework */; };
 		CA1683DE2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */; };
 		CA1683E02B8D24940086153A /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683DF2B8D24940086153A /* Typography.swift */; };
 		CA1683E22B8D2ED70086153A /* PDSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1683E12B8D2ED70086153A /* PDSLabel.swift */; };
@@ -112,9 +112,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.debug.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.debug.xcconfig"; sourceTree = "<group>"; };
-		6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RebootChoreReward.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RebootChoreReward.release.xcconfig"; path = "Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward.release.xcconfig"; sourceTree = "<group>"; };
+		1F2A5DCEA512CB5C4328730E /* Pods-Taskie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskie.debug.xcconfig"; path = "Target Support Files/Pods-Taskie/Pods-Taskie.debug.xcconfig"; sourceTree = "<group>"; };
+		3AE6A7135AF1F49BB351D6D8 /* Pods_Taskie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taskie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B2CD9A601156A1F34D40B1 /* Pods-Taskie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskie.release.xcconfig"; path = "Target Support Files/Pods-Taskie/Pods-Taskie.release.xcconfig"; sourceTree = "<group>"; };
 		CA1683DD2B8D15A00086153A /* Fredoka-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fredoka-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		CA1683DF2B8D24940086153A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		CA1683E12B8D2ED70086153A /* PDSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSLabel.swift; sourceTree = "<group>"; };
@@ -227,17 +227,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0563CE059FE62C6CBCEA6879 /* Pods_RebootChoreReward.framework in Frameworks */,
+				69F9DD7051B491B85DAC0BC2 /* Pods_Taskie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		166B97EC01F91784B968CA1C /* Frameworks */ = {
+		1DBD03836C5CAF3299D42653 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6460E5B98398997148C61880 /* Pods_RebootChoreReward.framework */,
+				3AE6A7135AF1F49BB351D6D8 /* Pods_Taskie.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -245,8 +245,8 @@
 		47344531631F00E0017BD9B3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */,
-				AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */,
+				1F2A5DCEA512CB5C4328730E /* Pods-Taskie.debug.xcconfig */,
+				C9B2CD9A601156A1F34D40B1 /* Pods-Taskie.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -553,7 +553,7 @@
 				CAEAEB722B840DE40056A0F1 /* Taskie */,
 				CAEAEB712B840DE40056A0F1 /* Products */,
 				47344531631F00E0017BD9B3 /* Pods */,
-				166B97EC01F91784B968CA1C /* Frameworks */,
+				1DBD03836C5CAF3299D42653 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -595,11 +595,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAEAEB842B840DE50056A0F1 /* Build configuration list for PBXNativeTarget "Taskie" */;
 			buildPhases = (
-				01AD4B39E261BC1F18337D5F /* [CP] Check Pods Manifest.lock */,
+				D807433381F46B9E0F63AE0D /* [CP] Check Pods Manifest.lock */,
 				CAEAEB6C2B840DE40056A0F1 /* Sources */,
 				CAEAEB6D2B840DE40056A0F1 /* Frameworks */,
 				CAEAEB6E2B840DE40056A0F1 /* Resources */,
-				38734EF8620E68750BDF8564 /* [CP] Embed Pods Frameworks */,
+				76EC1C808985B6F724B6C33D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -662,7 +662,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01AD4B39E261BC1F18337D5F /* [CP] Check Pods Manifest.lock */ = {
+		76EC1C808985B6F724B6C33D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taskie/Pods-Taskie-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Taskie/Pods-Taskie-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Taskie/Pods-Taskie-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D807433381F46B9E0F63AE0D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -677,28 +694,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RebootChoreReward-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Taskie-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		38734EF8620E68750BDF8564 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RebootChoreReward/Pods-RebootChoreReward-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -939,7 +939,7 @@
 		};
 		CAEAEB852B840DE50056A0F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51C4FD6FB816D8F78E0AC493 /* Pods-RebootChoreReward.debug.xcconfig */;
+			baseConfigurationReference = 1F2A5DCEA512CB5C4328730E /* Pods-Taskie.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -977,7 +977,7 @@
 		};
 		CAEAEB862B840DE50056A0F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFF04B49638BEF95FC12A33D /* Pods-RebootChoreReward.release.xcconfig */;
+			baseConfigurationReference = C9B2CD9A601156A1F34D40B1 /* Pods-Taskie.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
