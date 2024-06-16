@@ -26,7 +26,7 @@ protocol ChatMessageService {
     var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> { get }
     var error: AnyPublisher<Error?, Never> { get }
     func createInitialRequestMessage(from choreObject: ChoreDTO, byUserId currentUserId: String) async
-    func createNewMessage(_ message: String, byUserId currentUserId: String, atChoreId choreId: String) async
+    func createNewMessage(_ message: String, imageUrls: [String], byUserId currentUserId: String, atChoreId choreId: String) async
     func readChatMessages(ofChore choreId: String)
 }
 
@@ -82,7 +82,7 @@ class ChatMessageFirestoreService: ChatMessageService {
         )
     }
     
-    func createNewMessage(_ message: String, byUserId currentUserId: String, atChoreId choreId: String) async {
+    func createNewMessage(_ message: String, imageUrls: [String], byUserId currentUserId: String, atChoreId choreId: String) async {
         guard let choreCollectionRef = choreRepository.getChoreCollectionRef() else {
             return
         }
@@ -91,7 +91,7 @@ class ChatMessageFirestoreService: ChatMessageService {
                 id: UUID().uuidString,
                 message: message,
                 senderId: currentUserId,
-                imageUrls: [],
+                imageUrls: imageUrls,
                 sendDate: .init(),
                 type: .normal
             ),
@@ -110,7 +110,7 @@ class ChatMessageFirestoreService: ChatMessageService {
 }
 
 class ChatMessageMockService: ChatMessageService {
-    func createNewMessage(_ message: String, byUserId currentUserId: String, atChoreId choreId: String) async {}
+    func createNewMessage(_ message: String, imageUrls: [String], byUserId currentUserId: String, atChoreId choreId: String) async {}
     
     var chatMessages: AnyPublisher<[ChatMessageDTO]?, Never> {
         Just([.mockFromCurrentUserTop, .mockNotFromCurrentUserTop, .mockFromCurrentUserTop, .mockFromCurrentUserTop, .mockNotFromCurrentUserTop]).eraseToAnyPublisher()

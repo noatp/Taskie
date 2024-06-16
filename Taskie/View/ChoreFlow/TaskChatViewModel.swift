@@ -17,6 +17,7 @@ class TaskChatViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
+    private let storageService: StorageService
     private let chatMessageService: ChatMessageService
     private let chatMessageMapper: ChatMessageMapper
     private let choreMapper: ChoreMapper
@@ -25,12 +26,14 @@ class TaskChatViewModel: ObservableObject {
         userService: UserService,
         choreService: ChoreService,
         chatMessageService: ChatMessageService,
+        storageService: StorageService,
         chatMessageMapper: ChatMessageMapper,
         choreMapper: ChoreMapper
     ) {
         self.choreService = choreService
         self.userService = userService
         self.chatMessageService = chatMessageService
+        self.storageService = storageService
         self.chatMessageMapper = chatMessageMapper
         self.choreMapper = choreMapper
         subscribeToChoreService()
@@ -38,7 +41,9 @@ class TaskChatViewModel: ObservableObject {
     }
     
     private func subscribeToChoreService() {
-        choreService.selectedChore.sink { [weak self] choreDto in
+        choreService.selectedChore
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] choreDto in
             guard let choreDto = choreDto else {
                 return
             }
@@ -50,6 +55,7 @@ class TaskChatViewModel: ObservableObject {
     
     private func subscribeToChatMessageService() {
         chatMessageService.chatMessages
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] chatMessagesDto in
                 guard let chatMessagesDto = chatMessagesDto,
                       let self = self else {
@@ -74,13 +80,20 @@ class TaskChatViewModel: ObservableObject {
         }
         
         Task {
+            let imageURLs = try await storageService.uploadImages(images.map{$0})
+            let imageUrlStrings = imageURLs.map { $0.absoluteString }
+            let message = chatInputText
+            
             await chatMessageService.createNewMessage(
-                chatInputText,
+                message,
+                imageUrls: imageUrlStrings,
                 byUserId: currentUserId,
                 atChoreId: currentChoreId
             )
+            
+            chatInputText = ""
+            images = []
         }
-        chatInputText = ""
     }
     
     private func groupChatMessages(_ chatMessages: [ChatMessage]) -> [ChatMessage] {
@@ -114,8 +127,9 @@ extension Dependency.ViewModel {
         return TaskChatViewModel(
             userService: service.userService,
             choreService: service.choreService,
-            chatMessageService: service.chatMessageService,
-            chatMessageMapper: mapper.chatMessageMapper, 
+            chatMessageService: service.chatMessageService, 
+            storageService: service.storageService,
+            chatMessageMapper: mapper.chatMessageMapper,
             choreMapper: mapper.choreMapper
         )
     }

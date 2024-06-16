@@ -16,7 +16,7 @@ struct ChatView: View {
     @State private var presentImagePicker: Bool = false
 
     var body: some View {
-        VStack {
+        VStack (spacing: 0) {
             ScrollViewReader { proxy in
                 List(viewModel.chatMessages) { message in
                     ChatMessageView(message: message)
@@ -48,11 +48,12 @@ struct ChatView: View {
 //                    }
 //                }
             }
-            
-            PDSImageSelectionRowView(presentImagePicker: $presentImagePicker, images: $viewModel.images)
-                .frame(height: viewModel.images.isEmpty ? 0 : 100)
-                .padding(.horizontal, 10)
+            Spacer(minLength: 10)
 
+            PDSImageSelectionRowView(presentImagePicker: $presentImagePicker, images: $viewModel.images)
+                .frame(height: shouldShowImageRow ? 100 : 0)
+                .padding(shouldShowImageRow ? 10 : 0)
+                .background(Color(themeManager.currentTheme.color.backgroundColor))
             HStack {
                 if (!isInputFocused) {
                     Button(action: {
@@ -109,6 +110,7 @@ struct ChatView: View {
             }
             .padding(.vertical, 5)
             .padding(.horizontal, 10)
+            .background(Color(themeManager.currentTheme.color.backgroundColor))
             .animation(.snappy, value: isInputFocused)
         }
         .ignoresSafeArea()
@@ -124,6 +126,10 @@ struct ChatView: View {
     
     private var isSendButtonDisabled: Bool {
         return viewModel.chatInputText.isEmpty
+    }
+    
+    private var shouldShowImageRow: Bool {
+        return !viewModel.images.isEmpty
     }
 }
 struct ChatView_Previews: PreviewProvider {
