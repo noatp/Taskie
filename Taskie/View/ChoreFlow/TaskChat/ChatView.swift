@@ -10,7 +10,8 @@ import SwiftUI
 struct ChatView: View {
     @ObservedObject var viewModel: TaskChatViewModel
     @EnvironmentObject var themeManager: ThemeManager
-    
+    @State private var dynamicHeight: CGFloat = 44  // Initial height
+
     var body: some View {
         VStack {
             List(viewModel.chatMessages) { message in
@@ -19,7 +20,7 @@ struct ChatView: View {
                     .listRowInsets(EdgeInsets())
             }
             .listStyle(PlainListStyle())
-            
+
             HStack {
                 Button(action: {
                     print("Withdraw button tapped.")
@@ -30,10 +31,10 @@ struct ChatView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                
-                PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message")
-                    .frame(height: 44)
-                
+
+                PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message", dynamicHeight: $dynamicHeight)
+                    .frame(height: dynamicHeight)
+
                 Button(action: {
                     print("Send button tapped.")
                 }) {
