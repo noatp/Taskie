@@ -13,7 +13,7 @@ class PDSTextView: UITextView, Themable {
     var highlightedBorderColor = UIColor.systemBlue.cgColor
     
     var onContentSizeChange: (() -> Void)?
-
+    
     func applyTheme(_ theme: PDSTheme) {
         placeholderLabel.font = theme.typography.body
         font = theme.typography.body
@@ -83,6 +83,17 @@ class PDSTextView: UITextView, Themable {
     @objc private func textDidChange() {
         placeholderLabel.isHidden = !text.isEmpty
         onContentSizeChange?()
+        scrollToBottom()
+    }
+    
+    private func scrollToBottom() {
+        DispatchQueue.main.async {
+            let range = NSMakeRange(self.text.count - 1, 1)
+            self.scrollRangeToVisible(range)
+            // Correct the offset to the bottom if needed
+            let bottomOffset = CGPoint(x: 0, y: self.contentSize.height - self.bounds.size.height + self.contentInset.bottom)
+            self.setContentOffset(bottomOffset, animated: false)
+        }
     }
     
     override func becomeFirstResponder() -> Bool {
@@ -111,53 +122,59 @@ struct PDSTextViewWrapper: UIViewRepresentable {
     @Binding var text: String
     let placeholder: String
     @Binding var dynamicHeight: CGFloat
-
+    
     func makeUIView(context: Context) -> UITextView {
         let textView = PDSTextView()
         textView.placeholder = placeholder
         textView.delegate = context.coordinator
         textView.onContentSizeChange = {
             DispatchQueue.main.async {
-                self.dynamicHeight = textView.contentSize.height
+                PDSTextViewWrapper.recalculateHeight(view: textView, result: $dynamicHeight)
             }
         }
         return textView
     }
-
+    
     func updateUIView(_ uiView: UITextView, context: Context) {
         if uiView.text != self.text {
             uiView.text = self.text
+            PDSTextViewWrapper.recalculateHeight(view: uiView, result: $dynamicHeight)
         }
-        PDSTextViewWrapper.recalculateHeight(view: uiView, result: $dynamicHeight)
     }
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: PDSTextViewWrapper
-
+        
         init(_ parent: PDSTextViewWrapper) {
             self.parent = parent
         }
-
+        
         func textViewDidChange(_ textView: UITextView) {
             parent.text = textView.text
         }
     }
-
+    
     static func recalculateHeight(view: UIView, result: Binding<CGFloat>) {
-        let size = view.sizeThatFits(CGSize(width: view.frame.size.width, height: .greatestFiniteMagnitude))
-        if result.wrappedValue != size.height {
+        guard let textView = view as? PDSTextView else { return }
+        
+        let size = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude))
+        let roundedHeight = ceil(size.height)
+        if abs(result.wrappedValue - roundedHeight) > 1.0 {
             DispatchQueue.main.async {
-                result.wrappedValue = size.height
+                if roundedHeight < 90 {
+                    result.wrappedValue = roundedHeight
+                }
             }
         }
     }
 }
-struct PDSTextViewWrapper_Previews: PreviewProvider {
 
+struct PDSTextViewWrapper_Previews: PreviewProvider {
+    
     static var previews: some View {
         VStack {
             PDSTextViewWrapper(text: .constant(""), placeholder: "Message", dynamicHeight: .constant(44))
