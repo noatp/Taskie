@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 protocol Themable: AnyObject {
     func applyTheme(_ theme: PDSTheme)
@@ -84,12 +85,11 @@ class WeakThemable {
     }
 }
 
-class ThemeManager {
+class ThemeManager: ObservableObject {
     static let shared = ThemeManager()
     
-    private(set) var currentTheme: PDSTheme = .defaultTheme {
+    @Published private(set) var currentTheme: PDSTheme = .defaultTheme {
         didSet {
-            // Notify all registered components about the theme change
             themableComponents = themableComponents.compactMap { weakThemable in
                 guard let component = weakThemable.component else { return nil }
                 component.applyTheme(currentTheme)
@@ -105,9 +105,19 @@ class ThemeManager {
         component.applyTheme(currentTheme) // Apply current theme immediately
     }
     
-    // Add methods to switch themes as needed
     func switchToTheme(_ theme: PDSTheme) {
         currentTheme = theme
     }
 }
 
+
+struct ThemedViewModifier: ViewModifier {
+    @ObservedObject var themeManager = ThemeManager.shared
+
+    func body(content: Content) -> some View {
+        content
+            .background(Color(themeManager.currentTheme.color.backgroundColor))
+            .foregroundColor(Color(themeManager.currentTheme.color.onBackground))
+            // Add more styling as needed
+    }
+}

@@ -10,6 +10,8 @@ import Combine
 class TaskChatViewModel: ObservableObject {
     @Published var choreDetail: Chore?
     @Published var chatMessages: [ChatMessage] = []
+    @Published var chatInputText: String = ""
+    
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService

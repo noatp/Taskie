@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class PDSTextView: UITextView, Themable {
     var normalBorderColor = UIColor.gray.cgColor
@@ -99,5 +100,49 @@ class PDSTextView: UITextView, Themable {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: nil)
+    }
+}
+
+
+struct PDSTextViewWrapper: UIViewRepresentable {
+    @Binding var text: String
+    let placeholder: String
+    
+    func makeUIView(context: Context) -> UITextView {
+        let textView = PDSTextView()
+        textView.placeholder = placeholder
+        textView.delegate = context.coordinator
+        return textView
+    }
+    
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, UITextViewDelegate {
+        var parent: PDSTextViewWrapper
+        
+        init(_ parent: PDSTextViewWrapper) {
+            self.parent = parent
+        }
+        
+        func textViewDidChange(_ textView: UITextView) {
+            parent.text = textView.text
+        }
+    }
+}
+
+struct PDSTextViewWrapper_Previews: PreviewProvider {
+
+    static var previews: some View {
+        VStack {
+            PDSTextViewWrapper(text: .constant(""), placeholder: "Message")
+                .frame(height: 44)
+                .padding()
+        }
     }
 }
