@@ -39,6 +39,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         super.viewDidLoad()
         bindViewModel()
         setUpViews()
+        setUpActions()
     }
     
     private func bindViewModel() {
@@ -70,15 +71,20 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
             hostingControllerView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
             hostingControllerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hostingControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hostingControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            constraintViewToKeyboard(hostingControllerView)
         ])
         
         
     }
     
-    //    @objc func handleBack() {
-    //        navigationController?.popViewController(animated: true)
-    //    }
+    private func setUpActions() {
+        backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
+    }
+    
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
+    }
     //
     //    @objc func submitMessage() {
     //        viewModel.createNewMessage(chatTextView.text)
@@ -222,7 +228,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
 //    func textViewDidChange(_ textView: UITextView) {
 //        if !isEditingChatTextView {
 //            updateActionButtonForEditing()
-//        }
+//       }
 //
 //        let size = chatTextView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
 //        chatTextView.isScrollEnabled = size.height > chatTextViewMaxHeight

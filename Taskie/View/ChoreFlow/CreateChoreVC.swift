@@ -103,6 +103,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
     private func setUpViews() {
         setTitle("Create Task")
         
+        imageSelectionRowVC.imagePickerDelegate = self
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
         }

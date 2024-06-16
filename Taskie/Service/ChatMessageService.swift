@@ -56,7 +56,7 @@ class ChatMessageFirestoreService: ChatMessageService {
     
     private func subscribeToChatMessageRepository() {
         chatMessageRepository.chatMessages.sink { [weak self] chatMessages in
-            LogUtil.log("From ChatMesasgeServices -- chatMessages -- \(chatMessages)")
+            LogUtil.log("From ChatMesasgeServices -- chatMessages -- \(chatMessages?.count)")
             self?._chatMessages.send(chatMessages)
         }
         .store(in: &cancellables)

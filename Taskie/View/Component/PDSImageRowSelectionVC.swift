@@ -72,17 +72,21 @@ class PDSImageRowCell: UICollectionViewCell, Themable {
 }
 
 class PDSImageSelectionRowVC: UICollectionViewController {
-    var images: [UIImage?] = [UIImage(systemName: "plus"), UIImage(systemName: "plus"), UIImage(systemName: "plus"), nil]{
+    var images: [UIImage?] = [UIImage(systemName: "plus"), UIImage(systemName: "plus"), UIImage(systemName: "plus"), nil] {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    init() {
+    var imagePickerDelegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
+    var lastCellShowPicker: Bool
+    
+    init(lastCellShowPicker: Bool = true) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
         layout.itemSize = CGSize(width: 100, height: 100) // Initial size, will adjust dynamically
+        self.lastCellShowPicker = lastCellShowPicker
         super.init(collectionViewLayout: layout)
         setUpViews()
     }
@@ -100,16 +104,14 @@ class PDSImageSelectionRowVC: UICollectionViewController {
     }
     
     func presentImagePicker() {
-        guard let imagePickerDelegate = self.parent as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate) else {
+        guard let delegate = imagePickerDelegate else {
             return
         }
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = imagePickerDelegate
+        imagePicker.delegate = delegate
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        hideLoadingIndicator {
-            self.present(imagePicker, animated: true)
-        }
+        self.present(imagePicker, animated: true)
     }
     
 }
@@ -145,8 +147,10 @@ extension PDSImageSelectionRowVC {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == images.count - 1 {
-            showLoadingIndicator()
-            presentImagePicker()
+            if lastCellShowPicker {
+                presentImagePicker()
+            }
+            //            showLoadingIndicator()
         }
     }
 }
@@ -161,3 +165,52 @@ struct PDSImageSelectionRowVC_Previews: PreviewProvider {
     }
 }
 
+struct PDSImageSelectionRowView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = PDSImageSelectionRowVC
+    
+    @Binding var presentImagePicker: Bool
+    @Binding var images: [UIImage]
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        var parent: PDSImageSelectionRowView
+        
+        init(_ parent: PDSImageSelectionRowView) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let pickedImage = info[.editedImage] as? UIImage {
+                parent.images.append(pickedImage)
+            }
+            picker.dismiss(animated: true)
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+    
+    func makeUIViewController(context: Context) -> PDSImageSelectionRowVC {
+        let viewController = PDSImageSelectionRowVC(lastCellShowPicker: false)
+        viewController.imagePickerDelegate = context.coordinator
+        return viewController
+    }
+    
+    func updateUIViewController(_ uiViewController: PDSImageSelectionRowVC, context: Context) {
+        if presentImagePicker {
+            uiViewController.presentImagePicker()
+            DispatchQueue.main.async {
+                self.presentImagePicker = false  // Reset state after presenting
+            }
+        }
+        
+        if (uiViewController.images != self.images) {
+            uiViewController.images = self.images
+        }
+        
+    }
+}

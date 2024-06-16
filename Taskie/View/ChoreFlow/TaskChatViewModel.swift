@@ -6,12 +6,14 @@
 //
 
 import Combine
+import UIKit
 
 class TaskChatViewModel: ObservableObject {
     @Published var choreDetail: Chore?
     @Published var chatMessages: [ChatMessage] = []
     @Published var chatInputText: String = ""
-    
+    @Published var images: [UIImage] = []
+
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
@@ -53,34 +55,32 @@ class TaskChatViewModel: ObservableObject {
                       let self = self else {
                     return
                 }
-                print("Received chat messages: \(chatMessagesDto)")
                 let chatMessages = chatMessagesDto.compactMap {
                     self.chatMessageMapper.getChatMessageFrom($0)
                 }
-                print("Transformed chat messages: \(chatMessages)")
                 self.chatMessages = self.groupChatMessages(chatMessages)
-                print("Updated chat messages in view model: \(self.chatMessages)")
             }
             .store(in: &cancellables)
     }
 
 
     
-    func createNewMessage(_ message: String) {
+    func createNewMessage() {
         guard let currentUserId = userService.getCurrentUser()?.id,
               let currentChoreId = choreDetail?.id,
-              !message.isEmpty
+              !chatInputText.isEmpty
         else {
             return
         }
         
         Task {
             await chatMessageService.createNewMessage(
-                message,
+                chatInputText,
                 byUserId: currentUserId,
                 atChoreId: currentChoreId
             )
         }
+        chatInputText = ""
     }
     
     private func groupChatMessages(_ chatMessages: [ChatMessage]) -> [ChatMessage] {

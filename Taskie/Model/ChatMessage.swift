@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreInternal
 
-struct ChatMessage: Identifiable, Codable {
+struct ChatMessage: Identifiable, Codable, Equatable {
     static let empty = ChatMessage(
         id: "",
         message: "",
@@ -41,4 +41,8 @@ struct ChatMessage: Identifiable, Codable {
     let type: MessageType
     var isFirstInSequence: Bool
     var isLastInSequence: Bool
+
+    static func == (lhs: ChatMessage, rhs: ChatMessage) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
