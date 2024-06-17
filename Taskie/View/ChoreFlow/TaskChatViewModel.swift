@@ -13,6 +13,7 @@ class TaskChatViewModel: ObservableObject {
     @Published var chatMessages: [ChatMessage] = []
     @Published var chatInputText: String = ""
     @Published var images: [UIImage] = []
+    @Published var isSendingMessage: Bool = false
     
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
@@ -69,8 +70,6 @@ class TaskChatViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    
-    
     func createNewMessage() {
         guard let currentUserId = userService.getCurrentUser()?.id,
               let currentChoreId = choreDetail?.id,
@@ -80,6 +79,9 @@ class TaskChatViewModel: ObservableObject {
         }
         
         Task {
+            DispatchQueue.main.async {
+                self.isSendingMessage = true
+            }
             let imageURLs = try await storageService.uploadImages(images.map{$0})
             let imageUrlStrings = imageURLs.map { $0.absoluteString }
             let message = chatInputText
@@ -94,6 +96,7 @@ class TaskChatViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.chatInputText = ""
                 self.images = []
+                self.isSendingMessage = false
             }
         }
     }

@@ -12,19 +12,15 @@ struct ChatView: View {
     @ObservedObject var viewModel: TaskChatViewModel
     @EnvironmentObject var themeManager: ThemeManager
     @State private var dynamicHeight: CGFloat = 44
-    @FocusState private var isInputFocused: Bool
-    @State private var presentImagePicker: Bool = false
     @State private var showFinishView: Bool = false
     @State private var shouldShowButtonGroup: Bool = true
-    
     @State private var isImagePickerPresented = false
     @State private var isCamera = false
     @State private var isActionSheetPresented = false
-    
     @State private var selectedImage: UIImage?
     
     var body: some View {
-        VStack (spacing: 0) {
+        VStack(spacing: 0) {
             ScrollViewReader { proxy in
                 List(viewModel.chatMessages) { message in
                     ChatMessageView(message: message)
@@ -48,33 +44,16 @@ struct ChatView: View {
                         scrollToBottom(proxy: proxy, shouldAnimate: true)
                     }
                 }
-                //                .onChange(of: isInputFocused) { _, _ in
-                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                //                        scrollToBottom(proxy: proxy, shouldAnimate: true)
-                //                    }
-                //                }
             }
             Spacer(minLength: 10)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.images, id: \.self){ image in
-                        ZStack (alignment: .topLeading) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                                .cornerRadius(8)
-                            Button(action: {
-                                withAnimation {
-                                    viewModel.removeImage(image: image)
-                                }
-                            }, label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color.black.opacity(0.7)))
-                            })
+                    ForEach(viewModel.images, id: \.self) { image in
+                        ImageThumbnail(image: image) {
+                            withAnimation {
+                                viewModel.removeImage(image: image)
+                            }
                         }
                     }
                 }
@@ -82,77 +61,20 @@ struct ChatView: View {
             .padding(shouldShowImageRow ? 10 : 0)
             .background(Color(themeManager.currentTheme.color.backgroundColor))
             
-
             HStack {
-                if (shouldShowButtonGroup) {
-                    
-                    if !actionButtonTitle.isEmpty {
-                        Button(action: {
-                            handleActionButton()
-                        }) {
-                            Text(actionButtonTitle)
-                                .padding(10)
-                                .background(Color(themeManager.currentTheme.color.primaryColor))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        .fullScreenCover(isPresented: $showFinishView) {
-                            FinishView()
-                        }
-                    }
-                    
-                    Button(action: {
-                        isActionSheetPresented = true
-                    }) {
-                        Image(systemName: "photo.badge.plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 34, height: 34)
-                            .padding(5)
-                            .foregroundColor(isAddImageButtonDisabled ? .gray : Color(themeManager.currentTheme.color.primaryColor))
-                    }
-                    .onChange(of: selectedImage) { oldValue, newValue in
-                        guard let selectedImage = newValue else {
-                            return
-                        }
-                        if (selectedImage != oldValue) {
-                            self.viewModel.images.append(selectedImage)
-                        }
-                    }
-                    .disabled(isAddImageButtonDisabled)
+                if shouldShowButtonGroup {
+                    ActionButtons
+                } else {
+                    ToggleButton
                 }
-                else {
-                    Button(action: {
-                        shouldShowButtonGroup = true
-                    }) {
-                        Image(systemName: "chevron.right")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                            .padding(10)
-                            .foregroundColor(Color(themeManager.currentTheme.color.primaryColor))
-                    }
-                }
-                
                 
                 PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message", dynamicHeight: $dynamicHeight)
                     .frame(height: dynamicHeight)
-                    .focused($isInputFocused)
                     .onChange(of: viewModel.chatInputText) { _, _ in
                         shouldShowButtonGroup = false
                     }
                 
-                Button(action: {
-                    viewModel.createNewMessage()
-                }) {
-                    Image(systemName: "paperplane.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 24, height: 24)
-                        .padding(10)
-                        .foregroundColor(isSendButtonDisabled ? .gray : Color(themeManager.currentTheme.color.primaryColor))
-                }
-                .disabled(isSendButtonDisabled)
+                SendButton
             }
             .padding(.vertical, 5)
             .padding(.horizontal, 10)
@@ -180,6 +102,11 @@ struct ChatView: View {
             ImagePickerView(image: $selectedImage, sourceType: isCamera ? .camera : .photoLibrary)
                 .ignoresSafeArea()
         }
+        .onChange(of: selectedImage) { oldValue, newValue in
+            if let newImage = newValue, newImage != oldValue {
+                viewModel.images.append(newImage)
+            }
+        }
     }
     
     private func scrollToBottom(proxy: ScrollViewProxy, shouldAnimate: Bool = false) {
@@ -205,15 +132,13 @@ struct ChatView: View {
     private var actionButtonTitle: String {
         switch viewModel.choreDetail?.actionButtonType {
         case .accept:
-            "Accept"
+            return "Accept"
         case .finish:
-            "Finish"
+            return "Finish"
         case .withdraw:
-            "Withdraw"
-        case .nothing:
-            ""
-        case nil:
-            ""
+            return "Withdraw"
+        case .nothing, nil:
+            return ""
         }
     }
     
@@ -225,16 +150,99 @@ struct ChatView: View {
             showFinishView = true
         case .withdraw:
             viewModel.withdrawSelectedChore()
-        case .nothing:
-            break
-        case nil:
+        case .nothing, nil:
             break
         }
     }
+    
+    private var ActionButtons: some View {
+        HStack {
+            if !actionButtonTitle.isEmpty {
+                Button(action: handleActionButton) {
+                    Text(actionButtonTitle)
+                        .padding(10)
+                        .background(Color(themeManager.currentTheme.color.primaryColor))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .fullScreenCover(isPresented: $showFinishView) {
+                    FinishView()
+                }
+            }
+            
+            Button(action: {
+                isActionSheetPresented = true
+            }) {
+                Image(systemName: "photo.badge.plus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 34, height: 34)
+                    .padding(5)
+                    .foregroundColor(isAddImageButtonDisabled ? .gray : Color(themeManager.currentTheme.color.primaryColor))
+            }
+            .disabled(isAddImageButtonDisabled)
+        }
+    }
+    
+    private var ToggleButton: some View {
+        Button(action: {
+            shouldShowButtonGroup = true
+        }) {
+            Image(systemName: "chevron.right")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
+                .padding(10)
+                .foregroundColor(Color(themeManager.currentTheme.color.primaryColor))
+        }
+    }
+    
+    private var SendButton: some View {
+        Button(action: {
+            viewModel.createNewMessage()
+        }) {
+            if viewModel.isSendingMessage {
+                ProgressView()
+                    .frame(width: 44, height: 44)
+            }
+            else {
+                Image(systemName: "paperplane.fill")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 24, height: 24)
+                    .padding(10)
+                    .foregroundColor(isSendButtonDisabled ? .gray : Color(themeManager.currentTheme.color.primaryColor))
+            }
+        }
+        .disabled(isSendButtonDisabled || viewModel.isSendingMessage)
+    }
 }
+
+struct ImageThumbnail: View {
+    var image: UIImage
+    var removeAction: () -> Void
+    
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 100, height: 100)
+                .clipped()
+                .cornerRadius(8)
+            Button(action: removeAction) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.white)
+                    .background(Circle().fill(Color.black.opacity(0.7)))
+            }
+        }
+    }
+}
+
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatView(viewModel: Dependency.preview.viewModel.taskChatViewModel())
             .environmentObject(ThemeManager.shared)
     }
 }
+
