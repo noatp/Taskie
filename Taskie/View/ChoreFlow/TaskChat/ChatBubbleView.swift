@@ -86,6 +86,8 @@ struct ChatImages: View {
 }
 
 struct ChatImage: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @State private var isModalPresented = false
     let imageUrl: String
     let width: Double
     let height: Double?
@@ -102,14 +104,44 @@ struct ChatImage: View {
                 ProgressView()
             }
             .resizable()
-//            .onSuccess { result in
-//                print("Image loaded from cache: \(result.cacheType)")
-//            }
             .fade(duration: 0.25)
             .scaledToFill()
             .frame(width: width - 5, height: height ?? width)
             .clipped()
             .cornerRadius(10)
+            .onTapGesture {
+                isModalPresented = true
+            }
+            .sheet(isPresented: $isModalPresented) {
+                imageModalView
+            }
+    }
+    
+    private var imageModalView: some View {
+        ZStack {
+            VStack {
+                HStack {
+                    Button(action: {
+                        isModalPresented = false
+                    }) {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                            .padding(20)
+                            .foregroundColor(Color(themeManager.currentTheme.color.primaryColor))
+                    }
+                    Spacer()
+                }
+                Spacer()
+            }
+            KFImage(URL(string: imageUrl))
+                .placeholder {
+                    ProgressView()
+                }
+                .resizable()
+                .scaledToFit()
+        }
     }
 }
 
