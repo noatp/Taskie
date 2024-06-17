@@ -56,14 +56,17 @@ struct ChatView: View {
                 .background(Color(themeManager.currentTheme.color.backgroundColor))
             HStack {
                 if (!isInputFocused) {
-                    Button(action: {
-                        print("Withdraw button tapped.")
-                    }) {
-                        Text("Withdraw")
-                            .padding(10)
-                            .background(Color(themeManager.currentTheme.color.primaryColor))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    
+                    if !actionButtonTitle.isEmpty {
+                        Button(action: {
+                            handleActionButton()
+                        }) {
+                            Text(actionButtonTitle)
+                                .padding(10)
+                                .background(Color(themeManager.currentTheme.color.primaryColor))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
                     
                     Button(action: {
@@ -130,6 +133,36 @@ struct ChatView: View {
     
     private var shouldShowImageRow: Bool {
         return !viewModel.images.isEmpty
+    }
+    
+    private var actionButtonTitle: String {
+        switch viewModel.choreDetail?.actionButtonType {
+        case .accept:
+            "Accept"
+        case .finish:
+            "Finish"
+        case .withdraw:
+            "Withdraw"
+        case .nothing:
+            ""
+        case nil:
+            ""
+        }
+    }
+    
+    private func handleActionButton() {
+        switch viewModel.choreDetail?.actionButtonType {
+        case .accept:
+            viewModel.acceptSelectedChore()
+        case .finish:
+            viewModel.finishedSelectedChore()
+        case .withdraw:
+            viewModel.withdrawSelectedChore()
+        case .nothing:
+            break
+        case nil:
+            break
+        }
     }
 }
 struct ChatView_Previews: PreviewProvider {

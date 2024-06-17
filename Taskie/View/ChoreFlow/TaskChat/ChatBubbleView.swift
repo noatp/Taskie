@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatBubbleView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -96,16 +97,19 @@ struct ChatImage: View {
     }
     
     var body: some View {
-        AsyncImage(url: URL(string: imageUrl)) { image in
-            image.resizable()
-                .scaledToFill()
-                .frame(width: width - 5, height: height ?? width)
-                .clipped()
-                .cornerRadius(10)
-        } placeholder: {
-            ProgressView()
-                .frame(width: width - 5, height: height ?? width)
-        }
+        KFImage(URL(string: imageUrl))
+            .placeholder {
+                ProgressView()
+            }
+            .resizable()
+//            .onSuccess { result in
+//                print("Image loaded from cache: \(result.cacheType)")
+//            }
+            .fade(duration: 0.25)
+            .scaledToFill()
+            .frame(width: width - 5, height: height ?? width)
+            .clipped()
+            .cornerRadius(10)
     }
 }
 

@@ -13,7 +13,7 @@ class TaskChatViewModel: ObservableObject {
     @Published var chatMessages: [ChatMessage] = []
     @Published var chatInputText: String = ""
     @Published var images: [UIImage] = []
-
+    
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
@@ -44,13 +44,13 @@ class TaskChatViewModel: ObservableObject {
         choreService.selectedChore
             .receive(on: DispatchQueue.main)
             .sink { [weak self] choreDto in
-            guard let choreDto = choreDto else {
-                return
+                guard let choreDto = choreDto else {
+                    return
+                }
+                self?.chatMessageService.readChatMessages(ofChore: choreDto.id)
+                self?.choreDetail = self?.choreMapper.getChoreFrom(choreDto)
             }
-            self?.chatMessageService.readChatMessages(ofChore: choreDto.id)
-            self?.choreDetail = self?.choreMapper.getChoreFrom(choreDto)
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
     }
     
     private func subscribeToChatMessageService() {
@@ -68,8 +68,8 @@ class TaskChatViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
-
+    
+    
     
     func createNewMessage() {
         guard let currentUserId = userService.getCurrentUser()?.id,
@@ -91,8 +91,10 @@ class TaskChatViewModel: ObservableObject {
                 atChoreId: currentChoreId
             )
             
-            chatInputText = ""
-            images = []
+            DispatchQueue.main.async {
+                self.chatInputText = ""
+                self.images = []
+            }
         }
     }
     
@@ -117,6 +119,21 @@ class TaskChatViewModel: ObservableObject {
         return groupedChatMessages
     }
     
+    func acceptSelectedChore() {
+        guard let currentUserId = userService.getCurrentUser()?.id else {
+            return
+        }
+        choreService.acceptSelectedChore(acceptorId: currentUserId)
+    }
+    
+    func finishedSelectedChore() {
+        choreService.finishedSelectedChore()
+    }
+    
+    func withdrawSelectedChore() {
+        choreService.withdrawSelectedChore()
+    }
+    
     deinit {
         LogUtil.log("deinit")
     }
@@ -127,7 +144,7 @@ extension Dependency.ViewModel {
         return TaskChatViewModel(
             userService: service.userService,
             choreService: service.choreService,
-            chatMessageService: service.chatMessageService, 
+            chatMessageService: service.chatMessageService,
             storageService: service.storageService,
             chatMessageMapper: mapper.chatMessageMapper,
             choreMapper: mapper.choreMapper

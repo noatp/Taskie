@@ -9,4 +9,5 @@ target 'Taskie' do
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Storage'
   pod 'FirebaseFunctions'
+  pod 'Kingfisher', '~> 7.0'
 end
