@@ -114,6 +114,8 @@
 		CAECF4D32C1A646A006938BC /* ChatBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAECF4D22C1A646A006938BC /* ChatBubbleView.swift */; };
 		CAECF4D52C1E6150006938BC /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAECF4D42C1E6150006938BC /* ViewExtension.swift */; };
 		CAECF4D72C1E63B5006938BC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAECF4D62C1E63B5006938BC /* FontExtension.swift */; };
+		CAECF50E2C1FECC8006938BC /* FinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAECF50D2C1FECC7006938BC /* FinishView.swift */; };
+		CAECF5102C1FEF47006938BC /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAECF50F2C1FEF47006938BC /* ImagePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +232,8 @@
 		CAECF4D22C1A646A006938BC /* ChatBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleView.swift; sourceTree = "<group>"; };
 		CAECF4D42C1E6150006938BC /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		CAECF4D62C1E63B5006938BC /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		CAECF50D2C1FECC7006938BC /* FinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishView.swift; sourceTree = "<group>"; };
+		CAECF50F2C1FEF47006938BC /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +424,7 @@
 				CACE2E9F2BC32C79007FD9F2 /* PDSTitleWrapperVC.swift */,
 				CADCE5142BF9833B0026AC9E /* UserCard.swift */,
 				CAD443C52C0FB2AF006EBD26 /* PDSTextView.swift */,
+				CAECF50F2C1FEF47006938BC /* ImagePickerView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -607,6 +612,7 @@
 				CAD443B02C0BC354006EBD26 /* TaskChatVC.swift */,
 				CAECF4D02C1A6445006938BC /* ChatMessageView.swift */,
 				CAECF4D22C1A646A006938BC /* ChatBubbleView.swift */,
+				CAECF50D2C1FECC7006938BC /* FinishView.swift */,
 			);
 			path = TaskChat;
 			sourceTree = "<group>";
@@ -784,6 +790,7 @@
 				CA20AFDB2B9FD95000BE9C18 /* UIViewControllerExtension.swift in Sources */,
 				CADCE5132BF852AC0026AC9E /* ErrorWindow.swift in Sources */,
 				CA7C69B92B846236005B3CF2 /* PickEmailVC.swift in Sources */,
+				CAECF50E2C1FECC8006938BC /* FinishView.swift in Sources */,
 				CA20AFE52BA0D54100BE9C18 /* StringConstant.swift in Sources */,
 				CAD443AA2C0A8DEE006EBD26 /* SubmitChoreVC.swift in Sources */,
 				CAECF4D32C1A646A006938BC /* ChatBubbleView.swift in Sources */,
@@ -814,6 +821,7 @@
 				CA3A69B22BE2F1FC009D669F /* CreateHouseholdVC.swift in Sources */,
 				CA3A69B12BE2F1FC009D669F /* CreateHouseholdViewModel.swift in Sources */,
 				CACE2EA02BC32C79007FD9F2 /* PDSTitleWrapperVC.swift in Sources */,
+				CAECF5102C1FEF47006938BC /* ImagePickerView.swift in Sources */,
 				CA20AFDD2B9FECE300BE9C18 /* PDSResizeWithKeyboardVC.swift in Sources */,
 				CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */,
 				CAD443C22C0C226F006EBD26 /* ChatMessageMapper.swift in Sources */,

@@ -14,6 +14,7 @@ struct ChatView: View {
     @State private var dynamicHeight: CGFloat = 44
     @FocusState private var isInputFocused: Bool
     @State private var presentImagePicker: Bool = false
+    @State private var showFinishView: Bool = false
 
     var body: some View {
         VStack (spacing: 0) {
@@ -26,13 +27,11 @@ struct ChatView: View {
                 }
                 .listStyle(PlainListStyle())
                 .onAppear {
-                    // Scroll to the bottom on appear
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         scrollToBottom(proxy: proxy)
                     }
                 }
                 .onChange(of: viewModel.chatMessages) { _, _ in
-                    // Scroll to the bottom when a new message is added
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         scrollToBottom(proxy: proxy, shouldAnimate: true)
                     }
@@ -67,6 +66,9 @@ struct ChatView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
+                        .fullScreenCover(isPresented: $showFinishView) {
+                            FinishView()
+                        }
                     }
                     
                     Button(action: {
@@ -97,7 +99,7 @@ struct ChatView: View {
 
                 PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message", dynamicHeight: $dynamicHeight)
                     .frame(height: dynamicHeight)
-                    .focused($isInputFocused) // Bind the focus state to the input field
+                    .focused($isInputFocused)
 
                 Button(action: {
                     viewModel.createNewMessage()
@@ -155,7 +157,7 @@ struct ChatView: View {
         case .accept:
             viewModel.acceptSelectedChore()
         case .finish:
-            viewModel.finishedSelectedChore()
+            showFinishView = true
         case .withdraw:
             viewModel.withdrawSelectedChore()
         case .nothing:
@@ -171,20 +173,3 @@ struct ChatView_Previews: PreviewProvider {
             .environmentObject(ThemeManager.shared)
     }
 }
-//
-//final class KeyboardResponder: ObservableObject {
-//    @Published var isKeyboardShowing: Bool = false
-//    private var cancellable: AnyCancellable?
-//    
-//    init() {
-//        cancellable = NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
-//            .merge(with: NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification))
-//            .compactMap { notification in
-//                if let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//                    return notification.name == UIResponder.keyboardWillHideNotification ? false : true
-//                }
-//                return nil
-//            }
-//            .assign(to: \.isKeyboardShowing, on: self)
-//    }
-//}
