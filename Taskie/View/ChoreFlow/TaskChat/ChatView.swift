@@ -15,6 +15,7 @@ struct ChatView: View {
     @FocusState private var isInputFocused: Bool
     @State private var presentImagePicker: Bool = false
     @State private var showFinishView: Bool = false
+    @State private var shouldShowButtonGroup: Bool = true
 
     var body: some View {
         VStack (spacing: 0) {
@@ -54,7 +55,7 @@ struct ChatView: View {
                 .padding(shouldShowImageRow ? 10 : 0)
                 .background(Color(themeManager.currentTheme.color.backgroundColor))
             HStack {
-                if (!isInputFocused) {
+                if (shouldShowButtonGroup) {
                     
                     if !actionButtonTitle.isEmpty {
                         Button(action: {
@@ -84,8 +85,7 @@ struct ChatView: View {
                 }
                 else {
                     Button(action: {
-                        viewModel.createNewMessage()
-                        isInputFocused = false
+                        shouldShowButtonGroup = true
                     }) {
                         Image(systemName: "chevron.right")
                             .resizable()
@@ -100,6 +100,9 @@ struct ChatView: View {
                 PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message", dynamicHeight: $dynamicHeight)
                     .frame(height: dynamicHeight)
                     .focused($isInputFocused)
+                    .onChange(of: viewModel.chatInputText) { _, _ in
+                        shouldShowButtonGroup = false
+                    }
 
                 Button(action: {
                     viewModel.createNewMessage()
@@ -116,7 +119,7 @@ struct ChatView: View {
             .padding(.vertical, 5)
             .padding(.horizontal, 10)
             .background(Color(themeManager.currentTheme.color.backgroundColor))
-            .animation(.snappy, value: isInputFocused)
+            .animation(.snappy, value: shouldShowButtonGroup)
         }
         .ignoresSafeArea()
     }
