@@ -134,6 +134,12 @@ class TaskChatViewModel: ObservableObject {
         choreService.withdrawSelectedChore()
     }
     
+    func removeImage(image: UIImage) {
+        if let index = images.firstIndex(of: image) {
+            images.remove(at: index)
+        }
+    }
+    
     deinit {
         LogUtil.log("deinit")
     }

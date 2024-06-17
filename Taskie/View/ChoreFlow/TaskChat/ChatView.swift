@@ -16,7 +16,13 @@ struct ChatView: View {
     @State private var presentImagePicker: Bool = false
     @State private var showFinishView: Bool = false
     @State private var shouldShowButtonGroup: Bool = true
-
+    
+    @State private var isImagePickerPresented = false
+    @State private var isCamera = false
+    @State private var isActionSheetPresented = false
+    
+    @State private var selectedImage: UIImage?
+    
     var body: some View {
         VStack (spacing: 0) {
             ScrollViewReader { proxy in
@@ -42,18 +48,41 @@ struct ChatView: View {
                         scrollToBottom(proxy: proxy, shouldAnimate: true)
                     }
                 }
-//                .onChange(of: isInputFocused) { _, _ in
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                        scrollToBottom(proxy: proxy, shouldAnimate: true)
-//                    }
-//                }
+                //                .onChange(of: isInputFocused) { _, _ in
+                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                //                        scrollToBottom(proxy: proxy, shouldAnimate: true)
+                //                    }
+                //                }
             }
             Spacer(minLength: 10)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.images, id: \.self){ image in
+                        ZStack (alignment: .topLeading) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipped()
+                                .cornerRadius(8)
+                            Button(action: {
+                                withAnimation {
+                                    viewModel.removeImage(image: image)
+                                }
+                            }, label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.white)
+                                    .background(Circle().fill(Color.black.opacity(0.7)))
+                            })
+                        }
+                    }
+                }
+            }
+            .padding(shouldShowImageRow ? 10 : 0)
+            .background(Color(themeManager.currentTheme.color.backgroundColor))
+            
 
-            PDSImageSelectionRowView(presentImagePicker: $presentImagePicker, images: $viewModel.images)
-                .frame(height: shouldShowImageRow ? 100 : 0)
-                .padding(shouldShowImageRow ? 10 : 0)
-                .background(Color(themeManager.currentTheme.color.backgroundColor))
             HStack {
                 if (shouldShowButtonGroup) {
                     
@@ -73,15 +102,24 @@ struct ChatView: View {
                     }
                     
                     Button(action: {
-                        presentImagePicker = true
+                        isActionSheetPresented = true
                     }) {
                         Image(systemName: "photo.badge.plus")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 34, height: 34)
                             .padding(5)
-                            .foregroundColor(Color(themeManager.currentTheme.color.primaryColor))
+                            .foregroundColor(isAddImageButtonDisabled ? .gray : Color(themeManager.currentTheme.color.primaryColor))
                     }
+                    .onChange(of: selectedImage) { oldValue, newValue in
+                        guard let selectedImage = newValue else {
+                            return
+                        }
+                        if (selectedImage != oldValue) {
+                            self.viewModel.images.append(selectedImage)
+                        }
+                    }
+                    .disabled(isAddImageButtonDisabled)
                 }
                 else {
                     Button(action: {
@@ -96,14 +134,14 @@ struct ChatView: View {
                     }
                 }
                 
-
+                
                 PDSTextViewWrapper(text: $viewModel.chatInputText, placeholder: "Message", dynamicHeight: $dynamicHeight)
                     .frame(height: dynamicHeight)
                     .focused($isInputFocused)
                     .onChange(of: viewModel.chatInputText) { _, _ in
                         shouldShowButtonGroup = false
                     }
-
+                
                 Button(action: {
                     viewModel.createNewMessage()
                 }) {
@@ -122,8 +160,28 @@ struct ChatView: View {
             .animation(.snappy, value: shouldShowButtonGroup)
         }
         .ignoresSafeArea()
+        .actionSheet(isPresented: $isActionSheetPresented) {
+            ActionSheet(
+                title: Text("Choose an option"),
+                buttons: [
+                    .default(Text("Select Photo")) {
+                        isCamera = false
+                        isImagePickerPresented = true
+                    },
+                    .default(Text("Take Photo")) {
+                        isCamera = true
+                        isImagePickerPresented = true
+                    },
+                    .cancel()
+                ]
+            )
+        }
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePickerView(image: $selectedImage, sourceType: isCamera ? .camera : .photoLibrary)
+                .ignoresSafeArea()
+        }
     }
-
+    
     private func scrollToBottom(proxy: ScrollViewProxy, shouldAnimate: Bool = false) {
         if let lastMessage = viewModel.chatMessages.last {
             withAnimation(shouldAnimate ? .smooth : nil) {
@@ -138,6 +196,10 @@ struct ChatView: View {
     
     private var shouldShowImageRow: Bool {
         return !viewModel.images.isEmpty
+    }
+    
+    private var isAddImageButtonDisabled: Bool {
+        return viewModel.images.count > 3
     }
     
     private var actionButtonTitle: String {
