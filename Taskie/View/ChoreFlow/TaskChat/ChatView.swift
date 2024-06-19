@@ -166,7 +166,7 @@ struct ChatView: View {
                         .cornerRadius(10)
                 }
                 .fullScreenCover(isPresented: $showFinishView) {
-                    FinishView()
+                    FinishView(viewModel: viewModel)
                 }
             }
             

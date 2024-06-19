@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct FinishView: View {
+    @ObservedObject var viewModel: TaskChatViewModel
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.presentationMode) var presentationMode
-    
+    @State private var isImagePickerPresented = false
+    @State private var selectedImage: UIImage?
+    @State private var isCamera: Bool = false
+
     var body: some View {
         ZStack {
             VStack {
@@ -30,19 +34,109 @@ struct FinishView: View {
                 Spacer()
             }
             VStack {
-                Text("Select up to 4 images of your finished work")
+                Spacer()
+                Text("Select up to 4 photos of your finished task")
                     .font(.from(uiFont: themeManager.currentTheme.typography.headline2))
                     .multilineTextAlignment(.center)
-                HStack {
-                    ImageCell()
-                    ImageCell()
+                Spacer()
+                GeometryReader { geometry in
+                    VStack(spacing: 20) {
+                        HStack(spacing: 20) {
+                            ImageCell(
+                                viewModel: viewModel, 
+                                image: viewModel.images.count > 0 ? viewModel.images[0] : nil,
+                                imageCellWidth: (geometry.size.width - 20) / 2
+                            )
+                            
+                            ImageCell(
+                                viewModel: viewModel,
+                                image: viewModel.images.count > 1 ? viewModel.images[1] : nil,
+                                imageCellWidth: (geometry.size.width - 20) / 2
+                            )
+                        }
+                        
+                        HStack(spacing: 20) {
+                            ImageCell(
+                                viewModel: viewModel,
+                                image: viewModel.images.count > 2 ? viewModel.images[2] : nil,
+                                imageCellWidth: (geometry.size.width - 20) / 2
+                            )
+                            ImageCell(
+                                viewModel: viewModel,
+                                image: viewModel.images.count > 3 ? viewModel.images[3] : nil,
+                                imageCellWidth: (geometry.size.width - 20) / 2
+                            )
+                        }
+                    }
                 }
+                .aspectRatio(1, contentMode: .fit)
+                .padding(.horizontal, 20)
                 
-                HStack {
-                    ImageCell()
-                    ImageCell()
+                
+                HStack(spacing: 20) {
+                    Button(action: {
+                        isImagePickerPresented = true
+                        isCamera = false
+                    }, label: {
+                        HStack {
+                            Spacer()
+                            Text("Select Photo")
+                                .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                            Spacer()
+                        }
+                        .padding(10)
+                        .background(Color(themeManager.currentTheme.color.primaryColor))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    })
+                    
+                    Button(action: {
+                        isImagePickerPresented = true
+                        isCamera = true
+                    }, label: {
+                        HStack {
+                            Spacer()
+                            Text("Take Photo")
+                                .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                            Spacer()
+                        }
+                        .padding(10)
+                        .background(Color(themeManager.currentTheme.color.secondaryColor))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    })
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+                
+                Spacer()
+            
+                Button(action: {
+                    
+                }, label: {
+                    HStack {
+                        Spacer()
+                        Text("Done")
+                            .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                        Spacer()
+                    }
+                    .padding(10)
+                    .background(Color(themeManager.currentTheme.color.primaryColor))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                })
+                .padding(.horizontal, 20)
+                Spacer()
             }
+        }
+        .onChange(of: selectedImage) { oldValue, newValue in
+            if let newImage = newValue, newImage != oldValue {
+                viewModel.images.append(newImage)
+            }
+        }
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePickerView(image: $selectedImage, sourceType: isCamera ? .camera : .photoLibrary)
+                .ignoresSafeArea()
         }
     }
 }
@@ -50,66 +144,50 @@ struct FinishView: View {
 struct ImageCell: View {
     @EnvironmentObject var themeManager: ThemeManager
     
-    @State private var image: UIImage?
-    @State private var isImagePickerPresented = false
-    @State private var isCamera = false
-    @State private var isActionSheetPresented = false
-    private var imageCellWidth: CGFloat = 150
+    var viewModel: TaskChatViewModel
+    var image: UIImage?
+    var imageCellWidth: CGFloat
     
     var body: some View {
-        VStack {
+        ZStack (alignment: .topLeading) {
             if let image = image {
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: imageCellWidth, height: imageCellWidth)
-                    .onTapGesture {
-                        isActionSheetPresented = true
-                    }
-            } else {
-                ZStack {
-                    Rectangle()
-                        .fill(Color(themeManager.currentTheme.color.backgroundColor))
-                    Image(systemName: "photo.badge.plus")
+                    .clipped()
+                    .cornerRadius(10)
+                Button(action: {
+                    viewModel.removeImage(image: image)
+                }) {
+                    Image(systemName: "xmark.circle.fill")
                         .resizable()
-                        .scaledToFit()
                         .frame(width: 44, height: 44)
-                        .foregroundColor(Color(themeManager.currentTheme.color.primaryColor))
-
+                        .foregroundColor(.white)
+                        .background(
+                            Circle()
+                                .fill(Color(themeManager.currentTheme.color.primaryColor))
+                        )
+                        .overlay(
+                            Circle()
+                                .stroke(Color(themeManager.currentTheme.color.primaryColor), lineWidth: 2)
+                        )
+                        .offset(x: -10, y: -10)
                 }
-                .frame(width: imageCellWidth, height: imageCellWidth)
-                .onTapGesture {
-                    isActionSheetPresented = true
-                }
-                
+            } else {
+                Rectangle()
+                    .fill(Color(themeManager.currentTheme.color.backgroundColor))
+                    .cornerRadius(10)
+                    .frame(width: imageCellWidth, height: imageCellWidth)
             }
-        }
-        .actionSheet(isPresented: $isActionSheetPresented) {
-            ActionSheet(
-                title: Text("Choose an option"),
-                buttons: [
-                    .default(Text("Select Photo")) {
-                        isCamera = false
-                        isImagePickerPresented = true
-                    },
-                    .default(Text("Take Photo")) {
-                        isCamera = true
-                        isImagePickerPresented = true
-                    },
-                    .cancel()
-                ]
-            )
-        }
-        .sheet(isPresented: $isImagePickerPresented) {
-            ImagePickerView(image: $image, sourceType: isCamera ? .camera : .photoLibrary)
-                .ignoresSafeArea()
         }
     }
 }
 
 struct FinishView_Previews: PreviewProvider {
     static var previews: some View {
-        FinishView()
+        let viewModel: TaskChatViewModel = Dependency.preview.viewModel.taskChatViewModel()
+        FinishView(viewModel: viewModel)
             .environmentObject(ThemeManager.shared)
     }
 }
