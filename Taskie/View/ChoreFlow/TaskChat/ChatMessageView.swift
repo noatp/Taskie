@@ -14,10 +14,7 @@ struct ChatMessageView: View {
         HStack(alignment: .top, spacing: 5) {
             if message.isFromCurrentUser {
                 Spacer()
-                ChatBubbleView(message: message)
-                UserImage(profileColor: message.sender.profileColor)
-                    .opacity(message.isFirstInSequence ? 1 : 0)
-                
+                ChatBubbleView(message: message)  
             }
             else {
                 UserImage(profileColor: message.sender.profileColor)
