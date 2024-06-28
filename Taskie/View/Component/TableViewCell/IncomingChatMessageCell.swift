@@ -152,7 +152,7 @@ class IncomingChatMessageCell: UITableViewCell, Themable {
     
     func applyTheme(_ theme: PDSTheme) {
         bubbleView.layer.cornerRadius = theme.styling.cornerRadius
-        bubbleView.backgroundColor = theme.color.dividerColor
+        bubbleView.backgroundColor = theme.color.surfaceColor
         messageLabel.textColor = theme.color.onSurface
         userNameLabel.textColor = theme.color.onSurface
         sendDateLabel.textColor = theme.color.onSurface

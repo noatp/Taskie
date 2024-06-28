@@ -48,7 +48,7 @@ struct ChatBubbleView: View {
     }
     
     private var backgroundColor: Color {
-        return message.isFromCurrentUser ? Color(themeManager.currentTheme.color.primaryColor) : Color(themeManager.currentTheme.color.dividerColor)
+        return message.isFromCurrentUser ? Color(themeManager.currentTheme.color.primaryColor) : Color(themeManager.currentTheme.color.surfaceColor)
     }
 }
 

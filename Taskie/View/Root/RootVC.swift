@@ -19,6 +19,7 @@ class RootVC: UIViewController {
         self.dependencyView = dependencyView
         self.currentChildNavController = UINavigationController(rootViewController: UIViewController())
         super.init(nibName: nil, bundle: nil)
+        updateTheme(for: traitCollection.userInterfaceStyle)
     }
     
     required init?(coder: NSCoder) {
@@ -44,7 +45,7 @@ class RootVC: UIViewController {
             .sink { [weak self] (arg0, hasProfileColor) in
                 let ((hasUserData, hasHouseholdData), hasUserName) = arg0
                 LogUtil.log("From RootViewModel -- hasUserData, hasHouseholdData, hasUserName, hasProfileColor -- \(hasUserData), \(hasHouseholdData), \(hasUserName), \(hasProfileColor)")
-
+                
                 guard let self = self,
                       let hasUserData = hasUserData
                 else {
@@ -104,22 +105,22 @@ class RootVC: UIViewController {
     
     private func displayErrorMessage(_ errorMessage: String) {
         switch errorMessage {
-            case AuthServiceError.emailAlreadyInUse.localizedDescription:
-                self.showAlert(withTitle: "Email already in use", alertMessage: errorMessage, buttonTitle: "Log in"){
-                    self.currentChildNavController.popToRootViewController(animated: false)
-                    if let landingVC = self.currentChildNavController.viewControllers.first as? LandingVC {
-                        landingVC.navigateToLogIn()
-                    }
+        case AuthServiceError.emailAlreadyInUse.localizedDescription:
+            self.showAlert(withTitle: "Email already in use", alertMessage: errorMessage, buttonTitle: "Log in"){
+                self.currentChildNavController.popToRootViewController(animated: false)
+                if let landingVC = self.currentChildNavController.viewControllers.first as? LandingVC {
+                    landingVC.navigateToLogIn()
                 }
-            default:
-                ErrorWindow.shared.showAlert(alertMessage: errorMessage)
+            }
+        default:
+            ErrorWindow.shared.showAlert(alertMessage: errorMessage)
         }
     }
     
     private func switchToViewController(_ newVC: UINavigationController) {
         guard let newRoot = newVC.viewControllers.first,
               let oldRoot = currentChildNavController.viewControllers.first,
-              type(of: newRoot) != type(of: oldRoot) 
+              type(of: newRoot) != type(of: oldRoot)
         else{
             return
         }
@@ -146,6 +147,23 @@ class RootVC: UIViewController {
             childView.topAnchor.constraint(equalTo: view.topAnchor),
             childView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            updateTheme(for: traitCollection.userInterfaceStyle)
+        }
+    }
+    
+    private func updateTheme(for userInterfaceStyle: UIUserInterfaceStyle) {
+        switch userInterfaceStyle {
+        case .dark:
+            ThemeManager.shared.switchToTheme(.darkTheme)
+        case .light, .unspecified:
+            ThemeManager.shared.switchToTheme(.lightTheme)
+        @unknown default:
+            break
+        }
     }
 }
 

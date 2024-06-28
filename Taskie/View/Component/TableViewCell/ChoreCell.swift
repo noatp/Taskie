@@ -102,8 +102,9 @@ class ChoreCell: UITableViewCell, Themable {
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        choreNameLabel.textColor = theme.color.onSurface
-        choreRewardLabel.textColor = theme.color.onSurface
+        choreNameLabel.textColor = theme.color.onBackground
+        choreRewardLabel.textColor = theme.color.onBackground
+        choreStatusLabel.textColor = theme.color.onBackground
         choreImageView.layer.cornerRadius = theme.styling.cornerRadius
     }
 }

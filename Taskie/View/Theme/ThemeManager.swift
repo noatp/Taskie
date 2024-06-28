@@ -41,7 +41,7 @@ struct PDSColor {
         secondaryColor: .init(hex: "#329F5B"),
         darkenSecondaryColor: .init(hex: "#2C8C51"),
         backgroundColor: .init(hex: "#EFEFEF"),
-        surfaceColor: .init(hex: "#FFFFFF"),
+        surfaceColor: .init(hex: "#e0e0e0"),
         errorColor: .init(hex: "#CC4700"),
         onPrimary: .init(hex: "#FFFFFF"),
         onSecondary: .init(hex: "#FFFFFF"),
@@ -52,15 +52,15 @@ struct PDSColor {
     )
     
     static let darkModeColors = PDSColor(
-        primaryColor: .init(hex: "#9BE49B"),
-        darkenPrimaryColor: .init(hex: "#AFE9AF"),
-        secondaryColor: .init(hex: "#60CD8A"),
-        darkenSecondaryColor: .init(hex: "#73D398"),
+        primaryColor: .init(hex: "#65C466"),
+        darkenPrimaryColor: .init(hex: "#2C8C51"),
+        secondaryColor: .init(hex: "#329F5B"),
+        darkenSecondaryColor: .init(hex: "#2C8C51"),
         backgroundColor: .init(hex: "#0F0F0F"),
-        surfaceColor: .init(hex: "#000000"),
+        surfaceColor: .init(hex: "#3B3B3D"),
         errorColor: .init(hex: "#FF7A33"),
-        onPrimary: .init(hex: "#000000"),
-        onSecondary: .init(hex: "#000000"),
+        onPrimary: .init(hex: "#FFFFFF"),
+        onSecondary: .init(hex: "#FFFFFF"),
         onBackground: .init(hex: "#FFFFFF"),
         onSurface: .init(hex: "#FFFFFF"),
         onError: .init(hex: "#000000"),
@@ -73,7 +73,8 @@ struct PDSTheme {
     var typography: PDSTypography
     var styling: PDSStyling
     
-    static let defaultTheme = PDSTheme(color: .lightModeColors, typography: .defaultTypography, styling: .defaultStyling)
+    static let lightTheme = PDSTheme(color: .lightModeColors, typography: .defaultTypography, styling: .defaultStyling)
+    static let darkTheme = PDSTheme(color: .darkModeColors, typography: .defaultTypography, styling: .defaultStyling)
 }
 
 
@@ -88,7 +89,7 @@ class WeakThemable {
 class ThemeManager: ObservableObject {
     static let shared = ThemeManager()
     
-    @Published private(set) var currentTheme: PDSTheme = .defaultTheme {
+    @Published private(set) var currentTheme: PDSTheme = .lightTheme {
         didSet {
             themableComponents = themableComponents.compactMap { weakThemable in
                 guard let component = weakThemable.component else { return nil }

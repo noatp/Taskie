@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class UserCard: UIView {
+class UserCard: UIView, Themable {
     private let reversed: Bool
     private let vertical: Bool
     
@@ -41,6 +41,8 @@ class UserCard: UIView {
     }()
     
     private func setUpViews() {
+        ThemeManager.shared.register(self)
+        
         addSubview(smileyFace)
         addSubview(userNameLabel)
         if vertical {
@@ -91,6 +93,10 @@ class UserCard: UIView {
     func configure(for denormUser: DenormalizedUser) {
         userNameLabel.text = denormUser.name
         smileyFace.backgroundColor = .init(hex: denormUser.profileColor)
+    }
+    
+    func applyTheme(_ theme: PDSTheme) {
+        userNameLabel.textColor = theme.color.onBackground
     }
 }
 
