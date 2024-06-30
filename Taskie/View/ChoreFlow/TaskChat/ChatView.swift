@@ -137,6 +137,8 @@ struct ChatView: View {
             return "Finish"
         case .withdraw:
             return "Withdraw"
+        case .review:
+            return "Review"
         case .nothing, nil:
             return ""
         }
@@ -151,6 +153,8 @@ struct ChatView: View {
             showFinishView = true
         case .withdraw:
             viewModel.withdrawSelectedChore()
+        case .review:
+            break
         case .nothing, nil:
             break
         }

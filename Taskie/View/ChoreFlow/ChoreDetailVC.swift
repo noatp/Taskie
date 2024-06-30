@@ -127,7 +127,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
@@ -184,22 +184,25 @@ class ChoreDetailVC: PDSTitleWrapperVC {
                 
                 self.actionButtonType = chore.actionButtonType
                 switch chore.actionButtonType {
-                    case .accept:
-                        actionButtonGroup.isHidden = false
-                        self.actionButton.setTitle("Accept", for: .normal)
-                    case .finish:
-                        actionButtonGroup.isHidden = false
-                        self.actionButton.setTitle("Finished", for: .normal)
-                    case .withdraw:
-                        actionButtonGroup.isHidden = false
-                        self.actionButton.setTitle("Withdraw", for: .normal)
-                    case .nothing:
-                        actionButtonGroup.isHidden = true
+                case .accept:
+                    actionButtonGroup.isHidden = false
+                    self.actionButton.setTitle("Accept", for: .normal)
+                case .finish:
+                    actionButtonGroup.isHidden = false
+                    self.actionButton.setTitle("Finished", for: .normal)
+                case .withdraw:
+                    actionButtonGroup.isHidden = false
+                    self.actionButton.setTitle("Withdraw", for: .normal)
+                case .review:
+                    actionButtonGroup.isHidden = false
+                    self.actionButton.setTitle("Review", for: .normal)
+                case .nothing:
+                    actionButtonGroup.isHidden = true
                 }
             }
             .store(in: &cancellables)
     }
-
+    
     private func setUpViews() {
         setTitle("Details")
         guard let swipableImageRow = swipableImageRowVC.view else {
@@ -283,7 +286,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
             
             requestIcon.heightAnchor.constraint(equalToConstant: 40),
             requestIcon.widthAnchor.constraint(equalTo: requestIcon.heightAnchor, multiplier: 1),
-
+            
             
             choreNameLabel.leadingAnchor.constraint(equalTo: choreNameRow.leadingAnchor),
             choreNameLabel.centerYAnchor.constraint(equalTo: choreNameRow.centerYAnchor),
@@ -310,7 +313,7 @@ class ChoreDetailVC: PDSTitleWrapperVC {
             vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40)
         ])
     }
-
+    
     private func setUpActions() {
         backBarButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         actionButton.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
@@ -331,16 +334,18 @@ class ChoreDetailVC: PDSTitleWrapperVC {
     
     @objc func handleActionButton() {
         switch self.actionButtonType {
-            case .accept:
-                viewModel.acceptSelectedChore()
-            case .finish:
-//                viewModel.finishedSelectedChore()
-                let submitChoreVC = dependencyView.submitChoreVC()
-                self.navigationController?.pushViewController(submitChoreVC, animated: true)
-            case .withdraw:
-                viewModel.withdrawSelectedChore()
-            case .nothing:
-                break
+        case .accept:
+            viewModel.acceptSelectedChore()
+        case .finish:
+            //                viewModel.finishedSelectedChore()
+            let submitChoreVC = dependencyView.submitChoreVC()
+            self.navigationController?.pushViewController(submitChoreVC, animated: true)
+        case .withdraw:
+            viewModel.withdrawSelectedChore()
+        case .review:
+            break
+        case .nothing:
+            break
         }
     }
     
@@ -369,4 +374,4 @@ extension Dependency.View {
         return ChoreDetailVC(viewModel: viewModel.choreDetailViewModel(), dependencyView: self)
     }
 }
- 
+

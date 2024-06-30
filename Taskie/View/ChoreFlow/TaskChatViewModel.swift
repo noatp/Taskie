@@ -138,6 +138,7 @@ class TaskChatViewModel: ObservableObject {
     func finishedSelectedChore() {
 //        choreService.finishedSelectedChore()
         handleChatMessageCreation(message: "I finished this chore! Take a look at the attached photos.")
+        choreService.makeSelectedChoreReadyForReview()
     }
     
     func withdrawSelectedChore() {

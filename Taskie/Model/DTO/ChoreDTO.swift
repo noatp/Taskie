@@ -15,7 +15,8 @@ struct ChoreDTO: Codable {
         acceptorID: nil,
         description: "",
         rewardAmount: 0.0,
-        imageUrls: [],
+        imageUrls: [], 
+        isReadyForReview: false,
         createdDate: .init(date: .now),
         finishedDate: nil
     )
@@ -28,6 +29,7 @@ struct ChoreDTO: Codable {
         description: "This is a chore. It is a chore that need to be done. Please do it. You will be rewarded greatly. It is a chore that need to be done. Please do it. You will be rewarded greatly. It is a chore that need to be done. Please do it. You will be rewarded greatly.",
         rewardAmount: 2.00,
         imageUrls: ["https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fvector%2Fthumbnail-image-vector-graphic-gm1147544807-309589937&psig=AOvVaw3UvtbnqxN9ccX88jFYAgvQ&ust=1712642759035000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOCb-8z5sYUDFQAAAAAdAAAAABAE"],
+        isReadyForReview: false,
         createdDate: .init(date: .now),
         finishedDate: .init(date: .now)
     )
@@ -39,6 +41,7 @@ struct ChoreDTO: Codable {
     let description: String
     let rewardAmount: Double
     let imageUrls: [String]
+    let isReadyForReview: Bool
     let createdDate: Timestamp
     let finishedDate: Timestamp?
 }

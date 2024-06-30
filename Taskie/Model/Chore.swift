@@ -13,6 +13,7 @@ struct Chore {
         case finish
         case withdraw
         case nothing
+        case review
     }
     
     static let empty: Chore = .init(

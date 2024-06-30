@@ -24,7 +24,8 @@ class ChoreMapper {
         let actionButtonType = determineActionType(
             requestorId: dto.requestorID,
             acceptorId: dto.acceptorID,
-            finishedDate: dto.finishedDate
+            finishedDate: dto.finishedDate,
+            isReadyForReview: dto.isReadyForReview
         )
         let choreStatus = determineChoreStatus(
             acceptorId: dto.acceptorID,
@@ -54,7 +55,8 @@ class ChoreMapper {
             acceptorID: chore.acceptor?.id,
             description: chore.description,
             rewardAmount: chore.rewardAmount,
-            imageUrls: chore.imageUrls,
+            imageUrls: chore.imageUrls, 
+            isReadyForReview: false,
             createdDate: .init(),
             finishedDate: nil
         )
@@ -80,7 +82,7 @@ class ChoreMapper {
         return userDetail
     }
     
-    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> Chore.ActionButtonType? {
+    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?, isReadyForReview: Bool) -> Chore.ActionButtonType? {
         if finishedDate != nil {
             return .nothing
         }
@@ -90,11 +92,17 @@ class ChoreMapper {
             }
             
             if currentUserId == requestorId {
+                if isReadyForReview {
+                    return .review
+                }
                 return .withdraw
             }
             else {
                 if let acceptorId = acceptorId {
                     if acceptorId == currentUserId {
+                        if isReadyForReview {
+                            return .nothing
+                        }
                         return .finish
                     }
                     else {
