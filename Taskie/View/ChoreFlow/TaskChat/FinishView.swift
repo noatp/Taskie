@@ -112,12 +112,18 @@ struct FinishView: View {
                 Spacer()
             
                 Button(action: {
-                    
+                    viewModel.finishedSelectedChore()
                 }, label: {
                     HStack {
                         Spacer()
-                        Text("Done")
-                            .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                        if viewModel.isSendingMessage {
+                            ProgressView()
+                        }
+                        else {
+                            Text("Done")
+                                .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                        }
+                        
                         Spacer()
                     }
                     .padding(10)
@@ -132,6 +138,11 @@ struct FinishView: View {
         .onChange(of: selectedImage) { oldValue, newValue in
             if let newImage = newValue, newImage != oldValue {
                 viewModel.images.append(newImage)
+            }
+        }
+        .onChange(of: viewModel.isSendingMessage) { oldValue, newValue in
+            if newValue == false {
+                presentationMode.wrappedValue.dismiss()
             }
         }
         .sheet(isPresented: $isImagePickerPresented) {

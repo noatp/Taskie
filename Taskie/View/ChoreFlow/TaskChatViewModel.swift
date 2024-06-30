@@ -71,34 +71,10 @@ class TaskChatViewModel: ObservableObject {
     }
     
     func createNewMessage() {
-        guard let currentUserId = userService.getCurrentUser()?.id,
-              let currentChoreId = choreDetail?.id,
-              !chatInputText.isEmpty
-        else {
+        guard !chatInputText.isEmpty else {
             return
         }
-        
-        Task {
-            DispatchQueue.main.async {
-                self.isSendingMessage = true
-            }
-            let imageURLs = try await storageService.uploadImages(images.map{$0})
-            let imageUrlStrings = imageURLs.map { $0.absoluteString }
-            let message = chatInputText
-            
-            await chatMessageService.createNewMessage(
-                message,
-                imageUrls: imageUrlStrings,
-                byUserId: currentUserId,
-                atChoreId: currentChoreId
-            )
-            
-            DispatchQueue.main.async {
-                self.chatInputText = ""
-                self.images = []
-                self.isSendingMessage = false
-            }
-        }
+        handleChatMessageCreation(message: chatInputText)
     }
     
     private func groupChatMessages(_ chatMessages: [ChatMessage]) -> [ChatMessage] {
@@ -122,6 +98,36 @@ class TaskChatViewModel: ObservableObject {
         return groupedChatMessages
     }
     
+    private func handleChatMessageCreation(message: String) {
+        guard let currentUserId = userService.getCurrentUser()?.id,
+              let currentChoreId = choreDetail?.id
+        else {
+            return
+        }
+        
+        Task {
+            DispatchQueue.main.async {
+                self.isSendingMessage = true
+            }
+            let imageURLs = try await storageService.uploadImages(images.map{$0})
+            let imageUrlStrings = imageURLs.map { $0.absoluteString }
+            let message = message
+            
+            await chatMessageService.createNewMessage(
+                message,
+                imageUrls: imageUrlStrings,
+                byUserId: currentUserId,
+                atChoreId: currentChoreId
+            )
+            
+            DispatchQueue.main.async {
+                self.chatInputText = ""
+                self.images = []
+                self.isSendingMessage = false
+            }
+        }
+    }
+    
     func acceptSelectedChore() {
         guard let currentUserId = userService.getCurrentUser()?.id else {
             return
@@ -130,7 +136,8 @@ class TaskChatViewModel: ObservableObject {
     }
     
     func finishedSelectedChore() {
-        choreService.finishedSelectedChore()
+//        choreService.finishedSelectedChore()
+        handleChatMessageCreation(message: "I finished this chore! Take a look at the attached photos.")
     }
     
     func withdrawSelectedChore() {

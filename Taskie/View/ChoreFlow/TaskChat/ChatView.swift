@@ -147,6 +147,7 @@ struct ChatView: View {
         case .accept:
             viewModel.acceptSelectedChore()
         case .finish:
+            viewModel.images = []
             showFinishView = true
         case .withdraw:
             viewModel.withdrawSelectedChore()
