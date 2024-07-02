@@ -132,6 +132,7 @@ class TaskChatViewModel: ObservableObject {
         guard let currentUserId = userService.getCurrentUser()?.id else {
             return
         }
+        handleChatMessageCreation(message: "I will help you!")
         choreService.acceptSelectedChore(acceptorId: currentUserId)
     }
     
