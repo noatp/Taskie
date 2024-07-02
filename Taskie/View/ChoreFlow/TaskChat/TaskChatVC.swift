@@ -68,7 +68,7 @@ class TaskChatVC: PDSResizeWithKeyboardVC {
         
         
         NSLayoutConstraint.activate([
-            hostingControllerView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
+            hostingControllerView.topAnchor.constraint(equalTo: titleBottomAnchor),
             hostingControllerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hostingControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             constraintViewToKeyboard(hostingControllerView)

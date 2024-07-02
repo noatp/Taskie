@@ -21,6 +21,22 @@ struct ChatView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            HStack {
+                if let choreDetail = viewModel.choreDetail {
+                    Text("$\(choreDetail.rewardAmount.formattedToTwoDecimalPlaces())")
+                        .font(.from(uiFont: themeManager.currentTheme.typography.caption))
+                        .foregroundStyle(Color(themeManager.currentTheme.color.secondaryColor))
+                    Text("•")
+                        .font(.from(uiFont: themeManager.currentTheme.typography.caption))
+                    Text(choreDetail.choreStatus)
+                    Spacer()
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .font(.from(uiFont: themeManager.currentTheme.typography.caption))
+            .background(Color(themeManager.currentTheme.color.backgroundColor))
+            
             ScrollViewReader { proxy in
                 List(viewModel.chatMessages) { message in
                     ChatMessageView(message: message)
@@ -166,6 +182,7 @@ struct ChatView: View {
                 Button(action: handleActionButton) {
                     Text(actionButtonTitle)
                         .padding(10)
+                        .font(.from(uiFont: themeManager.currentTheme.typography.button))
                         .background(Color(themeManager.currentTheme.color.primaryColor))
                         .foregroundColor(.white)
                         .cornerRadius(10)

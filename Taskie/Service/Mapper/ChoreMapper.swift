@@ -29,7 +29,8 @@ class ChoreMapper {
         )
         let choreStatus = determineChoreStatus(
             acceptorId: dto.acceptorID,
-            finishedDate: dto.finishedDate
+            finishedDate: dto.finishedDate,
+            isReadyForReview: dto.isReadyForReview
         )
         
         return Chore(
@@ -116,11 +117,14 @@ class ChoreMapper {
         }
     }
     
-    private func determineChoreStatus(acceptorId: String?, finishedDate: Timestamp?) -> String {
+    private func determineChoreStatus(acceptorId: String?, finishedDate: Timestamp?, isReadyForReview: Bool) -> String {
         if let finishedDate = finishedDate {
             return "Finished"
         }
         else if let acceptorId = acceptorId {
+            if isReadyForReview {
+                return "Ready for review"
+            }
             return "Pending"
         }
         else {
