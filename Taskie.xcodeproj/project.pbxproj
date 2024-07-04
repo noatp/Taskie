@@ -65,6 +65,7 @@
 		CA7E33072B8D008D00CA7B20 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */; };
 		CA81D1FF2C14DEB20000C211 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81D1FE2C14DEB20000C211 /* ImageCollectionViewCell.swift */; };
 		CA81D2032C1508F70000C211 /* OutgoingChatMessageCellWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81D2022C1508F70000C211 /* OutgoingChatMessageCellWithImage.swift */; };
+		CACBC7F02C36432F00EB5EB3 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACBC7EF2C36432F00EB5EB3 /* ReviewView.swift */; };
 		CACE2E812BA3FD7A007FD9F2 /* ChoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */; };
 		CACE2E832BA409F0007FD9F2 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */; };
 		CACE2E852BA7CFDF007FD9F2 /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2E842BA7CFDF007FD9F2 /* Household.swift */; };
@@ -181,6 +182,7 @@
 		CA7E33062B8D008D00CA7B20 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		CA81D1FE2C14DEB20000C211 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CA81D2022C1508F70000C211 /* OutgoingChatMessageCellWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingChatMessageCellWithImage.swift; sourceTree = "<group>"; };
+		CACBC7EF2C36432F00EB5EB3 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		CACE2E802BA3FD7A007FD9F2 /* ChoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreCell.swift; sourceTree = "<group>"; };
 		CACE2E822BA409EF007FD9F2 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		CACE2E842BA7CFDF007FD9F2 /* Household.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Household.swift; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 				CAECF4D02C1A6445006938BC /* ChatMessageView.swift */,
 				CAECF4D22C1A646A006938BC /* ChatBubbleView.swift */,
 				CAECF50D2C1FECC7006938BC /* FinishView.swift */,
+				CACBC7EF2C36432F00EB5EB3 /* ReviewView.swift */,
 			);
 			path = TaskChat;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				CA7C69C42B8C374F005B3CF2 /* UIViewControllerPreviewWrapper.swift in Sources */,
 				CA55371B2BE2FCCE0053131C /* DocumentReferenceExtension.swift in Sources */,
 				CA5535572BDE2CD900A5B2BC /* PDSLoadingIndicator.swift in Sources */,
+				CACBC7F02C36432F00EB5EB3 /* ReviewView.swift in Sources */,
 				CACE2E812BA3FD7A007FD9F2 /* ChoreCell.swift in Sources */,
 				CAECF4D72C1E63B5006938BC /* FontExtension.swift in Sources */,
 				CACE2E8C2BA927A7007FD9F2 /* UserRepository.swift in Sources */,

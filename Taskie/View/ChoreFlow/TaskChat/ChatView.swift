@@ -13,6 +13,7 @@ struct ChatView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var dynamicHeight: CGFloat = 44
     @State private var showFinishView: Bool = false
+    @State private var showReviewView: Bool = false
     @State private var shouldShowButtonGroup: Bool = true
     @State private var isImagePickerPresented = false
     @State private var isCamera = false
@@ -170,6 +171,7 @@ struct ChatView: View {
         case .withdraw:
             viewModel.withdrawSelectedChore()
         case .review:
+            showReviewView = true
             break
         case .nothing, nil:
             break
@@ -189,6 +191,9 @@ struct ChatView: View {
                 }
                 .fullScreenCover(isPresented: $showFinishView) {
                     FinishView(viewModel: viewModel)
+                }
+                .fullScreenCover(isPresented: $showReviewView) {
+                    ReviewView(viewModel: viewModel)
                 }
             }
             
