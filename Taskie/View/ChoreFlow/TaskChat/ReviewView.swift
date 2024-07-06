@@ -35,48 +35,87 @@ struct ReviewView: View {
             }
             
             VStack {
+                Spacer(minLength: 40)
                 Text("Let's review the finished task.")
                     .font(.from(uiFont: themeManager.currentTheme.typography.headline2))
                     .multilineTextAlignment(.center)
                 ChatImages(imageUrls: viewModel.chatMessages.last?.imageUrls ?? [])
                     .padding(.horizontal, 20)
-                TextEditor(text: $viewModel.chatInputText)
-                    .font(.from(uiFont: themeManager.currentTheme.typography.body))
-                    .padding()
-                    .background(Color.yellow)
-                    .foregroundColor(.blue)
-                    .cornerRadius(10)
-                    .padding()
-                HStack {
+                ZStack(alignment: .topLeading) {
+                    
+                    TextEditor(text: $viewModel.reviewInputText)
+                        .font(.from(uiFont: themeManager.currentTheme.typography.body))
+                        .frame(height: 150)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color(themeManager.currentTheme.color.primaryColor), lineWidth: 1)
+                        )
+                    
+                    if viewModel.reviewInputText.isEmpty {
+                        Text("Comment")
+                            .font(.from(uiFont: themeManager.currentTheme.typography.body))
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 8)
+                    }
+                }
+                .padding()
+                
+                HStack(spacing: 10) {
                     Button(action: {
-                        
+                        viewModel.approveFinishedChore()
                     }) {
-                        if viewModel.isSendingMessage {
-                            ProgressView()
-                                .frame(width: 44, height: 44)
+                        HStack {
+                            if viewModel.isSendingMessage {
+                                ProgressView()
+                            }
+                            else {
+                                Spacer()
+                                Text("Approve")
+                                    .padding(10)
+                                    .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                                
+                                Spacer()
+                            }
                         }
-                        else {
-                            Text("Approve")
-                        }
+                        .background(Color(themeManager.currentTheme.color.primaryColor))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
                     
                     Button(action: {
-                        
+                        viewModel.denyFinishedChore()
                     }) {
-                        if viewModel.isSendingMessage {
-                            ProgressView()
-                                .frame(width: 44, height: 44)
+                        HStack {
+                            if viewModel.isSendingMessage {
+                                ProgressView()
+                            }
+                            else {
+                                Spacer()
+                                Text("Deny")
+                                    .padding(10)
+                                    .font(.from(uiFont: themeManager.currentTheme.typography.button))
+                                
+                                Spacer()
+                            }
                         }
-                        else {
-                            Text("Deny")
-                        }
+                        .background(Color(themeManager.currentTheme.color.secondaryColor))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
                 }
-                
+                .padding()
+                Spacer()
             }
-            
+            .padding(20)
         }
-        .padding(20)
+        .onChange(of: viewModel.isSendingMessage) { oldValue, newValue in
+            if newValue == false {
+                presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
 }
 

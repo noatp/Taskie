@@ -12,6 +12,7 @@ class TaskChatViewModel: ObservableObject {
     @Published var choreDetail: Chore?
     @Published var chatMessages: [ChatMessage] = []
     @Published var chatInputText: String = ""
+    @Published var reviewInputText: String = ""
     @Published var images: [UIImage] = []
     @Published var isSendingMessage: Bool = false
     
@@ -111,7 +112,6 @@ class TaskChatViewModel: ObservableObject {
             }
             let imageURLs = try await storageService.uploadImages(images.map{$0})
             let imageUrlStrings = imageURLs.map { $0.absoluteString }
-            let message = message
             
             await chatMessageService.createNewMessage(
                 message,
@@ -122,6 +122,7 @@ class TaskChatViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.chatInputText = ""
+                self.reviewInputText = ""
                 self.images = []
                 self.isSendingMessage = false
             }
@@ -140,6 +141,27 @@ class TaskChatViewModel: ObservableObject {
 //        choreService.finishedSelectedChore()
         handleChatMessageCreation(message: "I finished this chore! Take a look at the attached photos.")
         choreService.makeSelectedChoreReadyForReview()
+    }
+    
+    func approveFinishedChore() {
+        choreService.finishedSelectedChore()
+        if reviewInputText.isEmpty {
+            handleChatMessageCreation(message: "Well done! Thank you very much! You will receive your reward!")
+        }
+        else {
+            handleChatMessageCreation(message: reviewInputText)
+        }
+        choreService.makeSelectedChoreNotReadyForReview()
+    }
+    
+    func denyFinishedChore() {
+        if reviewInputText.isEmpty {
+            handleChatMessageCreation(message: "I am not happy with the result...")
+        }
+        else {
+            handleChatMessageCreation(message: reviewInputText)
+        }
+        choreService.makeSelectedChoreNotReadyForReview()
     }
     
     func withdrawSelectedChore() {
