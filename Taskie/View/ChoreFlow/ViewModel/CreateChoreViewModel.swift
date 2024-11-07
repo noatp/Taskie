@@ -67,7 +67,7 @@ class CreateChoreViewModel: ObservableObject {
         }
         guard let choreRewardAmount = choreRewardAmount?.stripDollarSign(),
               choreRewardAmount != StringConstant.emptyString,
-              let choreRewardAmountDouble = Double(choreRewardAmount.stripDollarSign()) else {
+              let choreRewardAmountFloat = Float(choreRewardAmount.stripDollarSign()) else {
             createChoreResult = .failure(.invalidAmount)
             return
         }
@@ -92,7 +92,7 @@ class CreateChoreViewModel: ObservableObject {
                 requestor: currentUserDenorm,
                 acceptor: nil,
                 description: choreDescription,
-                rewardAmount: choreRewardAmountDouble,
+                rewardAmount: choreRewardAmountFloat,
                 imageUrls: choreImageUrls,
                 createdDate: "",
                 finishedDate: nil,

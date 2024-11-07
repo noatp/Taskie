@@ -31,6 +31,7 @@
 		CA20AFED2BA261A200BE9C18 /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEC2BA261A100BE9C18 /* NSObjectExtension.swift */; };
 		CA20AFEF2BA2D54000BE9C18 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */; };
 		CA26D0712BE01734002B5962 /* apple-app-site-association in Resources */ = {isa = PBXBuildFile; fileRef = CA26D0702BE01734002B5962 /* apple-app-site-association */; };
+		CA281C4A2CDCA7CB00F9ED73 /* CloudFunctionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA281C492CDCA7C200F9ED73 /* CloudFunctionService.swift */; };
 		CA3A69912BE062C7009D669F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA3A69902BE062C7009D669F /* GoogleService-Info.plist */; };
 		CA3A69A62BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A42BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift */; };
 		CA3A69A72BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */; };
@@ -150,6 +151,7 @@
 		CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CA26D0702BE01734002B5962 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		CA26D0722BE020A5002B5962 /* Taskie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Taskie.entitlements; sourceTree = "<group>"; };
+		CA281C492CDCA7C200F9ED73 /* CloudFunctionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudFunctionService.swift; sourceTree = "<group>"; };
 		CA3A69902BE062C7009D669F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA3A69A42BE2E55E009D669F /* CreateOrJoinHouseholdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrJoinHouseholdViewModel.swift; sourceTree = "<group>"; };
 		CA3A69A52BE2E55E009D669F /* CreateOrJoinHouseholdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrJoinHouseholdVC.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 			children = (
 				CA5CB9D12BFD7A3800DD4FED /* Mapper */,
 				CA20AFEE2BA2D54000BE9C18 /* StorageService.swift */,
+				CA281C492CDCA7C200F9ED73 /* CloudFunctionService.swift */,
 				CA7C69B62B8456D0005B3CF2 /* AuthService.swift */,
 				CA1683E32B8D419A0086153A /* ChoreFirestoreService.swift */,
 				CA1683E82B8D45A70086153A /* HouseholdFirestoreService.swift */,
@@ -798,6 +801,7 @@
 				CA3B42212C3A4E34007E6DFD /* RewardBalanceVC.swift in Sources */,
 				CA7C69BB2B846843005B3CF2 /* LogInVC.swift in Sources */,
 				CACE2E932BACA88A007FD9F2 /* ChoreDetailViewModel.swift in Sources */,
+				CA281C4A2CDCA7CB00F9ED73 /* CloudFunctionService.swift in Sources */,
 				CACE2E9A2BAE17C9007FD9F2 /* TimestampExtension.swift in Sources */,
 				CAEAEB762B840DE40056A0F1 /* SceneDelegate.swift in Sources */,
 				CA7E33052B8CEFA200CA7B20 /* ThemeManager.swift in Sources */,
@@ -1042,7 +1046,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Taskie/Taskie.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
@@ -1062,7 +1066,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = panto.Taskie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Ad Hoc";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Development Profile for Taskie";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

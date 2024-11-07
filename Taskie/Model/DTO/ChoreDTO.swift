@@ -39,7 +39,7 @@ struct ChoreDTO: Codable {
     let requestorID: String
     let acceptorID: String?
     let description: String
-    let rewardAmount: Double
+    let rewardAmount: Float
     let imageUrls: [String]
     let isReadyForReview: Bool
     let createdDate: Timestamp

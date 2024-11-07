@@ -39,6 +39,7 @@ class Dependency {
         private let repository: Repository
         
         var storageService: StorageService
+        var cloudFunctionService: CloudFunctionService
         var authService: AuthService
         var userService: UserService
         var householdService: HouseholdService
@@ -52,6 +53,7 @@ class Dependency {
                 self.choreService = ChoreMockService()
                 self.householdService = HouseholdMockService()
                 self.storageService = StorageService()
+                self.cloudFunctionService = CloudFunctionService()
                 self.authService = AuthMockService()
                 self.chatMessageService = ChatMessageMockService()
             } else {
@@ -73,11 +75,11 @@ class Dependency {
                     householdRepository: repository.householdRepository
                 )
                 self.storageService = StorageService()
+                self.cloudFunctionService = CloudFunctionService()
                 self.chatMessageService = ChatMessageFirestoreService(
                     choreRepository: repository.choreRepository,
                     chatMessageRepository: repository.chatMessageRepository
                 )
-                
             }
         }
     }

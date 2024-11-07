@@ -35,7 +35,7 @@ struct Chore {
     let requestor: DenormalizedUser
     let acceptor: DenormalizedUser?
     let description: String
-    let rewardAmount: Double
+    let rewardAmount: Float
     let imageUrls: [String]
     let createdDate: String
     let finishedDate: String?

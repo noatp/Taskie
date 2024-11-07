@@ -19,23 +19,29 @@ class TaskChatViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private let choreService: ChoreService
     private let userService: UserService
+    private let householdService: HouseholdService
     private let storageService: StorageService
+    private let cloudFunctionService: CloudFunctionService
     private let chatMessageService: ChatMessageService
     private let chatMessageMapper: ChatMessageMapper
     private let choreMapper: ChoreMapper
     
     init(
         userService: UserService,
+        householdService: HouseholdService,
         choreService: ChoreService,
         chatMessageService: ChatMessageService,
         storageService: StorageService,
+        cloudFunctionService: CloudFunctionService,
         chatMessageMapper: ChatMessageMapper,
         choreMapper: ChoreMapper
     ) {
         self.choreService = choreService
+        self.householdService = householdService
         self.userService = userService
         self.chatMessageService = chatMessageService
         self.storageService = storageService
+        self.cloudFunctionService = cloudFunctionService
         self.chatMessageMapper = chatMessageMapper
         self.choreMapper = choreMapper
         subscribeToChoreService()
@@ -152,6 +158,12 @@ class TaskChatViewModel: ObservableObject {
             handleChatMessageCreation(message: reviewInputText)
         }
         choreService.makeSelectedChoreNotReadyForReview()
+        guard let householdId = householdService.getCurrentHousehold()?.id,
+              let choreId = choreDetail?.id
+        else {
+            return
+        }
+        cloudFunctionService.addRewardToUserBalance(householdId: householdId, choreId: choreId)
     }
     
     func denyFinishedChore() {
@@ -183,9 +195,11 @@ extension Dependency.ViewModel {
     func taskChatViewModel() -> TaskChatViewModel {
         return TaskChatViewModel(
             userService: service.userService,
+            householdService: service.householdService,
             choreService: service.choreService,
             chatMessageService: service.chatMessageService,
             storageService: service.storageService,
+            cloudFunctionService: service.cloudFunctionService,
             chatMessageMapper: mapper.chatMessageMapper,
             choreMapper: mapper.choreMapper
         )
