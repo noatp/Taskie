@@ -11,6 +11,7 @@ import UIKit
 enum IconAlignment {
     case leading
     case trailing
+    case center
 }
 
 class PDSIconBarButton: UIButton, Themable {
@@ -50,6 +51,9 @@ class PDSIconBarButton: UIButton, Themable {
             case .trailing:
                 self.contentHorizontalAlignment = .right
                 self.imageView!.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+            case .center:
+                self.contentHorizontalAlignment = .center
+                self.imageView!.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         }
     }
     

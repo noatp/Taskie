@@ -29,6 +29,8 @@ protocol ChoreService {
     func acceptSelectedChore(acceptorId: String)
     func finishedSelectedChore()
     func withdrawSelectedChore()
+    func makeSelectedChoreReadyForReview()
+    func makeSelectedChoreNotReadyForReview()
 }
 
 class ChoreFirestoreService: ChoreService {
@@ -152,6 +154,24 @@ class ChoreFirestoreService: ChoreService {
             await choreRepository.removeChore(choreId: selectedChore.id)
         }
     }
+    
+    func makeSelectedChoreReadyForReview() {
+        Task {
+            guard let selectedChore = self._selectedChore.value else {
+                return
+            }
+            await choreRepository.updateChoreWithReviewStatus(choreId: selectedChore.id, isReadyForReview: true)
+        }
+    }
+    
+    func makeSelectedChoreNotReadyForReview() {
+        Task {
+            guard let selectedChore = self._selectedChore.value else {
+                return
+            }
+            await choreRepository.updateChoreWithReviewStatus(choreId: selectedChore.id, isReadyForReview: false)
+        }
+    }
 }
 
 class ChoreMockService: ChoreService {
@@ -178,4 +198,8 @@ class ChoreMockService: ChoreService {
     func finishedSelectedChore() {}
     
     func withdrawSelectedChore() {}
+    
+    func makeSelectedChoreReadyForReview() {}
+    
+    func makeSelectedChoreNotReadyForReview() {}
 }

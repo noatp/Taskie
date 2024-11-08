@@ -8,11 +8,12 @@
 import Foundation
 
 struct Chore {
-    enum actionButtonType {
+    enum ActionButtonType {
         case accept
         case finish
         case withdraw
         case nothing
+        case review
     }
     
     static let empty: Chore = .init(
@@ -34,10 +35,10 @@ struct Chore {
     let requestor: DenormalizedUser
     let acceptor: DenormalizedUser?
     let description: String
-    let rewardAmount: Double
+    let rewardAmount: Float
     let imageUrls: [String]
     let createdDate: String
     let finishedDate: String?
-    let actionButtonType: actionButtonType
+    let actionButtonType: ActionButtonType
     let choreStatus: String
 }

@@ -72,17 +72,21 @@ class PDSImageRowCell: UICollectionViewCell, Themable {
 }
 
 class PDSImageSelectionRowVC: UICollectionViewController {
-    var images: [UIImage?] = [UIImage(systemName: "plus"), UIImage(systemName: "plus"), UIImage(systemName: "plus"), nil]{
+    var images: [UIImage?] = [UIImage(systemName: "plus"), UIImage(systemName: "plus"), UIImage(systemName: "plus"), nil] {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    init() {
+    var imagePickerDelegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
+    var lastCellShowPicker: Bool
+    
+    init(lastCellShowPicker: Bool = true) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
         layout.itemSize = CGSize(width: 100, height: 100) // Initial size, will adjust dynamically
+        self.lastCellShowPicker = lastCellShowPicker
         super.init(collectionViewLayout: layout)
         setUpViews()
     }
@@ -100,16 +104,14 @@ class PDSImageSelectionRowVC: UICollectionViewController {
     }
     
     func presentImagePicker() {
-        guard let imagePickerDelegate = self.parent as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate) else {
+        guard let delegate = imagePickerDelegate else {
             return
         }
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = imagePickerDelegate
+        imagePicker.delegate = delegate
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        hideLoadingIndicator {
-            self.present(imagePicker, animated: true)
-        }
+        self.present(imagePicker, animated: true)
     }
     
 }
@@ -145,8 +147,10 @@ extension PDSImageSelectionRowVC {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == images.count - 1 {
-            showLoadingIndicator()
-            presentImagePicker()
+            if lastCellShowPicker {
+                presentImagePicker()
+            }
+            //            showLoadingIndicator()
         }
     }
 }
@@ -160,4 +164,3 @@ struct PDSImageSelectionRowVC_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
-

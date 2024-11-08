@@ -24,11 +24,13 @@ class ChoreMapper {
         let actionButtonType = determineActionType(
             requestorId: dto.requestorID,
             acceptorId: dto.acceptorID,
-            finishedDate: dto.finishedDate
+            finishedDate: dto.finishedDate,
+            isReadyForReview: dto.isReadyForReview
         )
         let choreStatus = determineChoreStatus(
             acceptorId: dto.acceptorID,
-            finishedDate: dto.finishedDate
+            finishedDate: dto.finishedDate,
+            isReadyForReview: dto.isReadyForReview
         )
         
         return Chore(
@@ -54,7 +56,8 @@ class ChoreMapper {
             acceptorID: chore.acceptor?.id,
             description: chore.description,
             rewardAmount: chore.rewardAmount,
-            imageUrls: chore.imageUrls,
+            imageUrls: chore.imageUrls, 
+            isReadyForReview: false,
             createdDate: .init(),
             finishedDate: nil
         )
@@ -80,7 +83,7 @@ class ChoreMapper {
         return userDetail
     }
     
-    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?) -> Chore.actionButtonType? {
+    private func determineActionType(requestorId: String, acceptorId: String?, finishedDate: Timestamp?, isReadyForReview: Bool) -> Chore.ActionButtonType? {
         if finishedDate != nil {
             return .nothing
         }
@@ -90,11 +93,17 @@ class ChoreMapper {
             }
             
             if currentUserId == requestorId {
+                if isReadyForReview {
+                    return .review
+                }
                 return .withdraw
             }
             else {
                 if let acceptorId = acceptorId {
                     if acceptorId == currentUserId {
+                        if isReadyForReview {
+                            return .nothing
+                        }
                         return .finish
                     }
                     else {
@@ -108,15 +117,18 @@ class ChoreMapper {
         }
     }
     
-    private func determineChoreStatus(acceptorId: String?, finishedDate: Timestamp?) -> String {
+    private func determineChoreStatus(acceptorId: String?, finishedDate: Timestamp?, isReadyForReview: Bool) -> String {
         if let finishedDate = finishedDate {
             return "Finished"
         }
         else if let acceptorId = acceptorId {
+            if isReadyForReview {
+                return "Ready for review"
+            }
             return "Pending"
         }
         else {
-            return ""
+            return "Open"
         }
     }
 }

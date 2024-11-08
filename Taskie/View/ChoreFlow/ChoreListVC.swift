@@ -87,7 +87,7 @@ class ChoreListVC: PDSTitleWrapperVC {
     }
     
     @objc func addNewItem() {
-        let addChoreVC = depedencyView.addChoreVC()
+        let addChoreVC = depedencyView.createChoreVC()
         let navVC = UINavigationController(rootViewController: addChoreVC)
         self.present(navVC, animated: true)
     }
@@ -106,8 +106,8 @@ extension ChoreListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         viewModel.readSelectedChore(choreId: viewModel.chores[indexPath.row].id)
-        let choreDetailVC = depedencyView.choreDetailVC()
-        self.navigationController?.pushViewController(choreDetailVC, animated: true)
+        let taskChatVC = depedencyView.taskChatVC()
+        self.navigationController?.pushViewController(taskChatVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

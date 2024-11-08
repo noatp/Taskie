@@ -98,6 +98,22 @@ class ChoreRepository {
         }
     }
     
+    func updateChoreWithReviewStatus(choreId: String, isReadyForReview: Bool) async {
+        guard let householdChoreCollectionRef = householdChoreCollectionRef else {
+            return
+        }
+        
+        let choreDocRef = householdChoreCollectionRef.document(choreId)
+        
+        do {
+            try await choreDocRef.updateData(["isReadyForReview": isReadyForReview])
+        }
+        catch {
+            LogUtil.log("Error writing chore to Firestore: \(error)")
+            self._error.send(error)
+        }
+    }
+    
     func removeChore(choreId: String) async {
         guard let hosueholdChoreCollectionRef = householdChoreCollectionRef else {
             return
@@ -112,6 +128,10 @@ class ChoreRepository {
             LogUtil.log("Error deleting chore from Firestore: \(error)")
             self._error.send(error)
         }
+    }
+    
+    func getChoreCollectionRef() -> CollectionReference? {
+        return householdChoreCollectionRef
     }
     
     func reset() {

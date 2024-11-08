@@ -42,7 +42,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Create"
-        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20)
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -103,6 +103,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
     private func setUpViews() {
         setTitle("Create Task")
         
+        imageSelectionRowVC.imagePickerDelegate = self
         guard let imageSelectionRow = imageSelectionRowVC.view else {
             return
         }
@@ -117,26 +118,40 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
             rewardLabel,
             .createSpacerView(height: 10),
             choreRewardAmountTextField,
-            .createSpacerView(),
-            createChoreButton
+            .createSpacerView(height: 20)
         ], alignment: .center)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(vStack)
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(vStack)
+        
+        view.addSubview(scrollView)
+        view.addSubview(createChoreButton)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
-            vStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            vStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            vStack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            vStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            vStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40),
             
-            choreNameTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1, constant: -40),
-            choreDescriptionTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1, constant: -40),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: titleBottomAnchor, constant: 40),
+            scrollView.bottomAnchor.constraint(equalTo: createChoreButton.topAnchor),
+            
+            choreNameTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
+            choreDescriptionTextField.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1),
             
             imageSelectionRow.heightAnchor.constraint(equalToConstant: 100),
-            imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 20),
-            imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -20),
+            imageSelectionRow.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
+            imageSelectionRow.trailingAnchor.constraint(equalTo: vStack.trailingAnchor),
             
-            createChoreButton.widthAnchor.constraint(equalTo: vStack.widthAnchor, multiplier: 1)
+            createChoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            createChoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            createChoreButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -167,7 +182,7 @@ class CreateChoreVC: PDSResizeWithKeyboardVC {
     
     override func keyboardWillHide(notification: NSNotification) {
         super.keyboardWillHide(notification: notification)
-        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 40, trailing: 20)
+        createChoreButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20)
         self.view.layoutIfNeeded()
     }
     
@@ -211,12 +226,12 @@ extension CreateChoreVC: UIImagePickerControllerDelegate {
 
 extension CreateChoreVC: UINavigationControllerDelegate {}
 
-struct AddChoreVC_Previews: PreviewProvider {
+struct CreateChoreVC_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreviewWrapper {
             let baseVC = UIViewController()
-            let addChoreVC = Dependency.preview.view.addChoreVC()
-            let navVC = UINavigationController(rootViewController: addChoreVC)
+            let createChoreVC = Dependency.preview.view.createChoreVC()
+            let navVC = UINavigationController(rootViewController: createChoreVC)
             DispatchQueue.main.async {
                 baseVC.present(navVC, animated: true)
             }
@@ -227,7 +242,7 @@ struct AddChoreVC_Previews: PreviewProvider {
 }
 
 extension Dependency.View {
-    func addChoreVC() -> CreateChoreVC {
+    func createChoreVC() -> CreateChoreVC {
         return CreateChoreVC(viewModel: viewModel.addChoreViewModel())
     }
 }

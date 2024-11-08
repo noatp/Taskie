@@ -101,14 +101,32 @@ extension PDSCurrencyTextField: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text as NSString?
-        let updatedText = currentText?.replacingCharacters(in: range, with: string)
+        guard let currentText = textField.text as NSString? else { return true }
+        let updatedText = currentText.replacingCharacters(in: range, with: string)
         
-        if updatedText?.isEmpty == true {
+        if updatedText.isEmpty == true {
             return false
         }
+        else if updatedText == currencySymbol {
+            return true
+        }
         
-        return true
+        // Check if the new text is a valid number
+        if let _ = Double(updatedText.stripDollarSign()) {
+            // Check if the text contains a decimal point
+            if let dotIndex = updatedText.firstIndex(of: ".") {
+                // Get the substring after the decimal point
+                let decimalPart = updatedText[dotIndex...].dropFirst()
+                // Allow change only if the decimal part has 2 or fewer characters
+                if decimalPart.count > 2 {
+                    return false
+                }
+            }
+            return true
+        } else {
+            // If the new text is not a valid number, disallow the change
+            return false
+        }
     }
 }
 

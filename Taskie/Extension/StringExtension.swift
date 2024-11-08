@@ -13,17 +13,12 @@ extension String {
     }
     
     func formatAmountInCents() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencySymbol = StringConstant.currencySymbol
-        
-        if let amount = Double(self),
-           let formattedString = formatter.string(from: NSNumber(value: amount)) {
-            return formattedString
-        }
-        else {
-            LogUtil.log("cannot format amount to cents")
-            return "x.xx"
+        if let amount = Double(self) {
+            return String(format: "%.2f", amount)
+        } else {
+            LogUtil.log("Cannot format amount to cents")
+            return "0.00"
         }
     }
 }
+    

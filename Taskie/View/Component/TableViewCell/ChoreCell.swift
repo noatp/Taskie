@@ -81,13 +81,11 @@ class ChoreCell: UITableViewCell, Themable {
             choreStatusLabel.leadingAnchor.constraint(equalTo: choreImageView.trailingAnchor, constant: 10),
             choreStatusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
-        
-        
     }
     
     func configureCell(withChore chore: Chore){
         choreNameLabel.text = chore.name
-        choreRewardLabel.text = String(format: "$%.2f", chore.rewardAmount)
+        choreRewardLabel.text = chore.rewardAmount.formattedToTwoDecimalPlaces()
         choreStatusLabel.text = chore.choreStatus
         guard let imageUrl = URL(string: chore.imageUrls.first ?? "") else {
             return
@@ -104,8 +102,9 @@ class ChoreCell: UITableViewCell, Themable {
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        choreNameLabel.textColor = theme.color.onSurface
-        choreRewardLabel.textColor = theme.color.onSurface
+        choreNameLabel.textColor = theme.color.onBackground
+        choreRewardLabel.textColor = theme.color.onBackground
+        choreStatusLabel.textColor = theme.color.onBackground
         choreImageView.layer.cornerRadius = theme.styling.cornerRadius
     }
 }

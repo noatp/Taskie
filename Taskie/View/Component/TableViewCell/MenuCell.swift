@@ -66,8 +66,8 @@ class MenuCell: UITableViewCell, Themable {
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        optionTitleLabel.textColor = theme.color.onSurface
-        optionDescriptionLabel.textColor = theme.color.onSurface
+        optionTitleLabel.textColor = theme.color.onBackground
+        optionDescriptionLabel.textColor = theme.color.onBackground
         accessoryImageView.tintColor = theme.color.secondaryColor
     }
 }

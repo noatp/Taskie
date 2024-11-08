@@ -32,16 +32,19 @@ class Dependency {
         lazy var householdRepository: HouseholdRepository = HouseholdRepository()
         lazy var choreRepository: ChoreRepository = ChoreRepository()
         lazy var invitationRepository: InvitationRepository = InvitationRepository()
+        lazy var chatMessageRepository: ChatMessageRepository = ChatMessageRepository()
     }
     
     class Service {
         private let repository: Repository
         
         var storageService: StorageService
+        var cloudFunctionService: CloudFunctionService
         var authService: AuthService
         var userService: UserService
         var householdService: HouseholdService
         var choreService: ChoreService
+        var chatMessageService: ChatMessageService
         
         init(repository: Repository, isPreview: Bool = false) {
             self.repository = repository
@@ -50,7 +53,9 @@ class Dependency {
                 self.choreService = ChoreMockService()
                 self.householdService = HouseholdMockService()
                 self.storageService = StorageService()
+                self.cloudFunctionService = CloudFunctionService()
                 self.authService = AuthMockService()
+                self.chatMessageService = ChatMessageMockService()
             } else {
                 self.authService = AuthenticationService(
                     userRepository: repository.userRepository,
@@ -70,7 +75,11 @@ class Dependency {
                     householdRepository: repository.householdRepository
                 )
                 self.storageService = StorageService()
-                
+                self.cloudFunctionService = CloudFunctionService()
+                self.chatMessageService = ChatMessageFirestoreService(
+                    choreRepository: repository.choreRepository,
+                    chatMessageRepository: repository.chatMessageRepository
+                )
             }
         }
     }
@@ -88,9 +97,11 @@ class Dependency {
         
         class ModelMapper {
             let choreMapper: ChoreMapper
+            let chatMessageMapper: ChatMessageMapper
             
             init(service: Service) {
                 self.choreMapper = ChoreMapper(userService: service.userService)
+                self.chatMessageMapper = ChatMessageMapper(userService: service.userService)
             }
         }
     }

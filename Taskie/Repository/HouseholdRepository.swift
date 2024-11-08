@@ -8,15 +8,6 @@
 import FirebaseFirestore
 import Combine
 
-enum HouseholdRepositoryError: Error {
-    case householdNotFound
-    case encodingError
-    case fetchingError
-    case decodingError
-    case creatingError
-    case queryingError
-}
-
 class HouseholdRepository {
     private let db = Firestore.firestore()
     private var householdDocumentListener: ListenerRegistration?
@@ -73,18 +64,6 @@ class HouseholdRepository {
             return true
         }
     }
-    
-//    func readHouseholdIdFromInvitation(withEmail email: String) async throws -> String? {
-//        let docRef = db.collection("invitations").document(email)
-//        let document = try await docRef.getDocument()
-//        if let data = document.data(),
-//           let householdId = data["householdId"] as? String {
-//            return householdId
-//        }
-//        else {
-//            return nil
-//        }
-//    }
     
     func currentHouseholdId() -> String? {
         _household.value?.id

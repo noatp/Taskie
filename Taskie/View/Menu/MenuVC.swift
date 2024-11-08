@@ -12,8 +12,11 @@ class MenuVC: PDSTitleWrapperVC {
     private var viewModel: MenuViewModel
     private let dependencyView: Dependency.View
     
-    private let menuOptions = [("Household", "Household, Invite members"),
-                               ("Profile", "Your profile details")]
+    private let menuOptions = [
+        ("Reward", "Check reward balance"),
+        ("Household", "View household members, invite new members"),
+        ("Profile", "Edit your profile details")
+    ]
     
     private let signOutButton: PDSPrimaryButton = {
         let button = PDSPrimaryButton()
@@ -98,9 +101,20 @@ class MenuVC: PDSTitleWrapperVC {
 extension MenuVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.row == 0 {
+        
+        let selectedOption = menuOptions[indexPath.row]
+        
+        switch selectedOption.0 {
+        case "Reward":
+            let rewardBalanceVC = dependencyView.rewardBalanceVC()
+            navigationController?.pushViewController(rewardBalanceVC, animated: true)
+        case "Household":
             let memberListVC = dependencyView.householdMemberListVC()
             navigationController?.pushViewController(memberListVC, animated: true)
+        case "Profile":
+            break
+        default:
+            break
         }
     }
 }
