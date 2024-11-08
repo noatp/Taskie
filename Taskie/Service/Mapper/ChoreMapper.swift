@@ -128,7 +128,7 @@ class ChoreMapper {
             return "Pending"
         }
         else {
-            return ""
+            return "Open"
         }
     }
 }
