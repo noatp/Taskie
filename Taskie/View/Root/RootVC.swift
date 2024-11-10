@@ -28,6 +28,17 @@ class RootVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection: UITraitCollection) in            
+            if self.traitCollection.userInterfaceStyle == .light {
+                // Code to execute in light mode
+                print("App switched to light mode")
+                self.updateTheme(for: .light)
+            } else {
+                // Code to execute in dark mode
+                print("App switched to dark mode")
+                self.updateTheme(for: .dark)
+            }
+        }
         bindViewModel()
         setUpViews()
     }
@@ -147,12 +158,6 @@ class RootVC: UIViewController {
             childView.topAnchor.constraint(equalTo: view.topAnchor),
             childView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            updateTheme(for: traitCollection.userInterfaceStyle)
-        }
     }
     
     private func updateTheme(for userInterfaceStyle: UIUserInterfaceStyle) {

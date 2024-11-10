@@ -35,11 +35,11 @@ class PDSLabel: UILabel, Themable {
     }
     
     private func configureLabel() {
+        text = labelText
         ThemeManager.shared.register(self)
     }
     
     func applyTheme(_ theme: PDSTheme) {
-        text = labelText
         textColor = labelTextColor == nil ? theme.color.onSurface : labelTextColor
         switch labelFontScale {
             case .headline1:
